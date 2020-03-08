@@ -1,0 +1,8 @@
+export const STATIC_DATA = {
+  TOKEN: "TOKEN",
+  LOGIN: "is_LOGIN",
+  USER_NAME: "USER_NAME",
+  ROLES: "ROLES",
+  USER_CURRENT: "USER_CURRENT",
+  AUTHORIZATION: "Authorization"
+};

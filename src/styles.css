@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body a {
+  text-decoration: none;
+}
+
+.mat-tooltip {
+  font-size: 13px !important;
+  padding: 10px;
+}
+
+.logo-spinner {
+  margin-bottom: 110% !important;
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 992px) {
+  .logo-spinner {
+    margin-bottom: 160% !important;
+  }
+
+  .home {
+    padding: 7%;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .logo-spinner {
+    margin-bottom: 110% !important;
+  }
+}
+
+

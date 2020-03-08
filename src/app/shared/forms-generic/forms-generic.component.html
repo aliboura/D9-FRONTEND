@@ -1,0 +1,127 @@
+<mat-card-header>
+  <mat-card-title>{{ title }} :</mat-card-title>
+  <div class="card-back-right-btn" (click)="showList()">
+    <i class="material-icons card-back-icon">
+      close
+    </i>
+  </div>
+</mat-card-header>
+
+<form [formGroup]="modelForm" (ngSubmit)="save(modelForm.value)">
+  <div
+    class="crud-container"
+    *ngFor="let item of fields"
+    [ngSwitch]="item.type"
+  >
+    <mat-form-field *ngSwitchCase="'input'">
+      <input
+        matInput
+        [id]="item.field"
+        [placeholder]="item.label"
+        [required]="item.required"
+        [formControlName]="item.field"
+      />
+    </mat-form-field>
+    <mat-form-field *ngSwitchCase="'picker'">
+      <input
+        matInput
+        [id]="item.field"
+        [matDatepicker]="picker"
+        [required]="item.required"
+        [placeholder]="item.label"
+        [formControlName]="item.field"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field *ngSwitchCase="'number'">
+      <input
+        matInput
+        [id]="item.field"
+        [placeholder]="item.label"
+        [required]="true"
+        [formControlName]="item.field"
+        pKeyFilter="num"
+      />
+    </mat-form-field>
+    <!-- <mat-form-field *ngSwitchCase="'select'">
+      <input
+        type="text"
+        aria-label="Number"
+        [placeholder]="item.label"
+        matInput
+        [required]="item.required"
+        [formControlName]="item.field"
+        [id]="item.field"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of item.options" [value]="option.id">
+          {{ option.label }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field> -->
+
+    <!-- <div *ngSwitchCase="'select'">
+      <ng-select
+        [items]="item.options"
+        bindLabel="label"
+        [required]="item.required"
+        [formControlName]="item.field"
+        [placeholder]="item.field"
+        [id]="item.label"
+        [loading]="dataLoading"
+        [searchFn]="filterSelectFn"
+        [virtualScroll]="true"
+        appendTo="body"
+      >
+      </ng-select>
+    </div>-->
+
+    <mat-error
+      *ngIf="
+        !modelForm.controls[item.field].valid &&
+        modelForm.controls[item.field].dirty
+      "
+      style="font-size: 13px;margin-bottom: 10px;"
+      >{{ item.message }}.</mat-error
+    >
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      type="submit"
+      [disabled]="!modelForm.valid"
+      class="btn-style"
+    >
+      <i class="material-icons">
+        done
+      </i>
+      Valider
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      (click)="showList()"
+      class="cancel-btn"
+    >
+      <i class="material-icons">
+        close
+      </i>
+      Cancel
+    </button>
+    <span class="gt-divider-horizontal"></span>
+    <button
+      type="button"
+      (click)="showCreate()"
+      mat-raised-button
+      class="btn-style"
+    >
+      <i class="material-icons">
+        add
+      </i>
+      Nouveau
+    </button>
+  </mat-card-actions>
+</form>

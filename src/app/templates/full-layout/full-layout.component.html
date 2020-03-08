@@ -1,0 +1,85 @@
+<div
+  class="example-container flexbox-parent"
+  [class.example-is-mobile]="mobileQuery.matches">
+
+  <mat-toolbar color="primary">
+
+    <button mat-icon-button (click)="snav.toggle()" class="sidebar-toggle-btn">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <i class="material-icons mat-brand-style">
+      settings_input_antenna
+    </i>
+
+    <h1 class="example-app-name">Site Acceptance.</h1>
+
+    <div _ngcontent-jvx-c494="" class="flex-spacer"></div>
+
+    <div style="position: absolute;right: 15px;">
+      <button
+        mat-icon-button
+        class="sidebar-profile-btn"
+        [matMenuTriggerFor]="menu">
+        BOUMENDJAS Mohamed Ryadh
+        <mat-icon class="material-icons">portrait</mat-icon>
+        <mat-icon
+          aria-hidden="true"
+          role="img"
+          class="mat-icon notranslate material-icons mat-icon-no-color">
+          arrow_drop_down
+        </mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item style="cursor: pointer !important;">
+          BOUMENDJAS Mohamed Ryadh
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>
+          Mon Profil
+        </button>
+      </mat-menu>
+      <button mat-icon-button class="sidebar-logout-btn">
+        <i class="material-icons">
+          power_settings_new
+        </i>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="layout-sidenav-container flexbox-item fill-area content flexbox-item-grow"
+    [style.marginTop.px]="mobileQuery.matches ? 50 : 0"
+    isOpen="true">
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="50"
+      opened="mobileQuery ? 'false' : 'true'"
+      style="height: 100%;">
+
+      <app-left-menu></app-left-menu>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <button mat-button class="btn-menu">Home</button>
+          <button mat-button class="btn-menu">Audit</button>
+          <button mat-button class="btn-menu">Site</button>
+          <button mat-button class="btn-menu">Catégorie</button>
+          <button mat-button class="btn-menu">Décision</button>
+          <button mat-button class="btn-menu">Status</button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card style="margin: 20px;" class="top-bordred">
+        <router-outlet></router-outlet>
+      </mat-card>
+      <app-footer></app-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>

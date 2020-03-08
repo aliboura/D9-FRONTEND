@@ -1,0 +1,41 @@
+.btn-style {
+  background: #e10019;
+  color: #fff;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  color: #4e4e4e;
+}
+
+.crud-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.crud-container>* {
+  width: 90%;
+}
+
+.card-back-right-btn {
+  position: absolute;
+  right: 10px;
+  border-left: 1px solid #e0e0e0;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 8px;
+}
+
+
+
+/* .card-back-right-btn:hover {
+  border: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+} */
+
+.card-back-icon {
+  color: #848484;
+  font-size: 30px;
+  padding-left: 5px;
+}

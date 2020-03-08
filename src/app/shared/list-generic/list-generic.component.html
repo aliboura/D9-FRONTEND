@@ -1,0 +1,111 @@
+<mat-card-header>
+  <mat-card-title>{{ title }} :</mat-card-title>
+</mat-card-header>
+<mat-grid-list cols="4" rowHeight="60px">
+  <mat-grid-tile [colspan]="1">
+    <button
+      type="button"
+      mat-raised-button
+      class="add-btn"
+      (click)="showAdd()"
+      routerLinkActive="disabled"
+    >
+      <i class="material-icons" style="font-size: 22px;">
+        add_circle_outline
+      </i>
+      Nouveau
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="3">
+    <div
+      style="border-left: 1px solid #e0e0e0;height: 40px;margin-right: 15px;"
+    ></div>
+    <mat-form-field style="width: 100%;">
+      <mat-icon matPrefix style="margin-right: 10px;color: #888;"
+        >search</mat-icon
+      >
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Filter..."
+      />
+    </mat-form-field>
+  </mat-grid-tile>
+</mat-grid-list>
+<div class="mat-elevation-z8" matSort>
+  <div class="example-table-container">
+    <mat-table
+      [dir]="viewDirection_ | async"
+      [dataSource]="datasource"
+      matSortActive="matSortActive"
+      matSortDisableClear
+      matSortDirection="matSortDirection"
+    >
+      <!-- Index Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="id-column"
+        >
+          No.
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="id-column">
+          {{ element.id }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Load the rest Columns -->
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element[column] }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell
+          *matHeaderCellDef
+          class="action-column"
+        ></mat-header-cell>
+        <mat-cell *matCellDef="let element" class="action-column">
+          <button
+            type="button"
+            mat-icon-button
+            (click)="showEdit(element.id)"
+            style="margin: 5px;"
+            color="warn"
+            matTooltip="Voir le détail."
+          >
+            <i class="material-icons">open_in_new</i>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            style="margin: 5px;"
+            (click)="confirm(element)"
+            matTooltip="Voulez-vous suprimer la ligne?."
+          >
+            <i class=" material-icons">delete</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+    <mat-paginator
+      [length]="resultsLength"
+      [pageSizeOptions]="[10, 20, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>
