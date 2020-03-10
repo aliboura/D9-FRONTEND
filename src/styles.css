@@ -18,25 +18,183 @@ body a {
   padding: 10px;
 }
 
-.logo-spinner {
-  margin-bottom: 110% !important;
-  margin-left: 10px;
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
 }
 
-@media screen and (min-width: 992px) {
-  .logo-spinner {
-    margin-bottom: 160% !important;
-  }
-
-  .home {
-    padding: 7%;
-  }
+.mat-card-header {
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 10px;
 }
 
-@media screen and (max-width: 599px) {
-  .logo-spinner {
-    margin-bottom: 110% !important;
-  }
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  color: #E20613 !important;
+}
+
+.mat-card {
+  border-radius: 0px 0px 4px 4px;
+  border-top: 2px solid #afafaf;
+  margin-top: 55px !important;
+  margin-bottom: 50px !important;
+}
+
+.mat-raised-button {
+  overflow: hidden;
+  background-color: #1E88E5;
+  color: #ffffff;
+  height: 2.5em;
+  font-size: 14px;
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  padding: 0 1em;
+  border: 0 none;
+  -moz-box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+  -webkit-box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+  -moz-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.add-btn {
+  background: #e10019;
+  color: #fff;
+  position: absolute;
+  left: 0px;
+}
+
+.add-btn:hover {
+  background-color: #C62828;
+}
+
+.cancel-btn {
+  background: #eaeaea;
+  color: #0e0e0e;
+  position: absolute;
+  left: 0px;
+}
+
+.cancel-btn:hover {
+  background-color: #afafaf;
+}
+
+.card-back-icon {
+  color: #848484;
+  font-size: 26px;
+  padding-left: 5px;
+}
+
+.mat-card-header .mat-card-title {
+  font-size: 17px;
+  color: #5d5d5d;
+}
+
+.crud-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  font-size: 14px;
+  padding: 10px 0px 0px 10px !important;
+}
+
+.mat-card-actions {
+  padding: 20px 10px;
+}
+
+body .ui-button {
+  background-color: #E20613;
+  border-color: #E20613;
+}
+
+body .ui-button:hover {
+  background-color: #C62828 !important;
+  border-color: #C62828 !important;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-success {
+  background-color: #DFF0D1;
+  border-color: #C7DFB2;
+  color: #799760;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-success .ui-toast-close-icon {
+  color: #799760;
+  margin-top: 10px;
+}
+
+body .ui-toast .ui-toast-close-icon {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-error {
+  background-color: #FCE1E1 !important;
+  border-color: #F8C2C2 !important;
+  color: #943F3F !important;
+}
+
+
+body .ui-toast .ui-toast-message.ui-toast-message-warn {
+  background-color: #F8EED9 !important;
+  border-color: #F5E5C5 !important;
+  color: #A37518 !important;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-info {
+  background-color: #D9EAF0 !important;
+  border-color: #C3DFE7 !important;
+  color: #467481 !important;
+}
+
+.ui-toast .ui-toast-message-text-content {
+  padding-top: 7px;
+}
+
+.ui-toast .ui-toast-icon {
+  margin-top: 7px;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background: #E20613;
+}
+
+/* Loader Style*/
+.splash-logo {
+  left: 50%;
+  top: 50%;
+  margin-left: -26px;
+  margin-top: -30px;
+  z-index: 2;
+  position: absolute;
+  width: 54px;
+}
+
+.splash-loader,
+.splash-loader:before,
+.splash-loader:after {
+  left: 50%;
+  top: 50%;
+  margin-left: -45px;
+  margin-top: -45px;
+  position: absolute;
+  vertical-align: middle;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.splash-loader:before {
+  content: "";
+  animation: bounce 1.5s infinite;
+}
+
+.splash-loader:after {
+  content: "";
+  animation: bounce 1.5s -0.4s infinite;
 }
 
 

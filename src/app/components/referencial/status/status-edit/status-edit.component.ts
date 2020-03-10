@@ -1,70 +1,72 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoriesService} from "../../../../business/services/referencial/categories.service";
+import {StatusService} from "../../../../business/services/referencial/status.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Categories} from "../../../../business/models/referencial/categories";
-import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
-import {switchMap} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
+import {Status} from "../../../../business/models/referencial/status";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {Decision} from "../../../../business/models/referencial/decision";
+import {switchMap} from "rxjs/operators";
 
 @Component({
-  selector: 'app-categories-edit',
-  templateUrl: './categories-edit.component.html'
+  selector: 'app-status-edit',
+  templateUrl: './status-edit.component.html'
 })
-export class CategoriesEditComponent implements OnInit {
+export class StatusEditComponent implements OnInit {
 
-  constructor(public categoriesService: CategoriesService,
+  constructor(public statusService: StatusService,
               private route: ActivatedRoute,
               private router: Router) {
   }
 
   id: number;
-  selected: Observable<Categories>;
+  selected: Observable<Status>;
   editForm: FormGroup;
   fields: ModelGeneric<any>[] = [];
   title: string;
   object: string;
 
-
   ngOnInit() {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.categoriesService.findById(params.get("id"))
+        this.statusService.findById(params.get("id"))
       )
     );
     this.selected.subscribe(data => {
       this.id = data.id;
       this.loadFormData(data);
       this.fields = this.loadFormModels();
-      this.title = "Modifier la Catégorie N°: " + this.id;
+      this.title = "Modifier le status N°: " + this.id;
     });
-    this.object = "categories";
+    this.object = "status";
   }
 
   public showCreate() {
-    this.router.navigate(["referencial/categories/add"]);
+    this.router.navigate(["referencial/decisions/add"]);
   }
 
   private initForm() {
     return new FormGroup({
       id: new FormControl(),
       label: new FormControl(),
-      position: new FormControl(),
-      status: new FormControl()
+      description: new FormControl(),
+      styleCSS: new FormControl(),
+      motif: new FormControl()
     });
   }
 
-  private loadFormData(category: Categories) {
+  private loadFormData(status: Status) {
     this.editForm = new FormGroup({
-      id: new FormControl(category.id),
+      id: new FormControl(status.id),
       label: new FormControl(
-        category.label,
+        status.label,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      position: new FormControl(category.position),
-      status: new FormControl(category.status)
+      description: new FormControl(status.description),
+      styleCSS: new FormControl(status.styleCSS),
+      motif: new FormControl(status.motif)
     });
   }
 
@@ -80,13 +82,13 @@ export class CategoriesEditComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 4 caractère."
+        "Minimum 3 caractère."
       ),
       new ModelGeneric(
-        "position",
-        "Position",
-        TypeInput.Number,
-        "Position",
+        "description",
+        "Déscription",
+        TypeInput.Input,
+        "Déscription",
         false,
         false,
         false,
@@ -95,10 +97,22 @@ export class CategoriesEditComponent implements OnInit {
         ""
       ),
       new ModelGeneric(
-        "status",
-        "Active",
+        "styleCSS",
+        "Style CSS",
         TypeInput.Input,
-        "Active",
+        "Style CSS",
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "motif",
+        "Motif",
+        TypeInput.CheckBox,
+        "Motif",
         false,
         false,
         false,

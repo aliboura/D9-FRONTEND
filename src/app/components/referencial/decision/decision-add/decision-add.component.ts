@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoriesService} from "../../../../business/services/referencial/categories.service";
+import {DecisionService} from "../../../../business/services/referencial/decision.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
+import {CategoriesService} from "../../../../business/services/referencial/categories.service";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 
 @Component({
-  selector: 'app-categories-add',
-  templateUrl: './categories-add.component.html'
+  selector: 'app-decision-add',
+  templateUrl: './decision-add.component.html'
 })
-export class CategoriesAddComponent implements OnInit {
+export class DecisionAddComponent implements OnInit {
 
-  constructor(public categoriesService: CategoriesService,
+  constructor(public decisionService: DecisionService,
               private formBuilder: FormBuilder) {
   }
 
@@ -20,8 +21,8 @@ export class CategoriesAddComponent implements OnInit {
   fields: ModelGeneric<any>[] = [];
 
   ngOnInit() {
-    this.title = "Nouvelle catégorie";
-    this.object = "categories";
+    this.title = "Nouvelle décision";
+    this.object = "decisions";
     this.addForm = this.initForm();
     this.fields = this.loadFormModels();
   }
@@ -30,10 +31,10 @@ export class CategoriesAddComponent implements OnInit {
     return this.formBuilder.group({
       label: new FormControl(
         "",
-        Validators.compose([Validators.required, Validators.minLength(4)])
+        Validators.compose([Validators.required, Validators.minLength(3)])
       ),
       position: new FormControl("1"),
-      status: new FormControl("y")
+      status: new FormControl(true)
     });
   }
 
@@ -49,7 +50,7 @@ export class CategoriesAddComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 4 caractère."
+        "Minimum 3 caractère."
       ),
       new ModelGeneric(
         "position",
@@ -66,7 +67,7 @@ export class CategoriesAddComponent implements OnInit {
       new ModelGeneric(
         "status",
         "Active",
-        TypeInput.Input,
+        TypeInput.CheckBox,
         "Active",
         false,
         false,

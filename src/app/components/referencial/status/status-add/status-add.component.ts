@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoriesService} from "../../../../business/services/referencial/categories.service";
+import {DecisionService} from "../../../../business/services/referencial/decision.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {StatusService} from "../../../../business/services/referencial/status.service";
 
 @Component({
-  selector: 'app-categories-add',
-  templateUrl: './categories-add.component.html'
+  selector: 'app-status-add',
+  templateUrl: './status-add.component.html'
 })
-export class CategoriesAddComponent implements OnInit {
+export class StatusAddComponent implements OnInit {
 
-  constructor(public categoriesService: CategoriesService,
+  constructor(public statusService: StatusService,
               private formBuilder: FormBuilder) {
   }
 
@@ -20,8 +21,8 @@ export class CategoriesAddComponent implements OnInit {
   fields: ModelGeneric<any>[] = [];
 
   ngOnInit() {
-    this.title = "Nouvelle catégorie";
-    this.object = "categories";
+    this.title = "Nouveau Status";
+    this.object = "status";
     this.addForm = this.initForm();
     this.fields = this.loadFormModels();
   }
@@ -30,10 +31,11 @@ export class CategoriesAddComponent implements OnInit {
     return this.formBuilder.group({
       label: new FormControl(
         "",
-        Validators.compose([Validators.required, Validators.minLength(4)])
+        Validators.compose([Validators.required, Validators.minLength(3)])
       ),
-      position: new FormControl("1"),
-      status: new FormControl("y")
+      description: new FormControl(""),
+      styleCSS: new FormControl(""),
+      motif: new FormControl(false)
     });
   }
 
@@ -49,13 +51,13 @@ export class CategoriesAddComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 4 caractère."
+        "Minimum 3 caractère."
       ),
       new ModelGeneric(
-        "position",
-        "Position",
-        TypeInput.Number,
-        "Position",
+        "description",
+        "Déscription",
+        TypeInput.Input,
+        "Déscription",
         false,
         false,
         false,
@@ -64,10 +66,22 @@ export class CategoriesAddComponent implements OnInit {
         ""
       ),
       new ModelGeneric(
-        "status",
-        "Active",
+        "styleCSS",
+        "Style CSS",
         TypeInput.Input,
-        "Active",
+        "Style CSS",
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "motif",
+        "Motif",
+        TypeInput.CheckBox,
+        "Motif",
         false,
         false,
         false,

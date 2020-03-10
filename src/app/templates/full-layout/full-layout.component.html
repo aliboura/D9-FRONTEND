@@ -70,9 +70,22 @@
           <button mat-button class="btn-menu">Home</button>
           <button mat-button class="btn-menu">Audit</button>
           <button mat-button class="btn-menu">Site</button>
-          <button mat-button class="btn-menu">Catégorie</button>
-          <button mat-button class="btn-menu">Décision</button>
-          <button mat-button class="btn-menu">Status</button>
+          <button mat-button class="btn-menu" [matMenuTriggerFor]="catMenu">
+            Catégorie
+            <mat-icon
+              aria-hidden="true"
+              role="img"
+              style="color: rgba(78, 78, 78, 0.87)"
+              class="mat-icon notranslate material-icons mat-icon-no-color">
+              arrow_drop_down
+            </mat-icon>
+          </button>
+          <mat-menu #catMenu="matMenu">
+            <button mat-menu-item routerLink="/referencial/categories">Catégories</button>
+            <button mat-menu-item>Sous Catégories</button>
+          </mat-menu>
+          <button mat-button class="btn-menu" routerLink="/referencial/decisions">Décision</button>
+          <button mat-button class="btn-menu" routerLink="/referencial/status">Status</button>
         </mat-toolbar-row>
       </mat-toolbar>
       <mat-card style="margin: 20px;" class="top-bordred">

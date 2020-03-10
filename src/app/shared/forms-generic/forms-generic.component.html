@@ -13,6 +13,7 @@
     *ngFor="let item of fields"
     [ngSwitch]="item.type"
   >
+
     <mat-form-field *ngSwitchCase="'input'">
       <input
         matInput
@@ -21,6 +22,10 @@
         [required]="item.required"
         [formControlName]="item.field"
       />
+      <button mat-button *ngIf="modelForm.controls[item.field].value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="modelForm.controls[item.field].setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
     <mat-form-field *ngSwitchCase="'picker'">
       <input
@@ -35,15 +40,20 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field *ngSwitchCase="'number'">
-      <input
-        matInput
-        [id]="item.field"
-        [placeholder]="item.label"
-        [required]="true"
-        [formControlName]="item.field"
-        pKeyFilter="num"
-      />
+      <input matInput
+             type="number"
+             [placeholder]="item.label"
+             [required]="item.required"
+             [formControlName]="item.field"
+             min="0">
     </mat-form-field>
+
+    <section class="example-section" *ngSwitchCase="'checkbox'">
+      <mat-checkbox class="example-margin"
+                    [formControlName]="item.field"
+                    [required]="item.required">{{item.label}}</mat-checkbox>
+    </section>
+
     <!-- <mat-form-field *ngSwitchCase="'select'">
       <input
         type="text"
@@ -79,22 +89,20 @@
     </div>-->
 
     <mat-error
-      *ngIf="
-        !modelForm.controls[item.field].valid &&
-        modelForm.controls[item.field].dirty
-      "
-      style="font-size: 13px;margin-bottom: 10px;"
-      >{{ item.message }}.</mat-error
-    >
+      *ngIf="!modelForm.controls[item.field].valid &&
+        modelForm.controls[item.field].dirty"
+      style="font-size: 13px;margin-bottom: 10px;margin-top: -10px;"
+    >{{ item.message }}.
+    </mat-error>
+
   </div>
-  <mat-divider></mat-divider>
+  <mat-divider style="margin-top: 10px"></mat-divider>
   <mat-card-actions>
     <button
       mat-raised-button
       type="submit"
       [disabled]="!modelForm.valid"
-      class="btn-style"
-    >
+      class="add-btn">
       <i class="material-icons">
         done
       </i>
@@ -104,11 +112,8 @@
       type="button"
       mat-raised-button
       (click)="showList()"
-      class="cancel-btn"
-    >
-      <i class="material-icons">
-        close
-      </i>
+      class="cancel-btn">
+      <i class="material-icons">close</i>
       Cancel
     </button>
     <span class="gt-divider-horizontal"></span>
@@ -116,11 +121,8 @@
       type="button"
       (click)="showCreate()"
       mat-raised-button
-      class="btn-style"
-    >
-      <i class="material-icons">
-        add
-      </i>
+      class="add-btn">
+      <i class="material-icons">add</i>
       Nouveau
     </button>
   </mat-card-actions>

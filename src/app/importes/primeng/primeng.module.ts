@@ -8,29 +8,28 @@ import {MessagesModule} from 'primeng/messages';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {ToastModule} from 'primeng/toast';
 import {TooltipModule} from 'primeng/tooltip';
+import {FullCalendarModule} from "primeng";
 
 @NgModule({
   imports: [
     ConfirmDialogModule,
     ToastModule,
-    AutoCompleteModule,
-    DropdownModule,
     NgSelectModule,
     MessagesModule,
     MessageModule,
     PanelMenuModule,
-    TooltipModule
+    TooltipModule,
+    FullCalendarModule
   ],
   exports: [
     ConfirmDialogModule,
     ToastModule,
-    AutoCompleteModule,
-    DropdownModule,
     NgSelectModule,
     MessagesModule,
     MessageModule,
     PanelMenuModule,
-    TooltipModule
+    TooltipModule,
+    FullCalendarModule
   ]
 })
 export class PrimengModule {

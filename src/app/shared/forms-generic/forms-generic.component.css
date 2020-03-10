@@ -1,20 +1,14 @@
-.btn-style {
-  background: #e10019;
-  color: #fff;
-}
-
-.cancel-btn {
-  background: #f5f5f5;
-  color: #4e4e4e;
-}
-
 .crud-container {
+  display: -webkit-box;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
   flex-direction: column;
   font-size: 14px;
+  padding: 20px;
 }
 
-.crud-container>* {
+.crud-container > * {
   width: 90%;
 }
 
@@ -28,7 +22,6 @@
 }
 
 
-
 /* .card-back-right-btn:hover {
   border: 1px solid #e0e0e0;
   background-color: #f5f5f5;
@@ -36,6 +29,16 @@
 
 .card-back-icon {
   color: #848484;
-  font-size: 30px;
+  font-size: 26px;
   padding-left: 5px;
 }
+
+.mat-card-header .mat-card-title {
+  font-size: 17px;
+  color: #5d5d5d;
+}
+
+.mat-card-actions {
+  padding: 20px 10px;
+}
+

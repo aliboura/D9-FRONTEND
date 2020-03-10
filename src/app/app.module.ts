@@ -16,6 +16,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {ReferencialModule} from "./components/referencial/referencial.module";
 import {SharedModule} from "./shared/shared.module";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {ConfirmationService, MessageService} from "primeng";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {NgxSpinnerModule} from "ngx-spinner";
       }
     })
   ],
-  providers: [],
+  providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

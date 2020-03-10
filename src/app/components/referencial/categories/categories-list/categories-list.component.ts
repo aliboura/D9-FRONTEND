@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CategoriesService} from "../../../../business/services/referencial/categories.service";
 
 @Component({
   selector: 'app-categories-list',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoriesListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public categoriesService: CategoriesService) {
+  }
+
+  title = "Liste des Catégories";
+  object = "categories";
+
+  columns: string[] = ["label"];
 
   ngOnInit() {
   }

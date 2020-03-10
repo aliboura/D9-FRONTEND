@@ -22,7 +22,8 @@
     ></div>
     <mat-form-field style="width: 100%;">
       <mat-icon matPrefix style="margin-right: 10px;color: #888;"
-        >search</mat-icon
+      >search
+      </mat-icon
       >
       <input
         matInput
@@ -39,15 +40,13 @@
       [dataSource]="datasource"
       matSortActive="matSortActive"
       matSortDisableClear
-      matSortDirection="matSortDirection"
-    >
+      matSortDirection="matSortDirection">
       <!-- Index Column -->
       <ng-container matColumnDef="id">
         <mat-header-cell
           *matHeaderCellDef
           mat-sort-header
-          class="id-column"
-        >
+          class="id-column">
           No.
         </mat-header-cell>
         <mat-cell *matCellDef="let element" class="id-column">
@@ -79,7 +78,7 @@
             type="button"
             mat-icon-button
             (click)="showEdit(element.id)"
-            style="margin: 5px;"
+            style="margin: 5px;color: #6d6d6d;"
             color="warn"
             matTooltip="Voir le détail."
           >
@@ -91,8 +90,7 @@
             color="warn"
             style="margin: 5px;"
             (click)="confirm(element)"
-            matTooltip="Voulez-vous suprimer la ligne?."
-          >
+            matTooltip="Voulez-vous suprimer la ligne?.">
             <i class=" material-icons">delete</i>
           </button>
         </mat-cell>

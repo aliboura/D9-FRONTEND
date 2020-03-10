@@ -120,7 +120,7 @@ export class ListGenericComponent<T extends Parents>
 
   confirm(data: T) {
     this.confirmationService.confirm({
-      message: "Are you sure that you want to proceed?",
+      message: "Êtes-vous sûr de vouloir suprimer cette ligne?",
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
       accept: () => {

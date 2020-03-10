@@ -5,6 +5,15 @@ const routes: Routes = [
   {
     path: "categories",
     loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule)
+  },
+  {
+    path: "decisions",
+    loadChildren: () => import('./decision/decision.module').then(m => m.DecisionModule)
+  }
+  ,
+  {
+    path: "status",
+    loadChildren: () => import('./status/status.module').then(m => m.StatusModule)
   }
 ];
 

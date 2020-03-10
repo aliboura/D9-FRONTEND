@@ -9,6 +9,15 @@
   border-bottom: none;
 }
 
+
+.mat-row:hover {
+  background: #f3f6f8;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  color: #484747;
+}
+
 /* mat-header-row {
 
 } */
@@ -16,8 +25,7 @@
 .mat-paginator {
   border: 1px solid #e0e0e0;
   border-top: none;
-  background-color: #f9f9f9;
-  /* background-image: url(../../../assets/images/cubes.png); */
+  background: #fafafa;
 }
 
 .id-column {
@@ -36,3 +44,8 @@
   position: absolute;
   left: 0px;
 }
+
+.add-btn:hover {
+  background-color: #C62828;
+}
+

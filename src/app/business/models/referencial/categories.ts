@@ -1,5 +1,7 @@
 export class Categories {
   id: number;
   label: string;
-  subCategoriesDtoList: Array<Categories> = [];
+  position: number;
+  status: string;
+  listSubCategories: Array<Categories> = [];
 }

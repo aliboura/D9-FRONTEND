@@ -1,1 +1,10 @@
-<p>categories-add works!</p>
+<app-forms-generic
+  [service]="categoriesService"
+  [modelForm]="addForm"
+  [fields]="fields"
+  [object]="object"
+  [title]="title"
+  editMode="false"
+  (clickShowCreate)="showCreate()"
+>
+</app-forms-generic>
