@@ -1,10 +1,11 @@
 <app-forms-generic
-  [service]="statusService"
-  [modelForm]="editForm"
+  [service]="subCategoriesService"
+  [modelForm]="addForm"
   [fields]="fields"
   [object]="object"
   [title]="title"
-  editMode="true"
+  editMode="false"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>
+

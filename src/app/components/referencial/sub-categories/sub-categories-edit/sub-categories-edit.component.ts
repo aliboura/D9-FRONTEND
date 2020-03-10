@@ -1,26 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {StatusService} from "../../../../business/services/referencial/status.service";
+import {SubCategoriesService} from "../../../../business/services/referencial/sub-categories.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {Status} from "../../../../business/models/referencial/status";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
-import {Status} from "../../../../business/models/referencial/status";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 import {switchMap} from "rxjs/operators";
+import {SubCategories} from "../../../../business/models/referencial/sub-categories";
 
 @Component({
-  selector: 'app-status-edit',
-  templateUrl: './status-edit.component.html'
+  selector: 'app-sub-categories-edit',
+  templateUrl: './sub-categories-edit.component.html'
 })
-export class StatusEditComponent implements OnInit {
+export class SubCategoriesEditComponent implements OnInit {
 
-  constructor(public statusService: StatusService,
+  constructor(public subCategoriesService: SubCategoriesService,
               private route: ActivatedRoute,
               private router: Router) {
   }
 
   id: number;
-  selected: Observable<Status>;
+  selected: Observable<SubCategories>;
   editForm: FormGroup;
   fields: ModelGeneric<any>[] = [];
   title: string;
@@ -30,7 +31,7 @@ export class StatusEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.statusService.findById(params.get("id"))
+        this.subCategoriesService.findById(params.get("id"))
       )
     );
     this.selected.subscribe(data => {
@@ -50,22 +51,20 @@ export class StatusEditComponent implements OnInit {
     return new FormGroup({
       id: new FormControl(),
       label: new FormControl(),
-      description: new FormControl(),
-      styleCSS: new FormControl(),
-      motif: new FormControl()
+      position: new FormControl(),
+      status: new FormControl()
     });
   }
 
-  private loadFormData(status: Status) {
+  private loadFormData(subCategories: SubCategories) {
     this.editForm = new FormGroup({
-      id: new FormControl(status.id),
+      id: new FormControl(subCategories.id),
       label: new FormControl(
-        status.label,
+        subCategories.label,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      description: new FormControl(status.description),
-      styleCSS: new FormControl(status.styleCSS),
-      motif: new FormControl(status.motif)
+      position: new FormControl(subCategories.position),
+      status: new FormControl(subCategories.status)
     });
   }
 
@@ -84,10 +83,10 @@ export class StatusEditComponent implements OnInit {
         "Minimum 3 caractère."
       ),
       new ModelGeneric(
-        "description",
-        "Déscription",
+        "position",
+        "Position",
         TypeInput.Input,
-        "Déscription",
+        "Position",
         false,
         false,
         false,
@@ -96,22 +95,10 @@ export class StatusEditComponent implements OnInit {
         ""
       ),
       new ModelGeneric(
-        "styleCSS",
-        "Style CSS",
-        TypeInput.Input,
-        "Style CSS",
-        false,
-        false,
-        false,
-        false,
-        null,
-        ""
-      ),
-      new ModelGeneric(
-        "motif",
-        "Motif",
+        "status",
+        "Active",
         TypeInput.CheckBox,
-        "Motif",
+        "Active",
         false,
         false,
         false,

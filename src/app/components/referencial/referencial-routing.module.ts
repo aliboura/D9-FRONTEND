@@ -9,11 +9,14 @@ const routes: Routes = [
   {
     path: "decisions",
     loadChildren: () => import('./decision/decision.module').then(m => m.DecisionModule)
-  }
-  ,
+  },
   {
     path: "status",
     loadChildren: () => import('./status/status.module').then(m => m.StatusModule)
+  },
+  {
+    path: "sub-categories",
+    loadChildren: () => import('./sub-categories/sub-categories.module').then(m => m.SubCategoriesModule)
   }
 ];
 
