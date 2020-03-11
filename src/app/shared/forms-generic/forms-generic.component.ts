@@ -1,13 +1,14 @@
-import { ModelGeneric } from "./../model-generic/model-generic";
-import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
-import { FormGroup, NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
-import { NgxSpinnerService } from "ngx-spinner";
-import { MessageService } from "primeng/api";
-import { catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
-import { GenericService } from "../service-generic/generic.service";
-import { Parents } from "../model-generic/parents";
+import {ModelGeneric} from "./../model-generic/model-generic";
+import {Component, OnInit, Input, EventEmitter, Output} from "@angular/core";
+import {FormGroup, NgForm} from "@angular/forms";
+import {Router} from "@angular/router";
+import {NgxSpinnerService} from "ngx-spinner";
+import {MessageService} from "primeng/api";
+import {catchError} from "rxjs/operators";
+import {throwError} from "rxjs";
+import {GenericService} from "../service-generic/generic.service";
+import {Parents} from "../model-generic/parents";
+import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 
 @Component({
   selector: "app-forms-generic",
@@ -18,8 +19,10 @@ export class FormsGenericComponent<T extends Parents> {
   constructor(
     private router: Router,
     private spinner: NgxSpinnerService,
+    private screenSpinnerService: ScreenSpinnerService,
     private messageService: MessageService
-  ) {}
+  ) {
+  }
 
   @Input() service: GenericService<T>;
   @Input() modelForm: FormGroup;
@@ -40,6 +43,7 @@ export class FormsGenericComponent<T extends Parents> {
   }
 
   private create(modelForm: NgForm) {
+    this.screenSpinnerService.show();
     this.spinner.show();
     this.service
       .create(modelForm)
@@ -57,12 +61,16 @@ export class FormsGenericComponent<T extends Parents> {
           severity: "success",
           summary: "Opération effectué avec succée."
         });
-        this.spinner.hide();
         this.router.navigate([this.object]);
+        setTimeout(() => {
+          this.spinner.hide();
+          this.screenSpinnerService.hide();
+        }, 200);
       });
   }
 
   private update(modelForm: NgForm) {
+    this.screenSpinnerService.show();
     this.spinner.show();
     this.service
       .update(modelForm)

@@ -16,6 +16,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
 import {Parents} from "../model-generic/parents";
 import {GenericService} from "../service-generic/generic.service";
+import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 
 @Component({
   selector: "app-list-generic",
@@ -26,10 +27,13 @@ export class ListGenericComponent<T extends Parents>
   implements OnInit, AfterViewInit {
   constructor(
     private spinner: NgxSpinnerService,
+    private screenSpinnerService: ScreenSpinnerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
   ) {
+    this.screenSpinnerService.show();
+    this.spinner.show();
   }
 
   datasource: MatTableDataSource<T>;
@@ -53,29 +57,38 @@ export class ListGenericComponent<T extends Parents>
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
-    this.spinner.show();
     this.displayedColumns = this.columnsToDisplay.slice();
     this.displayedColumns.unshift("id");
     this.displayedColumns.push("action");
   }
 
+  private loadSpinner(timeout: number) {
+    this.screenSpinnerService.show();
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+      this.screenSpinnerService.hide();
+    }, timeout);
+  }
+
   showAdd() {
     this.router.navigate([this.object + "/add"]);
+    this.loadSpinner(200);
   }
 
   showEdit(id: string) {
     this.router.navigate([this.object, id]);
+    this.loadSpinner(200);
   }
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    this.spinner.show();
+
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
-        startWith({}),
+        startWith(null),
         switchMap(() => {
           this.isLoadingResults = true;
-          this.spinner.show();
           return this.service.findLazyData(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -97,8 +110,11 @@ export class ListGenericComponent<T extends Parents>
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<T>(data);
-        this.spinner.hide();
         this.datasource.sort = this.sort;
+        setTimeout(() => {
+          this.spinner.hide();
+          this.screenSpinnerService.hide();
+        }, 200);
       });
   }
 

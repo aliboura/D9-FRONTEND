@@ -3,6 +3,10 @@ import {SubCategoriesService} from "../../../../business/services/referencial/su
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {CategoriesService} from "../../../../business/services/referencial/categories.service";
+import {Categories} from "../../../../business/models/referencial/categories";
+import {map, startWith} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-sub-categories-add',
@@ -11,19 +15,36 @@ import {TypeInput} from "../../../../shared/enum/type-input.enum";
 export class SubCategoriesAddComponent implements OnInit {
 
   constructor(public subCategoriesService: SubCategoriesService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private categoriesService: CategoriesService) {
   }
 
   addForm: FormGroup;
   title: string;
   object: string;
   fields: ModelGeneric<any>[] = [];
+  categoriesList: Categories[];
+  filteredOptions: Observable<Categories[]>;
 
   ngOnInit() {
     this.title = "Nouvelle sous-catégorie";
     this.object = "sub-categories";
     this.addForm = this.initForm();
-    this.fields = this.loadFormModels();
+    this.categoriesService.findAll().subscribe(data => {
+      this.categoriesList = data;
+      this.fields = this.loadFormModels();
+    });
+
+    this.filteredOptions = this.addForm.controls.categoriesId.valueChanges.pipe(
+      startWith(""),
+      map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): Categories[] {
+    return this.categoriesList.filter(
+      option => option.label.toLowerCase().indexOf(value.toLowerCase()) === 0
+    );
   }
 
   private initForm(): FormGroup {
@@ -32,6 +53,7 @@ export class SubCategoriesAddComponent implements OnInit {
         "",
         Validators.compose([Validators.required, Validators.minLength(3)])
       ),
+      categoriesId: new FormControl(null, Validators.required),
       position: new FormControl(""),
       status: new FormControl("")
     });
@@ -50,6 +72,18 @@ export class SubCategoriesAddComponent implements OnInit {
         false,
         null,
         "Minimum 3 caractère."
+      ),
+      new ModelGeneric(
+        "categoriesId",
+        "Catégorie",
+        TypeInput.Select,
+        "Catégorie",
+        true,
+        false,
+        false,
+        false,
+        this.categoriesList,
+        "Veuillez selectionner une catégories."
       ),
       new ModelGeneric(
         "position",

@@ -54,27 +54,10 @@
                     [required]="item.required">{{item.label}}</mat-checkbox>
     </section>
 
-    <!-- <mat-form-field *ngSwitchCase="'select'">
-      <input
-        type="text"
-        aria-label="Number"
-        [placeholder]="item.label"
-        matInput
-        [required]="item.required"
-        [formControlName]="item.field"
-        [id]="item.field"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option *ngFor="let option of item.options" [value]="option.id">
-          {{ option.label }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field> -->
-
-    <!-- <div *ngSwitchCase="'select'">
+    <div *ngSwitchCase="'select'">
       <ng-select
         [items]="item.options"
+        bindValue="id"
         bindLabel="label"
         [required]="item.required"
         [formControlName]="item.field"
@@ -86,7 +69,7 @@
         appendTo="body"
       >
       </ng-select>
-    </div>-->
+    </div>
 
     <mat-error
       *ngIf="!modelForm.controls[item.field].valid &&

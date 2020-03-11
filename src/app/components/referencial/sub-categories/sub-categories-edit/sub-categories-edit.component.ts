@@ -3,11 +3,13 @@ import {SubCategoriesService} from "../../../../business/services/referencial/su
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {Status} from "../../../../business/models/referencial/status";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
-import {switchMap} from "rxjs/operators";
+import {map, startWith, switchMap} from "rxjs/operators";
 import {SubCategories} from "../../../../business/models/referencial/sub-categories";
+import {Categories} from "../../../../business/models/referencial/categories";
+import {CategoriesService} from "../../../../business/services/referencial/categories.service";
 
 @Component({
   selector: 'app-sub-categories-edit',
@@ -16,6 +18,7 @@ import {SubCategories} from "../../../../business/models/referencial/sub-categor
 export class SubCategoriesEditComponent implements OnInit {
 
   constructor(public subCategoriesService: SubCategoriesService,
+              private categoriesService: CategoriesService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -26,6 +29,8 @@ export class SubCategoriesEditComponent implements OnInit {
   fields: ModelGeneric<any>[] = [];
   title: string;
   object: string;
+  categoriesList: Categories[];
+  filteredOptions: Observable<Categories[]>;
 
   ngOnInit() {
     this.editForm = this.initForm();
@@ -37,20 +42,35 @@ export class SubCategoriesEditComponent implements OnInit {
     this.selected.subscribe(data => {
       this.id = data.id;
       this.loadFormData(data);
-      this.fields = this.loadFormModels();
-      this.title = "Modifier le status N°: " + this.id;
+      this.title = "Modifier la sous catégorie N°: " + this.id;
     });
-    this.object = "status";
+
+    this.categoriesService.findAll().subscribe(data => {
+      this.categoriesList = data;
+      this.fields = this.loadFormModels();
+    });
+    this.object = "sub-categories";
+    this.filteredOptions = this.editForm.controls.categoriesId.valueChanges.pipe(
+      startWith(""),
+      map(value => this._filter(value))
+    );
   }
 
   public showCreate() {
     this.router.navigate(["referencial/decisions/add"]);
   }
 
+  private _filter(value: string): Categories[] {
+    return this.categoriesList.filter(
+      option => option.label.toLowerCase().indexOf(value.toLowerCase()) === 0
+    );
+  }
+
   private initForm() {
     return new FormGroup({
       id: new FormControl(),
       label: new FormControl(),
+      categoriesId: new FormControl(),
       position: new FormControl(),
       status: new FormControl()
     });
@@ -63,6 +83,7 @@ export class SubCategoriesEditComponent implements OnInit {
         subCategories.label,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
+      categoriesId: new FormControl(subCategories.categoriesId, Validators.required),
       position: new FormControl(subCategories.position),
       status: new FormControl(subCategories.status)
     });
@@ -81,6 +102,18 @@ export class SubCategoriesEditComponent implements OnInit {
         false,
         null,
         "Minimum 3 caractère."
+      ),
+      new ModelGeneric(
+        "categoriesId",
+        "Catégorie",
+        TypeInput.Select,
+        "Catégorie",
+        true,
+        false,
+        false,
+        false,
+        this.categoriesList,
+        "Veuillez selectionner une catégories."
       ),
       new ModelGeneric(
         "position",

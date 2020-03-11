@@ -60,7 +60,7 @@
         *ngFor="let column of columnsToDisplay"
       >
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ column }}
+          {{ column | titlecase }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{ element[column] }}
