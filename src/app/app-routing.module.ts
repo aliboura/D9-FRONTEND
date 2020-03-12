@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: "referencial",
     loadChildren: () => import('./components/referencial/referencial.module').then(m => m.ReferencialModule)
+  },
+  {
+    path: "sites-apps",
+    loadChildren: () => import('./components/sites-apps/sites-apps.module').then(m => m.SitesAppsModule)
   }
 ];
 

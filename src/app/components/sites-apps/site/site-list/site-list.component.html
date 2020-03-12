@@ -1,0 +1,68 @@
+<mat-card-header>
+  <mat-card-title>Liste des sites :</mat-card-title>
+</mat-card-header>
+
+<div class="mat-elevation-z8" matSort>
+  <div class="example-table-container">
+    <mat-table
+      [dataSource]="datasource"
+      matSortActive="matSortActive"
+      matSortDisableClear
+      matSortDirection="matSortDirection">
+      <!-- Index Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="id-column">
+          No.
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="id-column">
+          {{ element.id }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Load the rest Columns -->
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of displayedColumns"
+      >
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column | titlecase }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element[column] }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell
+          *matHeaderCellDef
+          class="action-column"
+        ></mat-header-cell>
+        <mat-cell *matCellDef="let element" class="action-column">
+          <button
+            type="button"
+            mat-icon-button
+            (click)="showEdit(element.id)"
+            style="margin: 5px;color: #6d6d6d;"
+            color="warn"
+            matTooltip="Voir le détail."
+          >
+            <i class="material-icons">open_in_new</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+
+    </mat-table>
+    <mat-paginator
+      [length]="resultsLength"
+      [pageSizeOptions]="[10, 20, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

@@ -55,7 +55,7 @@ export class SubCategoriesAddComponent implements OnInit {
       ),
       categoriesId: new FormControl(null, Validators.required),
       position: new FormControl(""),
-      status: new FormControl("")
+      status: new FormControl(true)
     });
   }
 
@@ -88,7 +88,7 @@ export class SubCategoriesAddComponent implements OnInit {
       new ModelGeneric(
         "position",
         "Position",
-        TypeInput.Input,
+        TypeInput.Number,
         "Position",
         false,
         false,
