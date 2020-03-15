@@ -7,17 +7,20 @@ import {SiteRoutingModule} from "./site-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
 import {PrimengModule} from "../../../importes/primeng/primeng.module";
+import { SiteSearchComponent } from './site-search/site-search.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [SiteComponent, SiteListComponent, SiteViewComponent],
-  imports: [
-    CommonModule,
-    SiteRoutingModule,
-    SharedModule,
-    MaterialModule,
-    PrimengModule
-  ]
+  declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent],
+    imports: [
+        CommonModule,
+        SiteRoutingModule,
+        SharedModule,
+        MaterialModule,
+        PrimengModule,
+        FormsModule
+    ]
 })
 export class SiteModule {
 }

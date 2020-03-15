@@ -20,7 +20,7 @@ body a {
 
 .mat-form-field {
   font-size: 14px;
-  width: 100%;
+  width: 95%;
 }
 
 .mat-card-header {
@@ -222,11 +222,62 @@ splash-screen,
 
 .mat-elevation-z8 {
   box-shadow: none;
+  margin-top: 10px;
 }
 
 .mat-table {
+  background: #fff;
   border: 1px solid #e0e0e0;
   border-bottom: none;
+}
+
+
+.mat-row:hover {
+  background: #f3f6f8;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  color: #484747;
+}
+
+/* mat-header-row {
+
+} */
+
+.mat-paginator {
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  background: #fafafa;
+}
+
+.id-column {
+  flex: 0 0 6%;
+}
+
+.action-column {
+  max-width: 10%;
+  text-align: center;
+  border-left: 1px solid #e1e1e1;
+}
+
+.add-btn {
+  background: #e10019;
+  color: #fff;
+  position: absolute;
+  left: 0px;
+}
+
+.add-btn:hover {
+  background-color: #C62828;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.adv-toolbar {
+  background: #fff !important;
+  border-top: 1px solid #e0e0e0;
 }
 
 

@@ -9,7 +9,8 @@ import {STATIC_DATA} from "../../tools/static-data";
 export abstract class GenericService<T> {
   abstract getApi(): string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   findAll(): Observable<Array<T>> {
     return this.http.get<Array<T>>(this.getApi(), {
@@ -35,6 +36,27 @@ export abstract class GenericService<T> {
         .set("size", "" + size)
         .set("sort", sort)
         .set("field", field)
+    });
+  }
+
+  searchLazyData(
+    page: number,
+    size: number,
+    sort: string,
+    field: string,
+    search: string
+  ): Observable<Pages<T>> {
+    const header = new HttpHeaders({
+      Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
+    });
+    return this.http.get<Pages<T>>(this.getApi() + "/search_adv", {
+      headers: header,
+      params: new HttpParams()
+        .set("page", "" + page)
+        .set("size", "" + size)
+        .set("sort", sort)
+        .set("field", field)
+        .set("search", search)
     });
   }
 
