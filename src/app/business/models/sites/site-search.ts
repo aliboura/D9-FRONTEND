@@ -3,4 +3,7 @@ export class SiteSearch {
   dateD1: Date;
   nomSite: string;
   numSite: string;
+  regionId: string;
+  wilayaId: string;
+  typeSiteId: string;
 }
