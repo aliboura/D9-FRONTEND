@@ -12,6 +12,10 @@ export abstract class GenericService<T> {
   constructor(private http: HttpClient) {
   }
 
+  getHttp(): HttpClient {
+    return this.http;
+  }
+
   findAll(): Observable<Array<T>> {
     return this.http.get<Array<T>>(this.getApi(), {
       headers: new HttpHeaders({

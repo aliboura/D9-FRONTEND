@@ -1,4 +1,4 @@
 export class Region {
-  id: number;
+  id: string;
   label: string;
 }

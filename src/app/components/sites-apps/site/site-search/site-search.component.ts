@@ -11,6 +11,8 @@ import {WilayaService} from "../../../../business/services/sites/wilaya.service"
 import {Wilaya} from "../../../../business/models/sites/wilaya";
 import {TypeSiteService} from "../../../../business/services/sites/type-site.service";
 import {TypeSite} from "../../../../business/models/sites/type-site";
+import {RegionService} from "../../../../business/services/sites/region.service";
+import {Region} from "../../../../business/models/sites/region";
 
 @Component({
   selector: 'app-site-search',
@@ -21,6 +23,7 @@ export class SiteSearchComponent implements OnInit {
 
   searchSite: SiteSearch;
   dataSource: MatTableDataSource<Site>;
+  regionOptions: Region[];
   wilayaOptions: Wilaya[];
   typeSiteOptions: TypeSite[];
 
@@ -30,6 +33,7 @@ export class SiteSearchComponent implements OnInit {
 
   constructor(private datePipe: DatePipe,
               private siteService: SiteService,
+              private regionService: RegionService,
               private wilayaService: WilayaService,
               private typeSiteService: TypeSiteService,
               private spinner: NgxSpinnerService,
@@ -38,6 +42,9 @@ export class SiteSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchSite = new SiteSearch();
+    this.regionService.findAll().subscribe(data => {
+      this.regionOptions = data;
+    });
     this.wilayaService.findAll().subscribe(data => {
       this.wilayaOptions = data;
     });
@@ -46,6 +53,19 @@ export class SiteSearchComponent implements OnInit {
     });
   }
 
+  onChangeRegion($event) {
+    if (this.searchSite.regionId) {
+      this.wilayaService.findByRegion(this.searchSite.regionId).subscribe(data => {
+        this.wilayaOptions = data;
+      });
+    }
+  }
+
+  onClearRegion($event) {
+    this.wilayaService.findAll().subscribe(data => {
+      this.wilayaOptions = data;
+    });
+  }
 
   public filter() {
     this.spinner.show();

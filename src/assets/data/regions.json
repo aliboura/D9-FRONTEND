@@ -1,0 +1,14 @@
+[
+  {
+    "id": "A",
+    "label": "Centre"
+  },
+  {
+    "id": "C",
+    "label": "Est"
+  },
+  {
+    "id": "O",
+    "label": "Ouest"
+  }
+]
