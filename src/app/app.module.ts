@@ -17,6 +17,7 @@ import {ReferencialModule} from "./components/referencial/referencial.module";
 import {SharedModule} from "./shared/shared.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ConfirmationService, MessageService} from "primeng";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {ConfirmationService, MessageService} from "primeng";
     SharedModule,
     NgxSpinnerModule,
     ReferencialModule,
+    NgSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

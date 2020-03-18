@@ -34,37 +34,60 @@
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2">
-      <mat-form-field>
-        <mat-label>Wilaya</mat-label>
-        <input matInput type="text" [(ngModel)]="searchSite.wilayaId" name="wilayaId">
-      </mat-form-field>
+      <ng-select
+        [items]="wilayaOptions"
+        bindValue="id"
+        bindLabel="label"
+        [(ngModel)]="searchSite.wilayaId"
+        name="wilayaId"
+        placeholder="Wilaya"
+        appendTo="body"
+      >
+      </ng-select>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2">
-      <mat-form-field>
-        <mat-label>Type de site</mat-label>
-        <input matInput type="text" [(ngModel)]="searchSite.typeSiteId" name="typeSiteId">
-      </mat-form-field>
+      <ng-select
+        [items]="typeSiteOptions"
+        bindValue="id"
+        bindLabel="typeSiteLib"
+        [(ngModel)]="searchSite.typeSiteId"
+        name="typeSiteId"
+        placeholder="Type site"
+        appendTo="body"
+      >
+      </ng-select>
     </mat-grid-tile>
-    <mat-grid-tile [colspan]="2">
-      <div>
-        <button
-          mat-raised-button
-          type="button"
-          class="add-btn"
-          (click)="filter()"
-          style="margin-right: 10px">
-          <i class="pi pi-filter"></i>
-          Filter
-        </button>
-        <button
-          type="button"
-          mat-raised-button
-          (click)="reset()"
-          class="cancel-btn">
-          <i class="pi pi-undo"></i>
-          Cancel
-        </button>
-      </div>
+    <mat-grid-tile [colspan]="2" style="float: right">
+      <button
+        mat-raised-button
+        type="button"
+        class="add-btn no-shadow red-border"
+        matTooltip="Filter."
+        (click)="filter()"
+        style="margin-right: 10px">
+        <i class="pi pi-filter"></i>
+        Filter
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        (click)="reset()"
+        matTooltip="Rénitialiser le formulaire."
+        class="cancel-btn no-shadow silver-border">
+        <i class="pi pi-undo"></i>
+        Cancel
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        (click)="showAdvancedSearch()"
+        style="margin-left: 10px"
+        matTooltip="Recherche simple."
+        class="cancel-btn no-shadow silver-border">
+        <i class="material-icons" style="font-size: 22px;">
+          arrow_drop_up
+        </i>
+      </button>
     </mat-grid-tile>
   </mat-grid-list>
   <!--  <mat-toolbar class="adv-toolbar">-->

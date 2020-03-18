@@ -1,7 +1,43 @@
 <mat-card-header>
   <mat-card-title>Liste des sites :</mat-card-title>
 </mat-card-header>
-<app-site-search (pushDataEvent)="datasource=$event"></app-site-search>
+<mat-grid-list cols="4" rowHeight="60px" *ngIf="!showAdvanced">
+  <mat-grid-tile [colspan]="3">
+
+    <mat-form-field style="width: 100%;">
+      <mat-icon matPrefix style="margin-right: 10px;color: #888;"
+      >search
+      </mat-icon
+      >
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Filter..."
+      />
+    </mat-form-field>
+    <div
+      style="border-right: 1px solid #e0e0e0;height: 30px;margin: 20px;"
+    ></div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1">
+    <button
+      type="button"
+      mat-raised-button
+      (click)="showAdvancedSearch()"
+      class="cancel-btn no-shadow silver-border"
+      style="margin-left: 15px; position: absolute"
+      matTooltip="Recherche avancée."
+      routerLinkActive="disabled">
+      <i class="material-icons" style="font-size: 22px;">
+        arrow_drop_down
+      </i>
+    </button>
+  </mat-grid-tile>
+</mat-grid-list>
+<app-site-search *ngIf="showAdvanced"
+                 [pageSize]="pagesLength"
+                 (pushDataEvent)="datasource=$event"
+                 (showEvent)="showAdvanced=$event"></app-site-search>
 <div class="mat-elevation-z8" matSort>
   <div class="example-table-container">
     <mat-table
@@ -31,7 +67,11 @@
           {{ column | titlecase }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element[column] }}
+          <div *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">
+            {{ element[column] | date:'dd/MM/yyyy' }}
+          </div>
+          <ng-template #elseBlock>{{ element[column] }}</ng-template>
+
         </mat-cell>
       </ng-container>
 
