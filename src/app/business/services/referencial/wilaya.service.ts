@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GenericService} from "../../../shared/service-generic/generic.service";
-import {Wilaya} from "../../models/sites/wilaya";
+import {Wilaya} from "../../models/referencial/wilaya";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {API_URLs} from "../../../tools/api-url";
 import {Observable} from "rxjs";

@@ -7,12 +7,12 @@ import {map, switchMap} from "rxjs/operators";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {DatePipe} from "@angular/common";
-import {WilayaService} from "../../../../business/services/sites/wilaya.service";
-import {Wilaya} from "../../../../business/models/sites/wilaya";
-import {TypeSiteService} from "../../../../business/services/sites/type-site.service";
-import {TypeSite} from "../../../../business/models/sites/type-site";
-import {RegionService} from "../../../../business/services/sites/region.service";
-import {Region} from "../../../../business/models/sites/region";
+import {WilayaService} from "../../../../business/services/referencial/wilaya.service";
+import {Wilaya} from "../../../../business/models/referencial/wilaya";
+import {TypeSiteService} from "../../../../business/services/referencial/type-site.service";
+import {TypeSite} from "../../../../business/models/referencial/type-site";
+import {RegionService} from "../../../../business/services/referencial/region.service";
+import {Region} from "../../../../business/models/referencial/region";
 
 @Component({
   selector: 'app-site-search',
