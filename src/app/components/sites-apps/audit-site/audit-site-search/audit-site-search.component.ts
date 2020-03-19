@@ -18,7 +18,7 @@ export class AuditSiteSearchComponent implements OnInit {
 
   datasource: MatTableDataSource<Site> = new MatTableDataSource<Site>();
   noData = this.datasource.connect().pipe(map(d => d.length === 0));
-  displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteId", "regionId", "wilayaLabel"];
+  displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteLib", "regionId", "wilayaLabel"];
   columnsToDisplay: string[];
   pagesLength = 5;
   resultsLength = 0;

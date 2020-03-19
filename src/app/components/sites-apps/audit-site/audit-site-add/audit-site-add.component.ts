@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuditSiteService} from "../../../../business/services/sites/audit-site.service";
 
 @Component({
   selector: 'app-audit-site-add',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuditSiteAddComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auditSiteService: AuditSiteService) { }
 
   ngOnInit() {
   }

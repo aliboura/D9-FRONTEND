@@ -123,21 +123,28 @@ export class SiteSearchComponent implements OnInit {
         }
       }
     }
-    this.siteService.searchLazyData(0, this.pageSize, "asc", "id", search)
-      .pipe(
-        map(dt => {
-          return dt.content;
-        })
-      )
-      .subscribe(data => {
-        this.dataSource = new MatTableDataSource<Site>(data);
-        this.pushDataEvent.emit(this.dataSource);
-        this.noDataEvent.emit(this.dataSource.connect().pipe(map(d => d.length === 0)));
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
-      });
+    if (search !== "") {
+      this.siteService.searchLazyData(0, this.pageSize, "asc", "id", search)
+        .pipe(
+          map(dt => {
+            return dt.content;
+          })
+        )
+        .subscribe(data => {
+          this.dataSource = new MatTableDataSource<Site>(data);
+          this.pushDataEvent.emit(this.dataSource);
+          this.noDataEvent.emit(this.dataSource.connect().pipe(map(d => d.length === 0)));
+          setTimeout(() => {
+            this.spinner.hide();
+            this.screenSpinnerService.hide();
+          }, 200);
+        });
+    } else {
+      setTimeout(() => {
+        this.spinner.hide();
+        this.screenSpinnerService.hide();
+      }, 200);
+    }
   }
 
   public reset() {

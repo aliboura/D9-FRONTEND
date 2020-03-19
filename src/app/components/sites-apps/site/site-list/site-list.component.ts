@@ -25,7 +25,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   }
 
   datasource: MatTableDataSource<Site>;
-  displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteId", "regionId", "wilayaLabel"];
+  displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteLib", "regionId", "wilayaLabel"];
   columnsToDisplay: string[];
 
   resultsLength = 0;
