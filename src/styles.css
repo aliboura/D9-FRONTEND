@@ -317,3 +317,52 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !important;
 }
 
+
+.mat-figure {
+  justify-content: flex-start !important;
+}
+
+.red-top-border {
+  border-top: 3px solid #F30A37;
+}
+
+.action-tool-bar {
+  margin: 20px !important;
+  background: #fff !important;
+  width: 98% !important;
+  margin-top: -30px !important;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !important;
+}
+
+.gt-divider-horizontal {
+  border-right: 1px solid #d0d0d0 !important;
+  margin: 10px !important;
+}
+
+.mat-table mat-row.selected, table tr.selected {
+  outline: none !important;
+  background: #F3F6F8 !important;
+  border-left: 5px outset #F10034;
+}
+
+.mat-table-empty {
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  height: 55px;
+}
+
+.mat-table-empty-msg {
+  position: relative;
+  left: 30px;
+  top: 12px;
+  font-size: 13px;
+  color: #989898;
+}
+
+.mat-table-empty-icon {
+  position: relative;
+  left: 20px;
+  top: 18px;
+  font-size: 22px;
+  color: #989898;
+}

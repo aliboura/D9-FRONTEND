@@ -1,10 +1,10 @@
 .mat-toolbar.mat-primary {
   /*background-color: #E20613;*/
-  background: #ff3c66;
-  background: -moz-linear-gradient(-206deg, #ff3c66 5%, #ff6766 100%);
-  background: -webkit-linear-gradient(-206deg, #ff3c66 5%, #ff6766 100%);
-  background: linear-gradient(-206deg, #ff3c66 5%, #ff6766 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3c66', endColorstr='#ff6766',GradientType=1 );
+  background: #f10034;
+  background: -moz-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  background: -webkit-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  background: linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f10034', endColorstr='#ff4b4a',GradientType=1 );
   height: 42px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !important;
 }
@@ -137,7 +137,7 @@
 }
 
 .sidebar-profile-btn:hover {
-  background-color: #c30d17;
+  background-color: #e20a33;
   border-radius: 0px;
 }
 

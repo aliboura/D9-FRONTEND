@@ -12,8 +12,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-site-list',
-  templateUrl: './site-list.component.html',
-  styleUrls: ['./site-list.component.css']
+  templateUrl: './site-list.component.html'
 })
 export class SiteListComponent implements OnInit, AfterViewInit {
 

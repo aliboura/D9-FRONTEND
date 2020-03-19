@@ -3,7 +3,7 @@ import {SiteService} from "../../../../business/services/sites/site.service";
 import {SiteSearch} from "../../../../business/models/sites/site-search";
 import {Site} from "../../../../business/models/sites/site";
 import {MatTableDataSource} from "@angular/material/table";
-import {map, switchMap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {DatePipe} from "@angular/common";
@@ -30,6 +30,7 @@ export class SiteSearchComponent implements OnInit {
   @Input() pageSize;
   @Output() pushDataEvent = new EventEmitter();
   @Output() showEvent = new EventEmitter();
+  @Output() noDataEvent = new EventEmitter();
 
   constructor(private datePipe: DatePipe,
               private siteService: SiteService,
@@ -131,6 +132,7 @@ export class SiteSearchComponent implements OnInit {
       .subscribe(data => {
         this.dataSource = new MatTableDataSource<Site>(data);
         this.pushDataEvent.emit(this.dataSource);
+        this.noDataEvent.emit(this.dataSource.connect().pipe(map(d => d.length === 0)));
         setTimeout(() => {
           this.spinner.hide();
           this.screenSpinnerService.hide();

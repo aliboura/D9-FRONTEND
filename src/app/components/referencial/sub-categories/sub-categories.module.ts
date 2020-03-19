@@ -6,15 +6,17 @@ import {SubCategoriesAddComponent} from './sub-categories-add/sub-categories-add
 import {SubCategoriesEditComponent} from './sub-categories-edit/sub-categories-edit.component';
 import {SubCategoriesRoutingModule} from "./sub-categories-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
+import {MaterialModule} from "../../../importes/material/material.module";
 
 
 @NgModule({
   declarations: [SubCategoriesComponent, SubCategoriesListComponent, SubCategoriesAddComponent, SubCategoriesEditComponent],
-  imports: [
-    CommonModule,
-    SubCategoriesRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        SubCategoriesRoutingModule,
+        SharedModule,
+        MaterialModule
+    ]
 })
 export class SubCategoriesModule {
 }

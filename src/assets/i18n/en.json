@@ -1,0 +1,62 @@
+{
+  "COMMUN": {
+    "ID": " ID ",
+    "LABEL": " Label ",
+    "BTN_NEW": " New ",
+    "BTN_VALIDATE": " Validate ",
+    "BTN_CLOSE": " Close ",
+    "BTN_CANCEL": " Cancel ",
+    "BTN_DELETE": " Delete ",
+    "BTN_MODIFIER": " Update ",
+    "TITLE_MODIFIER": " Update ",
+    "TOOLTIP_SEARCH": "Generic search.",
+    "TOOLTIP_SHOW": "Show details.",
+    "TOOLTIP_DELETE": "Delete line.",
+    "PLACEHOLDER_SEARCH": "Search...",
+    "UPLOAD_IMG_LABEL": "Choose image...",
+    "NEXT_BTN": "Next",
+    "EMPTY_MSG": "No records found."
+  },
+  "MENU": {
+    "SITE_AUDIT": " Site Audit ",
+    "SITE": " Site ",
+    "CATEGORIES": " Categories ",
+    "SUB_CATEGORIES": " Sub Categories ",
+    "DECISION": " Decision ",
+    "STATUS": " Status "
+  },
+  "STATUS": {
+    "TAB_TITLE": " Status ",
+    "TITLE": " Status List ",
+    "ADD_TITLE": " New Status ",
+    "VIEW_TITLE": " Edit Status ",
+    "FORM_LABEL": " Name ",
+    "FORM_DESCRIPTION": " Description ",
+    "FORM_DESCRIPTION": " CSS Style "
+  },
+  "SITE": {
+    "codeSite": " Site code ",
+    "dateD1": " D1 Date  ",
+    "nomSite": " Site Name ",
+    "numSite": " N° Site ",
+    "typeSiteId": " Site type ",
+    "regionId": " Region ",
+    "wilayaLabel": " City "
+  },
+  "AUDIT_SITE": {
+    "id": " N° ",
+    "auditDate": " Audit date ",
+    "userId": " Fait par ",
+    "siteCode": " Site code ",
+    "wilayaId": " City ",
+    "regionId": " Region ",
+    "repOwner": " Owner ",
+    "description": " Description ",
+    "observation": " Observation ",
+    "currentCategoriesLabel": " Current Category ",
+    "currentSatusLabel": "  Status ",
+    "firstDecisionLabel": " Decision ",
+    "firstDecisionDate": " Décision Date ",
+    "firstDecisionEngineerSite": " First decision "
+  }
+}

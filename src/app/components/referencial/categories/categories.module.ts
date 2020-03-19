@@ -6,15 +6,17 @@ import {CategoriesListComponent} from './categories-list/categories-list.compone
 import {CategoriesEditComponent} from './categories-edit/categories-edit.component';
 import {CategoriesRoutingModule} from "./categories-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
+import {MaterialModule} from "../../../importes/material/material.module";
 
 
 @NgModule({
   declarations: [CategoriesComponent, CategoriesAddComponent, CategoriesListComponent, CategoriesEditComponent],
-  imports: [
-    CommonModule,
-    CategoriesRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        CategoriesRoutingModule,
+        SharedModule,
+        MaterialModule
+    ]
 })
 export class CategoriesModule {
 }

@@ -1,9 +1,8 @@
 <div
   class="example-container flexbox-parent"
-  [class.example-is-mobile]="mobileQuery.matches">
-
+  [class.example-is-mobile]="mobileQuery.matches"
+>
   <mat-toolbar color="primary">
-
     <button mat-icon-button (click)="snav.toggle()" class="sidebar-toggle-btn">
       <mat-icon>menu</mat-icon>
     </button>
@@ -20,13 +19,43 @@
       <button
         mat-icon-button
         class="sidebar-profile-btn"
-        [matMenuTriggerFor]="menu">
+        [matMenuTriggerFor]="langMenu"
+      >
+        <i class="material-icons" style="font-size: 20px">
+          language
+        </i>
+        {{ defaultLang }}
+        <mat-icon
+          aria-hidden="true"
+          role="img"
+          class="mat-icon notranslate material-icons mat-icon-no-color"
+        >
+          arrow_drop_down
+        </mat-icon>
+      </button>
+
+      <mat-menu #langMenu="matMenu">
+        <button mat-menu-item type="button" (click)="switchToFrensh()">
+          Français
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item type="button" (click)="switchToEnglish()">
+          English
+        </button>
+      </mat-menu>
+
+      <button
+        mat-icon-button
+        class="sidebar-profile-btn"
+        [matMenuTriggerFor]="menu"
+      >
         BOUMENDJAS Mohamed Ryadh
         <mat-icon class="material-icons">portrait</mat-icon>
         <mat-icon
           aria-hidden="true"
           role="img"
-          class="mat-icon notranslate material-icons mat-icon-no-color">
+          class="mat-icon notranslate material-icons mat-icon-no-color"
+        >
           arrow_drop_down
         </mat-icon>
       </button>
@@ -51,48 +80,62 @@
   <mat-sidenav-container
     class="layout-sidenav-container flexbox-item fill-area content flexbox-item-grow"
     [style.marginTop.px]="mobileQuery.matches ? 50 : 0"
-    isOpen="true">
+    isOpen="true"
+  >
     <mat-sidenav
       #snav
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="50"
       opened="mobileQuery ? 'false' : 'true'"
-      style="height: 100%;">
-
+      style="height: 100%;"
+    >
       <app-left-menu></app-left-menu>
-
     </mat-sidenav>
 
     <mat-sidenav-content>
       <mat-toolbar>
         <mat-toolbar-row>
           <button mat-button class="btn-menu">Home</button>
-          <button mat-button class="btn-menu" routerLink="/sites-apps/audit">Audit Site</button>
-          <button mat-button class="btn-menu" routerLink="/sites-apps/sites">Site</button>
+          <button mat-button class="btn-menu" routerLink="/sites-apps/audit">
+            {{ 'MENU.SITE_AUDIT' | translate }}
+          </button>
+          <button mat-button class="btn-menu" routerLink="/sites-apps/sites">
+            {{ 'MENU.SITE' | translate }}
+          </button>
           <button mat-button class="btn-menu" [matMenuTriggerFor]="catMenu">
-            Catégorie
+            {{ 'MENU.CATEGORIES' | translate }}
             <mat-icon
               aria-hidden="true"
               role="img"
               style="color: rgba(78, 78, 78, 0.87)"
-              class="mat-icon notranslate material-icons mat-icon-no-color">
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+            >
               arrow_drop_down
             </mat-icon>
           </button>
           <mat-menu #catMenu="matMenu">
-            <button mat-menu-item routerLink="/referencial/categories">Catégories</button>
-            <button mat-menu-item routerLink="/referencial/sub-categories">Sous Catégories</button>
+            <button mat-menu-item routerLink="/referencial/categories">
+              {{ 'MENU.CATEGORIES' | translate }}
+            </button>
+            <button mat-menu-item routerLink="/referencial/sub-categories">
+              {{ 'MENU.SUB_CATEGORIES' | translate }}
+            </button>
           </mat-menu>
-          <button mat-button class="btn-menu" routerLink="/referencial/decisions">Décision</button>
-          <button mat-button class="btn-menu" routerLink="/referencial/status">Status</button>
+          <button
+            mat-button
+            class="btn-menu"
+            routerLink="/referencial/decisions"
+          >
+            {{ 'MENU.DECISION' | translate }}
+          </button>
+          <button mat-button class="btn-menu" routerLink="/referencial/status">
+            {{ 'MENU.STATUS' | translate }}
+          </button>
         </mat-toolbar-row>
       </mat-toolbar>
-      <mat-card style="margin: 20px;" class="top-bordred">
-        <router-outlet></router-outlet>
-      </mat-card>
+      <router-outlet></router-outlet>
       <app-footer></app-footer>
     </mat-sidenav-content>
   </mat-sidenav-container>
-
 </div>

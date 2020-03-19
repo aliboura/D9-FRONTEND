@@ -6,14 +6,21 @@ import {SharedModule} from "../../../shared/shared.module";
 import { AuditSiteListComponent } from './audit-site-list/audit-site-list.component';
 import { AuditSiteAddComponent } from './audit-site-add/audit-site-add.component';
 import { AuditSiteEditComponent } from './audit-site-edit/audit-site-edit.component';
+import {MaterialModule} from "../../../importes/material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
+import { AuditSiteSearchComponent } from './audit-site-search/audit-site-search.component';
+import {SiteModule} from "../site/site.module";
 
 
 @NgModule({
-  declarations: [AuditSiteComponent, AuditSiteListComponent, AuditSiteAddComponent, AuditSiteEditComponent],
+  declarations: [AuditSiteComponent, AuditSiteListComponent, AuditSiteAddComponent, AuditSiteEditComponent, AuditSiteSearchComponent],
   imports: [
     CommonModule,
     AuditSiteRoutingModule,
-    SharedModule
+    SharedModule,
+    MaterialModule,
+    TranslateModule,
+    SiteModule,
   ]
 })
 export class AuditSiteModule {

@@ -9,18 +9,23 @@ import {MaterialModule} from "../../../importes/material/material.module";
 import {PrimengModule} from "../../../importes/primeng/primeng.module";
 import { SiteSearchComponent } from './site-search/site-search.component';
 import {FormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
   declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent],
-    imports: [
-        CommonModule,
-        SiteRoutingModule,
-        SharedModule,
-        MaterialModule,
-        PrimengModule,
-        FormsModule
-    ]
+  exports: [
+    SiteSearchComponent
+  ],
+  imports: [
+    CommonModule,
+    SiteRoutingModule,
+    SharedModule,
+    MaterialModule,
+    PrimengModule,
+    FormsModule,
+    TranslateModule
+  ]
 })
 export class SiteModule {
 }

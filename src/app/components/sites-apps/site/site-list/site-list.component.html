@@ -64,7 +64,7 @@
         *ngFor="let column of displayedColumns"
       >
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ column | titlecase }}
+          {{ 'SITE.' + column | translate}}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <div *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">
@@ -88,7 +88,7 @@
             (click)="showEdit(element.id)"
             style="margin: 5px;color: #6d6d6d;"
             color="warn"
-            matTooltip="Voir le détail."
+            [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate"
           >
             <i class="material-icons">open_in_new</i>
           </button>

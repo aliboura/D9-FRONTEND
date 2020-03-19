@@ -44,6 +44,8 @@ export class ListGenericComponent<T extends Parents>
   @Input() matSortActive: string;
   @Input() matSortDirection: string;
 
+  noData: Observable<boolean>;
+
   displayedColumns: string[] = [];
 
   resultsLength = 0;
@@ -110,6 +112,7 @@ export class ListGenericComponent<T extends Parents>
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<T>(data);
+        this.noData = this.datasource.connect().pipe(map(d => d.length === 0));
         this.datasource.sort = this.sort;
         setTimeout(() => {
           this.spinner.hide();

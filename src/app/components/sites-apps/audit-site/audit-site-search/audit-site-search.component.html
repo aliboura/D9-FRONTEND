@@ -1,0 +1,88 @@
+<mat-card style="margin: 20px;" class="top-bordred">
+  <app-site-search [pageSize]="pagesLength" (pushDataEvent)="datasource=$event"
+                   (noDataEvent)="noData=$event"></app-site-search>
+</mat-card>
+<mat-card style="margin: 20px;margin-top: -20px !important;" class="top-bordred">
+
+  <div class="mat-elevation-z8" matSort>
+    <div class="example-table-container">
+      <mat-table
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="matSortDirection">
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container
+          [matColumnDef]="column"
+          *ngFor="let column of displayedColumns"
+        >
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'SITE.' + column | translate}}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div
+              *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">
+              {{ element[column] | date:'dd/MM/yyyy' }}
+            </div>
+            <ng-template #elseBlock>{{ element[column] }}</ng-template>
+
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;" [matRowKeyboardSelection]="selectedSite"
+                 [rowModel]="row" [selectOnFocus]="true" [toggleOnEnter]="false" [preventNewSelectionOnTab]="true"
+                 [ngClass]="{selected: selectedSite.isSelected(row)}"></mat-row>
+      </mat-table>
+      <div *ngIf="noData | async" class="mat-table-empty">
+        <i class="material-icons mat-table-empty-icon">
+          block
+        </i>
+        <span class="mat-table-empty-msg">
+          {{'COMMUN.EMPTY_MSG' | translate}}
+        </span>
+      </div>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSizeOptions]="[5]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</mat-card>
+<mat-toolbar class="action-tool-bar">
+  <mat-toolbar-row>
+    <span class="example-spacer"></span>
+    <button
+      type="button"
+      mat-raised-button
+      style="margin-right: 10px"
+      class="cancel-btn">
+      <i class="material-icons" style="font-size: 18px">close</i>
+      {{'COMMUN.BTN_CANCEL' | translate}}
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      [disabled]="selectedSite.isEmpty()"
+      (click)="goToNext()"
+      class="add-btn">
+      <i class="material-icons" style="font-size: 18px">
+        arrow_forward_ios
+      </i>
+      {{'COMMUN.NEXT_BTN' | translate}}
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -2,25 +2,25 @@
   <mat-grid-list cols="8" rowHeight="60px">
     <mat-grid-tile [colspan]="2">
       <mat-form-field>
-        <mat-label>Code Site</mat-label>
+        <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="searchSite.codeSite" name="codeSite">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2">
       <mat-form-field>
-        <mat-label>Numéro de Site</mat-label>
+        <mat-label>{{'SITE.numSite' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="searchSite.numSite" name="numSite">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2">
       <mat-form-field>
-        <mat-label>Nom de Site</mat-label>
+        <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="searchSite.nomSite" name="nomSite">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2">
       <mat-form-field>
-        <mat-label>Date D1</mat-label>
+        <mat-label>{{'SITE.dateD1' | translate}}</mat-label>
         <input matInput [(ngModel)]="searchSite.dateD1" name="dateD1" [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -34,7 +34,7 @@
         bindLabel="label"
         [(ngModel)]="searchSite.regionId"
         name="regionId"
-        placeholder="Région"
+        [placeholder]="'SITE.regionId' | translate"
         appendTo="body"
         (clear)="onClearRegion($event)"
         (change)="onChangeRegion($event)"
@@ -48,7 +48,7 @@
         bindLabel="label"
         [(ngModel)]="searchSite.wilayaId"
         name="wilayaId"
-        placeholder="Wilaya"
+        [placeholder]="'SITE.wilayaLabel' | translate"
         appendTo="body"
       >
       </ng-select>
@@ -60,7 +60,7 @@
         bindLabel="typeSiteLib"
         [(ngModel)]="searchSite.typeSiteId"
         name="typeSiteId"
-        placeholder="Type site"
+        [placeholder]="'SITE.typeSiteId' | translate"
         appendTo="body"
       >
       </ng-select>

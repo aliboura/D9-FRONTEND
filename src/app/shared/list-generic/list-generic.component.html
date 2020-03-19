@@ -81,7 +81,7 @@
             (click)="showEdit(element.id)"
             style="margin: 5px;color: #6d6d6d;"
             color="warn"
-            matTooltip="Voir le détail."
+            [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate"
           >
             <i class="material-icons">open_in_new</i>
           </button>
@@ -91,7 +91,7 @@
             color="warn"
             style="margin: 5px;"
             (click)="confirm(element)"
-            matTooltip="Voulez-vous suprimer la ligne?.">
+            [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
             <i class=" material-icons">delete</i>
           </button>
         </mat-cell>
@@ -101,6 +101,14 @@
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
     </mat-table>
+    <div *ngIf="noData | async" class="mat-table-empty">
+      <i class="material-icons mat-table-empty-icon">
+        block
+      </i>
+      <span class="mat-table-empty-msg">
+          {{'COMMUN.EMPTY_MSG' | translate}}
+      </span>
+    </div>
     <mat-paginator
       [length]="resultsLength"
       [pageSizeOptions]="[10, 20, 100]"
