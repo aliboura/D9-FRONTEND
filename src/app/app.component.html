@@ -1,12 +1,10 @@
 <!--<router-outlet></router-outlet>-->
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
-<p-confirmDialog [style]="{ width: '25vw' }"></p-confirmDialog>
-<app-full-layout></app-full-layout>
 
-<!--<div class="splash-screen">-->
-<!--  <div class="splash-loader"></div>-->
-<!--  <img class="splash-logo" src="assets/showcase/images/mask.svg">-->
-<!--</div>-->
+<p-toast [style]="{marginTop: '80px', width: '28vw !important'}"></p-toast>
+
+<p-confirmDialog [style]="{ width: '25vw' }"></p-confirmDialog>
+
+<app-full-layout></app-full-layout>
 
 <div class="splash-screen" *ngIf="screenSpinnerService.showSpinner | async">
   <ngx-spinner

@@ -16,8 +16,10 @@ export class AuditSiteSearchComponent implements OnInit {
               private siteService: SiteService) {
   }
 
+  emptyData: boolean;
+  showBackBtn = false;
+
   datasource: MatTableDataSource<Site> = new MatTableDataSource<Site>();
-  noData = this.datasource.connect().pipe(map(d => d.length === 0));
   displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteLib", "regionId", "wilayaLabel"];
   columnsToDisplay: string[];
   pagesLength = 5;
@@ -29,6 +31,7 @@ export class AuditSiteSearchComponent implements OnInit {
   ngOnInit() {
     this.columnsToDisplay = this.displayedColumns.slice();
     this.columnsToDisplay.unshift("id");
+    this.emptyData = true;
   }
 
   goToNext() {

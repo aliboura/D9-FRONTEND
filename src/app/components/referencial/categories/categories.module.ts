@@ -7,6 +7,7 @@ import {CategoriesEditComponent} from './categories-edit/categories-edit.compone
 import {CategoriesRoutingModule} from "./categories-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MaterialModule} from "../../../importes/material/material.module";
         CommonModule,
         CategoriesRoutingModule,
         SharedModule,
-        MaterialModule
+        MaterialModule,
+        TranslateModule
     ]
 })
 export class CategoriesModule {

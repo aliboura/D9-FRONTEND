@@ -28,6 +28,7 @@ export class SiteSearchComponent implements OnInit {
   typeSiteOptions: TypeSite[];
 
   @Input() pageSize;
+  @Input() showBtn;
   @Output() pushDataEvent = new EventEmitter();
   @Output() showEvent = new EventEmitter();
   @Output() noDataEvent = new EventEmitter();
@@ -133,7 +134,7 @@ export class SiteSearchComponent implements OnInit {
         .subscribe(data => {
           this.dataSource = new MatTableDataSource<Site>(data);
           this.pushDataEvent.emit(this.dataSource);
-          this.noDataEvent.emit(this.dataSource.connect().pipe(map(d => d.length === 0)));
+          this.noDataEvent.emit(data.length === 0);
           setTimeout(() => {
             this.spinner.hide();
             this.screenSpinnerService.hide();

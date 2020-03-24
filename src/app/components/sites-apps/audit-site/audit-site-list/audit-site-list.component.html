@@ -53,23 +53,49 @@
           </mat-cell>
         </ng-container>
 
-        <!-- Load the rest Columns -->
-        <ng-container
-          [matColumnDef]="column"
-          *ngFor="let column of displayedColumns"
-        >
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'AUDIT_SITE.' + column | translate}}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <div
-              *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">
-              {{ element[column] | date:'dd/MM/yyyy' }}
-            </div>
-            <ng-template #elseBlock>{{ element[column] }}</ng-template>
+        <ng-container matColumnDef="auditDate">
+          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.auditDate | date:'dd/MM/yyyy'}} </mat-cell>
+        </ng-container>
 
+        <ng-container matColumnDef="siteCode">
+          <mat-header-cell *matHeaderCellDef>  {{'AUDIT_SITE.siteCode' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteCode}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="userId">
+          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.userId' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.description' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="currentSatusLabel">
+          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.currentSatusLabel' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"><span class="badge badge-success">{{element.currentSatusLabel}}</span>
           </mat-cell>
         </ng-container>
+
+        <!-- Load the rest Columns -->
+        <!--        <ng-container-->
+        <!--          [matColumnDef]="column"-->
+        <!--          *ngFor="let column of displayedColumns"-->
+        <!--        >-->
+        <!--          <mat-header-cell *matHeaderCellDef mat-sort-header>-->
+        <!--            {{ 'AUDIT_SITE.' + column | translate}}-->
+        <!--          </mat-header-cell>-->
+        <!--          <mat-cell *matCellDef="let element">-->
+        <!--            <div-->
+        <!--              *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">-->
+        <!--              {{ element[column] | date:'dd/MM/yyyy' }}-->
+        <!--            </div>-->
+        <!--            <ng-template #elseBlock>{{ element[column] }}</ng-template>-->
+
+        <!--          </mat-cell>-->
+        <!--        </ng-container>-->
 
         <!-- action Column -->
         <ng-container matColumnDef="action">
@@ -95,14 +121,8 @@
         <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
       </mat-table>
 
-      <div *ngIf="noData | async" class="mat-table-empty">
-        <i class="material-icons mat-table-empty-icon">
-          block
-        </i>
-        <span class="mat-table-empty-msg">
-          {{'COMMUN.EMPTY_MSG' | translate}}
-        </span>
-      </div>
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+
 
       <mat-paginator
         [length]="resultsLength"

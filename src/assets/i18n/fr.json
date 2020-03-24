@@ -12,10 +12,13 @@
     "TOOLTIP_SEARCH": "Recherche générique.",
     "TOOLTIP_SHOW": "Voir le détail.",
     "TOOLTIP_DELETE": "Suprimer la ligne.",
-    "PLACEHOLDER_SEARCH": "Recherche...",
+    "PLACEHOLDER_SEARCH": "Filtrer...",
     "UPLOAD_IMG_LABEL": "Choisir une image...",
     "NEXT_BTN": "Suivant",
-    "EMPTY_MSG": "Aucun enregistrement trouvé."
+    "START_BTN": "Commencer",
+    "EMPTY_MSG": "Aucun enregistrement trouvé.",
+    "FOOTER_TXT": "Tous droits réservés",
+    "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?"
   },
   "MENU": {
     "SITE_AUDIT": " Audit Site ",
@@ -25,14 +28,15 @@
     "DECISION": " Décision ",
     "STATUS": " Status "
   },
-  "STATUS": {
-    "TAB_TITLE": " Status ",
-    "TITLE": " Liste des status ",
-    "ADD_TITLE": " Nouveau Status ",
-    "VIEW_TITLE": " Modifier Status ",
-    "FORM_LABEL": " Libellé ",
-    "FORM_DESCRIPTION": " Déscription ",
-    "FORM_DESCRIPTION": " Style CSS "
+  "status": {
+    "title": " Status ",
+    "LIST_title": " Liste des status ",
+    "ADD_title": " Nouveau Status ",
+    "EDIT_title": " Modifier le status N°",
+    "label": " Libellé ",
+    "description": " Déscription ",
+    "styleCSS": " Style CSS ",
+    "motif": " Motif ? "
   },
   "SITE": {
     "codeSite": " Code Site ",
@@ -59,5 +63,40 @@
     "firstDecisionLabel": " Décision ",
     "firstDecisionDate": " Date du décision ",
     "firstDecisionEngineerSite": " Première Visite "
+  },
+  "categories": {
+    "title": " Catégorie ",
+    "LIST_title": " Liste des catégorie ",
+    "ADD_title": " Nouvelle catégorie ",
+    "EDIT_title": " Modifier la catégorie N° ",
+    "label": " Libellé ",
+    "position": " Position ",
+    "status": " Status ",
+    "first": " Première étape? ",
+    "last": " Dernière étape? ",
+    "nextCatId": " Etape Suivantes",
+    "previousCatId": " Etape précédente",
+    "listSubCategories": " List des sous-catégories "
+  },
+  "sub-categories": {
+    "title": " Sous-Catégorie ",
+    "LIST_title": " Liste des sous-catégorie ",
+    "ADD_title": " Nouvelle sous-catégorie ",
+    "EDIT_title": " Modifier la sous-catégorie N° ",
+    "label": " Libellé ",
+    "position": " Position ",
+    "status": " Status ",
+    "categoriesId": " N° Catégorie",
+    "categoriesLabel": " Catégorie "
+  },
+  "decisions": {
+    "title": " Décision ",
+    "LIST_title": " Liste des décisions ",
+    "ADD_title": " Nouvelle décision ",
+    "EDIT_title": " Modifier la décision N° ",
+    "label": " Libellé ",
+    "position": " Position ",
+    "status": " Status ",
+    "closed": " Disactivé "
   }
 }

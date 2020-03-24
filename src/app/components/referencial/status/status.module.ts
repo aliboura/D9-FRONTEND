@@ -7,6 +7,7 @@ import {StatusAddComponent} from './status-add/status-add.component';
 import {StatusEditComponent} from './status-edit/status-edit.component';
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MaterialModule} from "../../../importes/material/material.module";
         CommonModule,
         StatusRoutingModule,
         SharedModule,
-        MaterialModule
+        MaterialModule,
+        TranslateModule
     ]
 })
 export class StatusModule {

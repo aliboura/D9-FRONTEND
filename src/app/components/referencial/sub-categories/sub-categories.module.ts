@@ -7,6 +7,7 @@ import {SubCategoriesEditComponent} from './sub-categories-edit/sub-categories-e
 import {SubCategoriesRoutingModule} from "./sub-categories-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MaterialModule} from "../../../importes/material/material.module";
         CommonModule,
         SubCategoriesRoutingModule,
         SharedModule,
-        MaterialModule
+        MaterialModule,
+        TranslateModule
     ]
 })
 export class SubCategoriesModule {

@@ -81,6 +81,14 @@ export abstract class GenericService<T> {
     });
   }
 
+  createModel(data: T): Observable<T> {
+    return this.http.post<T>(this.getApi(), data, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
+      })
+    });
+  }
+
   createAll(datas: Array<T>): Observable<T> {
     return this.http.post<T>(this.getApi() + "/all", datas, {
       headers: new HttpHeaders({
@@ -90,6 +98,14 @@ export abstract class GenericService<T> {
   }
 
   update(data: NgForm): Observable<T> {
+    return this.http.put<T>(this.getApi(), data, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
+      })
+    });
+  }
+
+  updateModel(data: T): Observable<T> {
     return this.http.put<T>(this.getApi(), data, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem(STATIC_DATA.TOKEN)

@@ -3,7 +3,7 @@
   [modelForm]="editForm"
   [fields]="fields"
   [object]="object"
-  [title]="title"
+  [title]="(object + '.EDIT_title' | translate) + id "
   editMode="true"
   (clickShowCreate)="showCreate()"
 >

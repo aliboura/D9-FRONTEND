@@ -18,7 +18,8 @@
       <input
         matInput
         [id]="item.field"
-        [placeholder]="item.label"
+        [readonly]="item.readOnly"
+        [placeholder]="object + '.' + item.field | translate "
         [required]="item.required"
         [formControlName]="item.field"
       />
@@ -31,9 +32,10 @@
       <input
         matInput
         [id]="item.field"
+        [readonly]="item.readOnly"
         [matDatepicker]="picker"
         [required]="item.required"
-        [placeholder]="item.label"
+        [placeholder]="object + '.' + item.field | translate "
         [formControlName]="item.field"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -42,7 +44,8 @@
     <mat-form-field *ngSwitchCase="'number'">
       <input matInput
              type="number"
-             [placeholder]="item.label"
+             [readonly]="item.readOnly"
+             [placeholder]="object + '.' + item.field | translate "
              [required]="item.required"
              [formControlName]="item.field"
              min="0">
@@ -50,8 +53,9 @@
 
     <section class="example-section" *ngSwitchCase="'checkbox'">
       <mat-checkbox class="example-margin"
+                    [disabled]="item.readOnly"
                     [formControlName]="item.field"
-                    [required]="item.required">{{item.label}}</mat-checkbox>
+                    [required]="item.required">{{object + '.' + item.field | translate}}</mat-checkbox>
     </section>
 
     <div *ngSwitchCase="'select'">
@@ -59,10 +63,11 @@
         [items]="item.options"
         bindValue="id"
         bindLabel="label"
+        [readonly]="item.readOnly"
         [required]="item.required"
         [formControlName]="item.field"
-        [placeholder]="item.field"
-        [id]="item.label"
+        [placeholder]="object + '.' + item.field | translate "
+        [id]="item.field"
         [loading]="dataLoading"
         [searchFn]="filterSelectFn"
         [virtualScroll]="true"
@@ -89,7 +94,7 @@
       <i class="material-icons">
         done
       </i>
-      Valider
+      {{'COMMUN.BTN_VALIDATE' | translate}}
     </button>
     <button
       type="button"
@@ -97,7 +102,7 @@
       (click)="showList()"
       class="cancel-btn">
       <i class="material-icons">close</i>
-      Cancel
+      {{'COMMUN.BTN_CANCEL' | translate}}
     </button>
     <span class="gt-divider-horizontal"></span>
     <button
@@ -106,7 +111,7 @@
       mat-raised-button
       class="add-btn">
       <i class="material-icons">add</i>
-      Nouveau
+      {{'COMMUN.BTN_NEW' | translate}}
     </button>
   </mat-card-actions>
 </form>

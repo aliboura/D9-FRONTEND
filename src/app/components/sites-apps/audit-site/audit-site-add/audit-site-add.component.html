@@ -1,3 +1,81 @@
-<mat-card style="margin: 20px;" class="top-bordred">
-  <p>audit-site-add works!</p>
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>
+      <span [matBadge]="typeSite" matBadgeOverlap="false">Site N°: {{codeSite}}</span>
+    </mat-card-title>
+  </mat-card-header>
+
+  <form #addForm="ngForm">
+    <div class="crud-container">
+      <mat-form-field>
+        <mat-label>{{'AUDIT_SITE.auditDate' | translate}}</mat-label>
+        <input matInput [matDatepicker]="picker"
+               [(ngModel)]="auditSite.auditDate"
+               name="auditDate"
+               required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <!--        <button mat-button *ngIf="auditSite.auditDate" matSuffix mat-icon-button aria-label="Clear" (click)="auditSite.auditDate=''">-->
+        <!--          <mat-icon>close</mat-icon>-->
+        <!--        </button>-->
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'AUDIT_SITE.siteCode' | translate}}</mat-label>
+        <input
+          matInput
+          readonly="true"
+          [(ngModel)]="auditSite.siteCode"
+          name="siteCode"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'SITE.wilayaLabel' | translate}}</mat-label>
+        <input
+          matInput
+          readonly="true"
+          [(ngModel)]="site.wilayaLabel"
+          name="wilayaLabel"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'SITE.regionId' | translate}}</mat-label>
+        <input
+          matInput
+          readonly="true"
+          [(ngModel)]="site.regionId"
+          name="regionId"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'AUDIT_SITE.description' | translate}}</mat-label>
+        <textarea matInput matInput
+                  [(ngModel)]="auditSite.description"
+                  name="description"></textarea>
+      </mat-form-field>
+    </div>
+  </form>
 </mat-card>
+<mat-toolbar class="action-tool-bar">
+  <mat-toolbar-row>
+    <span class="example-spacer"></span>
+    <button
+      type="button"
+      mat-raised-button
+      style="margin-right: 10px"
+      class="cancel-btn">
+      <i class="material-icons" style="font-size: 18px">close</i>
+      {{'COMMUN.BTN_CANCEL' | translate}}
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="saveData()"
+      [disabled]="!addForm.form.valid"
+      class="add-btn">
+      <i class="material-icons" style="font-size: 18px">
+        arrow_forward_ios
+      </i>
+      {{'COMMUN.START_BTN' | translate}}
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

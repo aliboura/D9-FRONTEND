@@ -1,5 +1,5 @@
 <mat-card-header>
-  <mat-card-title>{{ title }} :</mat-card-title>
+  <mat-card-title>{{ object + '.LIST_title' | translate }} :</mat-card-title>
 </mat-card-header>
 
 <mat-grid-list cols="4" rowHeight="60px">
@@ -14,7 +14,7 @@
       <i class="material-icons" style="font-size: 22px;">
         add_circle_outline
       </i>
-      Nouveau
+      {{'COMMUN.BTN_NEW' | translate}}
     </button>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3">
@@ -29,7 +29,7 @@
       <input
         matInput
         (keyup)="applyFilter($event.target.value)"
-        placeholder="Filter..."
+        [placeholder]="'COMMUN.PLACEHOLDER_SEARCH' | translate"
       />
     </mat-form-field>
   </mat-grid-tile>
@@ -61,7 +61,7 @@
         *ngFor="let column of columnsToDisplay"
       >
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ column | titlecase }}
+          {{ object + '.' + column | translate}}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{ element[column] }}
@@ -101,17 +101,11 @@
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
     </mat-table>
-    <div *ngIf="noData | async" class="mat-table-empty">
-      <i class="material-icons mat-table-empty-icon">
-        block
-      </i>
-      <span class="mat-table-empty-msg">
-          {{'COMMUN.EMPTY_MSG' | translate}}
-      </span>
-    </div>
+    <app-empty-messages *ngIf="emptyData"></app-empty-messages>
     <mat-paginator
       [length]="resultsLength"
-      [pageSizeOptions]="[10, 20, 100]"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20, 100]"
       showFirstLastButtons
     ></mat-paginator>
   </div>

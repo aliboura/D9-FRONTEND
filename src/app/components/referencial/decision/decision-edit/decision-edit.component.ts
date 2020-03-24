@@ -71,9 +71,7 @@ export class DecisionEditComponent implements OnInit {
     return [
       new ModelGeneric(
         "label",
-        "Libellé",
         TypeInput.Input,
-        "Libellé",
         true,
         false,
         false,
@@ -83,9 +81,7 @@ export class DecisionEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "position",
-        "Position",
         TypeInput.Number,
-        "Position",
         false,
         false,
         false,
@@ -95,9 +91,7 @@ export class DecisionEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "status",
-        "Active",
         TypeInput.CheckBox,
-        "Active",
         false,
         false,
         false,

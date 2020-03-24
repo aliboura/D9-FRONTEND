@@ -6,9 +6,10 @@ import {PrimengModule} from "../importes/primeng/primeng.module";
 import {MaterialModule} from "../importes/material/material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
+import { EmptyMessagesComponent } from './empty-messages/empty-messages.component';
 
 @NgModule({
-  declarations: [ListGenericComponent, FormsGenericComponent],
+  declarations: [ListGenericComponent, FormsGenericComponent, EmptyMessagesComponent],
   imports: [
     CommonModule,
     PrimengModule,
@@ -17,7 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
     ReactiveFormsModule,
     TranslateModule
   ],
-  exports: [CommonModule, ListGenericComponent, FormsGenericComponent]
+  exports: [CommonModule, ListGenericComponent, FormsGenericComponent, EmptyMessagesComponent]
 })
 export class SharedModule {
 }

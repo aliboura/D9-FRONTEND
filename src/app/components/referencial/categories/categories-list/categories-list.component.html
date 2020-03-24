@@ -1,7 +1,7 @@
 <app-list-generic
-  [title]="title"
   [service]="categoriesService"
   [object]="object"
+  [title]="object + '.LIST_title' | translate"
   [columnsToDisplay]="columns"
   matSortActive="id"
   matSortDirection="ASC"

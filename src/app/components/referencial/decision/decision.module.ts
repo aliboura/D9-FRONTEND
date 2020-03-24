@@ -7,6 +7,7 @@ import {DecisionEditComponent} from './decision-edit/decision-edit.component';
 import {DecisionRoutingModule} from "./decision-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MaterialModule} from "../../../importes/material/material.module";
         CommonModule,
         DecisionRoutingModule,
         SharedModule,
-        MaterialModule
+        MaterialModule,
+        TranslateModule
     ]
 })
 export class DecisionModule {

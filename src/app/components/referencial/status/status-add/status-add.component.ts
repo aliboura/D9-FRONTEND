@@ -43,9 +43,7 @@ export class StatusAddComponent implements OnInit {
     return [
       new ModelGeneric(
         "label",
-        "Libellé",
         TypeInput.Input,
-        "Libellé",
         true,
         false,
         false,
@@ -55,9 +53,7 @@ export class StatusAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "description",
-        "Déscription",
         TypeInput.Input,
-        "Déscription",
         false,
         false,
         false,
@@ -67,9 +63,7 @@ export class StatusAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "styleCSS",
-        "Style CSS",
         TypeInput.Input,
-        "Style CSS",
         false,
         false,
         false,
@@ -79,9 +73,7 @@ export class StatusAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "motif",
-        "Motif",
         TypeInput.CheckBox,
-        "Motif",
         false,
         false,
         false,

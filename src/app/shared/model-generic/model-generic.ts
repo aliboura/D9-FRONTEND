@@ -1,11 +1,10 @@
-import { Parents } from "./parents";
-import { TypeInput } from "../enum/type-input.enum";
+import {Parents} from "./parents";
+import {TypeInput} from "../enum/type-input.enum";
+
 // options: { [key: string]: T[] };
 
 export class ModelGeneric<T extends Parents> {
   field: string;
-  label: string;
-  placeholder: string;
   type: string;
   required: boolean;
   readOnly: boolean;
@@ -17,9 +16,7 @@ export class ModelGeneric<T extends Parents> {
 
   constructor(
     field?: string,
-    label?: string,
     type?: string,
-    placeholder?: string,
     required?: boolean,
     readOnly?: boolean,
     rendred?: boolean,
@@ -28,9 +25,7 @@ export class ModelGeneric<T extends Parents> {
     message?: string
   ) {
     this.field = field || "";
-    this.label = label || "";
     this.type = type || TypeInput.Input;
-    this.placeholder = placeholder || "";
     this.required = required || false;
     this.readOnly = readOnly || false;
     this.rendred = rendred || true;

@@ -89,6 +89,7 @@
         type="button"
         mat-raised-button
         (click)="showAdvancedSearch()"
+        *ngIf="showBtn"
         style="margin-left: 10px"
         matTooltip="Recherche simple."
         class="cancel-btn no-shadow silver-border">

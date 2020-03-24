@@ -12,10 +12,13 @@
     "TOOLTIP_SEARCH": "Generic search.",
     "TOOLTIP_SHOW": "Show details.",
     "TOOLTIP_DELETE": "Delete line.",
-    "PLACEHOLDER_SEARCH": "Search...",
+    "PLACEHOLDER_SEARCH": "Filter...",
     "UPLOAD_IMG_LABEL": "Choose image...",
     "NEXT_BTN": "Next",
-    "EMPTY_MSG": "No records found."
+    "START_BTN": "Start",
+    "EMPTY_MSG": "No records found.",
+    "FOOTER_TXT": "All rights reserved",
+    "CONFIRM_MSG": "Are you sure you want to delete this line?"
   },
   "MENU": {
     "SITE_AUDIT": " Site Audit ",
@@ -25,14 +28,15 @@
     "DECISION": " Decision ",
     "STATUS": " Status "
   },
-  "STATUS": {
-    "TAB_TITLE": " Status ",
-    "TITLE": " Status List ",
-    "ADD_TITLE": " New Status ",
-    "VIEW_TITLE": " Edit Status ",
-    "FORM_LABEL": " Name ",
-    "FORM_DESCRIPTION": " Description ",
-    "FORM_DESCRIPTION": " CSS Style "
+  "status": {
+    "title": " Status ",
+    "LIST_title": " Status List ",
+    "ADD_title": " New Status ",
+    "VIEW_titleE": " Edit Status N°",
+    "label": " Name ",
+    "description": " Description ",
+    "styleCSS": " CSS Style ",
+    "motif": " Motif ? "
   },
   "SITE": {
     "codeSite": " Site code ",
@@ -59,5 +63,41 @@
     "firstDecisionLabel": " Decision ",
     "firstDecisionDate": " Décision Date ",
     "firstDecisionEngineerSite": " First decision "
+  },
+  "categories": {
+    "title": " Category ",
+    "LIST_title": " Categories",
+    "ADD_title": " New Category ",
+    "EDIT_title": " Edit Category N° ",
+    "label": " Name ",
+    "position": " Position ",
+    "status": " Status ",
+    "first": " First step? ",
+    "last": " Last step? ",
+    "nextCatId": " Next step ",
+    "previousCatId": " Previous step ",
+    "listSubCategories": " List des sous-catégories ",
+    "listSubCategories": " Sous-Categories "
+  },
+  "sub-categories": {
+    "title": " Sub-Category ",
+    "LIST_title": " Sous-categories ",
+    "ADD_title": " New sub-category ",
+    "EDIT_title": " Edit sub-category N° ",
+    "label": " Label ",
+    "position": " Position ",
+    "status": " Status ",
+    "categoriesId": " N° Category",
+    "categoriesLabel": " Category "
+  },
+  "decisions": {
+    "title": " Decision ",
+    "LIST_title": " Decisions ",
+    "ADD_title": " New decision ",
+    "EDIT_title": " Edit decision N° ",
+    "label": " Label ",
+    "position": " Position ",
+    "status": " Status ",
+    "closed": " Disabled "
   }
 }

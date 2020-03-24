@@ -23,13 +23,13 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
               private screenSpinnerService: ScreenSpinnerService) {
     this.screenSpinnerService.show();
     this.spinner.show();
+    this.emptyData = true;
   }
 
   datasource: MatTableDataSource<AuditSite>;
-  displayedColumns: string[] = ["auditDate", "userId", "siteCode", "description"];
+  displayedColumns: string[] = ["auditDate", "userId", "siteCode", "description", "currentSatusLabel"];
   columnsToDisplay: string[];
-  noData: Observable<boolean>;
-
+  emptyData: boolean;
 
   resultsLength = 0;
   pagesLength = 10;
@@ -97,7 +97,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<AuditSite>(data);
-        this.noData = this.datasource.connect().pipe(map(d => d.length === 0));
+        this.emptyData = data.length === 0;
         this.datasource.sort = this.sort;
         setTimeout(() => {
           this.spinner.hide();

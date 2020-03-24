@@ -63,9 +63,7 @@ export class SubCategoriesAddComponent implements OnInit {
     return [
       new ModelGeneric(
         "label",
-        "Libellé",
         TypeInput.Input,
-        "Libellé",
         true,
         false,
         false,
@@ -75,9 +73,7 @@ export class SubCategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "categoriesId",
-        "Catégorie",
         TypeInput.Select,
-        "Catégorie",
         true,
         false,
         false,
@@ -87,9 +83,7 @@ export class SubCategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "position",
-        "Position",
         TypeInput.Number,
-        "Position",
         false,
         false,
         false,
@@ -99,9 +93,7 @@ export class SubCategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "status",
-        "Active",
         TypeInput.CheckBox,
-        "Active",
         false,
         false,
         false,

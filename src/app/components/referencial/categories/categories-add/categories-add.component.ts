@@ -3,6 +3,7 @@ import {CategoriesService} from "../../../../business/services/referencial/categ
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {Categories} from "../../../../business/models/referencial/categories";
 
 @Component({
   selector: 'app-categories-add',
@@ -18,12 +19,20 @@ export class CategoriesAddComponent implements OnInit {
   title: string;
   object: string;
   fields: ModelGeneric<any>[] = [];
+  nextList: Categories[];
+  previousList: Categories[];
+  create: boolean;
 
   ngOnInit() {
+    this.create = false;
     this.title = "Nouvelle catégorie";
     this.object = "categories";
     this.addForm = this.initForm();
-    this.fields = this.loadFormModels();
+    this.categoriesService.findAll().subscribe(data => {
+      this.nextList = data.filter(x => !x.first);
+      this.previousList = data.filter(x => !x.last);
+      this.fields = this.loadFormModels();
+    });
   }
 
   private initForm(): FormGroup {
@@ -33,7 +42,11 @@ export class CategoriesAddComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
       position: new FormControl("1"),
-      status: new FormControl("y")
+      status: new FormControl("y"),
+      nextCatId: new FormControl(null),
+      previousCatId: new FormControl(null),
+      first: new FormControl(),
+      last: new FormControl()
     });
   }
 
@@ -41,9 +54,7 @@ export class CategoriesAddComponent implements OnInit {
     return [
       new ModelGeneric(
         "label",
-        "Libellé",
         TypeInput.Input,
-        "Libellé",
         true,
         false,
         false,
@@ -53,9 +64,7 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "position",
-        "Position",
         TypeInput.Number,
-        "Position",
         false,
         false,
         false,
@@ -65,15 +74,53 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "status",
-        "Active",
         TypeInput.Input,
-        "Active",
         false,
         false,
         false,
         false,
         null,
         ""
+      ),
+      new ModelGeneric(
+        "first",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "nextCatId",
+        TypeInput.Select,
+        false,
+        false,
+        false,
+        false,
+        this.nextList,
+        "Veuillez selectionner une catégories."
+      ),
+      new ModelGeneric(
+        "last",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "previousCatId",
+        TypeInput.Select,
+        false,
+        false,
+        false,
+        false,
+        this.previousList,
+        "Veuillez selectionner une catégories."
       )
     ];
   }

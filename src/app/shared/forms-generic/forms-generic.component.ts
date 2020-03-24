@@ -1,5 +1,5 @@
 import {ModelGeneric} from "./../model-generic/model-generic";
-import {Component, OnInit, Input, EventEmitter, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {FormGroup, NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
@@ -29,15 +29,17 @@ export class FormsGenericComponent<T extends Parents> {
   @Input() fields: ModelGeneric<any>[];
   @Input() object: string;
   @Input() title: string;
-  @Input() editMode = false;
+  @Input() editMode;
   @Input() dataLoading = false;
 
   @Output() clickShowCreate = new EventEmitter<void>();
 
   public save(modelForm: NgForm) {
     if (this.editMode) {
+      console.log("eeeeeeeeeeeeeeeeeeee PUT");
       this.update(modelForm);
     } else {
+      console.log("eeeeeeeeeeeeeeeeeeee POST");
       this.create(modelForm);
     }
   }

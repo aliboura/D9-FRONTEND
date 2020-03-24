@@ -37,7 +37,8 @@
 <app-site-search *ngIf="showAdvanced"
                  [pageSize]="pagesLength"
                  (pushDataEvent)="datasource=$event"
-                 (showEvent)="showAdvanced=$event"></app-site-search>
+                 (showEvent)="showAdvanced=$event"
+                 [showBtn]="showAdvanced"></app-site-search>
 <div class="mat-elevation-z8" matSort>
   <div class="example-table-container">
     <mat-table

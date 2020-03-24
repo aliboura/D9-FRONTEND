@@ -17,6 +17,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {Parents} from "../model-generic/parents";
 import {GenericService} from "../service-generic/generic.service";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: "app-list-generic",
@@ -30,10 +31,12 @@ export class ListGenericComponent<T extends Parents>
     private screenSpinnerService: ScreenSpinnerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.screenSpinnerService.show();
     this.spinner.show();
+    this.emptyData = true;
   }
 
   datasource: MatTableDataSource<T>;
@@ -44,11 +47,10 @@ export class ListGenericComponent<T extends Parents>
   @Input() matSortActive: string;
   @Input() matSortDirection: string;
 
-  noData: Observable<boolean>;
-
   displayedColumns: string[] = [];
 
   resultsLength = 0;
+  emptyData: boolean;
   isLoadingResults = true;
   isRateLimitReached = false;
 
@@ -112,8 +114,8 @@ export class ListGenericComponent<T extends Parents>
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<T>(data);
-        this.noData = this.datasource.connect().pipe(map(d => d.length === 0));
         this.datasource.sort = this.sort;
+        this.emptyData = data.length === 0;
         setTimeout(() => {
           this.spinner.hide();
           this.screenSpinnerService.hide();
@@ -139,7 +141,7 @@ export class ListGenericComponent<T extends Parents>
 
   confirm(data: T) {
     this.confirmationService.confirm({
-      message: "Êtes-vous sûr de vouloir suprimer cette ligne?",
+      message: this.translate.instant("COMMUN.CONFIRM_MSG"),
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
       accept: () => {

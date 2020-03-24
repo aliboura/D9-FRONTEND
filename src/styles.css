@@ -13,6 +13,10 @@ body a {
   text-decoration: none;
 }
 
+.margin-20 {
+  margin: 20px;
+}
+
 .mat-tooltip {
   font-size: 13px !important;
   padding: 10px;
@@ -55,6 +59,14 @@ body a {
   -o-transition: background-color 0.2s;
   -webkit-transition: background-color 0.2s;
   transition: background-color 0.2s;
+}
+
+.mat-badge-medium.mat-badge-after .mat-badge-content {
+  right: -32px;
+  border-radius: 4px;
+  background: #E20613;
+  border-color: #E20613;
+
 }
 
 .add-btn {
@@ -365,4 +377,57 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   top: 18px;
   font-size: 22px;
   color: #989898;
+}
+
+.badge {
+  display: inline-block;
+  padding: .5em .7em;
+  font-size: 90%;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .15rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.badge-success {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
+
+.badge-light {
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+.badge-dark {
+  color: #fff;
+  background-color: #343a40;
 }

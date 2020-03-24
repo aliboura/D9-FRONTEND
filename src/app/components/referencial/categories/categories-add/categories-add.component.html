@@ -3,8 +3,8 @@
   [modelForm]="addForm"
   [fields]="fields"
   [object]="object"
-  [title]="title"
-  editMode="false"
+  [title]="object + '.ADD_title' | translate"
+  [editMode]="create"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>
