@@ -147,7 +147,7 @@ export class ListGenericComponent<T extends Parents>
       accept: () => {
         this.delete(data);
         this.messageService.add({
-          severity: "success",
+          severity: "info",
           summary: "Opération effectué avec succée."
         });
       }

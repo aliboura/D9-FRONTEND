@@ -1,1 +1,131 @@
-<p>audit-site-finish works!</p>
+<form #addForm="ngForm">
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>
+        11 - {{'FINISH.title' | translate}}
+      </mat-card-title>
+      <div class="right-headeer-title">
+        <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+      </div>
+    </mat-card-header>
+    <div class="p-grid">
+      <div class="p-col" style="border-right: 1px solid #e0e0e0;padding-right: 5px; margin-right: 20px">
+
+        <label>1- {{'FINISH.FIRST_VISIT' | translate}} :</label>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="auditSite.firstDecisionId"
+          name="firstDecisionId"
+          required
+          [disabled]="auditSite.firstStep">
+          <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
+                            [value]="decision.id">
+            {{decision.label}}
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field>
+          <mat-label>{{'FINISH.DATE' | translate}}</mat-label>
+          <input matInput [matDatepicker]="picker1"
+                 [(ngModel)]="auditSite.firstDecisionDate"
+                 name="firstDecisionDate"
+                 required
+                 [disabled]="auditSite.firstStep">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'FINISH.SIGNING_SITE_ENGINEER' | translate}}</mat-label>
+          <input matInput [(ngModel)]="auditSite.firstDecisionEngineerSite"
+                 name="firstDecisionEngineerSite"
+                 required
+                 [disabled]="auditSite.firstStep">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
+          <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
+                 name="firstDecisionEngineerOM"
+                 required
+                 [disabled]="auditSite.firstStep">
+        </mat-form-field>
+      </div>
+
+      <div class="p-col" *ngIf="auditSite.firstStep
+           && auditSite.firstDecisionLabel !== categoriesEnum.Conform">
+
+        <div>
+          <label>2- {{'FINISH.SECOND_VISIT' | translate}} : </label>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="auditSite.secondDecisionId"
+            name="secondDecisionId"
+            [required]="auditSite.firstStep"
+            [disabled]="auditSite.secondStep">
+            <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
+                              [value]="decision.id">
+              {{decision.label}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <mat-form-field>
+          <mat-label>{{'FINISH.DATE' | translate}}</mat-label>
+          <input matInput [matDatepicker]="picker"
+                 [disabled]="auditSite.secondStep"
+                 [(ngModel)]="auditSite.secondDecisionDate"
+                 name="secondDecisionDate"
+                 [required]="auditSite.firstStep">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'FINISH.SIGNING_SITE_ENGINEER' | translate}}</mat-label>
+          <input matInput [(ngModel)]="auditSite.secondDecisionEngineerSite"
+                 name="secondDecisionEngineerSite"
+                 [required]="auditSite.firstStep"
+                 [disabled]="auditSite.secondStep">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
+          <input matInput [(ngModel)]="auditSite.secondDecisionEngineerOM"
+                 name="secondDecisionEngineerOM"
+                 [required]="auditSite.firstStep"
+                 [disabled]="auditSite.secondStep">
+        </mat-form-field>
+      </div>
+    </div>
+
+  </mat-card>
+
+  <mat-toolbar class="action-tool-bar">
+    <mat-toolbar-row>
+      <span class="example-spacer"></span>
+      <button
+        mat-raised-button
+        type="button"
+        (click)="cancel()"
+        style="margin-right: 10px"
+        class="cancel-btn">
+        <i class="material-icons" style="font-size: 18px">close</i>
+        {{'COMMUN.BTN_CANCEL' | translate}}
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        (click)="validateAudit()"
+        [disabled]="!addForm.form.valid"
+        class="add-btn">
+        <i class="material-icons" style="font-size: 18px">
+          check
+        </i>
+        {{'COMMUN.BTN_VALIDATE' | translate}}
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</form>

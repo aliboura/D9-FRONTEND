@@ -106,7 +106,6 @@ export abstract class GenericService<T> {
   }
 
   updateModel(data: T): Observable<T> {
-    console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
     return this.http.put<T>(this.getApi(), data, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem(STATIC_DATA.TOKEN)

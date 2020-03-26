@@ -39,9 +39,18 @@
         </span>
       </td>
     </tr>
+    <tr *ngIf="currentCat.last">
+      <td colspan="5">
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Observation"
+                    [(ngModel)]="auditSite.observation"
+                    style="width: 100%"
+                    name="observation" rows="5"></textarea>
+        </mat-form-field>
+      </td>
+    </tr>
 
   </table>
-
   <mat-toolbar class="card-mat-toolbar">
     <mat-toolbar-row>
       <button
@@ -76,6 +85,18 @@
           arrow_forward_ios
         </i>
         {{'COMMUN.NEXT_BTN' | translate}}
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        *ngIf="currentCat.last"
+        (click)="goToFinish()"
+        [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
+        class="add-btn">
+        <i class="material-icons" style="font-size: 18px">
+          check
+        </i>
+        {{'COMMUN.BTN_VALIDATE' | translate}}
       </button>
     </mat-toolbar-row>
   </mat-toolbar>

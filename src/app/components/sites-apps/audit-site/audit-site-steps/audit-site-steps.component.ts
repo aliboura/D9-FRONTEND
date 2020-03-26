@@ -70,7 +70,7 @@ export class AuditSiteStepsComponent implements OnInit {
 
   private loadData(auditSite: AuditSite, type: number) {
     this.decisionService.findAll().subscribe(data => {
-      this.decisionList = data;
+      this.decisionList = data.filter(x => x.position === 1);
     });
     switch (type) {
       case 1 : {
@@ -79,14 +79,14 @@ export class AuditSiteStepsComponent implements OnInit {
         break;
       }
       case 2 : {
-        this.getCatgeories(this.currentCat.nextCatId).subscribe(cat => {
+        this.getCategories(this.currentCat.nextCatId).subscribe(cat => {
           this.currentCat = cat;
           this.setCategories(auditSite, this.currentCat);
         });
         break;
       }
       case 3 : {
-        this.getCatgeories(this.currentCat.previousCatId).subscribe(cat => {
+        this.getCategories(this.currentCat.previousCatId).subscribe(cat => {
           this.currentCat = cat;
           this.setCategories(auditSite, this.currentCat);
         });
@@ -111,7 +111,7 @@ export class AuditSiteStepsComponent implements OnInit {
     });
   }
 
-  private getCatgeories(id: number): Observable<Categories> {
+  private getCategories(id: number): Observable<Categories> {
     return this.categoriesService.findById("" + id);
   }
 
@@ -168,6 +168,17 @@ export class AuditSiteStepsComponent implements OnInit {
     }, 200);
   }
 
+  public goToFinish() {
+    this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
+      this.auditSite = data;
+      this.messageService.add({
+        severity: "info",
+        summary: this.translate.instant("COMMUN.SUCCESS_MSG")
+      });
+      this.router.navigate(["sites-apps/audit/finish/", this.auditSite.id]);
+    });
+  }
+
 
   public cancel() {
     if (this.checkLines(this.auditSiteLines)) {
@@ -187,7 +198,7 @@ export class AuditSiteStepsComponent implements OnInit {
         this.saveLines();
         this.router.navigate(["sites-apps/audit"]);
         this.messageService.add({
-          severity: "success",
+          severity: "info",
           summary: this.translate.instant("COMMUN.SUCCESS_MSG")
         });
       }

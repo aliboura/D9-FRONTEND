@@ -6,6 +6,7 @@ import {AuditSiteAddComponent} from "./audit-site-add/audit-site-add.component";
 import {AuditSiteEditComponent} from "./audit-site-edit/audit-site-edit.component";
 import {AuditSiteSearchComponent} from "./audit-site-search/audit-site-search.component";
 import {AuditSiteStepsComponent} from "./audit-site-steps/audit-site-steps.component";
+import {AuditSiteFinishComponent} from "./audit-site-finish/audit-site-finish.component";
 
 
 const routes: Routes = [
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: "steps/:id",
         component: AuditSiteStepsComponent
+      },
+      {
+        path: "finish/:id",
+        component: AuditSiteFinishComponent
       },
       {
         path: "search",

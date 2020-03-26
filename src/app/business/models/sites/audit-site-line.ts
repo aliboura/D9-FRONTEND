@@ -5,6 +5,7 @@ export class AuditSiteLine {
   auditSiteId: number;
   subCategoriesId: number;
   categoriesId: number;
+  categoriesLabel: string;
   observation: string;
   firstDecisionId: number;
   firstDecisionLabel: string;

@@ -13,7 +13,6 @@ import {SiteModule} from "../site/site.module";
 import {FormsModule} from "@angular/forms";
 import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
 import {PrimengModule} from "../../../importes/primeng/primeng.module";
-import { AuditSiteLastComponent } from './audit-site-last/audit-site-last.component';
 import { AuditSiteFinishComponent } from './audit-site-finish/audit-site-finish.component';
 
 

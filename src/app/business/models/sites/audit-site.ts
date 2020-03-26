@@ -15,11 +15,13 @@ export class AuditSite {
   currentCategoriesLabel: string;
   currentSatusId: number;
   currentSatusLabel: string;
+  firstStep: boolean;
   firstDecisionId: number;
   firstDecisionLabel: string;
   firstDecisionDate: Date;
   firstDecisionEngineerSite: string;
   firstDecisionEngineerOM: string;
+  secondStep: boolean;
   secondDecisionId: number;
   secondDecisionLabel: string;
   secondDecisionDate: Date;

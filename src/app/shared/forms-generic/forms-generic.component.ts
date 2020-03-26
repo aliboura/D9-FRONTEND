@@ -58,7 +58,7 @@ export class FormsGenericComponent<T extends Parents> {
       )
       .subscribe((data: T) => {
         this.messageService.add({
-          severity: "success",
+          severity: "info",
           summary: "Opération effectué avec succée."
         });
         this.router.navigate([this.object]);
@@ -85,7 +85,7 @@ export class FormsGenericComponent<T extends Parents> {
       )
       .subscribe((data: T) => {
         this.messageService.add({
-          severity: "success",
+          severity: "info",
           summary: "Opération effectué avec succée."
         });
         this.router.navigate([this.object]);

@@ -102,5 +102,13 @@
     "position": " Position ",
     "status": " Status ",
     "closed": " Disabled "
+  },
+  "FINISH": {
+    "title": " Decision ",
+    "FIRST_VISIT": " First Visit ",
+    "SECOND_VISIT": " Second Visit ",
+    "DATE": " Date ",
+    "SIGNING_SITE_ENGINEER": " Signature of site engineer ",
+    "SIGNING_OM_ENGINEER": " Signature of O&M engineer"
   }
 }

@@ -101,5 +101,13 @@
     "position": " Position ",
     "status": " Status ",
     "closed": " Disactivé "
+  },
+  "FINISH": {
+    "title": " Décision ",
+    "FIRST_VISIT": " Première Visite ",
+    "SECOND_VISIT": " Deuxième Visite ",
+    "DATE": " Date ",
+    "SIGNING_SITE_ENGINEER": " Signature Ingénieur du site ",
+    "SIGNING_OM_ENGINEER": " Signature Ingénieur O&M "
   }
 }
