@@ -11,8 +11,10 @@ import {TranslateModule} from "@ngx-translate/core";
 import {AuditSiteSearchComponent} from './audit-site-search/audit-site-search.component';
 import {SiteModule} from "../site/site.module";
 import {FormsModule} from "@angular/forms";
-import { AuditSiteStepsComponent } from './audit-site-steps/audit-site-steps.component';
-import { AuditSiteLinesComponent } from './audit-site-lines/audit-site-lines.component';
+import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
+import {PrimengModule} from "../../../importes/primeng/primeng.module";
+import { AuditSiteLastComponent } from './audit-site-last/audit-site-last.component';
+import { AuditSiteFinishComponent } from './audit-site-finish/audit-site-finish.component';
 
 
 @NgModule({
@@ -22,12 +24,13 @@ import { AuditSiteLinesComponent } from './audit-site-lines/audit-site-lines.com
     AuditSiteEditComponent,
     AuditSiteSearchComponent,
     AuditSiteStepsComponent,
-    AuditSiteLinesComponent],
+    AuditSiteFinishComponent],
   imports: [
     CommonModule,
     AuditSiteRoutingModule,
     SharedModule,
     MaterialModule,
+    PrimengModule,
     TranslateModule,
     SiteModule,
     FormsModule,

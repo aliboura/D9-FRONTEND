@@ -1,3 +1,5 @@
+import {SubCategories} from "./sub-categories";
+
 export class Categories {
   id: number;
   label: string;
@@ -6,8 +8,8 @@ export class Categories {
   first: boolean;
   last: boolean;
   nextCatId: number;
+  nextCatLabel: string;
   previousCatId: number;
-  nextCat: Categories;
-  previousCat: Categories;
-  listSubCategories: Array<Categories> = [];
+  previousCatLabel: string;
+  listSubCategories: SubCategories[] = [];
 }

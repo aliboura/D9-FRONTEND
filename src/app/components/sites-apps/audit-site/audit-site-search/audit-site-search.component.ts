@@ -5,6 +5,8 @@ import {Site} from "../../../../business/models/sites/site";
 import {SelectionModel} from "@angular/cdk/collections";
 import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
+import {NgxSpinnerService} from "ngx-spinner";
+import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 
 @Component({
   selector: 'app-audit-site-search',
@@ -13,7 +15,11 @@ import {map} from "rxjs/operators";
 export class AuditSiteSearchComponent implements OnInit {
 
   constructor(private router: Router,
-              private siteService: SiteService) {
+              private siteService: SiteService,
+              private spinner: NgxSpinnerService,
+              private screenSpinnerService: ScreenSpinnerService) {
+    this.screenSpinnerService.show();
+    this.spinner.show();
   }
 
   emptyData: boolean;
@@ -32,6 +38,10 @@ export class AuditSiteSearchComponent implements OnInit {
     this.columnsToDisplay = this.displayedColumns.slice();
     this.columnsToDisplay.unshift("id");
     this.emptyData = true;
+    setTimeout(() => {
+      this.spinner.hide();
+      this.screenSpinnerService.hide();
+    }, 200);
   }
 
   goToNext() {

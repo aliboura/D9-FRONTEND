@@ -11,6 +11,8 @@ import {CategoriesService} from "../../../../business/services/referencial/categ
 import {Categories} from "../../../../business/models/referencial/categories";
 import {Status} from "../../../../business/models/referencial/status";
 import {StatusService} from "../../../../business/services/referencial/status.service";
+import {NgxSpinnerService} from "ngx-spinner";
+import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 
 @Component({
   selector: 'app-audit-site-add',
@@ -24,7 +26,11 @@ export class AuditSiteAddComponent implements OnInit {
               private statusService: StatusService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService,
+              private screenSpinnerService: ScreenSpinnerService) {
+    this.screenSpinnerService.show();
+    this.spinner.show();
   }
 
   auditSite: AuditSite;
@@ -60,17 +66,23 @@ export class AuditSiteAddComponent implements OnInit {
       this.currentStatus = data;
       this.auditSite.currentSatusId = this.currentStatus.id;
     });
+    setTimeout(() => {
+      this.spinner.hide();
+      this.screenSpinnerService.hide();
+    }, 200);
   }
 
   public saveData() {
-    console.log(this.auditSite);
     this.auditSiteService.createModel(this.auditSite).subscribe(
       (data: AuditSite) => {
         this.auditSite = data;
         this.router.navigate(["sites-apps/audit/steps", this.auditSite.id]);
       }
     );
+  }
 
+  public cancel() {
+    this.router.navigate(["sites-apps/audit"]);
   }
 
 }

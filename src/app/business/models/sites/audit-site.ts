@@ -1,4 +1,5 @@
 import {AuditSiteLine} from "./audit-site-line";
+import {Categories} from "../referencial/categories";
 
 export class AuditSite {
   id: number;
@@ -24,6 +25,8 @@ export class AuditSite {
   secondDecisionDate: Date;
   secondDecisionEngineerSite: string;
   secondDecisionEngineerOM: string;
+
+  currentCategory: Categories;
 
   auditSiteLineDtoList: AuditSiteLine[];
 }

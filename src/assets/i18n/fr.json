@@ -15,10 +15,13 @@
     "PLACEHOLDER_SEARCH": "Filtrer...",
     "UPLOAD_IMG_LABEL": "Choisir une image...",
     "NEXT_BTN": "Suivant",
+    "PREV_BTN": "Retour",
     "START_BTN": "Commencer",
     "EMPTY_MSG": "Aucun enregistrement trouvé.",
     "FOOTER_TXT": "Tous droits réservés",
-    "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?"
+    "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?",
+    "BACK_MSG": "Voulez-vous enregistrer cette étape?",
+    "SUCCESS_MSG": "Opération effectué avec succès"
   },
   "MENU": {
     "SITE_AUDIT": " Audit Site ",

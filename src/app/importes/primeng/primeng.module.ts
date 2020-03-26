@@ -8,7 +8,7 @@ import {MessagesModule} from 'primeng/messages';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {ToastModule} from 'primeng/toast';
 import {TooltipModule} from 'primeng/tooltip';
-import {FullCalendarModule} from "primeng";
+import {FullCalendarModule, InputTextModule} from "primeng";
 
 @NgModule({
   imports: [
@@ -19,7 +19,8 @@ import {FullCalendarModule} from "primeng";
     MessageModule,
     PanelMenuModule,
     TooltipModule,
-    FullCalendarModule
+    FullCalendarModule,
+    InputTextModule
   ],
   exports: [
     ConfirmDialogModule,
@@ -29,7 +30,8 @@ import {FullCalendarModule} from "primeng";
     MessageModule,
     PanelMenuModule,
     TooltipModule,
-    FullCalendarModule
+    FullCalendarModule,
+    InputTextModule
   ]
 })
 export class PrimengModule {

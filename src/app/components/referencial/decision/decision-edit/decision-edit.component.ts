@@ -60,7 +60,7 @@ export class DecisionEditComponent implements OnInit {
       id: new FormControl(decision.id),
       label: new FormControl(
         decision.label,
-        Validators.compose([Validators.required, Validators.minLength(4)])
+        Validators.compose([Validators.required, Validators.minLength(3)])
       ),
       position: new FormControl(decision.position),
       status: new FormControl(decision.status)
@@ -77,7 +77,7 @@ export class DecisionEditComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 4 caractère."
+        "Minimum 3 caractère."
       ),
       new ModelGeneric(
         "position",

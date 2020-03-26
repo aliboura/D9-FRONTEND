@@ -13,7 +13,7 @@ export class SubCategoriesListComponent implements OnInit {
   title = "Liste des sous catégories";
   object = "sub-categories";
 
-  columns: string[] = ["label", "position", "categoriesLabel", "status"];
+  columns: string[] = ["label", "categoriesLabel", "status"];
 
   ngOnInit() {
   }

@@ -1,3 +1,83 @@
 <mat-card class="top-bordred margin-20">
-  <p>audit-site-steps works!</p>
+  <mat-card-header>
+    <mat-card-title>
+      {{title}}
+    </mat-card-title>
+    <div class="right-headeer-title">
+      <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+    </div>
+  </mat-card-header>
+  <table style="width:100%">
+    <tr *ngFor="let line of auditSiteLines">
+      <td>{{auditSiteLines.indexOf(line) + 1}}</td>
+      <td style="width: 55%">{{line.label}}</td>
+      <td>
+        <ng-select
+          [items]="decisionList"
+          bindValue="id"
+          bindLabel="label"
+          [(ngModel)]="line.firstDecisionId"
+          name="line.firstDecisionId"
+          appendTo="body"
+          class="ng-select-table"
+        >
+        </ng-select>
+      </td>
+      <td>
+        <input type="text" size="30" pInputText [(ngModel)]="line.observation"
+               name="line.observation" class="table-input" placeholder="Observation">
+      </td>
+      <td width="5%" style="text-align: center;border-left: 1px solid #e0e0e0">
+        <span class="material-icons" style="color: #28a745" *ngIf="line.firstDecisionId === 2">
+          check
+        </span>
+        <span class="material-icons" style="color: #dc3545" *ngIf="line.firstDecisionId === 3">
+          close
+        </span>
+        <span class="material-icons" style="color: #ffc107" *ngIf="line.firstDecisionId === 1">
+          remove
+        </span>
+      </td>
+    </tr>
+
+  </table>
+
+  <mat-toolbar class="card-mat-toolbar">
+    <mat-toolbar-row>
+      <button
+        type="button"
+        mat-raised-button
+        style="margin-right: 10px"
+        (click)="cancel()"
+        class="close-btn">
+        <i class="material-icons" style="font-size: 18px">close</i>
+        {{'COMMUN.BTN_CLOSE' | translate}}
+      </button>
+      <span class="example-spacer"></span>
+      <button
+        type="button"
+        mat-raised-button
+        style="margin-right: 10px"
+        (click)="goToPrevious()"
+        *ngIf="!currentCat.first"
+        [matTooltip]="currentCat.previousCatId +' - '+ currentCat.previousCatLabel"
+        class="cancel-btn">
+        <i class="material-icons" style="font-size: 18px">arrow_back_ios</i>
+        {{'COMMUN.PREV_BTN' | translate}}
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        (click)="goToNext()"
+        *ngIf="!currentCat.last"
+        [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
+        class="add-btn">
+        <i class="material-icons" style="font-size: 18px">
+          arrow_forward_ios
+        </i>
+        {{'COMMUN.NEXT_BTN' | translate}}
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </mat-card>
+

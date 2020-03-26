@@ -15,10 +15,13 @@
     "PLACEHOLDER_SEARCH": "Filter...",
     "UPLOAD_IMG_LABEL": "Choose image...",
     "NEXT_BTN": "Next",
+    "PREV_BTN": "Previous",
     "START_BTN": "Start",
     "EMPTY_MSG": "No records found.",
     "FOOTER_TXT": "All rights reserved",
-    "CONFIRM_MSG": "Are you sure you want to delete this line?"
+    "CONFIRM_MSG": "Are you sure you want to delete this line?",
+    "BACK_MSG": "Do you want to save this step?",
+    "SUCCESS_MSG": "Operation completed successfully"
   },
   "MENU": {
     "SITE_AUDIT": " Site Audit ",

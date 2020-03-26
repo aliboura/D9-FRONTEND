@@ -36,10 +36,8 @@ export class FormsGenericComponent<T extends Parents> {
 
   public save(modelForm: NgForm) {
     if (this.editMode) {
-      console.log("eeeeeeeeeeeeeeeeeeee PUT");
       this.update(modelForm);
     } else {
-      console.log("eeeeeeeeeeeeeeeeeeee POST");
       this.create(modelForm);
     }
   }
