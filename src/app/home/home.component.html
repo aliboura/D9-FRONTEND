@@ -45,9 +45,9 @@
         Site Conforme / Non Conforme
       </div>
       <ngx-charts-advanced-pie-chart
-        [view]="view2"
+        [view]="view"
         [scheme]="colorScheme"
-        [results]="dataSitePie"
+        [results]="dataConformedPie"
         title="Site Conforme / Non Conforme"
       >
       </ngx-charts-advanced-pie-chart>
@@ -68,7 +68,7 @@
         Site Audité / Non Audité
       </div>
       <ngx-charts-advanced-pie-chart
-        [view]="view2"
+        [view]="view"
         [scheme]="colorScheme"
         [results]="dataSiteBar"
         title="Site Audité / Non Audité"
@@ -84,19 +84,6 @@
       <!--        labels="true"-->
       <!--      >-->
       <!--      </ngx-charts-pie-chart>-->
-    </div>
-
-    <div class="p-col chart-card">
-      <div class="chart-card-title">
-        Site par région
-      </div>
-      <ngx-charts-advanced-pie-chart
-        [view]="view2"
-        [scheme]="colorScheme"
-        [results]="siteRegionBars"
-        title="Site par région"
-      >
-      </ngx-charts-advanced-pie-chart>
     </div>
 
     <div class="p-col chart-card">

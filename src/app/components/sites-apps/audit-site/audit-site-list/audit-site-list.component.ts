@@ -10,6 +10,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {merge, Observable, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AuditSite} from "../../../../business/models/sites/audit-site";
+import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 
 @Component({
   selector: 'app-audit-site-list',
@@ -35,6 +36,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   pagesLength = 10;
   isLoadingResults = true;
   isRateLimitReached = false;
+  statusEnums = StatusEnum;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
