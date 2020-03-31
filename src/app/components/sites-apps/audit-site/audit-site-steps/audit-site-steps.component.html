@@ -25,7 +25,9 @@
       </td>
       <td>
         <input type="text" size="30" pInputText [(ngModel)]="line.observation"
-               name="line.observation" class="table-input" placeholder="Observation">
+               name="line.observation" class="table-input" placeholder="Observation"
+               [matTooltip]="line.observation"
+               matTooltipPosition="left">
       </td>
       <td width="5%" style="text-align: center;border-left: 1px solid #e0e0e0">
         <span class="material-icons" style="color: #28a745" *ngIf="line.firstDecisionId === 2">
@@ -57,7 +59,12 @@
         type="button"
         mat-raised-button
         style="margin-right: 10px"
-        (click)="cancel()"
+        mwlConfirmationPopover
+        popoverTitle="Confirmation"
+        [popoverMessage]="'COMMUN.BACK_MSG'|translate"
+        placement="left"
+        (confirm)="saveAndCancel()"
+        (cancel)="backToList()"
         class="close-btn">
         <i class="material-icons" style="font-size: 18px">close</i>
         {{'COMMUN.BTN_CLOSE' | translate}}
@@ -91,7 +98,6 @@
         type="button"
         *ngIf="currentCat.last"
         (click)="goToFinish()"
-        [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
         class="add-btn">
         <i class="material-icons" style="font-size: 18px">
           check

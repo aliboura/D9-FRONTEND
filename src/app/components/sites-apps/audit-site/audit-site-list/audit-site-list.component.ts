@@ -64,7 +64,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   }
 
   showEdit(id: string) {
-    this.router.navigate(["sites", id]);
+    this.router.navigate(["sites-apps/audit/edit", btoa("" + id)]);
     this.loadSpinner(200);
   }
 

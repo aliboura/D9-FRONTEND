@@ -1,0 +1,139 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>
+      Tableau de board :
+    </mat-card-title>
+  </mat-card-header>
+  <!--  <div class="p-grid">-->
+  <!--    <div class="p-col summary-box summary-box-messages">-->
+  <!--      <div class="card">-->
+  <!--        <div class="summary-box-title">En Cours</div>-->
+  <!--        <p><span class="badge badge-info">4</span></p>-->
+  <!--        <i class="material-icons summary-box-icon">history</i>-->
+  <!--        <img src="./assets/images/graph-messages.svg" alt="sapphire" class="summary-box-graph"></div>-->
+  <!--    </div>-->
+
+  <!--    <div class="p-col summary-box summary-box-usersonline">-->
+  <!--      <div class="card">-->
+  <!--        <div class="summary-box-title">Conforme</div>-->
+  <!--        <p><span class="badge badge-success">1</span></p>-->
+  <!--        <i class="material-icons summary-box-icon">assignment_turned_in</i>-->
+  <!--        <img src="./assets/images/graph-messages.svg" alt="sapphire" class="summary-box-graph"></div>-->
+  <!--    </div>-->
+
+  <!--    <div class="p-col summary-box summary-box-checkins">-->
+  <!--      <div class="card">-->
+  <!--        <div class="summary-box-title">Non Conforme</div>-->
+  <!--        <p><span class="badge badge-djezzy">0</span></p>-->
+  <!--        <i class="material-icons summary-box-icon">block</i>-->
+  <!--        <img src="./assets/images/graph-messages.svg" alt="sapphire" class="summary-box-graph"></div>-->
+  <!--    </div>-->
+
+  <!--    <div class="p-col summary-box summary-box-filessynced">-->
+  <!--      <div class="card">-->
+  <!--        <div class="summary-box-title">Nouveaux</div>-->
+  <!--        <p><span class="badge badge-warning">2</span></p>-->
+  <!--        <i class="material-icons summary-box-icon">add_location</i>-->
+  <!--        <img src="./assets/images/graph-messages.svg" alt="sapphire" class="summary-box-graph"></div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <div class="p-grid">
+
+    <div class="p-col chart-card">
+      <div class="chart-card-title">
+        Site Conforme / Non Conforme
+      </div>
+      <ngx-charts-advanced-pie-chart
+        [view]="view2"
+        [scheme]="colorScheme"
+        [results]="dataSitePie"
+        title="Site Conforme / Non Conforme"
+      >
+      </ngx-charts-advanced-pie-chart>
+      <!--      <ngx-charts-pie-chart-->
+      <!--        [view]="view"-->
+      <!--        [scheme]="colorScheme"-->
+      <!--        [results]="dataSitePie"-->
+      <!--        legend="true"-->
+      <!--        legendTitle=""-->
+      <!--        legendPosition="right"-->
+      <!--        labels="true"-->
+      <!--      >-->
+      <!--      </ngx-charts-pie-chart>-->
+    </div>
+
+    <div class="p-col chart-card">
+      <div class="chart-card-title">
+        Site Audité / Non Audité
+      </div>
+      <ngx-charts-advanced-pie-chart
+        [view]="view2"
+        [scheme]="colorScheme"
+        [results]="dataSiteBar"
+        title="Site Audité / Non Audité"
+      >
+      </ngx-charts-advanced-pie-chart>
+      <!--      <ngx-charts-pie-chart-->
+      <!--        [view]="view"-->
+      <!--        [scheme]="colorScheme"-->
+      <!--        [results]="dataSiteBar"-->
+      <!--        legend="true"-->
+      <!--        legendTitle=""-->
+      <!--        legendPosition="right"-->
+      <!--        labels="true"-->
+      <!--      >-->
+      <!--      </ngx-charts-pie-chart>-->
+    </div>
+
+    <div class="p-col chart-card">
+      <div class="chart-card-title">
+        Site par région
+      </div>
+      <ngx-charts-advanced-pie-chart
+        [view]="view2"
+        [scheme]="colorScheme"
+        [results]="siteRegionBars"
+        title="Site par région"
+      >
+      </ngx-charts-advanced-pie-chart>
+    </div>
+
+    <div class="p-col chart-card">
+      <div class="chart-card-title">
+        Site par région
+      </div>
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="siteRegionBars"
+        xAxis="true"
+        yAxis="true"
+        legend="true"
+        legendTitle=""
+        legendPosition="bellow"
+        showXAxisLabel="true"
+        showYAxisLabel="true">
+      </ngx-charts-bar-vertical>
+    </div>
+    <div class="p-col chart-card">
+      <div class="chart-card-title">
+        Audite Visite
+      </div>
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="siteVisitPie"
+        xAxis="true"
+        yAxis="true"
+        legend="true"
+        legendTitle=""
+        legendPosition="bellow"
+        showXAxisLabel="true"
+        showYAxisLabel="true">
+      </ngx-charts-bar-vertical>
+    </div>
+
+  </div>
+
+</mat-card>

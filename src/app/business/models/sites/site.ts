@@ -7,6 +7,7 @@ export class Site {
   prioriteRadio: string;
   regionId: string;
   serviceDemandeur: string;
+  audited: boolean;
   typeSiteId: string;
   typeSiteLib: string;
   wilayaId: number;

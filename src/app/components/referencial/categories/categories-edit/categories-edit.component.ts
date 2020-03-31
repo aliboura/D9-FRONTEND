@@ -26,6 +26,8 @@ export class CategoriesEditComponent implements OnInit {
   title: string;
   object: string;
   edit: boolean;
+  nextList: Categories[];
+  previousList: Categories[];
 
 
   ngOnInit() {
@@ -43,6 +45,11 @@ export class CategoriesEditComponent implements OnInit {
     });
     this.title = "Modifier la Catégorie N°: " + this.id;
     this.object = "categories";
+    this.categoriesService.findAll().subscribe(data => {
+      this.nextList = data.filter(x => !x.first);
+      this.previousList = data.filter(x => !x.last);
+      this.fields = this.loadFormModels();
+    });
   }
 
   public showCreate() {
@@ -54,7 +61,11 @@ export class CategoriesEditComponent implements OnInit {
       id: new FormControl(),
       label: new FormControl(),
       position: new FormControl(),
-      status: new FormControl()
+      status: new FormControl(),
+      nextCatId: new FormControl(null),
+      previousCatId: new FormControl(null),
+      first: new FormControl(),
+      last: new FormControl()
     });
   }
 
@@ -66,7 +77,11 @@ export class CategoriesEditComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
       position: new FormControl(category.position),
-      status: new FormControl(category.status)
+      status: new FormControl(category.status),
+      nextCatId: new FormControl(category.nextCatId),
+      previousCatId: new FormControl(category.previousCatId),
+      first: new FormControl(category.first),
+      last: new FormControl(category.last)
     });
   }
 
@@ -94,13 +109,53 @@ export class CategoriesEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "status",
-        TypeInput.Input,
+        TypeInput.CheckBox,
         false,
         false,
         false,
         false,
         null,
         ""
+      ),
+      new ModelGeneric(
+        "first",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "nextCatId",
+        TypeInput.Select,
+        false,
+        false,
+        false,
+        false,
+        this.nextList,
+        "Veuillez selectionner une catégories."
+      ),
+      new ModelGeneric(
+        "last",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "previousCatId",
+        TypeInput.Select,
+        false,
+        false,
+        false,
+        false,
+        this.previousList,
+        "Veuillez selectionner une catégories."
       )
     ];
   }

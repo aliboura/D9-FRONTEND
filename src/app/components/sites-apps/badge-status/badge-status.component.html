@@ -1,0 +1,6 @@
+<div [ngSwitch]="label">
+  <span class="badge badge-success" *ngSwitchCase="categoriesEnum.Conform"> {{label}} </span>
+  <span class="badge badge-danger" *ngSwitchCase="categoriesEnum.NoConform"> {{label}} </span>
+  <span class="badge badge-info" *ngSwitchCase="categoriesEnum.Accepted"> {{label}} </span>
+  <span class="badge badge-light" *ngSwitchCase="categoriesEnum.None"> {{label}} </span>
+</div>

@@ -14,6 +14,9 @@ import {FormsModule} from "@angular/forms";
 import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
 import {PrimengModule} from "../../../importes/primeng/primeng.module";
 import { AuditSiteFinishComponent } from './audit-site-finish/audit-site-finish.component';
+import {TableModule} from "primeng";
+import {SitesAppsModule} from "../sites-apps.module";
+import {ConfirmationPopoverModule} from "angular-confirmation-popover";
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import { AuditSiteFinishComponent } from './audit-site-finish/audit-site-finish.
     TranslateModule,
     SiteModule,
     FormsModule,
+    TableModule,
+    SitesAppsModule,
+    ConfirmationPopoverModule,
   ]
 })
 export class AuditSiteModule {

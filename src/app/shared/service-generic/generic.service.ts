@@ -73,6 +73,15 @@ export abstract class GenericService<T> {
     });
   }
 
+  findSort(sort: string, field: string): Observable<T[]> {
+    return this.http.get<T[]>(this.getApi(), {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
+      }),
+      params: new HttpParams().set("sort", "" + sort).set("field", "" + field)
+    });
+  }
+
   create(data: NgForm): Observable<T> {
     return this.http.post<T>(this.getApi(), data, {
       headers: new HttpHeaders({

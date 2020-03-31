@@ -42,7 +42,7 @@ export class CategoriesAddComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
       position: new FormControl("1"),
-      status: new FormControl("y"),
+      status: new FormControl(true),
       nextCatId: new FormControl(null),
       previousCatId: new FormControl(null),
       first: new FormControl(),
@@ -74,7 +74,7 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "status",
-        TypeInput.Input,
+        TypeInput.CheckBox,
         false,
         false,
         false,

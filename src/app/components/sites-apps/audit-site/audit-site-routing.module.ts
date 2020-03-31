@@ -35,7 +35,7 @@ const routes: Routes = [
         component: AuditSiteSearchComponent
       },
       {
-        path: ":id",
+        path: "edit/:id",
         component: AuditSiteEditComponent
       }
     ]

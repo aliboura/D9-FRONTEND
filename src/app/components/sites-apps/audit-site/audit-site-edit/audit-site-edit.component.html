@@ -1,1 +1,109 @@
-<p>audit-site-edit works!</p>
+<mat-card style="margin: 20px;" class="top-bordred">
+  <mat-card-header>
+    <mat-card-title>Liste des audits :</mat-card-title>
+    <div class="right-headeer-title">
+      <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+    </div>
+  </mat-card-header>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let categories of categoriesList">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{categories.id}} - {{categories.label}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <table style="width:100%">
+        <tr>
+          <th>{{'AUDIT_SITE.description' | translate}}</th>
+          <th>
+            {{'AUDIT_SITE.note' | translate}}
+          </th>
+          <th *ngIf="auditSite.secondVisit">{{'AUDIT_SITE.note' | translate}} 2</th>
+          <th>{{'AUDIT_SITE.observation' | translate}}</th>
+        </tr>
+
+
+        <tr *ngFor="let lines of getLines(categories.id)">
+          <td style="width: 55%">{{lines.label}}</td>
+          <td>
+            <div *ngIf="auditSite.firstVisit; else edit">
+              <app-badge-status [label]="lines.firstDecisionLabel"></app-badge-status>
+            </div>
+            <ng-template #edit>
+              <ng-select
+                [items]="decisionList"
+                bindValue="id"
+                bindLabel="label"
+                [(ngModel)]="lines.firstDecisionId"
+                name="line.firstDecisionId"
+                appendTo="body"
+                class="ng-select-table"
+                *ngIf="auditSite.lastStep"
+              >
+              </ng-select>
+            </ng-template>
+
+          </td>
+          <td *ngIf="auditSite.secondVisit"> {{lines.secondDecisionLabel}}</td>
+          <td> {{lines.observation}}</td>
+        </tr>
+      </table>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</mat-card>
+<div class="padding-bottom-25">
+  <mat-toolbar class="action-tool-bar">
+    <mat-toolbar-row>
+      <div *ngIf="auditSite.lastStep; else steps">
+        <button
+          type="button"
+          mat-raised-button
+          style="margin-right: 10px"
+          [disabled]="auditSite.secondVisit"
+          class="add-btn">
+          <i class="material-icons" style="font-size: 18px">check</i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+      </div>
+
+      <ng-template #steps>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="proceed()"
+          style="margin-right: 10px"
+          class="add-btn">
+          <i class="material-icons" style="font-size: 18px"> wrap_text</i>
+          {{'COMMUN.BTN_PROCEED' | translate}}
+        </button>
+
+      </ng-template>
+
+      <button
+        type="button"
+        mat-raised-button
+        (click)="backToList()"
+        style="margin-right: 10px"
+        class="cancel-btn">
+        <i class="material-icons" style="font-size: 18px">close</i>
+        {{'COMMUN.BTN_CANCEL' | translate}}
+      </button>
+      <span class="example-spacer"></span>
+      <button
+        type="button"
+        mat-raised-button
+        class="add-btn"
+        (click)="showAdd()"
+      >
+        <i class="material-icons" style="font-size: 22px;">
+          add_circle_outline
+        </i>
+        Nouveau
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

@@ -13,11 +13,11 @@ export class AuditSiteLine {
   secondDecisionLabel: string;
 
 
-  constructor(auditSiteId: number, label: string, subCategoriesId: number, categoriesId: number, observation: string) {
-    this.auditSiteId = auditSiteId;
-    this.label = label;
-    this.subCategoriesId = subCategoriesId;
-    this.categoriesId = categoriesId;
-    this.observation = observation;
+  constructor(auditSiteId?: number, label?: string, subCategoriesId?: number, categoriesId?: number, observation?: string) {
+    this.auditSiteId = auditSiteId || null;
+    this.label = label || "";
+    this.subCategoriesId = subCategoriesId || null;
+    this.categoriesId = categoriesId || null;
+    this.observation = observation || null;
   }
 }

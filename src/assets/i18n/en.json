@@ -8,6 +8,7 @@
     "BTN_CANCEL": " Cancel ",
     "BTN_DELETE": " Delete ",
     "BTN_MODIFIER": " Update ",
+    "BTN_PROCEED": "Proceed",
     "TITLE_MODIFIER": " Update ",
     "TOOLTIP_SEARCH": "Generic search.",
     "TOOLTIP_SHOW": "Show details.",
@@ -21,7 +22,8 @@
     "FOOTER_TXT": "All rights reserved",
     "CONFIRM_MSG": "Are you sure you want to delete this line?",
     "BACK_MSG": "Do you want to save this step?",
-    "SUCCESS_MSG": "Operation completed successfully"
+    "SUCCESS_MSG": "Operation completed successfully",
+    "LOAD_STEP_MSG": "Step loaded successfully"
   },
   "MENU": {
     "SITE_AUDIT": " Site Audit ",
@@ -65,7 +67,9 @@
     "currentSatusLabel": "  Status ",
     "firstDecisionLabel": " Decision ",
     "firstDecisionDate": " Décision Date ",
-    "firstDecisionEngineerSite": " First decision "
+    "firstDecisionEngineerSite": " First visit ",
+    "secondDecisionLabel": " Second visit ",
+    "note": " Note "
   },
   "categories": {
     "title": " Category ",
@@ -74,7 +78,7 @@
     "EDIT_title": " Edit Category N° ",
     "label": " Name ",
     "position": " Position ",
-    "status": " Status ",
+    "status": " Enabled ? ",
     "first": " First step? ",
     "last": " Last step? ",
     "nextCatId": " Next step ",
@@ -89,7 +93,7 @@
     "EDIT_title": " Edit sub-category N° ",
     "label": " Label ",
     "position": " Position ",
-    "status": " Status ",
+    "status": "  Enabled ? ",
     "categoriesId": " N° Category",
     "categoriesLabel": " Category "
   },

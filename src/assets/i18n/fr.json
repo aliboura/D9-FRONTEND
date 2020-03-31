@@ -8,6 +8,7 @@
     "BTN_CANCEL": " Annuler ",
     "BTN_DELETE": "Suprimer",
     "BTN_MODIFIER": "Modifier",
+    "BTN_PROCEED": "Procéder",
     "TITLE_MODIFIER": " Modifier ",
     "TOOLTIP_SEARCH": "Recherche générique.",
     "TOOLTIP_SHOW": "Voir le détail.",
@@ -21,7 +22,8 @@
     "FOOTER_TXT": "Tous droits réservés",
     "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?",
     "BACK_MSG": "Voulez-vous enregistrer cette étape?",
-    "SUCCESS_MSG": "Opération effectué avec succès"
+    "SUCCESS_MSG": "Opération effectué avec succès",
+    "LOAD_STEP_MSG": "Etape chargé avec succès"
   },
   "MENU": {
     "SITE_AUDIT": " Audit Site ",
@@ -65,7 +67,9 @@
     "currentSatusLabel": "  Status ",
     "firstDecisionLabel": " Décision ",
     "firstDecisionDate": " Date du décision ",
-    "firstDecisionEngineerSite": " Première Visite "
+    "firstDecisionEngineerSite": " Première Visite ",
+    "secondDecisionLabel": " Deuxième visite ",
+    "note": " Remarque "
   },
   "categories": {
     "title": " Catégorie ",
@@ -74,7 +78,7 @@
     "EDIT_title": " Modifier la catégorie N° ",
     "label": " Libellé ",
     "position": " Position ",
-    "status": " Status ",
+    "status": " Activé ? ",
     "first": " Première étape? ",
     "last": " Dernière étape? ",
     "nextCatId": " Etape Suivantes",
@@ -88,7 +92,7 @@
     "EDIT_title": " Modifier la sous-catégorie N° ",
     "label": " Libellé ",
     "position": " Position ",
-    "status": " Status ",
+    "status": " Activé ? ",
     "categoriesId": " N° Catégorie",
     "categoriesLabel": " Catégorie "
   },

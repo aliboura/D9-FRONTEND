@@ -11,6 +11,8 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {MessageService} from "primeng";
 import {TranslateService} from "@ngx-translate/core";
 import {CategoriesLabel} from "../../../../business/models/referencial/categories-label.enum";
+import {StatusService} from "../../../../business/services/referencial/status.service";
+import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 
 @Component({
   selector: 'app-audit-site-finish',
@@ -21,6 +23,7 @@ export class AuditSiteFinishComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private auditSiteService: AuditSiteService,
+              private statusService: StatusService,
               private decisionService: DecisionService,
               private spinner: NgxSpinnerService,
               private screenSpinnerService: ScreenSpinnerService,
@@ -34,20 +37,19 @@ export class AuditSiteFinishComponent implements OnInit {
   decisionList: Decision[];
   categoriesEnum = CategoriesLabel;
 
-
   ngOnInit() {
     this.decisionService.findAll().subscribe(data => {
       this.decisionList = data.filter(x => x.position === 2);
     });
     this.obAuditSite = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.auditSiteService.findById(params.get("id"))
+        this.auditSiteService.findById(atob(params.get("id")))
       )
     );
     this.obAuditSite.subscribe(data => {
       this.auditSite = data;
       const idDecision = this.checkDecision(this.auditSite);
-      if (!this.auditSite.firstStep) {
+      if (!this.auditSite.firstVisit) {
         if (idDecision !== null) {
           this.auditSite.firstDecisionId = idDecision;
           this.auditSite.firstDecisionDate = new Date();
@@ -66,12 +68,14 @@ export class AuditSiteFinishComponent implements OnInit {
   }
 
   public validateAudit() {
-    if (!this.auditSite.firstStep) {
-      this.auditSite.firstStep = true;
+    if (!this.auditSite.firstVisit) {
+      this.auditSite.firstVisit = true;
     } else {
-      this.auditSite.secondStep = true;
+      this.auditSite.secondVisit = true;
     }
+
     this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
+      this.auditSite = data;
       this.messageService.add({
         severity: "info",
         summary: this.translate.instant("COMMUN.SUCCESS_MSG")
@@ -84,14 +88,13 @@ export class AuditSiteFinishComponent implements OnInit {
     this.router.navigate(["sites-apps/audit"]);
   }
 
-
   private checkDecision(auditSite: AuditSite): number {
     if (auditSite.auditSiteLineDtoList.length > 0) {
-      const noDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === 'N/A');
+      const noDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === CategoriesLabel.None);
       if (noDecisions.length > 0) {
         return null;
       } else {
-        const conformDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === 'Non Conforme');
+        const conformDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === CategoriesLabel.NoConform);
         if (conformDecisions.length > 0 && conformDecisions.length <= 2) {
           return 6;
         } else if (conformDecisions.length === 0) {

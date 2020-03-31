@@ -47,8 +47,12 @@ export class AuditSiteSearchComponent implements OnInit {
   goToNext() {
     if (this.selectedSite.hasValue()) {
       this.idSite = this.selectedSite.selected[0].id;
-      this.router.navigate(["sites-apps/audit/add", this.idSite]);
+      this.router.navigate(["sites-apps/audit/add", btoa("" + this.idSite)]);
     }
+  }
+
+  public backToList() {
+    this.router.navigate(["sites-apps/audit"]);
   }
 
 }

@@ -6,9 +6,9 @@ export class AuditSteps {
   auditSiteLineList: AuditSiteLine[] = [];
   editCategories: boolean;
 
-  constructor(auditSite: AuditSite, auditSiteLineList: AuditSiteLine[], editCategories: boolean) {
-    this.auditSite = auditSite;
-    this.auditSiteLineList = auditSiteLineList;
-    this.editCategories = editCategories;
+  constructor(auditSite?: AuditSite, auditSiteLineList?: AuditSiteLine[], editCategories?: boolean) {
+    this.auditSite = auditSite || null;
+    this.auditSiteLineList = auditSiteLineList || null;
+    this.editCategories = editCategories || false;
   }
 }

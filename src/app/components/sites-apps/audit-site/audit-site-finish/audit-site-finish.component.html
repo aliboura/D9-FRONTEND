@@ -18,7 +18,7 @@
           [(ngModel)]="auditSite.firstDecisionId"
           name="firstDecisionId"
           required
-          [disabled]="auditSite.firstStep">
+          [disabled]="auditSite.firstVisit">
           <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
                             [value]="decision.id">
             {{decision.label}}
@@ -31,7 +31,7 @@
                  [(ngModel)]="auditSite.firstDecisionDate"
                  name="firstDecisionDate"
                  required
-                 [disabled]="auditSite.firstStep">
+                 [disabled]="auditSite.firstVisit">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
@@ -41,7 +41,7 @@
           <input matInput [(ngModel)]="auditSite.firstDecisionEngineerSite"
                  name="firstDecisionEngineerSite"
                  required
-                 [disabled]="auditSite.firstStep">
+                 [disabled]="auditSite.firstVisit">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -49,11 +49,11 @@
           <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
                  name="firstDecisionEngineerOM"
                  required
-                 [disabled]="auditSite.firstStep">
+                 [disabled]="auditSite.firstVisit">
         </mat-form-field>
       </div>
 
-      <div class="p-col" *ngIf="auditSite.firstStep
+      <div class="p-col" *ngIf="auditSite.firstVisit
            && auditSite.firstDecisionLabel !== categoriesEnum.Conform">
 
         <div>
@@ -63,8 +63,8 @@
             class="example-radio-group"
             [(ngModel)]="auditSite.secondDecisionId"
             name="secondDecisionId"
-            [required]="auditSite.firstStep"
-            [disabled]="auditSite.secondStep">
+            [required]="auditSite.firstVisit"
+            [disabled]="auditSite.secondVisit">
             <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
                               [value]="decision.id">
               {{decision.label}}
@@ -75,10 +75,10 @@
         <mat-form-field>
           <mat-label>{{'FINISH.DATE' | translate}}</mat-label>
           <input matInput [matDatepicker]="picker"
-                 [disabled]="auditSite.secondStep"
+                 [disabled]="auditSite.secondVisit"
                  [(ngModel)]="auditSite.secondDecisionDate"
                  name="secondDecisionDate"
-                 [required]="auditSite.firstStep">
+                 [required]="auditSite.firstVisit">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -87,45 +87,46 @@
           <mat-label>{{'FINISH.SIGNING_SITE_ENGINEER' | translate}}</mat-label>
           <input matInput [(ngModel)]="auditSite.secondDecisionEngineerSite"
                  name="secondDecisionEngineerSite"
-                 [required]="auditSite.firstStep"
-                 [disabled]="auditSite.secondStep">
+                 [required]="auditSite.firstVisit"
+                 [disabled]="auditSite.secondVisit">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
           <input matInput [(ngModel)]="auditSite.secondDecisionEngineerOM"
                  name="secondDecisionEngineerOM"
-                 [required]="auditSite.firstStep"
-                 [disabled]="auditSite.secondStep">
+                 [required]="auditSite.firstVisit"
+                 [disabled]="auditSite.secondVisit">
         </mat-form-field>
       </div>
     </div>
 
   </mat-card>
-
-  <mat-toolbar class="action-tool-bar">
-    <mat-toolbar-row>
-      <span class="example-spacer"></span>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="cancel()"
-        style="margin-right: 10px"
-        class="cancel-btn">
-        <i class="material-icons" style="font-size: 18px">close</i>
-        {{'COMMUN.BTN_CANCEL' | translate}}
-      </button>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="validateAudit()"
-        [disabled]="!addForm.form.valid"
-        class="add-btn">
-        <i class="material-icons" style="font-size: 18px">
-          check
-        </i>
-        {{'COMMUN.BTN_VALIDATE' | translate}}
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+      <mat-toolbar-row>
+        <span class="example-spacer"></span>
+        <button
+          mat-raised-button
+          type="button"
+          (click)="cancel()"
+          style="margin-right: 10px"
+          class="cancel-btn">
+          <i class="material-icons" style="font-size: 18px">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          (click)="validateAudit()"
+          [disabled]="!addForm.form.valid"
+          class="add-btn">
+          <i class="material-icons" style="font-size: 18px">
+            check
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
 </form>

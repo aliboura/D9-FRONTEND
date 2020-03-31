@@ -55,28 +55,30 @@
     </div>
   </form>
 </mat-card>
-<mat-toolbar class="action-tool-bar">
-  <mat-toolbar-row>
-    <span class="example-spacer"></span>
-    <button
-      type="button"
-      mat-raised-button
-      (click)="cancel()"
-      style="margin-right: 10px"
-      class="cancel-btn">
-      <i class="material-icons" style="font-size: 18px">close</i>
-      {{'COMMUN.BTN_CANCEL' | translate}}
-    </button>
-    <button
-      mat-raised-button
-      type="button"
-      (click)="saveData()"
-      [disabled]="!addForm.form.valid"
-      class="add-btn">
-      <i class="material-icons" style="font-size: 18px">
-        arrow_forward_ios
-      </i>
-      {{'COMMUN.START_BTN' | translate}}
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div class="padding-bottom-25">
+  <mat-toolbar class="action-tool-bar">
+    <mat-toolbar-row>
+      <span class="example-spacer"></span>
+      <button
+        type="button"
+        mat-raised-button
+        (click)="cancel()"
+        style="margin-right: 10px"
+        class="cancel-btn">
+        <i class="material-icons" style="font-size: 18px">close</i>
+        {{'COMMUN.BTN_CANCEL' | translate}}
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        (click)="saveData()"
+        [disabled]="!addForm.form.valid"
+        class="add-btn">
+        <i class="material-icons" style="font-size: 18px">
+          arrow_forward_ios
+        </i>
+        {{'COMMUN.START_BTN' | translate}}
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

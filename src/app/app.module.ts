@@ -18,13 +18,17 @@ import {SharedModule} from "./shared/shared.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ConfirmationService, MessageService} from "primeng";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {HomeComponent} from './home/home.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
 
 @NgModule({
   declarations: [
     AppComponent,
     FullLayoutComponent,
     FooterComponent,
-    LeftMenuComponent
+    LeftMenuComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,13 +43,17 @@ import {NgSelectModule} from "@ng-select/ng-select";
     NgxSpinnerModule,
     ReferencialModule,
     NgSelectModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger'
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxChartsModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]

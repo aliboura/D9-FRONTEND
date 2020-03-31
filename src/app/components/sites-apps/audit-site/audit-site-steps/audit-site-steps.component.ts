@@ -16,6 +16,7 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ConfirmationService} from "primeng/api";
+import {CategoriesLabel} from "../../../../business/models/referencial/categories-label.enum";
 
 @Component({
   selector: 'app-audit-site-steps',
@@ -44,12 +45,13 @@ export class AuditSiteStepsComponent implements OnInit {
   currentCat: Categories = new Categories();
   title: string;
   editCat: boolean;
+  categoriesEnum = CategoriesLabel;
 
   ngOnInit() {
     this.editCat = true;
     this.obAuditSite = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.auditSiteService.findById(params.get("id"))
+        this.auditSiteService.findById(atob(params.get("id")))
       )
     );
     this.obAuditSite.subscribe(data => {
@@ -153,15 +155,15 @@ export class AuditSiteStepsComponent implements OnInit {
       this.saveLines();
       this.messageService.add({
         severity: "info",
-        summary: this.auditSite.currentCategory.id + " - " + this.auditSite.currentCategory.label,
+        summary: this.translate.instant("COMMUN.LOAD_STEP_MSG")
       });
     }
   }
 
   public goToPrevious() {
     this.showSpinner();
-    this.loadData(this.auditSite, 3);
     this.editCat = false;
+    this.loadData(this.auditSite, 3);
     setTimeout(() => {
       this.spinner.hide();
       this.screenSpinnerService.hide();
@@ -169,40 +171,35 @@ export class AuditSiteStepsComponent implements OnInit {
   }
 
   public goToFinish() {
+    this.editCat = false;
+    this.auditSite.lastStep = true;
+    this.saveLines();
     this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
       this.auditSite = data;
       this.messageService.add({
         severity: "info",
         summary: this.translate.instant("COMMUN.SUCCESS_MSG")
       });
-      this.router.navigate(["sites-apps/audit/finish/", this.auditSite.id]);
+      this.router.navigate(["sites-apps/audit/finish/", btoa("" + this.auditSite.id)]);
     });
   }
 
-
-  public cancel() {
+  public saveAndCancel() {
     if (this.checkLines(this.auditSiteLines)) {
-      this.confirm();
+      this.editCat = false;
+      this.saveLines();
+      this.router.navigate(["sites-apps/audit"]);
+      this.messageService.add({
+        severity: "info",
+        summary: this.translate.instant("COMMUN.SUCCESS_MSG")
+      });
     } else {
       this.router.navigate(["sites-apps/audit"]);
     }
   }
 
-  private confirm() {
-    this.confirmationService.confirm({
-      message: this.translate.instant("COMMUN.BACK_MSG"),
-      header: "Confirmation",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.editCat = false;
-        this.saveLines();
-        this.router.navigate(["sites-apps/audit"]);
-        this.messageService.add({
-          severity: "info",
-          summary: this.translate.instant("COMMUN.SUCCESS_MSG")
-        });
-      }
-    });
+  public backToList() {
+    this.router.navigate(["sites-apps/audit"]);
   }
 
 }

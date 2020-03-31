@@ -47,7 +47,7 @@ export class AuditSiteAddComponent implements OnInit {
     this.auditSite.auditDate = new Date();
     this.obSite = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.siteService.findById(params.get("id"))
+        this.siteService.findById(atob(params.get("id")))
       )
     );
     this.obSite.subscribe(data => {
@@ -65,6 +65,7 @@ export class AuditSiteAddComponent implements OnInit {
     this.statusService.getFirst().subscribe(data => {
       this.currentStatus = data;
       this.auditSite.currentSatusId = this.currentStatus.id;
+      this.auditSite.currentSatusLabel = this.currentStatus.label;
     });
     setTimeout(() => {
       this.spinner.hide();
@@ -76,7 +77,7 @@ export class AuditSiteAddComponent implements OnInit {
     this.auditSiteService.createModel(this.auditSite).subscribe(
       (data: AuditSite) => {
         this.auditSite = data;
-        this.router.navigate(["sites-apps/audit/steps", this.auditSite.id]);
+        this.router.navigate(["sites-apps/audit/steps", btoa("" + this.auditSite.id)]);
       }
     );
   }
