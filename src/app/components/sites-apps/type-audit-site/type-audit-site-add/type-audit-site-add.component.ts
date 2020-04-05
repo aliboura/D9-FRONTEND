@@ -1,28 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {DecisionService} from "../../../../business/services/referencial/decision.service";
+import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
-import {CategoriesService} from "../../../../business/services/referencial/categories.service";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 
 @Component({
-  selector: 'app-decision-add',
-  templateUrl: './decision-add.component.html'
+  selector: 'app-type-audit-site-add',
+  templateUrl: './type-audit-site-add.component.html'
 })
-export class DecisionAddComponent implements OnInit {
+export class TypeAuditSiteAddComponent implements OnInit {
 
-  constructor(public decisionService: DecisionService,
+  constructor(private typeAuditSiteService: TypeAuditSiteService,
               private formBuilder: FormBuilder) {
   }
 
   addForm: FormGroup;
-  title: string;
   object: string;
   fields: ModelGeneric<any>[] = [];
+  create: boolean;
 
   ngOnInit() {
-    this.title = "Nouvelle décision";
-    this.object = "decisions";
+    this.create = false;
+    this.object = "typeAudit";
     this.addForm = this.initForm();
     this.fields = this.loadFormModels();
   }
@@ -31,11 +30,11 @@ export class DecisionAddComponent implements OnInit {
     return this.formBuilder.group({
       label: new FormControl(
         "",
-        Validators.compose([Validators.required, Validators.minLength(3)])
+        Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      position: new FormControl("1"),
-      typeValue: new FormControl(""),
-      status: new FormControl(true)
+      description: new FormControl("",
+        Validators.compose([Validators.required, Validators.minLength(4)])),
+      status: new FormControl(true),
     });
   }
 
@@ -49,28 +48,24 @@ export class DecisionAddComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 3 caractère."
+        "Minimum 4 caractère."
       ),
       new ModelGeneric(
-        "position",
-        TypeInput.Number,
+        "description",
+        TypeInput.Input,
         false,
         false,
         false,
-      ),
-      new ModelGeneric(
-        "typeValue",
-        TypeInput.Number,
         false,
-        false,
-        false,
+        null,
+        "Minimum 4 caractère."
       ),
       new ModelGeneric(
         "status",
         TypeInput.CheckBox,
         false,
         false,
-        false,
+        false
       )
     ];
   }

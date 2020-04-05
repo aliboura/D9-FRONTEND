@@ -59,21 +59,44 @@
     </section>
 
     <div *ngSwitchCase="'select'">
-      <ng-select
-        [items]="item.options"
-        bindValue="id"
-        bindLabel="label"
-        [readonly]="item.readOnly"
-        [required]="item.required"
-        [formControlName]="item.field"
-        [placeholder]="object + '.' + item.field | translate "
-        [id]="item.field"
-        [loading]="dataLoading"
-        [searchFn]="filterSelectFn"
-        [virtualScroll]="true"
-        appendTo="body"
-      >
-      </ng-select>
+
+      <div *ngIf="item.multiple; else singleSelect">
+        <ng-select
+          [items]="item.options"
+          bindLabel="label"
+          [readonly]="item.readOnly"
+          [required]="item.required"
+          multiple="true"
+          [formControlName]="item.field"
+          [placeholder]="object + '.' + item.field | translate "
+          [id]="item.field"
+          [loading]="dataLoading"
+          [searchFn]="filterSelectFn"
+          [virtualScroll]="true"
+          appendTo="body"
+        >
+        </ng-select>
+      </div>
+
+      <ng-template #singleSelect>
+        <ng-select
+          [items]="item.options"
+          bindValue="id"
+          bindLabel="label"
+          [readonly]="item.readOnly"
+          [required]="item.required"
+          [formControlName]="item.field"
+          [placeholder]="object + '.' + item.field | translate "
+          [id]="item.field"
+          [loading]="dataLoading"
+          [searchFn]="filterSelectFn"
+          [virtualScroll]="true"
+          appendTo="body"
+        >
+        </ng-select>
+      </ng-template>
+
+
     </div>
 
     <mat-error

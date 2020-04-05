@@ -108,7 +108,7 @@ export class AuditSiteStepsComponent implements OnInit {
     this.auditSiteLines = [];
     this.currentCat.listSubCategories.forEach(sub => {
       if (sub.status) {
-        this.auditSiteLines.push(new AuditSiteLine(auditSite.id, sub.label, sub.id, currentCat.id, ""));
+        this.auditSiteLines.push(new AuditSiteLine(auditSite.id, sub.label, sub.id, sub, currentCat.id, ""));
       }
     });
   }

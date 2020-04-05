@@ -5,5 +5,6 @@ export class StatusAuditSite {
   current: boolean;
   statusId: number;
   statusLabel: string;
+  statusStyleCSS: string;
   auditSiteId: number;
 }

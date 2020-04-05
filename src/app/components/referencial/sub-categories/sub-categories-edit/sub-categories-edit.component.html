@@ -4,7 +4,8 @@
   [fields]="fields"
   [object]="object"
   [title]="(object + '.EDIT_title' | translate) + id "
-  editMode="true"
+  routerLink="referencial/sub-categories"
+  [editMode]="edit"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>

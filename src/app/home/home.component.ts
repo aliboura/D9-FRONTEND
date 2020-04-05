@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
       },
       {
         "name": "Oran",
-        "value": 3
+        "value": size - (aSize + cSize)
       }
     ];
   }

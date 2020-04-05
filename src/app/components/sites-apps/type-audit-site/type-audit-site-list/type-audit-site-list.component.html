@@ -1,10 +1,9 @@
 <app-list-generic
-  [title]="object + '.LIST_title' | translate"
-  [service]="statusService"
+  [service]="typeAuditSiteService"
   [object]="object"
+  [title]="object + '.LIST_title' | translate"
   [columnsToDisplay]="columns"
-  routerLink="referencial/status"
+  routerLink="sites-apps/typeAudit"
   matSortActive="id"
   matSortDirection="ASC"
 ></app-list-generic>
-

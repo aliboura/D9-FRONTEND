@@ -9,6 +9,7 @@ import {throwError} from "rxjs";
 import {GenericService} from "../service-generic/generic.service";
 import {Parents} from "../model-generic/parents";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: "app-forms-generic",
@@ -29,6 +30,7 @@ export class FormsGenericComponent<T extends Parents> {
   @Input() fields: ModelGeneric<any>[];
   @Input() object: string;
   @Input() title: string;
+  @Input() routerLink: string;
   @Input() editMode;
   @Input() dataLoading = false;
 
@@ -61,7 +63,7 @@ export class FormsGenericComponent<T extends Parents> {
           severity: "info",
           summary: "Opération effectué avec succée."
         });
-        this.router.navigate([this.object]);
+        this.router.navigate([this.routerLink]);
         setTimeout(() => {
           this.spinner.hide();
           this.screenSpinnerService.hide();
@@ -88,12 +90,12 @@ export class FormsGenericComponent<T extends Parents> {
           severity: "info",
           summary: "Opération effectué avec succée."
         });
-        this.router.navigate([this.object]);
+        this.router.navigate([this.routerLink]);
       });
   }
 
   public showList() {
-    this.router.navigate([this.object]);
+    this.router.navigate([this.routerLink]);
   }
 
   public showCreate() {
@@ -107,4 +109,5 @@ export class FormsGenericComponent<T extends Parents> {
       item.label.toLowerCase() === term
     );
   }
+
 }

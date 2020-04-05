@@ -7,6 +7,9 @@ const routes: Routes = [{
 }, {
   path: "audit",
   loadChildren: () => import('./audit-site/audit-site.module').then(m => m.AuditSiteModule)
+}, {
+  path: "typeAudit",
+  loadChildren: () => import('./type-audit-site/type-audit-site.module').then(m => m.TypeAuditSiteModule)
 }];
 
 @NgModule({

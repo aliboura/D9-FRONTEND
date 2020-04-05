@@ -1,59 +1,96 @@
 <mat-card style="margin: 20px;" class="top-bordred">
   <mat-card-header>
-    <mat-card-title>Liste des audits :</mat-card-title>
+    <mat-card-title>Audite N°: {{auditSite.id}}</mat-card-title>
     <div class="right-headeer-title">
       <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
     </div>
   </mat-card-header>
-
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let categories of categoriesList">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{categories.id}} - {{categories.label}}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <table style="width:100%">
-        <tr>
-          <th>{{'AUDIT_SITE.description' | translate}}</th>
-          <th>
-            {{'AUDIT_SITE.note' | translate}}
-          </th>
-          <th *ngIf="auditSite.secondVisit">{{'AUDIT_SITE.note' | translate}} 2</th>
-          <th>{{'AUDIT_SITE.observation' | translate}}</th>
-        </tr>
+  <mat-tab-group animationDuration="0ms">
 
 
-        <tr *ngFor="let lines of getLines(categories.id)">
-          <td style="width: 55%">{{lines.label}}</td>
-          <td>
-            <div *ngIf="auditSite.firstVisit; else edit">
-              <app-badge-status [label]="lines.firstDecisionLabel"></app-badge-status>
+    <mat-tab label="Info">
+      <div>
+        <mat-list class="mat-list-style">
+          <mat-list-item class="mat-list-items">
+            <div mat-line><span>Création :</span>
+              <span class="mat-list-right-items">{{auditSite.auditDate | date}}</span>
             </div>
-            <ng-template #edit>
-              <ng-select
-                [items]="decisionList"
-                bindValue="id"
-                bindLabel="label"
-                [(ngModel)]="lines.firstDecisionId"
-                name="line.firstDecisionId"
-                appendTo="body"
-                class="ng-select-table"
-                *ngIf="auditSite.lastStep"
-              >
-              </ng-select>
-            </ng-template>
+          </mat-list-item>
+          <mat-list-item class="mat-list-items">
+            <div mat-line><span>Première Visite :</span>
+              <span class="mat-list-right-items">{{auditSite.firstDecisionDate | date}}</span>
+            </div>
+          </mat-list-item>
+          <mat-list-item class="mat-list-items">
+            <div mat-line><span>Deuxième Visite :</span>
+              <span class="mat-list-right-items">{{auditSite.secondDecisionDate | date}}</span>
+            </div>
+          </mat-list-item>
+        </mat-list>
+        <mat-list class="mat-list-style">
+          <mat-list-item *ngFor="let status of this.auditSite.statusAuditSitesDtoList"
+                         class="mat-list-items">
+            <div mat-line><span [class]="status.statusStyleCSS">{{status.statusLabel}}</span>
+              <span class="mat-list-right-items">{{status.statusDate | date}}</span>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-tab>
 
-          </td>
-          <td *ngIf="auditSite.secondVisit"> {{lines.secondDecisionLabel}}</td>
-          <td> {{lines.observation}}</td>
-        </tr>
-      </table>
 
-    </mat-expansion-panel>
-  </mat-accordion>
+    <mat-tab label="Récapitulatif">
 
+      <mat-accordion style="margin-top: 50px !important;">
+        <mat-expansion-panel *ngFor="let categories of categoriesList">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{categories.id}} - {{categories.label}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <table style="width:100%">
+            <tr>
+              <th>{{'AUDIT_SITE.description' | translate}}</th>
+              <th>
+                {{'AUDIT_SITE.note' | translate}}
+              </th>
+              <th *ngIf="auditSite.secondVisit">{{'AUDIT_SITE.note' | translate}} 2</th>
+              <th>{{'AUDIT_SITE.observation' | translate}}</th>
+            </tr>
+
+
+            <tr *ngFor="let lines of getLines(categories.id)">
+              <td style="width: 55%">{{lines.label}}</td>
+              <td>
+                <div *ngIf="auditSite.firstVisit; else edit">
+                  <app-badge-status [label]="lines.firstDecisionLabel"></app-badge-status>
+                </div>
+                <ng-template #edit>
+                  <ng-select
+                    [items]="decisionList"
+                    bindValue="id"
+                    bindLabel="label"
+                    [(ngModel)]="lines.firstDecisionId"
+                    name="line.firstDecisionId"
+                    appendTo="body"
+                    class="ng-select-table"
+                    *ngIf="auditSite.lastStep"
+                  >
+                  </ng-select>
+                </ng-template>
+
+              </td>
+              <td *ngIf="auditSite.secondVisit"> {{lines.secondDecisionLabel}}</td>
+              <td> {{lines.observation}}</td>
+            </tr>
+          </table>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+
+  </mat-tab-group>
 </mat-card>
 <div class="padding-bottom-25">
   <mat-toolbar class="action-tool-bar">

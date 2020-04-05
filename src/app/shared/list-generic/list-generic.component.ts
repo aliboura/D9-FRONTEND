@@ -44,6 +44,7 @@ export class ListGenericComponent<T extends Parents>
   @Input() columnsToDisplay: string[];
   @Input() object: string;
   @Input() title: string;
+  @Input() routerLink: string;
   @Input() matSortActive: string;
   @Input() matSortDirection: string;
 
@@ -76,12 +77,12 @@ export class ListGenericComponent<T extends Parents>
   }
 
   showAdd() {
-    this.router.navigate([this.object + "/add"]);
+    this.router.navigate([this.routerLink + "/add"]);
     this.loadSpinner(200);
   }
 
   showEdit(id: string) {
-    this.router.navigate([this.object, id]);
+    this.router.navigate([this.routerLink, id]);
     this.loadSpinner(200);
   }
 
@@ -152,5 +153,9 @@ export class ListGenericComponent<T extends Parents>
         });
       }
     });
+  }
+
+  typeOf(value) {
+    return typeof value;
   }
 }

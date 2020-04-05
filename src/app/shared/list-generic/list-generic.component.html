@@ -62,8 +62,26 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ object + '.' + column | translate}}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element[column] }}
+
+
+        <mat-cell *matCellDef="let element" [ngSwitch]="typeOf(element[column])">
+            <span *ngSwitchCase="'string'">
+              <span *ngIf="column !== 'styleCSS'; else stylePanel">
+              {{ element[column] }}
+            </span>
+            <ng-template #stylePanel>
+              <span [class]="element[column]">{{ element[column] }}</span>
+            </ng-template>
+          </span>
+          <span *ngSwitchCase="'number'">{{ element[column] }}</span>
+          <span *ngSwitchCase="'date'">{{ element[column] | date }}</span>
+          <span *ngSwitchCase="'boolean'">
+            <span class="badge badge-success"
+                  *ngIf="element[column]; else disabled"> {{'COMMUN.enable' | translate}}</span>
+             <ng-template #disabled>
+                <span class="badge badge-secondary"> {{'COMMUN.disable' | translate}}</span>
+             </ng-template>
+          </span>
         </mat-cell>
       </ng-container>
 

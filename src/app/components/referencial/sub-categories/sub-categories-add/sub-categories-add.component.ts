@@ -7,6 +7,8 @@ import {CategoriesService} from "../../../../business/services/referencial/categ
 import {Categories} from "../../../../business/models/referencial/categories";
 import {map, startWith} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {DecisionService} from "../../../../business/services/referencial/decision.service";
+import {Decision} from "../../../../business/models/referencial/decision";
 
 @Component({
   selector: 'app-sub-categories-add',
@@ -15,6 +17,7 @@ import {Observable} from "rxjs";
 export class SubCategoriesAddComponent implements OnInit {
 
   constructor(public subCategoriesService: SubCategoriesService,
+              private decisionService: DecisionService,
               private formBuilder: FormBuilder,
               private categoriesService: CategoriesService) {
   }
@@ -24,12 +27,18 @@ export class SubCategoriesAddComponent implements OnInit {
   object: string;
   fields: ModelGeneric<any>[] = [];
   categoriesList: Categories[];
+  decisionItems: Decision[];
   filteredOptions: Observable<Categories[]>;
+  create: boolean;
 
   ngOnInit() {
+    this.create = false;
     this.title = "Nouvelle sous-catégorie";
     this.object = "sub-categories";
     this.addForm = this.initForm();
+    this.decisionService.findAll().subscribe(data => {
+      this.decisionItems = data.filter(x => x.position === 1);
+    });
     this.categoriesService.findAll().subscribe(data => {
       this.categoriesList = data;
       this.fields = this.loadFormModels();
@@ -55,7 +64,10 @@ export class SubCategoriesAddComponent implements OnInit {
       ),
       categoriesId: new FormControl(null, Validators.required),
       position: new FormControl(""),
-      status: new FormControl(true)
+      valueType: new FormControl(""),
+      decisionsList: new FormControl([], Validators.required),
+      status: new FormControl(true),
+      blocking: new FormControl(false)
     });
   }
 
@@ -86,20 +98,38 @@ export class SubCategoriesAddComponent implements OnInit {
         TypeInput.Number,
         false,
         false,
+        false
+      ),
+      new ModelGeneric(
+        "valueType",
+        TypeInput.Number,
         false,
         false,
-        null,
-        ""
+        false,
+      ),
+      new ModelGeneric(
+        "decisionsList",
+        TypeInput.Select,
+        true,
+        false,
+        false,
+        true,
+        this.decisionItems,
+        "Veuillez selectionner au moins une ligne."
+      ),
+      new ModelGeneric(
+        "blocking",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false
       ),
       new ModelGeneric(
         "status",
         TypeInput.CheckBox,
         false,
         false,
-        false,
-        false,
-        null,
-        ""
+        false
       )
     ];
   }

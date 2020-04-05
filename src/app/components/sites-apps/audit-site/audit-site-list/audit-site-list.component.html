@@ -75,11 +75,8 @@
 
         <ng-container matColumnDef="currentSatusLabel">
           <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.currentSatusLabel' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" [ngSwitch]="element.currentSatusLabel">
-            <span class="badge badge-light" *ngSwitchCase="statusEnums.InProgress">{{element.currentSatusLabel}}</span>
-            <span class="badge badge-success" *ngSwitchCase="statusEnums.Conform">{{element.currentSatusLabel}}</span>
-            <span class="badge badge-info" *ngSwitchCase="statusEnums.Accepted">{{element.currentSatusLabel}}</span>
-            <span class="badge badge-danger" *ngSwitchCase="statusEnums.NoConform">{{element.currentSatusLabel}}</span>
+          <mat-cell *matCellDef="let element">
+            <span [class]="element.currentSatusStyleCSS">{{element.currentSatusLabel}}</span>
           </mat-cell>
         </ng-container>
 

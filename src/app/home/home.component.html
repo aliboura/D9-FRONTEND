@@ -1,7 +1,7 @@
 <mat-card class="top-bordred margin-20">
   <mat-card-header>
     <mat-card-title>
-      Tableau de board :
+      {{'HOME.title' | translate}} :
     </mat-card-title>
   </mat-card-header>
   <!--  <div class="p-grid">-->
@@ -42,13 +42,13 @@
 
     <div class="p-col chart-card">
       <div class="chart-card-title">
-        Site Conforme / Non Conforme
+        {{'HOME.CONFORM_NO_CONFORM' | translate}}
       </div>
       <ngx-charts-advanced-pie-chart
         [view]="view"
         [scheme]="colorScheme"
         [results]="dataConformedPie"
-        title="Site Conforme / Non Conforme"
+        [title]="'HOME.CONFORM_NO_CONFORM' | translate"
       >
       </ngx-charts-advanced-pie-chart>
       <!--      <ngx-charts-pie-chart-->
@@ -65,13 +65,13 @@
 
     <div class="p-col chart-card">
       <div class="chart-card-title">
-        Site Audité / Non Audité
+        {{'HOME.AUDITED_NO_AUDITED' | translate}}
       </div>
       <ngx-charts-advanced-pie-chart
         [view]="view"
         [scheme]="colorScheme"
         [results]="dataSiteBar"
-        title="Site Audité / Non Audité"
+        [title]="'HOME.AUDITED_NO_AUDITED' | translate"
       >
       </ngx-charts-advanced-pie-chart>
       <!--      <ngx-charts-pie-chart-->
@@ -88,7 +88,7 @@
 
     <div class="p-col chart-card">
       <div class="chart-card-title">
-        Site par région
+        {{'HOME.SITE_REGION' | translate}}
       </div>
       <ngx-charts-bar-vertical
         [view]="view"
@@ -105,7 +105,7 @@
     </div>
     <div class="p-col chart-card">
       <div class="chart-card-title">
-        Audite Visite
+        {{'HOME.AUDIT_VISIT' | translate}}
       </div>
       <ngx-charts-bar-vertical
         [view]="view"

@@ -1,11 +1,11 @@
 <app-forms-generic
-  [service]="decisionService"
+  [service]="typeAuditSiteService"
   [modelForm]="addForm"
   [fields]="fields"
   [object]="object"
   [title]="object + '.ADD_title' | translate"
-  routerLink="referencial/decisions"
-  editMode="false"
+  routerLink="sites-apps/typeAudit"
+  [editMode]="create"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>

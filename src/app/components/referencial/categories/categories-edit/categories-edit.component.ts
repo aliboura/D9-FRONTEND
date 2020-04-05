@@ -25,13 +25,12 @@ export class CategoriesEditComponent implements OnInit {
   fields: ModelGeneric<any>[] = [];
   title: string;
   object: string;
-  edit: boolean;
+  edit = true;
   nextList: Categories[];
   previousList: Categories[];
 
 
   ngOnInit() {
-    this.edit = true;
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
@@ -91,7 +90,7 @@ export class CategoriesEditComponent implements OnInit {
         "label",
         TypeInput.Input,
         true,
-        false,
+        true,
         false,
         false,
         null,

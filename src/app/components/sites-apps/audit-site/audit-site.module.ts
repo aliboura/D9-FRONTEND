@@ -13,10 +13,11 @@ import {SiteModule} from "../site/site.module";
 import {FormsModule} from "@angular/forms";
 import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
 import {PrimengModule} from "../../../importes/primeng/primeng.module";
-import { AuditSiteFinishComponent } from './audit-site-finish/audit-site-finish.component';
+import {AuditSiteFinishComponent} from './audit-site-finish/audit-site-finish.component';
 import {TableModule} from "primeng";
 import {SitesAppsModule} from "../sites-apps.module";
 import {ConfirmationPopoverModule} from "angular-confirmation-popover";
+import {AppModule} from "../../../app.module";
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import {ConfirmationPopoverModule} from "angular-confirmation-popover";
     FormsModule,
     TableModule,
     SitesAppsModule,
-    ConfirmationPopoverModule,
+    ConfirmationPopoverModule
   ]
 })
 export class AuditSiteModule {

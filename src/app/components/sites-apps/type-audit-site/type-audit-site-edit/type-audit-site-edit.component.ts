@@ -1,49 +1,51 @@
 import {Component, OnInit} from '@angular/core';
-import {StatusService} from "../../../../business/services/referencial/status.service";
+import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {Categories} from "../../../../business/models/referencial/categories";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
-import {Status} from "../../../../business/models/referencial/status";
-import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {TypeAuditSite} from "../../../../business/models/sites/type-audit-site";
 import {switchMap} from "rxjs/operators";
+import {TypeInput} from "../../../../shared/enum/type-input.enum";
 
 @Component({
-  selector: 'app-status-edit',
-  templateUrl: './status-edit.component.html'
+  selector: 'app-type-audit-site-edit',
+  templateUrl: './type-audit-site-edit.component.html'
 })
-export class StatusEditComponent implements OnInit {
+export class TypeAuditSiteEditComponent implements OnInit {
 
-  constructor(public statusService: StatusService,
+  constructor(private typeAuditSiteService: TypeAuditSiteService,
               private route: ActivatedRoute,
               private router: Router) {
   }
 
   id: number;
-  selected: Observable<Status>;
+  selected: Observable<TypeAuditSite>;
   editForm: FormGroup;
   fields: ModelGeneric<any>[] = [];
   title: string;
   object: string;
+  edit: boolean;
 
   ngOnInit() {
+    this.edit = true;
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.statusService.findById(params.get("id"))
+        this.typeAuditSiteService.findById(params.get("id"))
       )
     );
     this.selected.subscribe(data => {
       this.id = data.id;
       this.loadFormData(data);
       this.fields = this.loadFormModels();
-      this.title = "Modifier le status N°: " + this.id;
     });
-    this.object = "status";
+    this.object = "typeAudit";
   }
 
   public showCreate() {
-    this.router.navigate(["referencial/decisions/add"]);
+    this.router.navigate(["referencial/categories/add"]);
   }
 
   private initForm() {
@@ -51,21 +53,21 @@ export class StatusEditComponent implements OnInit {
       id: new FormControl(),
       label: new FormControl(),
       description: new FormControl(),
-      styleCSS: new FormControl(),
-      motif: new FormControl()
+      status: new FormControl()
     });
   }
 
-  private loadFormData(status: Status) {
+  private loadFormData(typeAuditSite: TypeAuditSite) {
     this.editForm = new FormGroup({
-      id: new FormControl(status.id),
+      id: new FormControl(typeAuditSite.id),
       label: new FormControl(
-        status.label,
+        typeAuditSite.label,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      description: new FormControl(status.description),
-      styleCSS: new FormControl(status.styleCSS),
-      motif: new FormControl(status.motif)
+      description: new FormControl(typeAuditSite.description,
+        Validators.compose([Validators.required, Validators.minLength(4)])
+      ),
+      status: new FormControl(typeAuditSite.status)
     });
   }
 
@@ -79,7 +81,7 @@ export class StatusEditComponent implements OnInit {
         false,
         false,
         null,
-        "Minimum 3 caractère."
+        "Minimum 4 caractère."
       ),
       new ModelGeneric(
         "description",
@@ -89,27 +91,13 @@ export class StatusEditComponent implements OnInit {
         false,
         false,
         null,
-        ""
+        "Minimum 4 caractère."
       ),
       new ModelGeneric(
-        "styleCSS",
-        TypeInput.Input,
-        false,
-        false,
-        false,
-        false,
-        null,
-        ""
-      ),
-      new ModelGeneric(
-        "motif",
+        "status",
         TypeInput.CheckBox,
         false,
-        false,
-        false,
-        false,
-        null,
-        ""
+        false
       )
     ];
   }

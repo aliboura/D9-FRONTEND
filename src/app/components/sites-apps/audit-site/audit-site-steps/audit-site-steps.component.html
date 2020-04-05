@@ -10,12 +10,13 @@
   <table style="width:100%">
     <tr *ngFor="let line of auditSiteLines">
       <td>{{auditSiteLines.indexOf(line) + 1}}</td>
-      <td style="width: 55%">{{line.label}}</td>
+      <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.subCategories.blocking"> *</span></td>
       <td>
         <ng-select
-          [items]="decisionList"
+          [items]="line.subCategories.decisionsList"
           bindValue="id"
           bindLabel="label"
+          [required]="line.blocking"
           [(ngModel)]="line.firstDecisionId"
           name="line.firstDecisionId"
           appendTo="body"

@@ -23,7 +23,9 @@
     "CONFIRM_MSG": "Are you sure you want to delete this line?",
     "BACK_MSG": "Do you want to save this step?",
     "SUCCESS_MSG": "Operation completed successfully",
-    "LOAD_STEP_MSG": "Step loaded successfully"
+    "LOAD_STEP_MSG": "Step loaded successfully",
+    "enable": " Enable ",
+    "disable": " Disable "
   },
   "MENU": {
     "SITE_AUDIT": " Site Audit ",
@@ -31,7 +33,8 @@
     "CATEGORIES": " Categories ",
     "SUB_CATEGORIES": " Sub Categories ",
     "DECISION": " Decision ",
-    "STATUS": " Status "
+    "STATUS": " Status ",
+    "TYPE_AUDIT": " Audit Type "
   },
   "status": {
     "title": " Status ",
@@ -93,9 +96,12 @@
     "EDIT_title": " Edit sub-category N° ",
     "label": " Label ",
     "position": " Position ",
+    "valueType": " Type ",
     "status": "  Enabled ? ",
     "categoriesId": " N° Category",
-    "categoriesLabel": " Category "
+    "categoriesLabel": " Category ",
+    "blocking": " Blocking Reserve (RB)?",
+    "decisionsList": " Values items "
   },
   "decisions": {
     "title": " Decision ",
@@ -104,7 +110,8 @@
     "EDIT_title": " Edit decision N° ",
     "label": " Label ",
     "position": " Position ",
-    "status": " Status ",
+    "typeValue": " Type ",
+    "status": " Enabled ? ",
     "closed": " Disabled "
   },
   "FINISH": {
@@ -114,5 +121,21 @@
     "DATE": " Date ",
     "SIGNING_SITE_ENGINEER": " Signature of site engineer ",
     "SIGNING_OM_ENGINEER": " Signature of O&M engineer"
+  },
+  "HOME": {
+    "title": " Dashboard",
+    "CONFORM_NO_CONFORM": " Conform Site / No Conform",
+    "AUDITED_NO_AUDITED": "  Audited Site / Unaudited ",
+    "SITE_REGION": " Number of sites by region ",
+    "AUDIT_VISIT": " Audit Visit"
+  },
+  "typeAudit": {
+    "title": " Audit Type ",
+    "LIST_title": " Audit Types ",
+    "ADD_title": " New Type ",
+    "EDIT_title": " Edit type N° ",
+    "label": " Label ",
+    "description": " Description ",
+    "status": " Enabled ? "
   }
 }

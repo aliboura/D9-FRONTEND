@@ -23,7 +23,9 @@
     "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?",
     "BACK_MSG": "Voulez-vous enregistrer cette étape?",
     "SUCCESS_MSG": "Opération effectué avec succès",
-    "LOAD_STEP_MSG": "Etape chargé avec succès"
+    "LOAD_STEP_MSG": "Etape chargé avec succès",
+    "enable": " Activé ",
+    "disable": " Disactivé "
   },
   "MENU": {
     "SITE_AUDIT": " Audit Site ",
@@ -31,7 +33,8 @@
     "CATEGORIES": " Catégories ",
     "SUB_CATEGORIES": " Sous Catégories ",
     "DECISION": " Décision ",
-    "STATUS": " Status "
+    "STATUS": " Status ",
+    "TYPE_AUDIT": " Type Audit "
   },
   "status": {
     "title": " Status ",
@@ -92,9 +95,12 @@
     "EDIT_title": " Modifier la sous-catégorie N° ",
     "label": " Libellé ",
     "position": " Position ",
+    "valueType": " Type ",
     "status": " Activé ? ",
     "categoriesId": " N° Catégorie",
-    "categoriesLabel": " Catégorie "
+    "categoriesLabel": " Catégorie ",
+    "blocking": "Réserve Bloquante (RB)?",
+    "decisionsList": " Liste des valeurs"
   },
   "decisions": {
     "title": " Décision ",
@@ -103,7 +109,8 @@
     "EDIT_title": " Modifier la décision N° ",
     "label": " Libellé ",
     "position": " Position ",
-    "status": " Status ",
+    "typeValue": " Type ",
+    "status": " Activé ? ",
     "closed": " Disactivé "
   },
   "FINISH": {
@@ -113,5 +120,21 @@
     "DATE": " Date ",
     "SIGNING_SITE_ENGINEER": " Signature Ingénieur du site ",
     "SIGNING_OM_ENGINEER": " Signature Ingénieur O&M "
+  },
+  "HOME": {
+    "title": " Tableau de board",
+    "CONFORM_NO_CONFORM": " Site Conforme / Non Conforme",
+    "AUDITED_NO_AUDITED": "  Site Audité / Non Audité ",
+    "SITE_REGION": " Nombre du site par région ",
+    "AUDIT_VISIT": " Audite Visite"
+  },
+  "typeAudit": {
+    "title": " Type Audite ",
+    "LIST_title": " Liste des types ",
+    "ADD_title": " Nouveau type ",
+    "EDIT_title": " Modifier le type N° ",
+    "label": " Libellé ",
+    "description": " Déscription ",
+    "status": " Activé ? "
   }
 }

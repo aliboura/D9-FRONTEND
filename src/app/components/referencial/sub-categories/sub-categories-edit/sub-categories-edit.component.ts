@@ -10,6 +10,8 @@ import {map, startWith, switchMap} from "rxjs/operators";
 import {SubCategories} from "../../../../business/models/referencial/sub-categories";
 import {Categories} from "../../../../business/models/referencial/categories";
 import {CategoriesService} from "../../../../business/services/referencial/categories.service";
+import {DecisionService} from "../../../../business/services/referencial/decision.service";
+import {Decision} from "../../../../business/models/referencial/decision";
 
 @Component({
   selector: 'app-sub-categories-edit',
@@ -19,6 +21,7 @@ export class SubCategoriesEditComponent implements OnInit {
 
   constructor(public subCategoriesService: SubCategoriesService,
               private categoriesService: CategoriesService,
+              private decisionService: DecisionService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -30,7 +33,9 @@ export class SubCategoriesEditComponent implements OnInit {
   title: string;
   object: string;
   categoriesList: Categories[];
+  decisionItems: Decision[];
   filteredOptions: Observable<Categories[]>;
+  edit = true;
 
   ngOnInit() {
     this.editForm = this.initForm();
@@ -54,10 +59,17 @@ export class SubCategoriesEditComponent implements OnInit {
       startWith(""),
       map(value => this._filter(value))
     );
+    this.loadDecisions();
   }
 
   public showCreate() {
     this.router.navigate(["referencial/decisions/add"]);
+  }
+
+  private loadDecisions() {
+    this.decisionService.findAll().subscribe(data => {
+      this.decisionItems = data.filter(x => x.position === 1);
+    });
   }
 
   private _filter(value: string): Categories[] {
@@ -72,7 +84,10 @@ export class SubCategoriesEditComponent implements OnInit {
       label: new FormControl(),
       categoriesId: new FormControl(),
       position: new FormControl(),
-      status: new FormControl()
+      valueType: new FormControl(),
+      status: new FormControl(),
+      blocking: new FormControl(),
+      decisionsList: new FormControl()
     });
   }
 
@@ -85,7 +100,10 @@ export class SubCategoriesEditComponent implements OnInit {
       ),
       categoriesId: new FormControl(subCategories.categoriesId, Validators.required),
       position: new FormControl(subCategories.position),
-      status: new FormControl(subCategories.status)
+      valueType: new FormControl(subCategories.valueType),
+      decisionsList: new FormControl(subCategories.decisionsList),
+      status: new FormControl(subCategories.status),
+      blocking: new FormControl(subCategories.blocking)
     });
   }
 
@@ -95,7 +113,7 @@ export class SubCategoriesEditComponent implements OnInit {
         "label",
         TypeInput.Input,
         true,
-        false,
+        true,
         false,
         false,
         null,
@@ -117,19 +135,37 @@ export class SubCategoriesEditComponent implements OnInit {
         false,
         false,
         false,
+      ),
+      new ModelGeneric(
+        "valueType",
+        TypeInput.Number,
         false,
-        null,
-        ""
+        false,
+        false,
+      ),
+      new ModelGeneric(
+        "decisionsList",
+        TypeInput.Select,
+        true,
+        false,
+        false,
+        true,
+        this.decisionItems,
+        "Veuillez selectionner au moins une ligne."
+      ),
+      new ModelGeneric(
+        "blocking",
+        TypeInput.CheckBox,
+        false,
+        false,
+        false
       ),
       new ModelGeneric(
         "status",
         TypeInput.CheckBox,
         false,
         false,
-        false,
-        false,
-        null,
-        ""
+        false
       )
     ];
   }
