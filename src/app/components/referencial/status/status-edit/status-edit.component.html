@@ -5,7 +5,7 @@
   [object]="object"
   [title]="(object + '.EDIT_title' | translate) + id "
   routerLink="referencial/status"
-  editMode="true"
+  [editMode]="edit"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>

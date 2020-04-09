@@ -6,7 +6,7 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
 }
 
 body a {
@@ -67,6 +67,9 @@ body a {
   background: #00da8a;
   border: 1px solid #00da8a;
   color: #ffffff;
+  width: auto;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .add-btn {
@@ -401,7 +404,15 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   left: 20px;
   top: 18px;
   font-size: 22px;
-  color: #989898;
+  color: #ccc;
+}
+
+.mat-table-empty-icon-2 {
+  position: relative;
+  left: 30px;
+  top: 18px;
+  font-size: 22px;
+  color: #ccc;
 }
 
 .badge {
@@ -594,6 +605,10 @@ td, th {
 
 .padding-bottom-25 {
   padding-bottom: 25px
+}
+
+.margin-right-15 {
+  margin-right: 10px !important;
 }
 
 .text-center {
@@ -895,10 +910,88 @@ btn[_ngcontent-c0] {
 }
 
 .red-txt {
-  color: #FD4047;
-  font-weight: 500;
+  color: red;
+  font-weight: 700;
+  font-size: 18px;
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value{
-  background-color: #666;
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
 }
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  color: #676767;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon {
+  color: #676767;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+  color: #444;
+}
+
+.ng-select-search {
+  width: 95%;
+}
+
+.btn-search {
+  font-size: 22px !important;
+  border-radius: 5px 5px 0px 0px !important;
+  background: #eaeaea !important;
+  border: 1px solid #e0e0e0 !important;
+  border-bottom: none !important;
+  width: 40px !important;
+  text-align: center !important;
+}
+
+.btn-search-icon {
+  margin-right: 10px;
+  margin-left: 8px;
+  color: #666;
+}
+
+.btn-search-reset {
+  position: absolute !important;
+  right: 45px !important;
+  bottom: 1px !important;
+}
+
+.divider-horizontal {
+  border-right: 1px solid #e0e0e0 !important;
+  height: 30px !important;
+  margin: 20px !important;
+}
+
+.notyf__toast--upper {
+  margin-top: 25px;
+}
+
+.notyf__dismiss {
+  width: 36px;
+}
+
+.ngx-cool-dialog__ok-btn {
+  background: #e10019 !important;
+  color: #fff;
+  border-color: #e10019 !important;
+  cursor: pointer;
+}
+
+.ngx-cool-dialog__ok-btn:hover {
+  background-color: #C62828 !important;
+}
+
+.ngx-cool-dialog__cancel-btn {
+  color: #e10019 !important;
+  border-color: #e10019 !important;
+  cursor: pointer;
+}
+
+.ngx-cool-dialog__close-btn {
+  cursor: pointer;
+}
+

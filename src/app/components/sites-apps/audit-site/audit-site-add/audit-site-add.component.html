@@ -16,6 +16,20 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+
+      <ng-select
+        [items]="typeAuditSiteList"
+        bindValue="id"
+        bindLabel="label"
+        required="true"
+        [(ngModel)]="auditSite.typeAuditSiteId"
+        (change)="onChange($event)"
+        name="typeAuditSiteId"
+        [placeholder]="'AUDIT_SITE.typeAuditSiteId' | translate"
+        appendTo="body"
+        class="ng-select-search"
+      >
+      </ng-select>
       <mat-form-field>
         <mat-label>{{'AUDIT_SITE.siteCode' | translate}}</mat-label>
         <input

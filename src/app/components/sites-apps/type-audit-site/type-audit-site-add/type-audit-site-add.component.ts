@@ -3,6 +3,7 @@ import {TypeAuditSiteService} from "../../../../business/services/sites/type-aud
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-type-audit-site-add',
@@ -16,7 +17,7 @@ export class TypeAuditSiteAddComponent implements OnInit {
 
   addForm: FormGroup;
   object: string;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
   create: boolean;
 
   ngOnInit() {
@@ -38,8 +39,8 @@ export class TypeAuditSiteAddComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -67,7 +68,7 @@ export class TypeAuditSiteAddComponent implements OnInit {
         false,
         false
       )
-    ];
+    ]);
   }
 
   public showCreate() {

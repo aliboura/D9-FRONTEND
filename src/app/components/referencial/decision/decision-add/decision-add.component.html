@@ -5,7 +5,7 @@
   [object]="object"
   [title]="object + '.ADD_title' | translate"
   routerLink="referencial/decisions"
-  editMode="false"
+  [editMode]="create"
   (clickShowCreate)="showCreate()"
 >
 </app-forms-generic>

@@ -5,8 +5,10 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Categories} from "../../../../business/models/referencial/categories";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {switchMap} from "rxjs/operators";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
+import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
+import {TypeAuditSite} from "../../../../business/models/sites/type-audit-site";
 
 @Component({
   selector: 'app-categories-edit',
@@ -15,6 +17,7 @@ import {TypeInput} from "../../../../shared/enum/type-input.enum";
 export class CategoriesEditComponent implements OnInit {
 
   constructor(public categoriesService: CategoriesService,
+              private typeAuditSiteService: TypeAuditSiteService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -22,10 +25,11 @@ export class CategoriesEditComponent implements OnInit {
   id: number;
   selected: Observable<Categories>;
   editForm: FormGroup;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
   title: string;
   object: string;
   edit = true;
+  typeAuditSiteList: TypeAuditSite[];
   nextList: Categories[];
   previousList: Categories[];
 
@@ -49,6 +53,9 @@ export class CategoriesEditComponent implements OnInit {
       this.previousList = data.filter(x => !x.last);
       this.fields = this.loadFormModels();
     });
+    this.typeAuditSiteService.findAll().subscribe(data => {
+      this.typeAuditSiteList = data;
+    });
   }
 
   public showCreate() {
@@ -59,6 +66,7 @@ export class CategoriesEditComponent implements OnInit {
     return new FormGroup({
       id: new FormControl(),
       label: new FormControl(),
+      typeAuditSiteId: new FormControl(),
       position: new FormControl(),
       status: new FormControl(),
       nextCatId: new FormControl(null),
@@ -75,6 +83,7 @@ export class CategoriesEditComponent implements OnInit {
         category.label,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
+      typeAuditSiteId: new FormControl(category.typeAuditSiteId),
       position: new FormControl(category.position),
       status: new FormControl(category.status),
       nextCatId: new FormControl(category.nextCatId),
@@ -84,8 +93,8 @@ export class CategoriesEditComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -97,15 +106,26 @@ export class CategoriesEditComponent implements OnInit {
         "Minimum 4 caractère."
       ),
       new ModelGeneric(
-        "position",
-        TypeInput.Number,
+        "typeAuditSiteId",
+        TypeInput.Select,
+        true,
         false,
         false,
         false,
-        false,
-        null,
-        ""
+        this.typeAuditSiteList,
+        "Veuillez selectionner le type audit."
       ),
+      new ModelGeneric(
+        "nextCatId",
+        TypeInput.Select,
+        false,
+        false,
+        false,
+        false,
+        this.nextList,
+        "Veuillez selectionner une catégories."
+      ),
+
       new ModelGeneric(
         "status",
         TypeInput.CheckBox,
@@ -156,7 +176,7 @@ export class CategoriesEditComponent implements OnInit {
         this.previousList,
         "Veuillez selectionner une catégories."
       )
-    ];
+    ]);
   }
 
 }

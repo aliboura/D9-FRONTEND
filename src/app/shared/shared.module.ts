@@ -7,6 +7,7 @@ import {MaterialModule} from "../importes/material/material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {EmptyMessagesComponent} from './empty-messages/empty-messages.component';
+import {NgxCoolDialogsModule} from "ngx-cool-dialogs";
 
 @NgModule({
   declarations: [ListGenericComponent, FormsGenericComponent, EmptyMessagesComponent],
@@ -16,7 +17,8 @@ import {EmptyMessagesComponent} from './empty-messages/empty-messages.component'
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    NgxCoolDialogsModule
   ],
   exports: [CommonModule, ListGenericComponent, FormsGenericComponent, EmptyMessagesComponent]
 })

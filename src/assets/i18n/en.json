@@ -23,6 +23,9 @@
     "CONFIRM_MSG": "Are you sure you want to delete this line?",
     "BACK_MSG": "Do you want to save this step?",
     "SUCCESS_MSG": "Operation completed successfully",
+    "PERFORMED_MSG": "Operation executed",
+    "ERROR_MSG": "Recording error",
+    "ERROR_LOAD_MSG": "Loading error",
     "LOAD_STEP_MSG": "Step loaded successfully",
     "enable": " Enable ",
     "disable": " Disable "
@@ -32,6 +35,7 @@
     "SITE": " Site ",
     "CATEGORIES": " Categories ",
     "SUB_CATEGORIES": " Sub Categories ",
+    "DECISION_TYPE": " Decision Family ",
     "DECISION": " Decision ",
     "STATUS": " Status ",
     "TYPE_AUDIT": " Audit Type "
@@ -72,7 +76,9 @@
     "firstDecisionDate": " Décision Date ",
     "firstDecisionEngineerSite": " First visit ",
     "secondDecisionLabel": " Second visit ",
-    "note": " Note "
+    "note": " Note ",
+    "typeAuditSiteId": "Form",
+    "typeAuditSiteLabel": "Form"
   },
   "categories": {
     "title": " Category ",
@@ -87,7 +93,9 @@
     "nextCatId": " Next step ",
     "previousCatId": " Previous step ",
     "listSubCategories": " List des sous-catégories ",
-    "listSubCategories": " Sous-Categories "
+    "listSubCategories": " Sous-Categories ",
+    "typeAuditSiteId": " Form ",
+    "typeAuditSiteLabel": " Form "
   },
   "sub-categories": {
     "title": " Sub-Category ",
@@ -112,7 +120,8 @@
     "position": " Position ",
     "typeValue": " Type ",
     "status": " Enabled ? ",
-    "closed": " Disabled "
+    "closed": " Disabled ",
+    "decisionTypeId": "Family"
   },
   "FINISH": {
     "title": " Decision ",
@@ -137,5 +146,13 @@
     "label": " Label ",
     "description": " Description ",
     "status": " Enabled ? "
+  },
+  "decisionTypes": {
+    "title": "Family list of values",
+    "LIST_title": "Family list of values",
+    "ADD_title": "New family",
+    "EDIT_title": "Edit family number",
+    "label": "Label",
+    "decisionList": "Values items"
   }
 }

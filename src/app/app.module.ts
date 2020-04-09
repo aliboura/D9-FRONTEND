@@ -16,11 +16,11 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {ReferencialModule} from "./components/referencial/referencial.module";
 import {SharedModule} from "./shared/shared.module";
 import {NgxSpinnerModule} from "ngx-spinner";
-import {ConfirmationService, MessageService} from "primeng";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {HomeComponent} from './home/home.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
-import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
+import {NOTYF, notyfFactory} from "./tools/notyf.token";
+import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 
 @NgModule({
   declarations: [
@@ -43,9 +43,7 @@ import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
     NgxSpinnerModule,
     ReferencialModule,
     NgSelectModule,
-    ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger'
-    }),
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -55,7 +53,11 @@ import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
     }),
     NgxChartsModule
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [
+    NgxCoolDialogsService,
+    {provide: NOTYF, useFactory: notyfFactory}
+  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

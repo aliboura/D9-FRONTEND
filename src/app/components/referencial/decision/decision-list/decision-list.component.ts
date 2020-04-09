@@ -12,8 +12,8 @@ export class DecisionListComponent implements OnInit {
 
   title = "Liste des décisions";
   object = "decisions";
-
   columns: string[] = ["label", "position", "status"];
+  columnsFilter: string[] = ["label"];
 
   ngOnInit() {
   }

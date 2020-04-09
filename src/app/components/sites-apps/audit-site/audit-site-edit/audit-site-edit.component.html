@@ -49,42 +49,79 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <table style="width:100%">
-            <tr>
-              <th>{{'AUDIT_SITE.description' | translate}}</th>
-              <th>
-                {{'AUDIT_SITE.note' | translate}}
-              </th>
-              <th *ngIf="auditSite.secondVisit">{{'AUDIT_SITE.note' | translate}} 2</th>
-              <th>{{'AUDIT_SITE.observation' | translate}}</th>
-            </tr>
+          <!--          <table style="width:100%">-->
+          <!--            <tr>-->
+          <!--              <th>{{'AUDIT_SITE.description' | translate}}</th>-->
+          <!--              <th>-->
+          <!--                {{'AUDIT_SITE.note' | translate}}-->
+          <!--              </th>-->
+          <!--              <th *ngIf="auditSite.secondVisit">{{'AUDIT_SITE.note' | translate}} 2</th>-->
+          <!--              <th>{{'AUDIT_SITE.observation' | translate}}</th>-->
+          <!--            </tr>-->
 
 
-            <tr *ngFor="let lines of getLines(categories.id)">
-              <td style="width: 55%">{{lines.label}}</td>
-              <td>
-                <div *ngIf="auditSite.firstVisit; else edit">
-                  <app-badge-status [label]="lines.firstDecisionLabel"></app-badge-status>
-                </div>
-                <ng-template #edit>
-                  <ng-select
-                    [items]="decisionList"
-                    bindValue="id"
-                    bindLabel="label"
-                    [(ngModel)]="lines.firstDecisionId"
-                    name="line.firstDecisionId"
-                    appendTo="body"
-                    class="ng-select-table"
-                    *ngIf="auditSite.lastStep"
-                  >
-                  </ng-select>
-                </ng-template>
+          <!--            <tr *ngFor="let lines of getLines(categories.id)">-->
+          <!--              <td style="width: 55%">{{lines.label}}</td>-->
+          <!--              <td>-->
+          <!--                <div *ngIf="auditSite.firstVisit; else edit">-->
+          <!--                  <app-badge-status [label]="lines.firstDecisionLabel"></app-badge-status>-->
+          <!--                </div>-->
+          <!--                <ng-template #edit>-->
+          <!--                  <ng-select-->
+          <!--                    [items]="decisionList"-->
+          <!--                    bindValue="id"-->
+          <!--                    bindLabel="label"-->
+          <!--                    [(ngModel)]="lines.firstDecisionId"-->
+          <!--                    name="line.firstDecisionId"-->
+          <!--                    appendTo="body"-->
+          <!--                    class="ng-select-table"-->
+          <!--                    *ngIf="auditSite.lastStep"-->
+          <!--                  >-->
+          <!--                  </ng-select>-->
+          <!--                </ng-template>-->
 
-              </td>
-              <td *ngIf="auditSite.secondVisit"> {{lines.secondDecisionLabel}}</td>
-              <td> {{lines.observation}}</td>
-            </tr>
-          </table>
+          <!--              </td>-->
+          <!--              <td *ngIf="auditSite.secondVisit"> {{lines.secondDecisionLabel}}</td>-->
+          <!--              <td> {{lines.observation}}</td>-->
+          <!--            </tr>-->
+          <!--          </table>-->
+
+          <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container *ngFor="let column of columns; let i = index" matColumnDef="{{ column.field }}">
+              <mat-header-cell *matHeaderCellDef>{{ column.field }}
+
+                <button class="grid-view-header-menu"
+                        mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>menu</mat-icon>
+                </button>
+
+                <mat-menu #menu>
+                  <button mat-menu-item (click)="groupBy($event, column);">Group By This Field</button>
+                  <button mat-menu-item (click)="unGroupBy($event, column);">Ungroup</button>
+                </mat-menu>
+
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row[column.field] }}</mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            <!-- Group header -->
+            <ng-container matColumnDef="groupHeader">
+              <mat-cell colspan="999" *matCellDef="let group">
+                <mat-icon *ngIf="group.expanded">expand_less</mat-icon>
+                <mat-icon *ngIf="!group.expanded">expand_more</mat-icon>
+                <strong>{{groupByColumns[group.level - 1]}} = {{group[groupByColumns[group.level - 1]]}}
+                  ({{group.totalCounts}})</strong>
+              </mat-cell>
+            </ng-container>
+
+            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+                     (click)="groupHeaderClick(row)"></mat-row>
+
+          </mat-table>
 
         </mat-expansion-panel>
       </mat-accordion>

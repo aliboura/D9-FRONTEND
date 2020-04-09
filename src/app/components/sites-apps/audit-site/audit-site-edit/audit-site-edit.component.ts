@@ -28,7 +28,6 @@ export class AuditSiteEditComponent implements OnInit {
     this.showSpinner();
   }
 
-  panelOpenState = false;
   auditSite: AuditSite = new AuditSite();
   private obAuditSite: Observable<AuditSite>;
   categoriesList: Categories[] = [];

@@ -1,23 +1,19 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild
-} from "@angular/core";
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from "@angular/core";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
-import {ConfirmationService, MessageService} from "primeng/api";
-import {merge, Observable, of as observableOf} from "rxjs";
+import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
 import {Parents} from "../model-generic/parents";
 import {GenericService} from "../service-generic/generic.service";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {TranslateService} from "@ngx-translate/core";
+import {NOTYF} from "../../tools/notyf.token";
+import Notyf from "notyf/notyf";
+import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 
 @Component({
   selector: "app-list-generic",
@@ -29,13 +25,11 @@ export class ListGenericComponent<T extends Parents>
   constructor(
     private spinner: NgxSpinnerService,
     private screenSpinnerService: ScreenSpinnerService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,
+    private coolDialogs: NgxCoolDialogsService,
     private router: Router,
-    private translate: TranslateService
-  ) {
-    this.screenSpinnerService.show();
-    this.spinner.show();
+    private translate: TranslateService,
+    @Inject(NOTYF) private notyf: Notyf) {
+    this.showSpinner();
     this.emptyData = true;
   }
 
@@ -45,18 +39,17 @@ export class ListGenericComponent<T extends Parents>
   @Input() object: string;
   @Input() title: string;
   @Input() routerLink: string;
+  @Input() columnsFilter: string[];
   @Input() matSortActive: string;
   @Input() matSortDirection: string;
 
   displayedColumns: string[] = [];
 
+  search: string;
   resultsLength = 0;
   emptyData: boolean;
   isLoadingResults = true;
   isRateLimitReached = false;
-
-  // tslint:disable-next-line: variable-name
-  viewDirection_: Observable<string>;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -68,12 +61,16 @@ export class ListGenericComponent<T extends Parents>
   }
 
   private loadSpinner(timeout: number) {
-    this.screenSpinnerService.show();
-    this.spinner.show();
+    this.showSpinner();
     setTimeout(() => {
       this.spinner.hide();
       this.screenSpinnerService.hide();
     }, timeout);
+  }
+
+  private showSpinner() {
+    this.screenSpinnerService.show();
+    this.spinner.show();
   }
 
   showAdd() {
@@ -87,6 +84,27 @@ export class ListGenericComponent<T extends Parents>
   }
 
   ngAfterViewInit(): void {
+    this.loadAllData();
+  }
+
+  applyFilter() {
+    this.showSpinner();
+    if (this.columnsFilter && this.search) {
+      let expression = "";
+      this.columnsFilter.forEach(x => {
+        if (expression === "") {
+          expression = x + "==*" + this.search.trim().toLowerCase() + "*";
+        } else {
+          expression = expression + "," + x + "==*" + this.search.trim().toLowerCase() + "*";
+        }
+      });
+      this.filter(expression);
+    } else {
+      this.loadAllData();
+    }
+  }
+
+  private loadAllData() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
@@ -124,11 +142,25 @@ export class ListGenericComponent<T extends Parents>
       });
   }
 
-  applyFilter(filterValue: string) {
-    this.datasource.filter = filterValue.trim().toLowerCase();
-    if (this.datasource.paginator) {
-      this.datasource.paginator.firstPage();
-    }
+  private filter(search: string) {
+    this.service.searchLazyData(0, this.paginator.pageSize, "asc", "id", search)
+      .pipe(
+        map(dt => {
+          return dt.content;
+        })
+      )
+      .subscribe(data => {
+        this.datasource = new MatTableDataSource<T>(data);
+        this.datasource.paginator = this.paginator;
+        setTimeout(() => {
+          this.spinner.hide();
+          this.screenSpinnerService.hide();
+        }, 200);
+      });
+  }
+
+  resetSearch() {
+    this.search = "";
   }
 
   delete(model: T) {
@@ -141,18 +173,15 @@ export class ListGenericComponent<T extends Parents>
   }
 
   confirm(data: T) {
-    this.confirmationService.confirm({
-      message: this.translate.instant("COMMUN.CONFIRM_MSG"),
-      header: "Confirmation",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.delete(data);
-        this.messageService.add({
-          severity: "info",
-          summary: "Opération effectué avec succée."
-        });
-      }
-    });
+    this.coolDialogs.confirm(this.translate.instant("COMMUN.CONFIRM_MSG"))
+      .subscribe(res => {
+        if (res) {
+          this.delete(data);
+          this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+        } else {
+          console.log('You clicked Cancel. You smart.');
+        }
+      });
   }
 
   typeOf(value) {

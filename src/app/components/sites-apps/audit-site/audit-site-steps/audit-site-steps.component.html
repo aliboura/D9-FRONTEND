@@ -1,28 +1,43 @@
 <mat-card class="top-bordred margin-20">
+
   <mat-card-header>
+
     <mat-card-title>
       {{title}}
     </mat-card-title>
+
     <div class="right-headeer-title">
       <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+
     </div>
   </mat-card-header>
+
   <table style="width:100%">
     <tr *ngFor="let line of auditSiteLines">
       <td>{{auditSiteLines.indexOf(line) + 1}}</td>
-      <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.subCategories.blocking"> *</span></td>
+      <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
       <td>
-        <ng-select
-          [items]="line.subCategories.decisionsList"
-          bindValue="id"
-          bindLabel="label"
-          [required]="line.blocking"
-          [(ngModel)]="line.firstDecisionId"
-          name="line.firstDecisionId"
-          appendTo="body"
-          class="ng-select-table"
-        >
-        </ng-select>
+        <mat-form-field>
+          <mat-label>Remarque</mat-label>
+          <mat-select [(ngModel)]="line.firstDecisionId"
+                      name="line.firstDecisionId"
+                      class="ng-select-table">
+            <mat-option *ngFor="let decision of decisionList | filter:line.valueType" [value]="decision.id">
+              {{decision.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--        <ng-select-->
+        <!--          [items]="line.subCategories.decisionsList"-->
+        <!--          bindValue="id"-->
+        <!--          bindLabel="label"-->
+        <!--          [required]="line.blocking"-->
+        <!--          [(ngModel)]="line.firstDecisionId"-->
+        <!--          name="line.firstDecisionId"-->
+        <!--          appendTo="body"-->
+        <!--          class="ng-select-table"-->
+        <!--        >-->
+        <!--        </ng-select>-->
       </td>
       <td>
         <input type="text" size="30" pInputText [(ngModel)]="line.observation"
@@ -60,12 +75,8 @@
         type="button"
         mat-raised-button
         style="margin-right: 10px"
-        mwlConfirmationPopover
-        popoverTitle="Confirmation"
-        [popoverMessage]="'COMMUN.BACK_MSG'|translate"
         placement="left"
-        (confirm)="saveAndCancel()"
-        (cancel)="backToList()"
+        (click)="confirm()"
         class="close-btn">
         <i class="material-icons" style="font-size: 18px">close</i>
         {{'COMMUN.BTN_CLOSE' | translate}}

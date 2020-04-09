@@ -1,5 +1,3 @@
-import {Decision} from "./decision";
-
 export class SubCategories {
   id: number;
   label: string;
@@ -10,5 +8,4 @@ export class SubCategories {
   categoriesId: number;
   categoriesLabel: string;
 
-  decisionsList: Decision[] = [];
 }

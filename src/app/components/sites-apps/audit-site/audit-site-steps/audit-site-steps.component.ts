@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {AuditSite} from "../../../../business/models/sites/audit-site";
 import {AuditSteps} from "../../../../business/models/sites/audit-steps";
 import {Categories} from "../../../../business/models/referencial/categories";
@@ -11,12 +11,13 @@ import {CategoriesService} from "../../../../business/services/referencial/categ
 import {DecisionService} from "../../../../business/services/referencial/decision.service";
 import {Decision} from "../../../../business/models/referencial/decision";
 import {AuditSiteLineService} from "../../../../business/services/sites/audit-site-line.service";
-import {MessageService} from "primeng";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {TranslateService} from "@ngx-translate/core";
-import {ConfirmationService} from "primeng/api";
 import {CategoriesLabel} from "../../../../business/models/referencial/categories-label.enum";
+import {NgxCoolDialogsService} from "ngx-cool-dialogs";
+import {NOTYF} from "../../../../tools/notyf.token";
+import Notyf from "notyf/notyf";
 
 @Component({
   selector: 'app-audit-site-steps',
@@ -28,13 +29,13 @@ export class AuditSiteStepsComponent implements OnInit {
               private auditSiteLineService: AuditSiteLineService,
               private categoriesService: CategoriesService,
               private decisionService: DecisionService,
-              private messageService: MessageService,
+              private coolDialogs: NgxCoolDialogsService,
               private route: ActivatedRoute,
               private router: Router,
               private spinner: NgxSpinnerService,
               private screenSpinnerService: ScreenSpinnerService,
-              private confirmationService: ConfirmationService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              @Inject(NOTYF) private notyf: Notyf) {
     this.showSpinner();
   }
 
@@ -76,7 +77,10 @@ export class AuditSiteStepsComponent implements OnInit {
     });
     switch (type) {
       case 1 : {
-        this.currentCat = auditSite.currentCategory;
+        this.getCategories(this.auditSite.currentCategoriesId).subscribe(cat => {
+          this.currentCat = cat;
+          this.setCategories(auditSite, this.currentCat);
+        });
         this.setCategories(auditSite, this.currentCat);
         break;
       }
@@ -94,21 +98,15 @@ export class AuditSiteStepsComponent implements OnInit {
         });
         break;
       }
-      default: {
-        this.currentCat = auditSite.currentCategory;
-        this.setCategories(auditSite, this.currentCat);
-        break;
-      }
     }
   }
 
   private loadLines(auditSite: AuditSite, currentCat: Categories) {
     this.screenSpinnerService.show();
     this.spinner.show();
-    this.auditSiteLines = [];
     this.currentCat.listSubCategories.forEach(sub => {
       if (sub.status) {
-        this.auditSiteLines.push(new AuditSiteLine(auditSite.id, sub.label, sub.id, sub, currentCat.id, ""));
+        this.auditSiteLines.push(new AuditSiteLine(auditSite.id, sub.label, sub.id, sub.blocking, sub.valueType, currentCat.id, ""));
       }
     });
   }
@@ -119,6 +117,7 @@ export class AuditSiteStepsComponent implements OnInit {
 
   private setCategories(auditSite: AuditSite, categories: Categories) {
     this.title = categories.id + " - " + categories.label;
+    this.auditSiteLines = [];
     if (auditSite.auditSiteLineDtoList.length > 0) {
       const list = auditSite.auditSiteLineDtoList.filter(x => x.categoriesId === categories.id);
       if (list.length > 0) {
@@ -132,7 +131,7 @@ export class AuditSiteStepsComponent implements OnInit {
   }
 
   private saveLines() {
-    this.auditSiteLineService.goToNextSteps(new AuditSteps(this.auditSite, this.auditSiteLines, this.editCat))
+    this.auditSiteLineService.goToNextSteps(new AuditSteps(this.auditSite, this.currentCat, this.auditSiteLines, this.editCat))
       .subscribe(ee => {
         this.auditSite = ee;
         this.loadData(this.auditSite, 2);
@@ -153,10 +152,7 @@ export class AuditSiteStepsComponent implements OnInit {
     if (this.auditSiteLines.length > 0) {
       this.showSpinner();
       this.saveLines();
-      this.messageService.add({
-        severity: "info",
-        summary: this.translate.instant("COMMUN.LOAD_STEP_MSG")
-      });
+      this.notyf.success(this.translate.instant("COMMUN.LOAD_STEP_MSG"));
     }
   }
 
@@ -176,23 +172,29 @@ export class AuditSiteStepsComponent implements OnInit {
     this.saveLines();
     this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
       this.auditSite = data;
-      this.messageService.add({
-        severity: "info",
-        summary: this.translate.instant("COMMUN.SUCCESS_MSG")
-      });
+      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
       this.router.navigate(["sites-apps/audit/finish/", btoa("" + this.auditSite.id)]);
     });
   }
+
+  confirm() {
+    this.coolDialogs.confirm(this.translate.instant("COMMUN.BACK_MSG"))
+      .subscribe(res => {
+        if (res) {
+          this.saveAndCancel();
+        } else {
+          this.backToList();
+        }
+      });
+  }
+
 
   public saveAndCancel() {
     if (this.checkLines(this.auditSiteLines)) {
       this.editCat = false;
       this.saveLines();
+      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
       this.router.navigate(["sites-apps/audit"]);
-      this.messageService.add({
-        severity: "info",
-        summary: this.translate.instant("COMMUN.SUCCESS_MSG")
-      });
     } else {
       this.router.navigate(["sites-apps/audit"]);
     }

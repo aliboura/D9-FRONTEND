@@ -14,27 +14,32 @@ export class AuditSite {
   repOwner: string;
   description: string;
   observation: string;
+
   currentCategoriesId: number;
   currentCategoriesLabel: string;
+  nextCategoriesId: number;
+  previousCategoriesId: number;
+
   currentSatusId: number;
   currentSatusLabel: string;
   currentSatusStyleCSS: string;
+
   lastStep: boolean;
   firstVisit: boolean;
   closed: boolean;
+
   firstDecisionId: number;
   firstDecisionLabel: string;
   firstDecisionDate: Date;
   firstDecisionEngineerSite: string;
   firstDecisionEngineerOM: string;
+
   secondVisit: boolean;
   secondDecisionId: number;
   secondDecisionLabel: string;
   secondDecisionDate: Date;
   secondDecisionEngineerSite: string;
   secondDecisionEngineerOM: string;
-
-  currentCategory: Categories;
 
   auditSiteLineDtoList: AuditSiteLine[];
   statusAuditSitesDtoList: StatusAuditSite[];

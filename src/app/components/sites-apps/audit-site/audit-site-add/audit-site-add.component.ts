@@ -13,22 +13,38 @@ import {Status} from "../../../../business/models/referencial/status";
 import {StatusService} from "../../../../business/services/referencial/status.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MY_FORMATS} from "../../../../tools/date-format";
+import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
+import {TypeAuditSite} from "../../../../business/models/sites/type-audit-site";
 
 @Component({
   selector: 'app-audit-site-add',
-  templateUrl: './audit-site-add.component.html'
+  templateUrl: './audit-site-add.component.html',
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class AuditSiteAddComponent implements OnInit {
 
   constructor(private auditSiteService: AuditSiteService,
               private siteService: SiteService,
               private categoriesService: CategoriesService,
+              private typeAuditSiteService: TypeAuditSiteService,
               private statusService: StatusService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private spinner: NgxSpinnerService,
-              private screenSpinnerService: ScreenSpinnerService) {
+              private screenSpinnerService: ScreenSpinnerService,
+              private adapter: DateAdapter<any>) {
     this.screenSpinnerService.show();
     this.spinner.show();
   }
@@ -40,8 +56,10 @@ export class AuditSiteAddComponent implements OnInit {
   private obSite: Observable<Site>;
   codeSite: string;
   typeSite: string;
+  typeAuditSiteList: TypeAuditSite[];
 
   ngOnInit() {
+    this.adapter.setLocale('fr');
     this.auditSite = new AuditSite();
     this.site = new Site();
     this.auditSite.auditDate = new Date();
@@ -58,19 +76,31 @@ export class AuditSiteAddComponent implements OnInit {
       this.auditSite.wilayaId = this.site.wilayaId;
       this.auditSite.regionId = this.site.regionId;
     });
-    this.categoriesService.getFirst().subscribe(data => {
-      this.currentCat = data;
-      this.auditSite.currentCategoriesId = this.currentCat.id;
-    });
+
     this.statusService.getFirst().subscribe(data => {
       this.currentStatus = data;
       this.auditSite.currentSatusId = this.currentStatus.id;
       this.auditSite.currentSatusLabel = this.currentStatus.label;
     });
+
+    this.typeAuditSiteService.findAll().subscribe(data => {
+      this.typeAuditSiteList = data.filter(x => x.status);
+      if (this.typeAuditSiteList.length === 1) {
+        this.auditSite.typeAuditSiteId = this.typeAuditSiteList[0].id;
+      }
+    });
+
     setTimeout(() => {
       this.spinner.hide();
       this.screenSpinnerService.hide();
     }, 200);
+  }
+
+  public onChange($event) {
+    this.categoriesService.getFirstByType(this.auditSite.typeAuditSiteId).subscribe(data => {
+      this.currentCat = data;
+      this.auditSite.currentCategoriesId = this.currentCat.id;
+    });
   }
 
   public saveData() {

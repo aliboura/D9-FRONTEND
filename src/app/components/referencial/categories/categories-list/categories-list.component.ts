@@ -13,7 +13,8 @@ export class CategoriesListComponent implements OnInit {
   title = "Liste des Catégories";
   object = "categories";
 
-  columns: string[] = ["label", "status"];
+  columns: string[] = ["label", "typeAuditSiteLabel", "status"];
+  columnsFilter: string[] = ["label", "typeAuditSite.label"];
 
   ngOnInit() {
   }

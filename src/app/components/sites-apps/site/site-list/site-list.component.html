@@ -5,19 +5,26 @@
   <mat-grid-tile [colspan]="3">
 
     <mat-form-field style="width: 100%;">
-      <mat-icon matPrefix style="margin-right: 10px;color: #888;"
-      >search
-      </mat-icon
-      >
+      <mat-icon matPrefix style="margin-right: 10px;color: #888;font-size: 20px">filter_list</mat-icon>
+      <mat-label>{{'COMMUN.PLACEHOLDER_SEARCH' | translate}}</mat-label>
       <input
         matInput
-        (keyup)="applyFilter($event.target.value)"
-        placeholder="Filter..."
+        [(ngModel)]="search"
+        name="search"
       />
+      <button mat-button matSuffix mat-icon-button
+              (click)="applyFilter()"
+              class="btn-search">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                *ngIf="search"
+                class="btn-search-reset"
+                (click)="resetSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon class="btn-search-icon">search</mat-icon>
+      </button>
     </mat-form-field>
-    <div
-      style="border-right: 1px solid #e0e0e0;height: 30px;margin: 20px;"
-    ></div>
+    <div class="divider-horizontal"></div>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="1">
     <button
@@ -25,7 +32,7 @@
       mat-raised-button
       (click)="showAdvancedSearch()"
       class="cancel-btn no-shadow silver-border"
-      style="margin-left: 15px; position: absolute"
+      style="margin-left: 15px; position: absolute;margin-top: -5px"
       matTooltip="Recherche avancée."
       routerLinkActive="disabled">
       <i class="material-icons" style="font-size: 22px;">

@@ -30,6 +30,7 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/material-components-web/dist/material-components-web.css",
               "./node_modules/@ng-select/ng-select/themes/material.theme.css",
+              "./node_modules/notyf/notyf.min.css",
               "src/styles.css"
             ],
             "scripts": [

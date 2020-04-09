@@ -1,70 +1,80 @@
-<mat-card-header>
-  <mat-card-title>{{ object + '.LIST_title' | translate }} :</mat-card-title>
-</mat-card-header>
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>{{ object + '.LIST_title' | translate }} :</mat-card-title>
+  </mat-card-header>
 
-<mat-grid-list cols="4" rowHeight="60px">
-  <mat-grid-tile [colspan]="1">
-    <button
-      type="button"
-      mat-raised-button
-      class="add-btn"
-      (click)="showAdd()"
-      routerLinkActive="disabled"
-    >
-      <i class="material-icons" style="font-size: 22px;">
-        add_circle_outline
-      </i>
-      {{'COMMUN.BTN_NEW' | translate}}
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="3">
-    <div
-      style="border-left: 1px solid #e0e0e0;height: 40px;margin-right: 15px;"
-    ></div>
-    <mat-form-field style="width: 100%;">
-      <mat-icon matPrefix style="margin-right: 10px;color: #888;"
-      >search
-      </mat-icon
+  <mat-grid-list cols="4" rowHeight="60px">
+    <mat-grid-tile [colspan]="1">
+      <button
+        type="button"
+        mat-raised-button
+        class="add-btn"
+        (click)="showAdd()"
+        routerLinkActive="disabled"
       >
-      <input
-        matInput
-        (keyup)="applyFilter($event.target.value)"
-        [placeholder]="'COMMUN.PLACEHOLDER_SEARCH' | translate"
-      />
-    </mat-form-field>
-  </mat-grid-tile>
-</mat-grid-list>
-<div class="mat-elevation-z8" matSort>
-  <div class="example-table-container">
-    <mat-table
-      [dataSource]="datasource"
-      matSortActive="matSortActive"
-      matSortDisableClear
-      matSortDirection="matSortDirection">
-      <!-- Index Column -->
-      <ng-container matColumnDef="id">
-        <mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="id-column">
-          No.
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="id-column">
-          {{ element.id }}
-        </mat-cell>
-      </ng-container>
+        <i class="material-icons" style="font-size: 22px;">
+          add_circle_outline
+        </i>
+        {{'COMMUN.BTN_NEW' | translate}}
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="3">
+      <div
+        style="border-left: 1px solid #e0e0e0;height: 40px;margin-right: 15px;"
+      ></div>
+      <mat-form-field style="width: 100%;">
+        <mat-icon matPrefix style="margin-right: 10px;color: #888;font-size: 20px">filter_list</mat-icon>
+        <mat-label>{{'COMMUN.PLACEHOLDER_SEARCH' | translate}}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="search"
+          name="search"
+        />
+        <button mat-button matSuffix mat-icon-button
+                (click)="applyFilter()"
+                class="btn-search">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                  *ngIf="search"
+                  class="btn-search-reset"
+                  (click)="resetSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-icon class="btn-search-icon">search</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div class="mat-elevation-z8" matSort>
+    <div class="example-table-container">
+      <mat-table
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="matSortDirection">
+        <!-- Index Column -->
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
 
-      <!-- Load the rest Columns -->
-      <ng-container
-        [matColumnDef]="column"
-        *ngFor="let column of columnsToDisplay"
-      >
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ object + '.' + column | translate}}
-        </mat-header-cell>
+        <!-- Load the rest Columns -->
+        <ng-container
+          [matColumnDef]="column"
+          *ngFor="let column of columnsToDisplay"
+        >
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ object + '.' + column | translate}}
+          </mat-header-cell>
 
 
-        <mat-cell *matCellDef="let element" [ngSwitch]="typeOf(element[column])">
+          <mat-cell *matCellDef="let element" [ngSwitch]="typeOf(element[column])">
             <span *ngSwitchCase="'string'">
               <span *ngIf="column !== 'styleCSS'; else stylePanel">
               {{ element[column] }}
@@ -73,57 +83,58 @@
               <span [class]="element[column]">{{ element[column] }}</span>
             </ng-template>
           </span>
-          <span *ngSwitchCase="'number'">{{ element[column] }}</span>
-          <span *ngSwitchCase="'date'">{{ element[column] | date }}</span>
-          <span *ngSwitchCase="'boolean'">
+            <span *ngSwitchCase="'number'">{{ element[column] }}</span>
+            <span *ngSwitchCase="'date'">{{ element[column] | date }}</span>
+            <span *ngSwitchCase="'boolean'">
             <span class="badge badge-success"
                   *ngIf="element[column]; else disabled"> {{'COMMUN.enable' | translate}}</span>
              <ng-template #disabled>
                 <span class="badge badge-secondary"> {{'COMMUN.disable' | translate}}</span>
              </ng-template>
           </span>
-        </mat-cell>
-      </ng-container>
+          </mat-cell>
+        </ng-container>
 
-      <!-- action Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell
-          *matHeaderCellDef
-          class="action-column"
-        ></mat-header-cell>
-        <mat-cell *matCellDef="let element" class="action-column">
-          <button
-            type="button"
-            mat-icon-button
-            (click)="showEdit(element.id)"
-            style="margin: 5px;color: #6d6d6d;"
-            color="warn"
-            [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate"
-          >
-            <i class="material-icons">open_in_new</i>
-          </button>
-          <button
-            type="button"
-            mat-icon-button
-            color="warn"
-            style="margin: 5px;"
-            (click)="confirm(element)"
-            [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
-            <i class=" material-icons">delete</i>
-          </button>
-        </mat-cell>
-      </ng-container>
+        <!-- action Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell
+            *matHeaderCellDef
+            class="action-column"
+          ></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="action-column">
+            <button
+              type="button"
+              mat-icon-button
+              (click)="showEdit(element.id)"
+              style="margin: 5px;color: #6d6d6d;"
+              color="warn"
+              [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate"
+            >
+              <i class="material-icons">open_in_new</i>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="warn"
+              style="margin: 5px;"
+              (click)="confirm(element)"
+              [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
+              <i class=" material-icons">delete</i>
+            </button>
+          </mat-cell>
+        </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-    </mat-table>
-    <app-empty-messages *ngIf="emptyData"></app-empty-messages>
-    <mat-paginator
-      [length]="resultsLength"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20, 100]"
-      showFirstLastButtons
-    ></mat-paginator>
+      </mat-table>
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
   </div>
-</div>
+</mat-card>

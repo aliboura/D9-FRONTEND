@@ -16,8 +16,7 @@ import {PrimengModule} from "../../../importes/primeng/primeng.module";
 import {AuditSiteFinishComponent} from './audit-site-finish/audit-site-finish.component';
 import {TableModule} from "primeng";
 import {SitesAppsModule} from "../sites-apps.module";
-import {ConfirmationPopoverModule} from "angular-confirmation-popover";
-import {AppModule} from "../../../app.module";
+import {FilterPipe} from './filter.pipe';
 
 
 @NgModule({
@@ -27,7 +26,8 @@ import {AppModule} from "../../../app.module";
     AuditSiteEditComponent,
     AuditSiteSearchComponent,
     AuditSiteStepsComponent,
-    AuditSiteFinishComponent],
+    AuditSiteFinishComponent,
+    FilterPipe],
   imports: [
     CommonModule,
     AuditSiteRoutingModule,
@@ -38,8 +38,7 @@ import {AppModule} from "../../../app.module";
     SiteModule,
     FormsModule,
     TableModule,
-    SitesAppsModule,
-    ConfirmationPopoverModule
+    SitesAppsModule
   ]
 })
 export class AuditSiteModule {

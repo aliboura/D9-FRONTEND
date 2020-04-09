@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Categories} from "../../../../business/models/referencial/categories";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
@@ -23,7 +23,7 @@ export class TypeAuditSiteEditComponent implements OnInit {
   id: number;
   selected: Observable<TypeAuditSite>;
   editForm: FormGroup;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
   title: string;
   object: string;
   edit: boolean;
@@ -71,8 +71,8 @@ export class TypeAuditSiteEditComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -99,7 +99,7 @@ export class TypeAuditSiteEditComponent implements OnInit {
         false,
         false
       )
-    ];
+    ]);
   }
 
 }

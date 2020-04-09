@@ -1,0 +1,11 @@
+<app-list-generic
+  [title]="object + '.LIST_title' | translate"
+  [service]="decisionTypeService"
+  [object]="object"
+  [columnsToDisplay]="columns"
+  [columnsFilter]="columnsFilter"
+  routerLink="referencial/decisionTypes"
+  matSortActive="id"
+  matSortDirection="ASC"
+></app-list-generic>
+

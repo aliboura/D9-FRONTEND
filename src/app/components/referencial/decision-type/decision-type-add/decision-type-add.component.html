@@ -1,0 +1,11 @@
+<app-forms-generic
+  [service]="decisionTypeService"
+  [modelForm]="addForm"
+  [fields]="fields"
+  [object]="object"
+  [title]="object + '.ADD_title' | translate"
+  routerLink="referencial/decisionTypes"
+  [editMode]="create"
+  (clickShowCreate)="showCreate()"
+>
+</app-forms-generic>

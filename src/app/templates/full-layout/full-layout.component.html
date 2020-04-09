@@ -125,13 +125,30 @@
               {{ 'MENU.SUB_CATEGORIES' | translate }}
             </button>
           </mat-menu>
+
           <button
             mat-button
             class="btn-menu"
-            routerLink="/referencial/decisions"
-          >
+            [matMenuTriggerFor]="lvMenu">
             {{ 'MENU.DECISION' | translate }}
+            <mat-icon
+              aria-hidden="true"
+              role="img"
+              style="color: rgba(78, 78, 78, 0.87)"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+            >
+              arrow_drop_down
+            </mat-icon>
           </button>
+          <mat-menu #lvMenu="matMenu">
+            <button mat-menu-item routerLink="/referencial/decisionTypes">
+              {{ 'MENU.DECISION_TYPE' | translate }}
+            </button>
+            <button mat-menu-item routerLink="/referencial/decisions">
+              {{ 'MENU.DECISION' | translate }}
+            </button>
+          </mat-menu>
+
           <button mat-button class="btn-menu" routerLink="/referencial/status">
             {{ 'MENU.STATUS' | translate }}
           </button>

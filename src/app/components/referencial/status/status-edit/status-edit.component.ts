@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StatusService} from "../../../../business/services/referencial/status.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {Status} from "../../../../business/models/referencial/status";
@@ -22,11 +22,13 @@ export class StatusEditComponent implements OnInit {
   id: number;
   selected: Observable<Status>;
   editForm: FormGroup;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
   title: string;
   object: string;
+  edit: boolean;
 
   ngOnInit() {
+    this.edit = true;
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
@@ -69,8 +71,8 @@ export class StatusEditComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -111,7 +113,7 @@ export class StatusEditComponent implements OnInit {
         null,
         ""
       )
-    ];
+    ]);
   }
 
 }

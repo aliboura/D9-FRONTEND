@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 import {StatusService} from "../../../../business/services/referencial/status.service";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-status-add',
@@ -18,9 +19,11 @@ export class StatusAddComponent implements OnInit {
   addForm: FormGroup;
   title: string;
   object: string;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
+  edit: boolean;
 
   ngOnInit() {
+    this.edit = false;
     this.title = "Nouveau Status";
     this.object = "status";
     this.addForm = this.initForm();
@@ -39,8 +42,8 @@ export class StatusAddComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -81,7 +84,7 @@ export class StatusAddComponent implements OnInit {
         null,
         ""
       )
-    ];
+    ]);
   }
 
   public showCreate() {

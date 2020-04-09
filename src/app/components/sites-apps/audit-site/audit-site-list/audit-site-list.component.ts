@@ -28,7 +28,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   }
 
   datasource: MatTableDataSource<AuditSite>;
-  displayedColumns: string[] = ["auditDate", "userId", "siteCode", "description", "currentSatusLabel"];
+  displayedColumns: string[] = ["typeAuditSiteLabel", "auditDate", "userId", "siteCode", "description", "currentSatusLabel"];
   columnsToDisplay: string[];
   emptyData: boolean;
 
@@ -37,6 +37,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
   statusEnums = StatusEnum;
+
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -80,7 +81,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
           return this.audiSiteService.findLazyData(
             this.paginator.pageIndex,
             this.paginator.pageSize,
-            this.sort.start,
+            "desc",
             "id"
           );
         }),

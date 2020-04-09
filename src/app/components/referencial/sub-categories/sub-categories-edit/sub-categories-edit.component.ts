@@ -1,17 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {SubCategoriesService} from "../../../../business/services/referencial/sub-categories.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {Observable} from "rxjs";
-import {Status} from "../../../../business/models/referencial/status";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Observable, of} from "rxjs";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 import {map, startWith, switchMap} from "rxjs/operators";
 import {SubCategories} from "../../../../business/models/referencial/sub-categories";
 import {Categories} from "../../../../business/models/referencial/categories";
 import {CategoriesService} from "../../../../business/services/referencial/categories.service";
-import {DecisionService} from "../../../../business/services/referencial/decision.service";
-import {Decision} from "../../../../business/models/referencial/decision";
+import {DecisionTypeService} from "../../../../business/services/referencial/decision-type.service";
+import {DecisionType} from "../../../../business/models/referencial/decision-type";
 
 @Component({
   selector: 'app-sub-categories-edit',
@@ -21,7 +20,7 @@ export class SubCategoriesEditComponent implements OnInit {
 
   constructor(public subCategoriesService: SubCategoriesService,
               private categoriesService: CategoriesService,
-              private decisionService: DecisionService,
+              private decisionTypeService: DecisionTypeService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -29,11 +28,11 @@ export class SubCategoriesEditComponent implements OnInit {
   id: number;
   selected: Observable<SubCategories>;
   editForm: FormGroup;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
   title: string;
   object: string;
   categoriesList: Categories[];
-  decisionItems: Decision[];
+  familyItems: DecisionType[];
   filteredOptions: Observable<Categories[]>;
   edit = true;
 
@@ -50,6 +49,10 @@ export class SubCategoriesEditComponent implements OnInit {
       this.title = "Modifier la sous catégorie N°: " + this.id;
     });
 
+    this.decisionTypeService.findAll().subscribe(data => {
+      this.familyItems = data;
+    });
+
     this.categoriesService.findAll().subscribe(data => {
       this.categoriesList = data;
       this.fields = this.loadFormModels();
@@ -59,18 +62,12 @@ export class SubCategoriesEditComponent implements OnInit {
       startWith(""),
       map(value => this._filter(value))
     );
-    this.loadDecisions();
   }
 
   public showCreate() {
     this.router.navigate(["referencial/decisions/add"]);
   }
 
-  private loadDecisions() {
-    this.decisionService.findAll().subscribe(data => {
-      this.decisionItems = data.filter(x => x.position === 1);
-    });
-  }
 
   private _filter(value: string): Categories[] {
     return this.categoriesList.filter(
@@ -83,11 +80,9 @@ export class SubCategoriesEditComponent implements OnInit {
       id: new FormControl(),
       label: new FormControl(),
       categoriesId: new FormControl(),
-      position: new FormControl(),
       valueType: new FormControl(),
       status: new FormControl(),
-      blocking: new FormControl(),
-      decisionsList: new FormControl()
+      blocking: new FormControl()
     });
   }
 
@@ -99,16 +94,14 @@ export class SubCategoriesEditComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
       categoriesId: new FormControl(subCategories.categoriesId, Validators.required),
-      position: new FormControl(subCategories.position),
-      valueType: new FormControl(subCategories.valueType),
-      decisionsList: new FormControl(subCategories.decisionsList),
+      valueType: new FormControl(subCategories.valueType, Validators.required),
       status: new FormControl(subCategories.status),
       blocking: new FormControl(subCategories.blocking)
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -130,28 +123,14 @@ export class SubCategoriesEditComponent implements OnInit {
         "Veuillez selectionner une catégories."
       ),
       new ModelGeneric(
-        "position",
-        TypeInput.Input,
-        false,
-        false,
-        false,
-      ),
-      new ModelGeneric(
         "valueType",
-        TypeInput.Number,
-        false,
-        false,
-        false,
-      ),
-      new ModelGeneric(
-        "decisionsList",
         TypeInput.Select,
-        true,
         false,
         false,
-        true,
-        this.decisionItems,
-        "Veuillez selectionner au moins une ligne."
+        false,
+        false,
+        this.familyItems,
+        "Veuillez selectionner une famille."
       ),
       new ModelGeneric(
         "blocking",
@@ -167,7 +146,7 @@ export class SubCategoriesEditComponent implements OnInit {
         false,
         false
       )
-    ];
+    ]);
   }
 
 }

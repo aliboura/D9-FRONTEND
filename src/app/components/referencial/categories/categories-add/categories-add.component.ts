@@ -4,6 +4,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModelGeneric} from "../../../../shared/model-generic/model-generic";
 import {TypeInput} from "../../../../shared/enum/type-input.enum";
 import {Categories} from "../../../../business/models/referencial/categories";
+import {TypeAuditSite} from "../../../../business/models/sites/type-audit-site";
+import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-categories-add',
@@ -12,13 +15,15 @@ import {Categories} from "../../../../business/models/referencial/categories";
 export class CategoriesAddComponent implements OnInit {
 
   constructor(public categoriesService: CategoriesService,
+              private typeAuditSiteService: TypeAuditSiteService,
               private formBuilder: FormBuilder) {
   }
 
   addForm: FormGroup;
   title: string;
   object: string;
-  fields: ModelGeneric<any>[] = [];
+  fields: Observable<ModelGeneric<any>[]>;
+  typeAuditSiteList: TypeAuditSite[];
   nextList: Categories[];
   previousList: Categories[];
   create: boolean;
@@ -33,6 +38,9 @@ export class CategoriesAddComponent implements OnInit {
       this.previousList = data.filter(x => !x.last);
       this.fields = this.loadFormModels();
     });
+    this.typeAuditSiteService.findAll().subscribe(data => {
+      this.typeAuditSiteList = data;
+    });
   }
 
   private initForm(): FormGroup {
@@ -41,6 +49,7 @@ export class CategoriesAddComponent implements OnInit {
         "",
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
+      typeAuditSiteId: new FormControl([], Validators.required),
       position: new FormControl("1"),
       status: new FormControl(true),
       nextCatId: new FormControl(null),
@@ -50,8 +59,8 @@ export class CategoriesAddComponent implements OnInit {
     });
   }
 
-  private loadFormModels(): ModelGeneric<any>[] {
-    return [
+  private loadFormModels(): Observable<ModelGeneric<any>[]> {
+    return of([
       new ModelGeneric(
         "label",
         TypeInput.Input,
@@ -61,6 +70,16 @@ export class CategoriesAddComponent implements OnInit {
         false,
         null,
         "Minimum 4 caractère."
+      ),
+      new ModelGeneric(
+        "typeAuditSiteId",
+        TypeInput.Select,
+        true,
+        false,
+        false,
+        false,
+        this.typeAuditSiteList,
+        "Veuillez selectionner le type audit."
       ),
       new ModelGeneric(
         "position",
@@ -116,13 +135,13 @@ export class CategoriesAddComponent implements OnInit {
         "previousCatId",
         TypeInput.Select,
         false,
-        false,
+        this.addForm.get('first').value,
         false,
         false,
         this.previousList,
         "Veuillez selectionner une catégories."
       )
-    ];
+    ]);
   }
 
   public showCreate() {

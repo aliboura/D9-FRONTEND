@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Decision} from "../../../../business/models/referencial/decision";
 import {DecisionService} from "../../../../business/services/referencial/decision.service";
 import {AuditSite} from "../../../../business/models/sites/audit-site";
@@ -8,11 +8,11 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {AuditSiteService} from "../../../../business/services/sites/audit-site.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
-import {MessageService} from "primeng";
 import {TranslateService} from "@ngx-translate/core";
 import {CategoriesLabel} from "../../../../business/models/referencial/categories-label.enum";
 import {StatusService} from "../../../../business/services/referencial/status.service";
-import {StatusEnum} from "../../../../business/models/referencial/status.enum";
+import {NOTYF} from "../../../../tools/notyf.token";
+import Notyf from "notyf/notyf";
 
 @Component({
   selector: 'app-audit-site-finish',
@@ -27,8 +27,8 @@ export class AuditSiteFinishComponent implements OnInit {
               private decisionService: DecisionService,
               private spinner: NgxSpinnerService,
               private screenSpinnerService: ScreenSpinnerService,
-              private messageService: MessageService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              @Inject(NOTYF) private notyf: Notyf) {
     this.showSpinner();
   }
 
@@ -76,10 +76,7 @@ export class AuditSiteFinishComponent implements OnInit {
 
     this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
       this.auditSite = data;
-      this.messageService.add({
-        severity: "info",
-        summary: this.translate.instant("COMMUN.SUCCESS_MSG")
-      });
+      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
       this.router.navigate(["sites-apps/audit"]);
     });
   }

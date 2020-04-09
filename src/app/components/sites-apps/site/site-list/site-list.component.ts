@@ -33,6 +33,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
   showAdvanced = false;
+  search: string;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -43,33 +44,34 @@ export class SiteListComponent implements OnInit, AfterViewInit {
     this.columnsToDisplay.push("action");
   }
 
-  private loadSpinner(timeout: number) {
+  private showSpinner() {
     this.screenSpinnerService.show();
     this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-      this.screenSpinnerService.hide();
-    }, timeout);
   }
+
 
   showEdit(id: string) {
     this.router.navigate(["sites", id]);
-    this.loadSpinner(200);
   }
 
   ngAfterViewInit(): void {
     this.loadAllData();
   }
 
-  applyFilter(filterValue: string) {
-    if (filterValue) {
-      const search = "codeSite==" + filterValue.trim().toLowerCase() + ",numSite==" + filterValue.trim().toLowerCase() +
-        ",nomSite==" + filterValue.trim().toLowerCase() + ",regionId==" + filterValue.trim().toLowerCase()
-        + ",typeSite.id==" + filterValue.trim().toLowerCase();
-      this.filter(search);
+  applyFilter() {
+    this.showSpinner();
+    if (this.search) {
+      const expression = "codeSite==*" + this.search.trim().toLowerCase() + "*,numSite==*" + this.search.trim().toLowerCase() +
+        "*,nomSite==*" + this.search.trim().toLowerCase() + "*,regionId==*" + this.search.trim().toLowerCase()
+        + "*,typeSite.id==*" + this.search.trim().toLowerCase() + "*";
+      this.filter(expression);
     } else {
       this.loadAllData();
     }
+  }
+
+  resetSearch() {
+    this.search = "";
   }
 
   showAdvancedSearch() {
@@ -122,7 +124,11 @@ export class SiteListComponent implements OnInit, AfterViewInit {
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<Site>(data);
-        this.datasource.paginator.firstPage();
+        this.datasource.paginator = this.paginator;
+        setTimeout(() => {
+          this.spinner.hide();
+          this.screenSpinnerService.hide();
+        }, 200);
       });
   }
 

@@ -53,6 +53,11 @@
           </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="typeAuditSiteLabel">
+          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.typeAuditSiteLabel}} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="auditDate">
           <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.auditDate | date:'dd/MM/yyyy'}} </mat-cell>

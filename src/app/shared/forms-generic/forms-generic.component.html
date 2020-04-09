@@ -1,140 +1,159 @@
-<mat-card-header>
-  <mat-card-title>{{ title }} :</mat-card-title>
-  <div class="card-back-right-btn" (click)="showList()">
-    <i class="material-icons card-back-icon">
-      close
-    </i>
-  </div>
-</mat-card-header>
-
 <form [formGroup]="modelForm" (ngSubmit)="save(modelForm.value)">
-  <div
-    class="crud-container"
-    *ngFor="let item of fields"
-    [ngSwitch]="item.type"
-  >
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>{{ title }} :</mat-card-title>
+      <div class="card-back-right-btn" (click)="showList()">
+        <i class="material-icons card-back-icon">
+          close
+        </i>
+      </div>
+    </mat-card-header>
 
-    <mat-form-field *ngSwitchCase="'input'">
-      <input
-        matInput
-        [id]="item.field"
-        [readonly]="item.readOnly"
-        [placeholder]="object + '.' + item.field | translate "
-        [required]="item.required"
-        [formControlName]="item.field"
-      />
-      <button mat-button *ngIf="modelForm.controls[item.field].value" matSuffix mat-icon-button aria-label="Clear"
-              (click)="modelForm.controls[item.field].setValue('')">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field *ngSwitchCase="'picker'">
-      <input
-        matInput
-        [id]="item.field"
-        [readonly]="item.readOnly"
-        [matDatepicker]="picker"
-        [required]="item.required"
-        [placeholder]="object + '.' + item.field | translate "
-        [formControlName]="item.field"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field *ngSwitchCase="'number'">
-      <input matInput
-             type="number"
-             [readonly]="item.readOnly"
-             [placeholder]="object + '.' + item.field | translate "
-             [required]="item.required"
-             [formControlName]="item.field"
-             min="0">
-    </mat-form-field>
+    <div
+      class="crud-container"
+      *ngFor="let item of fields | async"
+      [ngSwitch]="item.type">
 
-    <section class="example-section" *ngSwitchCase="'checkbox'">
-      <mat-checkbox class="example-margin"
-                    [disabled]="item.readOnly"
-                    [formControlName]="item.field"
-                    [required]="item.required">{{object + '.' + item.field | translate}}</mat-checkbox>
-    </section>
-
-    <div *ngSwitchCase="'select'">
-
-      <div *ngIf="item.multiple; else singleSelect">
-        <ng-select
-          [items]="item.options"
-          bindLabel="label"
-          [readonly]="item.readOnly"
-          [required]="item.required"
-          multiple="true"
-          [formControlName]="item.field"
-          [placeholder]="object + '.' + item.field | translate "
+      <mat-form-field *ngSwitchCase="'input'">
+        <input
+          matInput
+          type="input"
           [id]="item.field"
-          [loading]="dataLoading"
-          [searchFn]="filterSelectFn"
-          [virtualScroll]="true"
-          appendTo="body"
-        >
-        </ng-select>
+          [readonly]="item.readOnly"
+          [placeholder]="object + '.' + item.field | translate "
+          [required]="item.required"
+          [formControlName]="item.field"
+        />
+        <button mat-button *ngIf="modelForm.controls[item.field].value"
+                type="button"
+                matSuffix mat-icon-button aria-label="Clear"
+                [disabled]="item.readOnly"
+                (click)="modelForm.controls[item.field].setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field *ngSwitchCase="'picker'">
+        <input
+          matInput
+          [id]="item.field"
+          [readonly]="item.readOnly"
+          [matDatepicker]="picker"
+          [required]="item.required"
+          [placeholder]="object + '.' + item.field | translate "
+          [formControlName]="item.field"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field *ngSwitchCase="'number'">
+        <input matInput
+               type="number"
+               [readonly]="item.readOnly"
+               [placeholder]="object + '.' + item.field | translate "
+               [required]="item.required"
+               [formControlName]="item.field"
+               min="0">
+      </mat-form-field>
+
+      <section class="example-section" *ngSwitchCase="'checkbox'">
+        <mat-checkbox class="example-margin"
+                      [disabled]="item.readOnly"
+                      [formControlName]="item.field"
+                      [required]="item.required">{{object + '.' + item.field | translate}}</mat-checkbox>
+      </section>
+
+      <div *ngSwitchCase="'select'">
+
+        <div *ngIf="item.multiple; else singleSelect">
+          <ng-select
+            [items]="item.options"
+            bindLabel="label"
+            [readonly]="item.readOnly"
+            [required]="item.required"
+            multiple="true"
+            [formControlName]="item.field"
+            [placeholder]="object + '.' + item.field | translate "
+            [id]="item.field"
+            [loading]="dataLoading"
+            [searchFn]="filterSelectFn"
+            [virtualScroll]="true"
+            appendTo="body"
+          >
+          </ng-select>
+        </div>
+
+        <ng-template #singleSelect>
+          <ng-select
+            [items]="item.options"
+            bindValue="id"
+            bindLabel="label"
+            [disabled]="item.readOnly"
+            [required]="item.required"
+            [formControlName]="item.field"
+            [placeholder]="object + '.' + item.field | translate "
+            [id]="item.field"
+            [loading]="dataLoading"
+            [searchFn]="filterSelectFn"
+            [virtualScroll]="true"
+            appendTo="body"
+          >
+          </ng-select>
+        </ng-template>
+
+
       </div>
 
-      <ng-template #singleSelect>
-        <ng-select
-          [items]="item.options"
-          bindValue="id"
-          bindLabel="label"
-          [readonly]="item.readOnly"
-          [required]="item.required"
-          [formControlName]="item.field"
-          [placeholder]="object + '.' + item.field | translate "
-          [id]="item.field"
-          [loading]="dataLoading"
-          [searchFn]="filterSelectFn"
-          [virtualScroll]="true"
-          appendTo="body"
-        >
-        </ng-select>
-      </ng-template>
-
+      <mat-error
+        *ngIf="!modelForm.controls[item.field].valid &&
+        modelForm.controls[item.field].dirty"
+        style="font-size: 13px;margin-bottom: 10px;margin-top: -10px;"
+      >{{ item.message }}.
+      </mat-error>
 
     </div>
+    <!--    <mat-divider style="margin-top: 10px"></mat-divider>-->
+    <!--    <mat-card-actions>-->
 
-    <mat-error
-      *ngIf="!modelForm.controls[item.field].valid &&
-        modelForm.controls[item.field].dirty"
-      style="font-size: 13px;margin-bottom: 10px;margin-top: -10px;"
-    >{{ item.message }}.
-    </mat-error>
+    <!--      <span class="gt-divider-horizontal"></span>-->
+    <!--    -->
+    <!--    </mat-card-actions>-->
 
+  </mat-card>
+
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+      <mat-toolbar-row>
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!modelForm.valid"
+          class="add-btn margin-right-15">
+          <i class="material-icons">
+            done
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="showList()"
+          class="cancel-btn">
+          <i class="material-icons">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+
+        <span class="example-spacer"></span>
+
+        <button
+          type="button"
+          (click)="showCreate()"
+          mat-raised-button
+          class="add-btn">
+          <i class="material-icons">add</i>
+          {{'COMMUN.BTN_NEW' | translate}}
+        </button>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
   </div>
-  <mat-divider style="margin-top: 10px"></mat-divider>
-  <mat-card-actions>
-    <button
-      mat-raised-button
-      type="submit"
-      [disabled]="!modelForm.valid"
-      class="add-btn">
-      <i class="material-icons">
-        done
-      </i>
-      {{'COMMUN.BTN_VALIDATE' | translate}}
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      (click)="showList()"
-      class="cancel-btn">
-      <i class="material-icons">close</i>
-      {{'COMMUN.BTN_CANCEL' | translate}}
-    </button>
-    <span class="gt-divider-horizontal"></span>
-    <button
-      type="button"
-      (click)="showCreate()"
-      mat-raised-button
-      class="add-btn">
-      <i class="material-icons">add</i>
-      {{'COMMUN.BTN_NEW' | translate}}
-    </button>
-  </mat-card-actions>
 </form>

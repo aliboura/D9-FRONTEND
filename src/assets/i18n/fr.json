@@ -22,7 +22,10 @@
     "FOOTER_TXT": "Tous droits réservés",
     "CONFIRM_MSG": "Êtes-vous sûr de vouloir suprimer cette ligne?",
     "BACK_MSG": "Voulez-vous enregistrer cette étape?",
-    "SUCCESS_MSG": "Opération effectué avec succès",
+    "SUCCESS_MSG": "Opération effectuée avec succès",
+    "PERFORMED_MSG": "Opération effectuée",
+    "ERROR_MSG": "Erreur d'enregistrement",
+    "ERROR_LOAD_MSG": "Erreur du chargement",
     "LOAD_STEP_MSG": "Etape chargé avec succès",
     "enable": " Activé ",
     "disable": " Disactivé "
@@ -32,6 +35,7 @@
     "SITE": " Site ",
     "CATEGORIES": " Catégories ",
     "SUB_CATEGORIES": " Sous Catégories ",
+    "DECISION_TYPE": " Famille Décision ",
     "DECISION": " Décision ",
     "STATUS": " Status ",
     "TYPE_AUDIT": " Type Audit "
@@ -72,7 +76,9 @@
     "firstDecisionDate": " Date du décision ",
     "firstDecisionEngineerSite": " Première Visite ",
     "secondDecisionLabel": " Deuxième visite ",
-    "note": " Remarque "
+    "note": " Remarque ",
+    "typeAuditSiteId": "Formulaire",
+    "typeAuditSiteLabel": "Formulaire"
   },
   "categories": {
     "title": " Catégorie ",
@@ -86,7 +92,9 @@
     "last": " Dernière étape? ",
     "nextCatId": " Etape Suivantes",
     "previousCatId": " Etape précédente",
-    "listSubCategories": " List des sous-catégories "
+    "listSubCategories": " List des sous-catégories ",
+    "typeAuditSiteId": " Formulaire ",
+    "typeAuditSiteLabel": " Formulaire "
   },
   "sub-categories": {
     "title": " Sous-Catégorie ",
@@ -111,7 +119,8 @@
     "position": " Position ",
     "typeValue": " Type ",
     "status": " Activé ? ",
-    "closed": " Disactivé "
+    "closed": " Disactivé ",
+    "decisionTypeId": "Famille"
   },
   "FINISH": {
     "title": " Décision ",
@@ -136,5 +145,13 @@
     "label": " Libellé ",
     "description": " Déscription ",
     "status": " Activé ? "
+  },
+  "decisionTypes": {
+    "title": " Famille list des valeurs ",
+    "LIST_title": " Famille list des valeurs ",
+    "ADD_title": " Nouvelle famille ",
+    "EDIT_title": " Modifier la famille N° ",
+    "label": " Libellé ",
+    "decisionList": "Liste des valeurs"
   }
 }

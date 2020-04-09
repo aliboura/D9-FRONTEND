@@ -8,6 +8,7 @@ import {ToastModule} from 'primeng/toast';
 import {TooltipModule} from 'primeng/tooltip';
 import {FullCalendarModule, InputTextModule} from "primeng";
 import {ChartModule} from 'primeng/chart';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import {ChartModule} from 'primeng/chart';
     TooltipModule,
     FullCalendarModule,
     InputTextModule,
-    ChartModule
+    ChartModule,
+    ProgressBarModule
   ],
   exports: [
     ConfirmDialogModule,
@@ -32,7 +34,8 @@ import {ChartModule} from 'primeng/chart';
     TooltipModule,
     FullCalendarModule,
     InputTextModule,
-    ChartModule
+    ChartModule,
+    ProgressBarModule
   ]
 })
 export class PrimengModule {

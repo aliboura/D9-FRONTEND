@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./decision/decision.module').then(m => m.DecisionModule)
   },
   {
+    path: "decisionTypes",
+    loadChildren: () => import('./decision-type/decision-type.module').then(m => m.DecisionTypeModule)
+  },
+  {
     path: "status",
     loadChildren: () => import('./status/status.module').then(m => m.StatusModule)
   },
