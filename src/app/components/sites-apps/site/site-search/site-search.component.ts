@@ -135,16 +135,10 @@ export class SiteSearchComponent implements OnInit {
           this.dataSource = new MatTableDataSource<Site>(data);
           this.pushDataEvent.emit(this.dataSource);
           this.noDataEvent.emit(data.length === 0);
-          setTimeout(() => {
-            this.spinner.hide();
-            this.screenSpinnerService.hide();
-          }, 200);
+          this.screenSpinnerService.hide(200);
         });
     } else {
-      setTimeout(() => {
-        this.spinner.hide();
-        this.screenSpinnerService.hide();
-      }, 200);
+      this.screenSpinnerService.hide(200);
     }
   }
 
@@ -162,10 +156,7 @@ export class SiteSearchComponent implements OnInit {
       .subscribe(data => {
         this.dataSource = new MatTableDataSource<Site>(data);
         this.pushDataEvent.emit(this.dataSource);
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(200);
       });
   }
 

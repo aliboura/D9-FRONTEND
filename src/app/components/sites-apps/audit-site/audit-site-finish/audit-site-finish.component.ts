@@ -6,13 +6,19 @@ import {Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {AuditSiteService} from "../../../../business/services/sites/audit-site.service";
-import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {TranslateService} from "@ngx-translate/core";
 import {CategoriesLabel} from "../../../../business/models/referencial/categories-label.enum";
 import {StatusService} from "../../../../business/services/referencial/status.service";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
+import {DatePipe} from "@angular/common";
+import {StatusEnum} from "../../../../business/models/referencial/status.enum";
+import {VisitCheck} from "../../../../business/models/referencial/visit-check.enum";
+import {AuditSteps} from "../../../../business/models/sites/audit-steps";
+import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
+import {CookieService} from "ngx-cookie-service";
+import {STATIC_DATA} from "../../../../tools/static-data";
 
 @Component({
   selector: 'app-audit-site-finish',
@@ -25,17 +31,23 @@ export class AuditSiteFinishComponent implements OnInit {
               private auditSiteService: AuditSiteService,
               private statusService: StatusService,
               private decisionService: DecisionService,
-              private spinner: NgxSpinnerService,
               private screenSpinnerService: ScreenSpinnerService,
+              private jwtTokenService: JwtTokenService,
+              private cookieService: CookieService,
               private translate: TranslateService,
+              private datePipe: DatePipe,
               @Inject(NOTYF) private notyf: Notyf) {
-    this.showSpinner();
   }
 
   auditSite: AuditSite = new AuditSite();
   private obAuditSite: Observable<AuditSite>;
   decisionList: Decision[];
+  decision: Decision;
   categoriesEnum = CategoriesLabel;
+  statusEnum = StatusEnum;
+  private token: string;
+  isSiteEngineer: boolean;
+  isOMEngineer: boolean;
 
   ngOnInit() {
     this.decisionService.findAll().subscribe(data => {
@@ -47,23 +59,15 @@ export class AuditSiteFinishComponent implements OnInit {
       )
     );
     this.obAuditSite.subscribe(data => {
-      this.auditSite = data;
-      const idDecision = this.checkDecision(this.auditSite);
-      if (!this.auditSite.firstVisit) {
-        if (idDecision !== null) {
-          this.auditSite.firstDecisionId = idDecision;
-          this.auditSite.firstDecisionDate = new Date();
-        }
+      this.token = this.cookieService.get(STATIC_DATA.TOKEN);
+      this.isSiteEngineer = this.jwtTokenService.isSiteEngineer(this.token);
+      this.isOMEngineer = this.jwtTokenService.isOMEngineer(this.token);
+      if (!data.firstVisit) {
+        this.auditSite = this.checkDecisionV1(data, this.isSiteEngineer, this.isOMEngineer);
       } else {
-        if (idDecision !== null) {
-          this.auditSite.secondDecisionId = idDecision;
-          this.auditSite.secondDecisionDate = new Date();
-        }
+        this.auditSite = this.checkDecisionV2(data, this.isSiteEngineer, this.isOMEngineer);
       }
-      setTimeout(() => {
-        this.spinner.hide();
-        this.screenSpinnerService.hide();
-      }, 200);
+      this.screenSpinnerService.hide(200);
     });
   }
 
@@ -73,40 +77,87 @@ export class AuditSiteFinishComponent implements OnInit {
     } else {
       this.auditSite.secondVisit = true;
     }
-
-    this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
-      this.auditSite = data;
-      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(["sites-apps/audit"]);
-    });
+    this.auditSiteService.goToFinish(new AuditSteps(this.auditSite, null, null, false))
+      .subscribe(data => {
+        this.auditSite = data;
+        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+        this.router.navigate(['.'], {relativeTo: this.route.parent});
+      });
   }
 
   public cancel() {
-    this.router.navigate(["sites-apps/audit"]);
+    this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
 
-  private checkDecision(auditSite: AuditSite): number {
-    if (auditSite.auditSiteLineDtoList.length > 0) {
-      const noDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === CategoriesLabel.None);
-      if (noDecisions.length > 0) {
-        return null;
+  private setStatusValueV1(decision: Decision, auditSite: AuditSite) {
+    auditSite.firstDecisionId = decision.id;
+    auditSite.firstDecisionLabel = decision.label;
+    auditSite.firstDecisionDate = new Date();
+  }
+
+  private setStatusValueV2(decision: Decision, auditSite: AuditSite) {
+    auditSite.secondDecisionId = decision.id;
+    auditSite.secondDecisionLabel = decision.label;
+    auditSite.secondDecisionDate = new Date();
+  }
+
+  private checkDecisionV1(auditSite: AuditSite, isSiteEngineer: boolean, isOMEngineer: boolean): AuditSite {
+    const noConformRBs = auditSite.auditSiteLineDtoList.filter(x => x.blocking && x.firstDecisionLabel === CategoriesLabel.NoConform);
+    if (noConformRBs.length > 0) {
+      this.decisionService.findByLabelAndPosition(VisitCheck.NoConform.toString(), 2).subscribe(decision => {
+        this.setStatusValueV1(decision, auditSite);
+      });
+    } else {
+      const noConforms = auditSite.auditSiteLineDtoList.filter(x => !x.blocking && x.firstDecisionLabel === CategoriesLabel.NoConform);
+      if (noConforms.length > 0) {
+        this.decisionService.findByLabelAndPosition(VisitCheck.Accepted.toString(), 2).subscribe(decision => {
+          this.setStatusValueV1(decision, auditSite);
+        });
       } else {
-        const conformDecisions = auditSite.auditSiteLineDtoList.filter(x => x.firstDecisionLabel === CategoriesLabel.NoConform);
-        if (conformDecisions.length > 0 && conformDecisions.length <= 2) {
-          return 6;
-        } else if (conformDecisions.length === 0) {
-          return 5;
-        } else {
-          return 7;
-        }
+        this.decisionService.findByLabelAndPosition(VisitCheck.Conform.toString(), 2).subscribe(decision => {
+          this.setStatusValueV1(decision, auditSite);
+        });
       }
     }
-    return null;
+    if (isSiteEngineer && auditSite.firstDecisionEngineerSite === undefined) {
+      auditSite.firstDecisionEngineerSite = this.jwtTokenService.getFullName();
+    }
+    if (isOMEngineer && auditSite.firstDecisionEngineerOM === undefined) {
+      auditSite.firstDecisionEngineerOM = this.jwtTokenService.getFullName();
+    }
+    return auditSite;
   }
 
-  private showSpinner() {
-    this.screenSpinnerService.show();
-    this.spinner.show();
+  private checkDecisionV2(auditSite: AuditSite, isSiteEngineer: boolean, isOMEngineer: boolean): AuditSite {
+    const noConformRBs = auditSite.auditSiteLineDtoList.filter(x => x.blocking && x.secondDecisionLabel === CategoriesLabel.NoConform);
+    if (noConformRBs.length > 0) {
+      this.decisionService.findByLabelAndPosition(VisitCheck.NoConform.toString(), 2).subscribe(decision => {
+        this.setStatusValueV2(decision, auditSite);
+      });
+    } else {
+      const noConforms = auditSite.auditSiteLineDtoList.filter(x => !x.blocking && x.secondDecisionLabel === CategoriesLabel.NoConform);
+      if (noConforms.length > 0) {
+        this.decisionService.findByLabelAndPosition(VisitCheck.Accepted.toString(), 2).subscribe(decision => {
+          this.setStatusValueV2(decision, auditSite);
+        });
+      } else {
+        this.decisionService.findByLabelAndPosition(VisitCheck.Conform.toString(), 2).subscribe(decision => {
+          this.setStatusValueV2(decision, auditSite);
+        });
+      }
+    }
+
+    if (isSiteEngineer && auditSite.secondDecisionEngineerSite === undefined) {
+      auditSite.secondDecisionEngineerSite = this.jwtTokenService.getFullName();
+    }
+    if (isOMEngineer && auditSite.secondDecisionEngineerOM === undefined) {
+      auditSite.secondDecisionEngineerOM = this.jwtTokenService.getFullName();
+    }
+    return auditSite;
+  }
+
+  getDateFormat(myDate: Date): string {
+    return this.datePipe.transform(myDate, 'dd-MM-yyyy');
   }
 
 }

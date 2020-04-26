@@ -2,8 +2,7 @@ import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from "@angul
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {Router} from "@angular/router";
-import {NgxSpinnerService} from "ngx-spinner";
+import {ActivatedRoute, Router} from "@angular/router";
 import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
@@ -23,13 +22,12 @@ import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 export class ListGenericComponent<T extends Parents>
   implements OnInit, AfterViewInit {
   constructor(
-    private spinner: NgxSpinnerService,
     private screenSpinnerService: ScreenSpinnerService,
     private coolDialogs: NgxCoolDialogsService,
     private router: Router,
+    private route: ActivatedRoute,
     private translate: TranslateService,
     @Inject(NOTYF) private notyf: Notyf) {
-    this.showSpinner();
     this.emptyData = true;
   }
 
@@ -38,10 +36,11 @@ export class ListGenericComponent<T extends Parents>
   @Input() columnsToDisplay: string[];
   @Input() object: string;
   @Input() title: string;
-  @Input() routerLink: string;
   @Input() columnsFilter: string[];
   @Input() matSortActive: string;
   @Input() matSortDirection: string;
+  @Input() showAddButton: boolean = true;
+  @Input() showDeleteButton: boolean = true;
 
   displayedColumns: string[] = [];
 
@@ -61,25 +60,17 @@ export class ListGenericComponent<T extends Parents>
   }
 
   private loadSpinner(timeout: number) {
-    this.showSpinner();
-    setTimeout(() => {
-      this.spinner.hide();
-      this.screenSpinnerService.hide();
-    }, timeout);
-  }
-
-  private showSpinner() {
     this.screenSpinnerService.show();
-    this.spinner.show();
+    this.screenSpinnerService.hide(timeout);
   }
 
   showAdd() {
-    this.router.navigate([this.routerLink + "/add"]);
+    this.router.navigate(['add'], {relativeTo: this.route});
     this.loadSpinner(200);
   }
 
   showEdit(id: string) {
-    this.router.navigate([this.routerLink, id]);
+    this.router.navigate([btoa("" + id)], {relativeTo: this.route});
     this.loadSpinner(200);
   }
 
@@ -88,7 +79,6 @@ export class ListGenericComponent<T extends Parents>
   }
 
   applyFilter() {
-    this.showSpinner();
     if (this.columnsFilter && this.search) {
       let expression = "";
       this.columnsFilter.forEach(x => {
@@ -135,10 +125,7 @@ export class ListGenericComponent<T extends Parents>
         this.datasource = new MatTableDataSource<T>(data);
         this.datasource.sort = this.sort;
         this.emptyData = data.length === 0;
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(10);
       });
   }
 
@@ -152,15 +139,13 @@ export class ListGenericComponent<T extends Parents>
       .subscribe(data => {
         this.datasource = new MatTableDataSource<T>(data);
         this.datasource.paginator = this.paginator;
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(10);
       });
   }
 
   resetSearch() {
     this.search = "";
+    this.loadAllData();
   }
 
   delete(model: T) {

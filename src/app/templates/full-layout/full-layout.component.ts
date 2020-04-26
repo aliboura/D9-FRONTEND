@@ -1,13 +1,13 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from "@angular/core";
-import { MediaMatcher } from "@angular/cdk/layout";
-import { TranslateService } from "@ngx-translate/core";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from "@angular/core";
+import {MediaMatcher} from "@angular/cdk/layout";
+import {TranslateService} from "@ngx-translate/core";
+import {STATIC_DATA} from "../../tools/static-data";
+import {LoginService} from "../../security/login.service";
+import {CookieService} from "ngx-cookie-service";
+import {Router} from "@angular/router";
+import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {RoutingStateService} from "../../business/services/apps/routing-state.service";
+import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
 
 @Component({
   selector: "app-full-layout",
@@ -16,9 +16,15 @@ import { MatPaginator, MatTableDataSource } from "@angular/material";
 })
 export class FullLayoutComponent implements OnInit, OnDestroy {
   constructor(
+    private router: Router,
     public media: MediaMatcher,
     public changeDetectorRef: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cookieService: CookieService,
+    private jwtTokenService: JwtTokenService,
+    private loginService: LoginService,
+    private routingStateService: RoutingStateService,
+    private screenSpinnerService: ScreenSpinnerService
   ) {
     this.mobileQuery = media.matchMedia("(max-width: 600px)");
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -26,10 +32,14 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     translate.setDefaultLang("fr");
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/fe|en/) ? browserLang : "fr");
+    this.routingStateService.loadLastRouting();
+    this.admin = this.jwtTokenService.isAdmin(this.cookieService.get(STATIC_DATA.TOKEN));
   }
 
   mobileQuery: MediaQueryList;
   defaultLang: string;
+  userName = "";
+  admin: boolean;
 
   private mobileQueryListener: () => void;
 
@@ -52,5 +62,32 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     this.translate.setDefaultLang("fr");
     this.translate.use("fr");
     this.defaultLang = "Français";
+  }
+
+  get fullName(): string {
+    return this.cookieService.get(STATIC_DATA.FULL_NAME);
+  }
+
+  public navigate(link: string) {
+    if ("/" + link !== this.activeLink) {
+      this.screenSpinnerService.show();
+    }
+    this.router.navigate([link]);
+  }
+
+  public goToProfile(link: string) {
+    if ("/" + link !== this.activeLink) {
+      this.screenSpinnerService.show();
+    }
+    const params: string = this.cookieService.get('USER_NAME');
+    this.router.navigate([link, btoa(params)]);
+  }
+
+  public get activeLink() {
+    return this.routingStateService.getLastLink();
+  }
+
+  public onLogout() {
+    this.loginService.onLogOut();
   }
 }

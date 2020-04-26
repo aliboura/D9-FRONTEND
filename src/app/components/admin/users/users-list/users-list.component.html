@@ -1,0 +1,92 @@
+<mat-card style="margin: 20px;" class="top-bordred">
+  <mat-card-header>
+    <mat-card-title>Liste des audits :</mat-card-title>
+  </mat-card-header>
+
+  <div class="mat-elevation-z8" matSort>
+    <div class="example-table-container">
+      <mat-table
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="matSortDirection">
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef> {{'users.username' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef> {{'users.firstName' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef>  {{'users.lastName' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef> {{'users.email' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="enabled">
+          <mat-header-cell *matHeaderCellDef> {{'users.enabled' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="badge badge-success" *ngIf="element.enabled">{{'COMMUN.enable' | translate}} </span>
+            <span class="badge badge-secondary" *ngIf="!element.enabled">{{'COMMUN.disable' | translate}} </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell
+            *matHeaderCellDef
+            class="action-column"
+          ></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="action-column">
+            <button type="button"
+                    class="btn btn-icon btn-sm"
+                    (click)="goToEdit(element.username)"
+                    style="margin-left: 7px"
+                    [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate">
+              <clr-icon shape="info-standard"></clr-icon>
+            </button>
+
+            <button type="button"
+                    class="btn btn-danger-outline btn-icon btn-sm"
+                    aria-label="home"
+                    [matTooltip]="'COMMUN.BTN_VALIDATE' | translate">
+              <clr-icon shape="check"></clr-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+
+      <mat-paginator
+        [length]="resultsLength"
+        pageSize="10"
+        [pageSizeOptions]="[5, 10, 20, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+
+</mat-card>

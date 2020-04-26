@@ -1,0 +1,108 @@
+<mat-card class="margin-20 top-bordred">
+
+  <mat-card-header>
+    <mat-card-title>{{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="label">
+      <mat-header-cell *matHeaderCellDef style="flex: 0 0 50%"> {{'AUDIT_SITE.label' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 50%">
+        {{element.label}}<span class="red-txt" *ngIf="element.blocking"> *</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="firstDecisionLabel">
+      <mat-header-cell *matHeaderCellDef
+                       style="flex: 0 0 15%"> {{'AUDIT_SITE.firstDecisionLabel' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
+        <app-badge-status [label]="element.firstDecisionLabel"></app-badge-status>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="secondDecisionLabel">
+      <mat-header-cell *matHeaderCellDef
+                       style="flex: 0 0 15%"> {{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
+        <div *ngIf="!auditSite.secondCheck; else note">
+          <mat-form-field>
+            <mat-select [(ngModel)]="element.secondDecisionId"
+                        name="element.secondDecisionId"
+                        [required]="element.blocking"
+                        class="ng-select-table"
+                        placeholder="Remarque">
+              <mat-option *ngFor="let decision of decisionList | filter:element.valueType" [value]="decision.id">
+                {{decision.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <ng-template #note>
+          <app-badge-status [label]="element.secondDecisionLabel"></app-badge-status>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="observation">
+      <mat-header-cell *matHeaderCellDef
+                       style="flex: 0 0 20%"> {{'AUDIT_SITE.observation' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 20%">
+        <mat-form-field class="example-full-width">
+          <input matInput
+                 [(ngModel)]="element.observation"
+                 name="element.observation"
+                 [readonly]="auditSite.secondCheck"
+                 [placeholder]="'AUDIT_SITE.observation' | translate">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <!-- Group header -->
+    <ng-container matColumnDef="groupHeader">
+      <mat-cell colspan="999" *matCellDef="let group" style="background: #f9f9f9;border-bottom: 1px solid #e0e0e0">
+        <mat-icon *ngIf="group.expanded" style="cursor: pointer;margin-right: 10px">expand_less</mat-icon>
+        <mat-icon *ngIf="!group.expanded" style="cursor: pointer;margin-right: 10px">expand_more</mat-icon>
+        <span style="font-weight: 500;cursor: pointer">{{group[groupByColumns[group.level - 1]]}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+             (click)="groupHeaderClick(row)"></mat-row>
+
+  </mat-table>
+</mat-card>
+
+<div class="padding-bottom-25">
+  <mat-toolbar class="action-tool-bar">
+
+    <mat-toolbar-row>
+      <span class="example-spacer"></span>
+
+      <button
+        type="button"
+        mat-raised-button
+        (click)="backToEdit()"
+        class="cancel-btn">
+        <i class="material-icons">close</i>
+        {{'COMMUN.BTN_CANCEL' | translate}}
+      </button>
+
+      <button
+        mat-raised-button
+        type="button"
+        (click)="saveSecondVisit()"
+        [disabled]="auditSite.secondCheck"
+        class="add-btn margin-left-15">
+        <i class="material-icons">
+          check_box
+        </i>
+        {{'COMMUN.BTN_SAVE' | translate}}
+      </button>
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

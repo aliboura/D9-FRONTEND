@@ -12,11 +12,12 @@ import {AuditSiteSearchComponent} from './audit-site-search/audit-site-search.co
 import {SiteModule} from "../site/site.module";
 import {FormsModule} from "@angular/forms";
 import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
-import {PrimengModule} from "../../../importes/primeng/primeng.module";
 import {AuditSiteFinishComponent} from './audit-site-finish/audit-site-finish.component';
-import {TableModule} from "primeng";
 import {SitesAppsModule} from "../sites-apps.module";
 import {FilterPipe} from './filter.pipe';
+import {AuditSiteSecondVisitComponent} from './audit-site-second-visit/audit-site-second-visit.component';
+import {ClrDatagridModule, ClrIconModule, ClrInputModule, ClrSpinnerModule} from "@clr/angular";
+import {TemplatesModule} from "../../../templates/templates.module";
 
 
 @NgModule({
@@ -27,19 +28,23 @@ import {FilterPipe} from './filter.pipe';
     AuditSiteSearchComponent,
     AuditSiteStepsComponent,
     AuditSiteFinishComponent,
-    FilterPipe],
-  imports: [
-    CommonModule,
-    AuditSiteRoutingModule,
-    SharedModule,
-    MaterialModule,
-    PrimengModule,
-    TranslateModule,
-    SiteModule,
-    FormsModule,
-    TableModule,
-    SitesAppsModule
-  ]
+    FilterPipe,
+    AuditSiteSecondVisitComponent],
+    imports: [
+        CommonModule,
+        AuditSiteRoutingModule,
+        SharedModule,
+        MaterialModule,
+        TranslateModule,
+        SiteModule,
+        FormsModule,
+        SitesAppsModule,
+        ClrDatagridModule,
+        ClrIconModule,
+        ClrSpinnerModule,
+        ClrInputModule,
+        TemplatesModule
+    ]
 })
 export class AuditSiteModule {
 }

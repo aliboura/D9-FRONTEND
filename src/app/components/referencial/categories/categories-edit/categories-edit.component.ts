@@ -18,8 +18,7 @@ export class CategoriesEditComponent implements OnInit {
 
   constructor(public categoriesService: CategoriesService,
               private typeAuditSiteService: TypeAuditSiteService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
   }
 
   id: number;
@@ -38,7 +37,7 @@ export class CategoriesEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.categoriesService.findById(params.get("id"))
+        this.categoriesService.findById(atob(params.get("id")))
       )
     );
     this.selected.subscribe(data => {
@@ -56,10 +55,6 @@ export class CategoriesEditComponent implements OnInit {
     this.typeAuditSiteService.findAll().subscribe(data => {
       this.typeAuditSiteList = data;
     });
-  }
-
-  public showCreate() {
-    this.router.navigate(["referencial/categories/add"]);
   }
 
   private initForm() {

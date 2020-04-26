@@ -6,26 +6,30 @@ import {SiteViewComponent} from './site-view/site-view.component';
 import {SiteRoutingModule} from "./site-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
-import {PrimengModule} from "../../../importes/primeng/primeng.module";
 import { SiteSearchComponent } from './site-search/site-search.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
+import {ClarityModule} from "@clr/angular";
+import { SiteFormsComponent } from './site-forms/site-forms.component';
+import {TemplatesModule} from "../../../templates/templates.module";
 
 
 @NgModule({
-  declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent],
+  declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent, SiteFormsComponent],
   exports: [
     SiteSearchComponent
   ],
-  imports: [
-    CommonModule,
-    SiteRoutingModule,
-    SharedModule,
-    MaterialModule,
-    PrimengModule,
-    FormsModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        SiteRoutingModule,
+        SharedModule,
+        MaterialModule,
+        FormsModule,
+        TranslateModule,
+        ClarityModule,
+        ReactiveFormsModule,
+        TemplatesModule
+    ]
 })
 export class SiteModule {
 }

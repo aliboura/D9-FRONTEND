@@ -1,0 +1,98 @@
+<!--<div class="login-wrapper">-->
+<!--  <form class="login" [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)">-->
+<!--    <section class="title">-->
+<!--      <img-->
+<!--        type="image/svg+xml"-->
+<!--        width="25%"-->
+<!--        src="./././assets/images/djezzy.svg"-->
+<!--        class="logo-style"-->
+<!--      />-->
+<!--      <h3 class="welcome">Welcome to</h3>-->
+<!--      Site Acceptance-->
+<!--      <h5 class="hint">Use your Company ID to sign in or create one now</h5>-->
+<!--    </section>-->
+<!--    <div class="login-group">-->
+<!--      <clr-input-container>-->
+<!--        <label class="clr-sr-only">Username</label>-->
+<!--        <input type="text" name="username" clrInput placeholder="Username" formControlName="username"/>-->
+<!--      </clr-input-container>-->
+<!--      <clr-password-container>-->
+<!--        <label class="clr-sr-only">Password</label>-->
+<!--        <input type="password" name="password" clrPassword placeholder="Password" formControlName="password"/>-->
+<!--      </clr-password-container>-->
+<!--      <clr-checkbox-wrapper>-->
+<!--        <label>Remember me</label>-->
+<!--        <input type="checkbox" name="rememberMe" clrCheckbox/>-->
+<!--      </clr-checkbox-wrapper>-->
+<!--      <button type="submit" class="btn btn-danger">LOGIN</button>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
+<!--<div class="flex-center">-->
+<!--  <img-->
+<!--    type="image/svg+xml"-->
+<!--    width="60px"-->
+<!--    src="./././assets/images/djezzy.svg"-->
+<!--    class="logo-style margin-20"-->
+<!--  />-->
+<!--</div>-->
+<form class="login" [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)">
+
+  <div class="Aligner">
+
+    <mat-card style="width: 35%">
+
+      <mat-card-header class="flex-center login-card-header">
+        <mat-card-title style="color: #757575;text-align: center">
+          <span class="material-icons" style="color: #F10034;font-size: 35px">
+            settings_input_antenna
+          </span>
+          <br/>
+          Site Transfert (D9)
+        </mat-card-title>
+      </mat-card-header>
+
+      <div style="margin: 120px 0px 40px 30px">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom d'utlisateur</mat-label>
+          <input matInput
+                 formControlName="username"
+                 placeholder="Nom d'utlisateur ">
+          <mat-icon matSuffix style="color: #909090">person</mat-icon>
+          <mat-error
+            *ngIf="!loginForm.controls['username'].valid &&
+                    loginForm.controls['username'].dirty">
+            Minimum 4 caractère.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput formControlName="password"
+                 [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix
+                  type="button"
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon style="color: #909090">{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="!loginForm.controls['password'].valid &&
+                    loginForm.controls['password'].dirty">
+            Minimum 4 caractère.
+          </mat-error>
+        </mat-form-field>
+        <button type="submit"
+                class="btn btn-danger btn-icon"
+                style="width: 95%;height: 42px;margin-top: 25px;max-width: 95%">
+          Login
+        </button>
+      </div>
+      <mat-card-actions style="text-align: center;color: #848484">
+        <span style="color: #E20613;font-weight: 500;">Djezzy </span> | {{'COMMUN.FOOTER_TXT' | translate}} |
+        <span style="color: #E20613;font-weight: 500"> Apps </span>
+        &copy; 2020.
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</form>

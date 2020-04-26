@@ -40,7 +40,7 @@ export class SubCategoriesEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.subCategoriesService.findById(params.get("id"))
+        this.subCategoriesService.findById(atob(params.get("id")))
       )
     );
     this.selected.subscribe(data => {
@@ -62,10 +62,6 @@ export class SubCategoriesEditComponent implements OnInit {
       startWith(""),
       map(value => this._filter(value))
     );
-  }
-
-  public showCreate() {
-    this.router.navigate(["referencial/decisions/add"]);
   }
 
 

@@ -1,23 +1,26 @@
 <mat-card class="top-bordred margin-20">
+
   <mat-card-header>
     <mat-card-title>{{ object + '.LIST_title' | translate }} :</mat-card-title>
   </mat-card-header>
 
   <mat-grid-list cols="4" rowHeight="60px">
+
     <mat-grid-tile [colspan]="1">
       <button
         type="button"
         mat-raised-button
         class="add-btn"
+        *ngIf="showAddButton"
         (click)="showAdd()"
-        routerLinkActive="disabled"
-      >
+        routerLinkActive="disabled">
         <i class="material-icons" style="font-size: 22px;">
           add_circle_outline
         </i>
         {{'COMMUN.BTN_NEW' | translate}}
       </button>
     </mat-grid-tile>
+
     <mat-grid-tile [colspan]="3">
       <div
         style="border-left: 1px solid #e0e0e0;height: 40px;margin-right: 15px;"
@@ -28,29 +31,35 @@
         <input
           matInput
           [(ngModel)]="search"
-          name="search"
-        />
+          name="search">
+
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                *ngIf="search"
+                type="button"
+                class="btn-search-reset"
+                (click)="resetSearch()"
+                style="margin: 5px;">
+          <mat-icon>close</mat-icon>
+        </button>
         <button mat-button matSuffix mat-icon-button
+                type="button"
                 (click)="applyFilter()"
                 class="btn-search">
-          <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                  *ngIf="search"
-                  class="btn-search-reset"
-                  (click)="resetSearch()">
-            <mat-icon>close</mat-icon>
-          </button>
           <mat-icon class="btn-search-icon">search</mat-icon>
         </button>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
+
   <div class="mat-elevation-z8" matSort>
     <div class="example-table-container">
+
       <mat-table
         [dataSource]="datasource"
         matSortActive="matSortActive"
         matSortDisableClear
         matSortDirection="matSortDirection">
+
         <!-- Index Column -->
         <ng-container matColumnDef="id">
           <mat-header-cell
@@ -99,28 +108,27 @@
         <ng-container matColumnDef="action">
           <mat-header-cell
             *matHeaderCellDef
-            class="action-column"
-          ></mat-header-cell>
+            class="action-column">
+          </mat-header-cell>
           <mat-cell *matCellDef="let element" class="action-column">
-            <button
-              type="button"
-              mat-icon-button
-              (click)="showEdit(element.id)"
-              style="margin: 5px;color: #6d6d6d;"
-              color="warn"
-              [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate"
-            >
-              <i class="material-icons">open_in_new</i>
+
+            <button type="button"
+                    class="btn btn-icon btn-sm"
+                    aria-label="home"
+                    (click)="showEdit(element.id)"
+                    routerLinkActive="active"
+                    [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate">
+              <clr-icon shape="info-standard"></clr-icon>
             </button>
-            <button
-              type="button"
-              mat-icon-button
-              color="warn"
-              style="margin: 5px;"
-              (click)="confirm(element)"
-              [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
-              <i class=" material-icons">delete</i>
+
+            <button type="button"
+                    *ngIf="showDeleteButton"
+                    class="btn btn-danger-outline btn-icon btn-sm"
+                    (click)="confirm(element)"
+                    [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
+              <clr-icon shape="trash"></clr-icon>
             </button>
+
           </mat-cell>
         </ng-container>
 

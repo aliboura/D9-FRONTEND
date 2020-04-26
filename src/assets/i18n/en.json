@@ -4,6 +4,7 @@
     "LABEL": " Label ",
     "BTN_NEW": " New ",
     "BTN_VALIDATE": " Validate ",
+    "BTN_SAVE": " Save ",
     "BTN_CLOSE": " Close ",
     "BTN_CANCEL": " Cancel ",
     "BTN_DELETE": " Delete ",
@@ -22,9 +23,13 @@
     "FOOTER_TXT": "All rights reserved",
     "CONFIRM_MSG": "Are you sure you want to delete this line?",
     "BACK_MSG": "Do you want to save this step?",
+    "REQUIRED_MSG": "Please check the required fields",
     "SUCCESS_MSG": "Operation completed successfully",
     "PERFORMED_MSG": "Operation executed",
     "ERROR_MSG": "Recording error",
+    "ERROR_SYS_MSG": "Error System",
+    "ERROR_404_MSG": "Not Found",
+    "ERROR_CONTACT_MSG": "Registration error please contact system administrators",
     "ERROR_LOAD_MSG": "Loading error",
     "LOAD_STEP_MSG": "Step loaded successfully",
     "enable": " Enable ",
@@ -48,6 +53,7 @@
     "label": " Name ",
     "description": " Description ",
     "styleCSS": " CSS Style ",
+    "iconCSS": " CSS Icon ",
     "motif": " Motif ? "
   },
   "SITE": {
@@ -62,6 +68,7 @@
   },
   "AUDIT_SITE": {
     "id": " N° ",
+    "label": " Items ",
     "auditDate": " Audit date ",
     "userId": " Fait par ",
     "siteCode": " Site code ",
@@ -72,10 +79,14 @@
     "observation": " Observation ",
     "currentCategoriesLabel": " Current Category ",
     "currentSatusLabel": "  Status ",
-    "firstDecisionLabel": " Decision ",
-    "firstDecisionDate": " Décision Date ",
+    "firstCheckDate": " First Visit ",
+    "firstDecisionLabel": " First Visit Validation",
+    "firstDecisionDate": " First Decision Date ",
     "firstDecisionEngineerSite": " First visit ",
-    "secondDecisionLabel": " Second visit ",
+    "secondDecisionLabel": " Second visit Validation",
+    "secondCheckDate": " Second Visit ",
+    "secondDecisionLabel": " Second Visit Validation ",
+    "secondDecisionDate": " Second Visit Date ",
     "note": " Note ",
     "typeAuditSiteId": "Form",
     "typeAuditSiteLabel": "Form"
@@ -154,5 +165,27 @@
     "EDIT_title": "Edit family number",
     "label": "Label",
     "decisionList": "Values items"
+  },
+  "STATES": {
+    "Save_V1": "V1 Saved",
+    "Save_V2": "V2 Saved",
+    "Valid_V1": "V1 Validated",
+    "Valid_V2": "V2 Validated"
+  },
+  "users": {
+    "title": " Users ",
+    "LIST_title": " User List ",
+    "ADD_title": " New User ",
+    "EDIT_title": " Edit User N°:'",
+    "id": "N°",
+    "username": " User Name",
+    "firstName": " First Name ",
+    "lastName": " Last Name ",
+    "email": " Email ",
+    "enabled": " Enabled ?",
+    "expired": " Expired ? ",
+    "locked": " Locked ? ",
+    "regionId": "Region",
+    "wilayaId": "City"
   }
 }

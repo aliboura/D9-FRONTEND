@@ -4,7 +4,7 @@
   background: -moz-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
   background: -webkit-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
   background: linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f10034', endColorstr='#ff4b4a',GradientType=1 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f10034', endColorstr='#ff4b4a', GradientType=1);
   height: 42px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !important;
 }
@@ -103,8 +103,6 @@
 }
 
 
-
-
 .btn-menu {
   font-weight: normal !important;
   border-radius: 0px;
@@ -125,6 +123,7 @@
   width: auto;
   padding-left: 15px;
   padding-right: 5px;
+  border-radius: 0px;
 }
 
 .sidebar-logout-btn {

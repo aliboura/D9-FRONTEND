@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "./business/services/apps/screen-spinner.service";
-import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -21,11 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.spinner.show();
     this.screenSpinnerService.show();
-    setTimeout(() => {
-      this.spinner.hide();
-      this.screenSpinnerService.hide();
-    }, 1000);
+    this.screenSpinnerService.hide(200);
   }
 }

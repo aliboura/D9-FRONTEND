@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReferencialRoutingModule} from "./referencial-routing.module";
 import {ReferencialComponent} from './referencial.component';
 import {MaterialModule} from "../../importes/material/material.module";
+import {TemplatesModule} from "../../templates/templates.module";
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import {MaterialModule} from "../../importes/material/material.module";
     imports: [
         CommonModule,
         ReferencialRoutingModule,
-        MaterialModule
+        MaterialModule,
+        TemplatesModule
     ]
 })
 export class ReferencialModule {

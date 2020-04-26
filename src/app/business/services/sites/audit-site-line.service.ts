@@ -22,12 +22,7 @@ export class AuditSiteLineService extends GenericService<AuditSiteLine> {
   }
 
   goToNextSteps(auditSteps: AuditSteps): Observable<AuditSite> {
-    return this.getHttp().put<AuditSite>(this.getApi() + "/goToNext", auditSteps, {
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-      })
-    });
+    return this.getHttp().put<AuditSite>(this.getApi() + "/goToNext", auditSteps);
   }
-
 
 }

@@ -8,6 +8,7 @@ import {DecisionRoutingModule} from "./decision-routing.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {MaterialModule} from "../../../importes/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {TemplatesModule} from "../../../templates/templates.module";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {TranslateModule} from "@ngx-translate/core";
         DecisionRoutingModule,
         SharedModule,
         MaterialModule,
-        TranslateModule
+        TranslateModule,
+        TemplatesModule
     ]
 })
 export class DecisionModule {

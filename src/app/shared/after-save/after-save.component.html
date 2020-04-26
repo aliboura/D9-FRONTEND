@@ -1,0 +1,54 @@
+<mat-card [@sucessCard]="stateName"
+          class="nz-code-box margin-20 silver-border"
+          *ngIf="show">
+  <div class="code-box">
+    <div class="code-box-demo" [ngSwitch]="result">
+      <div class="ant-result-icon">
+        <img
+          type="image/svg+xml"
+          width="90"
+          src="./././assets/images/clipboard.svg"
+          *ngSwitchCase="check.Save"
+        />
+        <img
+          type="image/svg+xml"
+          width="90"
+          src="./././assets/images/cancel.svg"
+          *ngSwitchCase="check.Error"
+        />
+      </div>
+      <div class="ant-result-title">
+        <span *ngSwitchCase="check.Save">
+          {{'COMMUN.SUCCESS_MSG' | translate}}
+        </span>
+        <span *ngSwitchCase="check.Error">
+          {{'COMMUN.ERROR_MSG' | translate}}
+        </span>
+      </div>
+      <div class="ant-result-subtitle">
+        <span *ngSwitchCase="check.Save">
+         {{message}}
+        </span>
+        <span *ngSwitchCase="check.Error">
+           {{'COMMUN.ERROR_CONTACT_MSG' | translate}}
+        </span>
+      </div>
+      <div class="ant-result-extra">
+        <button type="button"
+                mat-raised-button
+                (click)="goToPreviousList()"
+                class="add-btn">
+          <i class="material-icons">menu_open</i>
+          Reteur
+        </button>
+        <button type="button"
+                mat-raised-button
+                (click)="goToHome()"
+                class="cancel-btn">
+          <i class="material-icons">home</i>
+          Home
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-card>

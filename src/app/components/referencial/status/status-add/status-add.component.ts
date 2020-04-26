@@ -38,6 +38,7 @@ export class StatusAddComponent implements OnInit {
       ),
       description: new FormControl(""),
       styleCSS: new FormControl(""),
+      iconCSS: new FormControl(""),
       motif: new FormControl(false)
     });
   }
@@ -66,6 +67,16 @@ export class StatusAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "styleCSS",
+        TypeInput.Input,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "iconCSS",
         TypeInput.Input,
         false,
         false,

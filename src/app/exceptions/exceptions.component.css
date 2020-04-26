@@ -1,0 +1,102 @@
+/*.exception-body.notfound::after {*/
+/*  background-color: #444c5b;*/
+/*  background-image: -webkit-gradient(linear, left top, left bottom, from(#444c5b), to(#20252e));*/
+/*  background-image: -webkit-linear-gradient(top, #444c5b -9%, #20252e);*/
+/*  background-image: -moz-linear-gradient(top, #444c5b -9%, #20252e);*/
+/*  background-image: -ms-linear-gradient(top, #444c5b -9%, #20252e);*/
+/*  background-image: -o-linear-gradient(top, #444c5b -9%, #20252e);*/
+/*  background-image: linear-gradient(to bottom, #444c5b -9%, #20252e);*/
+/*  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#444c5b -9%", endColorstr="#20252e");*/
+/*}*/
+
+.exception-body .exception-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.exception-body::after {
+  content: " ";
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+}
+
+.exception-body .exception-content .exception-panel {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  border-top: none;
+  width: 50%;
+  background-color: #f9f9f9;
+  z-index: 10;
+}
+
+.exception-body .exception-content .exception-panel .exception-panel-content {
+  z-index: 100;
+  height: 50%;
+  width: 50%;
+}
+
+.exception-body.notfound .exception-content .exception-panel .exception-panel-content .tag {
+  background-color: #ffe565;
+  width: 10%;
+}
+
+.exception-body .exception-content .exception-panel .exception-panel-content .tag {
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin-bottom: 20px;
+}
+
+.exception-body.notfound .exception-content .exception-panel .exception-panel-content h1 {
+  color: #6d7688;
+}
+
+.exception-body .exception-content .exception-panel .exception-panel-content h1 {
+  font-size: 42px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  margin: 20px 0;
+}
+
+.exception-body .exception-content .exception-panel .exception-panel-content .seperator {
+  width: 100%;
+  height: 1px;
+  background-color: #9199a9;
+}
+
+.exception-body.notfound .exception-content .exception-panel .exception-panel-content p {
+  color: #98a0b1;
+}
+
+.exception-body .exception-content .exception-panel .exception-panel-content p {
+  margin-top: 25px;
+  font-size: 16px;
+}
+
+.exception-footer {
+  position: absolute;
+  bottom: 10px
+}
+
+.exception-footer > a {
+  text-decoration: none;
+  color: #98a0b1;
+}

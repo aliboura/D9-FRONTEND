@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {SiteComponent} from "./site.component";
 import {SiteListComponent} from "./site-list/site-list.component";
 import {SiteViewComponent} from "./site-view/site-view.component";
+import {SiteFormsComponent} from "./site-forms/site-forms.component";
 
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: ":id",
         component: SiteViewComponent
+      },
+      {
+        path: "forms/:id",
+        component: SiteFormsComponent
       }
     ]
   }

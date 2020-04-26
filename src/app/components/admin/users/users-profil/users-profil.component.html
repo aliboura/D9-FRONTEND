@@ -1,0 +1,70 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>{{ 'users.title' |translate }} :</mat-card-title>
+    <div class="card-back-right-btn">
+      <button type="button"
+              class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+        <clr-icon shape="times"></clr-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <div class="clr-row" style="margin: 20px;padding-top: 20px;border-top: 1px solid #e9e9e9">
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-9 clr-col-lg-9"
+         style="border-right: 1px solid #e0e0e0;padding-right: 10px">
+      <div class="crud-container">
+        <mat-form-field>
+          <mat-label>{{'users.username' | translate}}</mat-label>
+          <input
+            matInput
+            type="input"
+            readonly="true"
+            required="true"
+            [(ngModel)]="user.username"
+            name="username"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input
+            matInput
+            type="input"
+            readonly="true"
+            required="true"
+            [(ngModel)]="user.firstName"
+            name="firstName"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'users.email' | translate}}</mat-label>
+          <input
+            matInput
+            type="input"
+            readonly="true"
+            required="true"
+            [(ngModel)]="user.email"
+            name="email"
+          />
+        </mat-form-field>
+        <!--    <div>-->
+        <!--      <label>{{'users.enabled' | translate}}</label>-->
+        <!--      <span class="badge badge-success" *ngIf="user.enabled">{{'COMMUN.enable' | translate}}</span>-->
+        <!--      <span class="badge badge-success" *ngIf="user.enabled">{{'COMMUN.disable' | translate}}</span>-->
+        <!--    </div>-->
+        <mat-form-field>
+          <mat-label>{{'users.regionId' | translate}}</mat-label>
+          <input
+            matInput
+            type="input"
+            readonly="true"
+            required="true"
+            [(ngModel)]="user.regionId"
+            name="regionId"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-3 clr-col-lg-3">
+      <h1>TEST PHOTO</h1>
+    </div>
+  </div>
+</mat-card>

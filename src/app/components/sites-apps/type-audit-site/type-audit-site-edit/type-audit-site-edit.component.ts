@@ -33,7 +33,7 @@ export class TypeAuditSiteEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.typeAuditSiteService.findById(params.get("id"))
+        this.typeAuditSiteService.findById(atob(params.get("id")))
       )
     );
     this.selected.subscribe(data => {
@@ -42,10 +42,6 @@ export class TypeAuditSiteEditComponent implements OnInit {
       this.fields = this.loadFormModels();
     });
     this.object = "typeAudit";
-  }
-
-  public showCreate() {
-    this.router.navigate(["referencial/categories/add"]);
   }
 
   private initForm() {

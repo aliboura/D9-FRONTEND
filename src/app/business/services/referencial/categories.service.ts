@@ -24,11 +24,7 @@ export class CategoriesService extends GenericService<Categories> {
   }
 
   getFirstByType(type: number): Observable<Categories> {
-    const header = new HttpHeaders({
-      Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-    });
     return this.getHttp().get<Categories>(this.getApi() + "/first", {
-      headers: header,
       params: new HttpParams()
         .set("type", "" + type)
     });

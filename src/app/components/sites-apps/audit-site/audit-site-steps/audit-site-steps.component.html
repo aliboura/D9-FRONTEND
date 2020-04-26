@@ -1,122 +1,115 @@
-<mat-card class="top-bordred margin-20">
+<form #addForm="ngForm">
+  <mat-card class="top-bordred margin-20" *ngIf="!success">
 
-  <mat-card-header>
+    <mat-card-header>
 
-    <mat-card-title>
-      {{title}}
-    </mat-card-title>
+      <mat-card-title>
+        {{title}}
+      </mat-card-title>
 
-    <div class="right-headeer-title">
-      <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+      <div class="right-headeer-title">
+        <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
 
-    </div>
-  </mat-card-header>
+      </div>
+    </mat-card-header>
 
-  <table style="width:100%">
-    <tr *ngFor="let line of auditSiteLines">
-      <td>{{auditSiteLines.indexOf(line) + 1}}</td>
-      <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
-      <td>
-        <mat-form-field>
-          <mat-label>Remarque</mat-label>
-          <mat-select [(ngModel)]="line.firstDecisionId"
-                      name="line.firstDecisionId"
-                      class="ng-select-table">
-            <mat-option *ngFor="let decision of decisionList | filter:line.valueType" [value]="decision.id">
-              {{decision.label}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!--        <ng-select-->
-        <!--          [items]="line.subCategories.decisionsList"-->
-        <!--          bindValue="id"-->
-        <!--          bindLabel="label"-->
-        <!--          [required]="line.blocking"-->
-        <!--          [(ngModel)]="line.firstDecisionId"-->
-        <!--          name="line.firstDecisionId"-->
-        <!--          appendTo="body"-->
-        <!--          class="ng-select-table"-->
-        <!--        >-->
-        <!--        </ng-select>-->
-      </td>
-      <td>
-        <input type="text" size="30" pInputText [(ngModel)]="line.observation"
-               name="line.observation" class="table-input" placeholder="Observation"
-               [matTooltip]="line.observation"
-               matTooltipPosition="left">
-      </td>
-      <td width="5%" style="text-align: center;border-left: 1px solid #e0e0e0">
+    <table style="width:100%">
+      <tr *ngFor="let line of auditSiteLines">
+        <td>{{auditSiteLines.indexOf(line) + 1}}</td>
+        <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
+        <td>
+          <mat-form-field>
+            <mat-label>Remarque</mat-label>
+            <mat-select [(ngModel)]="line.firstDecisionId"
+                        [name]="line.firstDecisionId +'.'+ (auditSiteLines.indexOf(line) + 1) * auditSiteLines.length"
+                        [required]="line.blocking"
+                        class="ng-select-table">
+              <mat-option *ngFor="let decision of decisionList | filter:line.valueType" [value]="decision.id">
+                {{decision.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <input type="text" size="30" pInputText [(ngModel)]="line.observation"
+                 name="line.observation" class="table-input" placeholder="Observation"
+                 [matTooltip]="line.observation"
+                 matTooltipPosition="left">
+        </td>
+        <td width="5%" style="text-align: center;border-left: 1px solid #e0e0e0">
         <span class="material-icons" style="color: #28a745" *ngIf="line.firstDecisionId === 2">
           check
         </span>
-        <span class="material-icons" style="color: #dc3545" *ngIf="line.firstDecisionId === 3">
+          <span class="material-icons" style="color: #dc3545" *ngIf="line.firstDecisionId === 3">
           close
         </span>
-        <span class="material-icons" style="color: #ffc107" *ngIf="line.firstDecisionId === 1">
+          <span class="material-icons" style="color: #ffc107" *ngIf="line.firstDecisionId === 1">
           remove
         </span>
-      </td>
-    </tr>
-    <tr *ngIf="currentCat.last">
-      <td colspan="5">
-        <mat-form-field class="example-full-width">
+        </td>
+      </tr>
+      <tr *ngIf="currentCat.last">
+        <td colspan="5">
+          <mat-form-field class="example-full-width">
           <textarea matInput placeholder="Observation"
                     [(ngModel)]="auditSite.observation"
                     style="width: 100%"
                     name="observation" rows="5"></textarea>
-        </mat-form-field>
-      </td>
-    </tr>
+          </mat-form-field>
+        </td>
+      </tr>
 
-  </table>
-  <mat-toolbar class="card-mat-toolbar">
-    <mat-toolbar-row>
-      <button
-        type="button"
-        mat-raised-button
-        style="margin-right: 10px"
-        placement="left"
-        (click)="confirm()"
-        class="close-btn">
-        <i class="material-icons" style="font-size: 18px">close</i>
-        {{'COMMUN.BTN_CLOSE' | translate}}
-      </button>
-      <span class="example-spacer"></span>
-      <button
-        type="button"
-        mat-raised-button
-        style="margin-right: 10px"
-        (click)="goToPrevious()"
-        *ngIf="!currentCat.first"
-        [matTooltip]="currentCat.previousCatId +' - '+ currentCat.previousCatLabel"
-        class="cancel-btn">
-        <i class="material-icons" style="font-size: 18px">arrow_back_ios</i>
-        {{'COMMUN.PREV_BTN' | translate}}
-      </button>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="goToNext()"
-        *ngIf="!currentCat.last"
-        [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
-        class="add-btn">
-        <i class="material-icons" style="font-size: 18px">
-          arrow_forward_ios
-        </i>
-        {{'COMMUN.NEXT_BTN' | translate}}
-      </button>
-      <button
-        mat-raised-button
-        type="button"
-        *ngIf="currentCat.last"
-        (click)="goToFinish()"
-        class="add-btn">
-        <i class="material-icons" style="font-size: 18px">
-          check
-        </i>
-        {{'COMMUN.BTN_VALIDATE' | translate}}
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</mat-card>
-
+    </table>
+    <mat-toolbar class="card-mat-toolbar">
+      <mat-toolbar-row>
+        <button
+          type="button"
+          mat-raised-button
+          style="margin-right: 10px"
+          placement="left"
+          (click)="confirm()"
+          class="close-btn">
+          <i class="material-icons" style="font-size: 18px">close</i>
+          {{'COMMUN.BTN_CLOSE' | translate}}
+        </button>
+        <span class="example-spacer"></span>
+        <button
+          type="button"
+          mat-raised-button
+          style="margin-right: 10px"
+          (click)="goToPrevious()"
+          *ngIf="!currentCat.first"
+          [matTooltip]="currentCat.previousCatId +' - '+ currentCat.previousCatLabel"
+          class="cancel-btn">
+          <i class="material-icons" style="font-size: 18px">arrow_back_ios</i>
+          {{'COMMUN.PREV_BTN' | translate}}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          (click)="goToNext()"
+          [disabled]="!addForm.form.valid"
+          *ngIf="!currentCat.last"
+          [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
+          class="add-btn">
+          <i class="material-icons" style="font-size: 18px">
+            arrow_forward_ios
+          </i>
+          {{'COMMUN.NEXT_BTN' | translate}}
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          *ngIf="currentCat.last"
+          (click)="goToFinish()"
+          class="add-btn">
+          <i class="material-icons" style="font-size: 18px">
+            check_box
+          </i>
+          {{'COMMUN.BTN_SAVE' | translate}}
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </mat-card>
+  <app-after-save [result]="result" [message]="message" *ngIf="success" [show]="success"></app-after-save>
+</form>

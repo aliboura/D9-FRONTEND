@@ -1,8 +1,7 @@
 import {ModelGeneric} from "./../model-generic/model-generic";
 import {Component, EventEmitter, Inject, Input, Output} from "@angular/core";
 import {FormGroup, NgForm} from "@angular/forms";
-import {Router} from "@angular/router";
-import {NgxSpinnerService} from "ngx-spinner";
+import {ActivatedRoute, Router} from "@angular/router";
 import {catchError} from "rxjs/operators";
 import {Observable, throwError} from "rxjs";
 import {GenericService} from "../service-generic/generic.service";
@@ -33,7 +32,7 @@ export class FormsGenericComponent<T extends Parents> {
 
   constructor(
     private router: Router,
-    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
     private screenSpinnerService: ScreenSpinnerService,
     private adapter: DateAdapter<any>,
     private translate: TranslateService,
@@ -46,7 +45,6 @@ export class FormsGenericComponent<T extends Parents> {
   @Input() fields: Observable<ModelGeneric<any>[]>;
   @Input() object: string;
   @Input() title: string;
-  @Input() routerLink: string;
   @Input() editMode;
   @Input() dataLoading = false;
 
@@ -63,7 +61,6 @@ export class FormsGenericComponent<T extends Parents> {
 
   private create(modelForm: NgForm) {
     this.screenSpinnerService.show();
-    this.spinner.show();
     this.service
       .create(modelForm)
       .pipe(
@@ -74,17 +71,13 @@ export class FormsGenericComponent<T extends Parents> {
       )
       .subscribe((data: T) => {
         this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-        this.router.navigate([this.routerLink]);
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.showList();
+        this.screenSpinnerService.hide(200);
       });
   }
 
   private update(modelForm: NgForm) {
     this.screenSpinnerService.show();
-    this.spinner.show();
     this.service
       .update(modelForm)
       .pipe(
@@ -95,15 +88,16 @@ export class FormsGenericComponent<T extends Parents> {
       )
       .subscribe((data: T) => {
         this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-        this.router.navigate([this.routerLink]);
+        this.showList();
       });
   }
 
   public showList() {
-    this.router.navigate([this.routerLink]);
+    this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
 
   public showCreate() {
+    this.router.navigate(['add'], {relativeTo: this.route.parent});
     this.clickShowCreate.emit();
   }
 

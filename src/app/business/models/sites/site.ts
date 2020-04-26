@@ -8,6 +8,7 @@ export class Site {
   regionId: string;
   serviceDemandeur: string;
   audited: boolean;
+  powerSupplyConform: boolean;
   typeSiteId: string;
   typeSiteLib: string;
   wilayaId: number;

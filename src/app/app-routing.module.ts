@@ -1,22 +1,26 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./home/home.component";
+import {LoginComponent} from "./security/login/login.component";
+import {AuthGuardService} from "./security/auth-guard.service";
+import {ExceptionsComponent} from "./exceptions/exceptions.component";
 
 
 const routes: Routes = [
   {
-    path: "home",
-    component: HomeComponent
+    path: "login",
+    component: LoginComponent
   },
   {
-    path: "referencial",
-    loadChildren: () => import('./components/referencial/referencial.module').then(m => m.ReferencialModule)
+    path: "apps-exceptions/:code",
+    component: ExceptionsComponent
   },
   {
-    path: "sites-apps",
-    loadChildren: () => import('./components/sites-apps/sites-apps.module').then(m => m.SitesAppsModule)
+    path: "apps",
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
   },
-  {path: "", redirectTo: "home", pathMatch: "full"}
+  {path: "", redirectTo: "apps", pathMatch: "full"},
+  {path: '**', redirectTo: 'apps-exceptions/4', pathMatch: "full"}
 ];
 
 @NgModule({

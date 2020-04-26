@@ -21,19 +21,11 @@ export class StatusService extends GenericService<Status> {
   }
 
   getFirst(): Observable<Status> {
-    return this.getHttp().get<Status>(this.getApi() + "/first", {
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-      })
-    });
+    return this.getHttp().get<Status>(this.getApi() + "/first");
   }
 
   findByLabel(label: string): Observable<Status> {
-    const header = new HttpHeaders({
-      Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-    });
     return this.getHttp().get<Status>(this.getApi(), {
-      headers: header,
       params: new HttpParams()
         .set("label", "" + label)
     });

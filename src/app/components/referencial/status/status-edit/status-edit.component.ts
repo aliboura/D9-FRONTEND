@@ -32,7 +32,7 @@ export class StatusEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.statusService.findById(params.get("id"))
+        this.statusService.findById(atob(params.get("id")))
       )
     );
     this.selected.subscribe(data => {
@@ -44,16 +44,13 @@ export class StatusEditComponent implements OnInit {
     this.object = "status";
   }
 
-  public showCreate() {
-    this.router.navigate(["referencial/decisions/add"]);
-  }
-
   private initForm() {
     return new FormGroup({
       id: new FormControl(),
       label: new FormControl(),
       description: new FormControl(),
       styleCSS: new FormControl(),
+      iconCSS: new FormControl(),
       motif: new FormControl()
     });
   }
@@ -67,6 +64,7 @@ export class StatusEditComponent implements OnInit {
       ),
       description: new FormControl(status.description),
       styleCSS: new FormControl(status.styleCSS),
+      iconCSS: new FormControl(status.iconCSS),
       motif: new FormControl(status.motif)
     });
   }
@@ -95,6 +93,16 @@ export class StatusEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "styleCSS",
+        TypeInput.Input,
+        false,
+        false,
+        false,
+        false,
+        null,
+        ""
+      ),
+      new ModelGeneric(
+        "iconCSS",
         TypeInput.Input,
         false,
         false,

@@ -69,37 +69,43 @@
       </ng-select>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2" style="float: right">
-      <button
-        mat-raised-button
-        type="button"
-        class="add-btn no-shadow red-border"
-        matTooltip="Filter."
-        (click)="filter()"
-        style="margin-right: 10px">
-        <i class="pi pi-filter"></i>
+      <button type="button" class="btn btn-danger-outline"
+              matTooltip="Filter."
+              style="margin-right: 10px"
+              (click)="filter()">
+        <clr-icon shape="filter"></clr-icon>
         Filter
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        (click)="reset()"
-        matTooltip="Rénitialiser le formulaire."
-        class="cancel-btn no-shadow silver-border">
-        <i class="pi pi-undo"></i>
+
+      <button type="button"
+              class="btn btn-info-outline"
+              (click)="reset()"
+              matTooltip="Rénitialiser le formulaire.">
+        <clr-icon shape="times"></clr-icon>
         Cancel
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        (click)="showAdvancedSearch()"
-        *ngIf="showBtn"
-        style="margin-left: 10px"
-        matTooltip="Recherche simple."
-        class="cancel-btn no-shadow silver-border">
-        <i class="material-icons" style="font-size: 22px;">
-          arrow_drop_up
-        </i>
+      <button type="button"
+              class="btn btn-icon show-btn"
+              (click)="showAdvancedSearch()"
+              *ngIf="showBtn"
+              matTooltip="Recherche simple."
+              aria-label="home">
+        <clr-icon shape="angle"></clr-icon>
       </button>
+
+
+      <!--      <button-->
+      <!--        type="button"-->
+      <!--        mat-raised-button-->
+      <!--        (click)="showAdvancedSearch()"-->
+      <!--        *ngIf="showBtn"-->
+      <!--        style="margin-left: 10px"-->
+      <!--        matTooltip="Recherche simple."-->
+      <!--        class="cancel-btn no-shadow silver-border">-->
+      <!--        <i class="material-icons" style="font-size: 22px;">-->
+      <!--          arrow_drop_up-->
+      <!--        </i>-->
+      <!--      </button>-->
     </mat-grid-tile>
   </mat-grid-list>
 

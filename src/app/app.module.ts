@@ -4,38 +4,39 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FullLayoutComponent} from './templates/full-layout/full-layout.component';
-import {FooterComponent} from './templates/footer/footer.component';
-import {LeftMenuComponent} from './templates/left-menu/left-menu.component';
 import {MaterialModule} from "./importes/material/material.module";
-import {PrimengModule} from "./importes/primeng/primeng.module";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {ReferencialModule} from "./components/referencial/referencial.module";
 import {SharedModule} from "./shared/shared.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {NgSelectModule} from "@ng-select/ng-select";
-import {HomeComponent} from './home/home.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {NOTYF, notyfFactory} from "./tools/notyf.token";
 import {NgxCoolDialogsService} from "ngx-cool-dialogs";
+import {ClarityModule} from '@clr/angular';
+import {DatePipe} from "@angular/common";
+import {LoginComponent} from './security/login/login.component';
+import {AuthGuardService} from "./security/auth-guard.service";
+import {CookieService} from "ngx-cookie-service";
+import {HttpClientInterceptor} from "./http.client.interceptor";
+import {LoadGuardService} from "./security/load-guard.service";
+import {ExceptionsComponent} from "./exceptions/exceptions.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    FullLayoutComponent,
-    FooterComponent,
-    LeftMenuComponent,
-    HomeComponent
+    LoginComponent,
+    ExceptionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ClarityModule,
     MaterialModule,
-    PrimengModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -51,13 +52,18 @@ import {NgxCoolDialogsService} from "ngx-cool-dialogs";
         deps: [HttpClient]
       }
     }),
-    NgxChartsModule
+    NgxChartsModule,
+    ClarityModule
   ],
   providers: [
+    AuthGuardService,
+    LoadGuardService,
     NgxCoolDialogsService,
-    {provide: NOTYF, useFactory: notyfFactory}
+    DatePipe,
+    {provide: NOTYF, useFactory: notyfFactory},
+    CookieService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true}
   ],
-  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

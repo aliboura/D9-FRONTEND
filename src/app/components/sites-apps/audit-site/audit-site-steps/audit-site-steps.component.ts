@@ -18,6 +18,7 @@ import {CategoriesLabel} from "../../../../business/models/referencial/categorie
 import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
+import {Check} from "../../../../business/models/referencial/check.enum";
 
 @Component({
   selector: 'app-audit-site-steps',
@@ -48,6 +49,10 @@ export class AuditSiteStepsComponent implements OnInit {
   editCat: boolean;
   categoriesEnum = CategoriesLabel;
 
+  success = false;
+  message: string;
+  result: string;
+
   ngOnInit() {
     this.editCat = true;
     this.obAuditSite = this.route.paramMap.pipe(
@@ -57,11 +62,15 @@ export class AuditSiteStepsComponent implements OnInit {
     );
     this.obAuditSite.subscribe(data => {
       this.auditSite = data;
-      this.loadData(this.auditSite, 1);
-      setTimeout(() => {
-        this.spinner.hide();
-        this.screenSpinnerService.hide();
-      }, 200);
+      this.success = this.auditSite.lastStep;
+      if (!this.auditSite.lastStep) {
+        this.auditSite.firstCheckDate = new Date();
+        this.loadData(this.auditSite, 1);
+      } else {
+        this.message = "Le site N°:" + this.auditSite.siteCode + " est bien enregister.";
+        this.result = Check.Save.toString();
+      }
+      this.screenSpinnerService.hide(200);
     });
   }
 
@@ -136,10 +145,7 @@ export class AuditSiteStepsComponent implements OnInit {
         this.auditSite = ee;
         this.loadData(this.auditSite, 2);
         this.editCat = true;
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(200);
       });
   }
 
@@ -160,21 +166,19 @@ export class AuditSiteStepsComponent implements OnInit {
     this.showSpinner();
     this.editCat = false;
     this.loadData(this.auditSite, 3);
-    setTimeout(() => {
-      this.spinner.hide();
-      this.screenSpinnerService.hide();
-    }, 200);
+    this.screenSpinnerService.hide(200);
   }
 
   public goToFinish() {
-    this.editCat = false;
     this.auditSite.lastStep = true;
-    this.saveLines();
-    this.auditSiteService.updateModel(this.auditSite).subscribe(data => {
-      this.auditSite = data;
-      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(["sites-apps/audit/finish/", btoa("" + this.auditSite.id)]);
-    });
+    this.auditSiteService.goToFinish(new AuditSteps(this.auditSite, this.currentCat, this.auditSiteLines, false))
+      .subscribe(data => {
+        this.auditSite = data;
+        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+        this.success = true;
+        this.message = "Le site N°:" + this.auditSite.siteCode + " est bien enregister.";
+        this.result = Check.Save.toString();
+      });
   }
 
   confirm() {
@@ -194,14 +198,14 @@ export class AuditSiteStepsComponent implements OnInit {
       this.editCat = false;
       this.saveLines();
       this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(["sites-apps/audit"]);
+      this.router.navigate(['.'], {relativeTo: this.route.parent});
     } else {
-      this.router.navigate(["sites-apps/audit"]);
+      this.router.navigate(['.'], {relativeTo: this.route.parent});
     }
   }
 
   public backToList() {
-    this.router.navigate(["sites-apps/audit"]);
+    this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
 
 }

@@ -4,6 +4,7 @@ import {SitesAppsRoutingModule} from "./sites-apps-routing.module";
 import {SharedModule} from "../../shared/shared.module";
 import {SitesAppsComponent} from "./sites-apps.component";
 import {BadgeStatusComponent} from './badge-status/badge-status.component';
+import {TemplatesModule} from "../../templates/templates.module";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {BadgeStatusComponent} from './badge-status/badge-status.component';
     imports: [
         CommonModule,
         SitesAppsRoutingModule,
-        SharedModule
+        SharedModule,
+        TemplatesModule
     ]
 })
 export class SitesAppsModule {

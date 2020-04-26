@@ -3,7 +3,7 @@ import {TypeInput} from "../enum/type-input.enum";
 
 // options: { [key: string]: T[] };
 
-export class ModelGeneric<T extends Parents> {
+export class ModelGeneric<T> {
   field: string;
   type: string;
   required: boolean;

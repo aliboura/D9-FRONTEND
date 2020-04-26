@@ -1,6 +1,7 @@
 import {AuditSiteLine} from "./audit-site-line";
 import {Categories} from "../referencial/categories";
 import {StatusAuditSite} from "./status-audit-site";
+import {StatusEnum} from "../referencial/status.enum";
 
 export class AuditSite {
   id: number;
@@ -14,15 +15,18 @@ export class AuditSite {
   repOwner: string;
   description: string;
   observation: string;
+  firstCheckDate: Date;
+  secondCheck: boolean | false;
+  secondCheckDate: Date;
 
   currentCategoriesId: number;
   currentCategoriesLabel: string;
-  nextCategoriesId: number;
-  previousCategoriesId: number;
 
   currentSatusId: number;
   currentSatusLabel: string;
+  currentSatusDescription: string;
   currentSatusStyleCSS: string;
+  currentSatusIconCSS: string;
 
   lastStep: boolean;
   firstVisit: boolean;
@@ -43,4 +47,5 @@ export class AuditSite {
 
   auditSiteLineDtoList: AuditSiteLine[];
   statusAuditSitesDtoList: StatusAuditSite[];
+
 }

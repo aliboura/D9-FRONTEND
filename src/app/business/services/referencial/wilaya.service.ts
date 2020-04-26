@@ -20,11 +20,7 @@ export class WilayaService extends GenericService<Wilaya> {
   }
 
   findByRegion(regionId: string): Observable<Wilaya[]> {
-    const header = new HttpHeaders({
-      Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-    });
     return this.getHttp().get<Wilaya[]>(this.getApi() + "/by_region", {
-      headers: header,
       params: new HttpParams()
         .set("regionId", "" + regionId)
     });

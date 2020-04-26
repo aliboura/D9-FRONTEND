@@ -21,10 +21,14 @@ export class DecisionService extends GenericService<Decision> {
 
   public findByTypeValue(type: number): Observable<Decision[]> {
     return this.getHttp().get<Decision[]>(this.getApi(), {
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem(STATIC_DATA.TOKEN)
-      }),
       params: new HttpParams().set("type", "" + type)
+    });
+  }
+
+  public findByLabelAndPosition(label: string, position: number): Observable<Decision> {
+    return this.getHttp().get<Decision>(this.getApi(), {
+      params: new HttpParams().set("label", label)
+        .set("position", "" + position)
     });
   }
 }

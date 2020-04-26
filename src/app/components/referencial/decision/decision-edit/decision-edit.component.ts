@@ -36,7 +36,7 @@ export class DecisionEditComponent implements OnInit {
     this.editForm = this.initForm();
     this.selected = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.decisionService.findById(params.get("id"))
+        this.decisionService.findById(atob(params.get("id")))
       )
     );
     this.selected.subscribe(data => {
@@ -48,10 +48,6 @@ export class DecisionEditComponent implements OnInit {
       this.fields = this.loadFormModels();
     });
     this.object = "decisions";
-  }
-
-  public showCreate() {
-    this.router.navigate(["referencial/decisions/add"]);
   }
 
   private initForm() {

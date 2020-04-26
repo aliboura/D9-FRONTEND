@@ -1,7 +1,7 @@
 export class Group {
   level = 0;
   parent: Group;
-  expanded = true;
+  expanded = false;
   totalCounts = 0;
 
   get visible(): boolean {

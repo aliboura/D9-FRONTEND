@@ -8,15 +8,17 @@ import { DecisionTypeListComponent } from './decision-type-list/decision-type-li
 import { DecisionTypeEditComponent } from './decision-type-edit/decision-type-edit.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {SharedModule} from "../../../shared/shared.module";
+import {TemplatesModule} from "../../../templates/templates.module";
 
 
 @NgModule({
   declarations: [DecisionTypeComponent, DecisionTypeAddComponent, DecisionTypeListComponent, DecisionTypeEditComponent],
-  imports: [
-    CommonModule,
-    DecisionTypeRoutingModule,
-    TranslateModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        DecisionTypeRoutingModule,
+        TranslateModule,
+        SharedModule,
+        TemplatesModule
+    ]
 })
 export class DecisionTypeModule { }

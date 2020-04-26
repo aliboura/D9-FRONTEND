@@ -3,5 +3,6 @@ export class Status {
   label: string;
   description: string;
   styleCSS: string;
+  iconCSS: string;
   motif: boolean;
 }

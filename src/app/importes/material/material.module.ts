@@ -42,6 +42,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatRowKeyboardSelectionModule} from "mat-row-keyboard-selection";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import {MatRowKeyboardSelectionModule} from "mat-row-keyboard-selection";
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-    MatRowKeyboardSelectionModule
+    MatRowKeyboardSelectionModule,
+    NgSelectModule
   ],
   exports: [
     A11yModule,
@@ -134,7 +136,8 @@ import {MatRowKeyboardSelectionModule} from "mat-row-keyboard-selection";
     PortalModule,
     ScrollingModule,
     MatFormFieldModule,
-    MatRowKeyboardSelectionModule
+    MatRowKeyboardSelectionModule,
+    NgSelectModule
   ]
 })
 export class MaterialModule {

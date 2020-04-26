@@ -1,0 +1,113 @@
+<form [formGroup]="editForm" (ngSubmit)="update(editForm.value)">
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>{{ 'users.title' |translate }} :</mat-card-title>
+      <div class="card-back-right-btn">
+        <button type="button"
+                class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+          <clr-icon shape="times"></clr-icon>
+        </button>
+      </div>
+    </mat-card-header>
+
+    <div class="crud-container">
+      <mat-form-field>
+        <mat-label>{{'users.username' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          readonly="true"
+          required="true"
+          formControlName="username"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'users.firstName' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          readonly="true"
+          required="true"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'users.lastName' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          readonly="true"
+          required="true"
+          formControlName="lastName"
+        />
+      </mat-form-field>
+      <div>
+        <ng-select
+          [items]="regionItems"
+          bindValue="id"
+          bindLabel="label"
+          required
+          [placeholder]="'users.regionId' | translate"
+          formControlName="regionId"
+          appendTo="body"
+          (change)="onSelectChange($event)"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+      <div>
+        <ng-select
+          [items]="wilayaItems"
+          bindLabel="label"
+          required
+          multiple="true"
+          formControlName="wilayaSet"
+          [placeholder]="'users.wilayaId' | translate"
+          appendTo="body"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+      <div>
+        <ng-select
+          [items]="roleItems"
+          bindLabel="label"
+          required
+          multiple="true"
+          [placeholder]="'users.role' | translate"
+          formControlName="roleSet"
+          appendTo="body"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </mat-card>
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+      <mat-toolbar-row>
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!editForm.valid"
+          class="add-btn margin-right-15">
+          <i class="material-icons">
+            done
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="showList()"
+          class="cancel-btn">
+          <i class="material-icons">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+
+        <span class="example-spacer"></span>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</form>

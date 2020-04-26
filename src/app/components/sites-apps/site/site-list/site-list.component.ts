@@ -2,12 +2,11 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Site} from "../../../../business/models/sites/site";
 import {SiteService} from "../../../../business/services/sites/site.service";
-import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {merge, of as observableOf} from "rxjs";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
 @Component({
@@ -17,11 +16,9 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 export class SiteListComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private siteService: SiteService,
-              private spinner: NgxSpinnerService,
               private screenSpinnerService: ScreenSpinnerService) {
-    this.screenSpinnerService.show();
-    this.spinner.show();
   }
 
   datasource: MatTableDataSource<Site>;
@@ -44,14 +41,12 @@ export class SiteListComponent implements OnInit, AfterViewInit {
     this.columnsToDisplay.push("action");
   }
 
-  private showSpinner() {
-    this.screenSpinnerService.show();
-    this.spinner.show();
+  showEdit(id: string) {
+    this.router.navigate([btoa("" + id)], {relativeTo: this.route});
   }
 
-
-  showEdit(id: string) {
-    this.router.navigate(["sites", id]);
+  goToForms(id: string) {
+    this.router.navigate(['forms', btoa("" + id)], {relativeTo: this.route});
   }
 
   ngAfterViewInit(): void {
@@ -59,7 +54,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter() {
-    this.showSpinner();
+    this.screenSpinnerService.show();
     if (this.search) {
       const expression = "codeSite==*" + this.search.trim().toLowerCase() + "*,numSite==*" + this.search.trim().toLowerCase() +
         "*,nomSite==*" + this.search.trim().toLowerCase() + "*,regionId==*" + this.search.trim().toLowerCase()
@@ -108,10 +103,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.datasource = new MatTableDataSource<Site>(data);
         this.datasource.sort = this.sort;
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(200);
       });
   }
 
@@ -125,10 +117,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.datasource = new MatTableDataSource<Site>(data);
         this.datasource.paginator = this.paginator;
-        setTimeout(() => {
-          this.spinner.hide();
-          this.screenSpinnerService.hide();
-        }, 200);
+        this.screenSpinnerService.hide(200);
       });
   }
 

@@ -7,6 +7,14 @@
 
   <form #addForm="ngForm">
     <div class="crud-container">
+      <div style="display: flex">
+        <mat-label class="label-style">
+          Power Supply 48VDC Site Acceptance Document :
+        </mat-label>
+        <app-badge-status [label]="status.Conform" *ngIf="site.powerSupplyConform"></app-badge-status>
+        <app-badge-status [label]="status.NoConform" *ngIf="!site.powerSupplyConform"></app-badge-status>
+      </div>
+      <hr/>
       <mat-form-field>
         <mat-label>{{'AUDIT_SITE.auditDate' | translate}}</mat-label>
         <input matInput [matDatepicker]="picker"
@@ -39,6 +47,7 @@
           name="siteCode"
         />
       </mat-form-field>
+
       <mat-form-field>
         <mat-label>{{'SITE.wilayaLabel' | translate}}</mat-label>
         <input
@@ -63,6 +72,7 @@
                   [(ngModel)]="auditSite.description"
                   name="description"></textarea>
       </mat-form-field>
+
     </div>
   </form>
 </mat-card>

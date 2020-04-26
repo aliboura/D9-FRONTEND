@@ -18,7 +18,7 @@
           [(ngModel)]="auditSite.firstDecisionId"
           name="firstDecisionId"
           required
-          [disabled]="auditSite.firstVisit">
+          disabled="true">
           <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
                             [value]="decision.id">
             {{decision.label}}
@@ -28,12 +28,17 @@
         <mat-form-field>
           <mat-label>{{'FINISH.DATE' | translate}}</mat-label>
           <input matInput [matDatepicker]="picker1"
+                 *ngIf="!auditSite.firstVisit; else firstDecisionDate"
                  [(ngModel)]="auditSite.firstDecisionDate"
                  name="firstDecisionDate"
                  required
                  [disabled]="auditSite.firstVisit">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker1"
+                                 [disabled]="auditSite.firstVisit"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
+          <ng-template #firstDecisionDate>
+            <input matInput [value]="getDateFormat(auditSite.firstDecisionDate)" disabled>
+          </ng-template>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -41,15 +46,15 @@
           <input matInput [(ngModel)]="auditSite.firstDecisionEngineerSite"
                  name="firstDecisionEngineerSite"
                  required
-                 [disabled]="auditSite.firstVisit">
+                 readonly>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
           <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
                  name="firstDecisionEngineerOM"
-                 required
-                 [disabled]="auditSite.firstVisit">
+                 [required]="auditSite.currentSatusLabel === statusEnum.ValidateBySiteEngineer"
+                 readonly>
         </mat-form-field>
       </div>
 
@@ -64,7 +69,7 @@
             [(ngModel)]="auditSite.secondDecisionId"
             name="secondDecisionId"
             [required]="auditSite.firstVisit"
-            [disabled]="auditSite.secondVisit">
+            disabled="true">
             <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
                               [value]="decision.id">
               {{decision.label}}
@@ -74,13 +79,18 @@
 
         <mat-form-field>
           <mat-label>{{'FINISH.DATE' | translate}}</mat-label>
-          <input matInput [matDatepicker]="picker"
-                 [disabled]="auditSite.secondVisit"
+          <input matInput [matDatepicker]="picker1"
+                 *ngIf="!auditSite.secondVisit; else secondDecisionDate"
                  [(ngModel)]="auditSite.secondDecisionDate"
                  name="secondDecisionDate"
-                 [required]="auditSite.firstVisit">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+                 [required]="auditSite.firstVisit"
+                 disabled="true">
+          <mat-datepicker-toggle matSuffix [for]="picker1"
+                                 [disabled]="auditSite.secondVisit"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <ng-template #secondDecisionDate>
+            <input matInput [value]="getDateFormat(auditSite.secondDecisionDate)" disabled>
+          </ng-template>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -88,15 +98,15 @@
           <input matInput [(ngModel)]="auditSite.secondDecisionEngineerSite"
                  name="secondDecisionEngineerSite"
                  [required]="auditSite.firstVisit"
-                 [disabled]="auditSite.secondVisit">
+                 readonly>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
           <input matInput [(ngModel)]="auditSite.secondDecisionEngineerOM"
                  name="secondDecisionEngineerOM"
-                 [required]="auditSite.firstVisit"
-                 [disabled]="auditSite.secondVisit">
+                 [required]="auditSite.firstVisit && auditSite.currentSatusLabel === statusEnum.ValidateBySiteEngineer"
+                 readonly>
         </mat-form-field>
       </div>
     </div>

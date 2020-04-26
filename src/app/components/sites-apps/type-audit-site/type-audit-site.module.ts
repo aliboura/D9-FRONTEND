@@ -9,16 +9,18 @@ import { TypeAuditSiteEditComponent } from './type-audit-site-edit/type-audit-si
 import {MaterialModule} from "../../../importes/material/material.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {TemplatesModule} from "../../../templates/templates.module";
 
 
 @NgModule({
   declarations: [TypeAuditSiteComponent, TypeAuditSiteListComponent, TypeAuditSiteAddComponent, TypeAuditSiteEditComponent],
-  imports: [
-    CommonModule,
-    TypeAuditSiteRoutingModule,
-    SharedModule,
-    MaterialModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        TypeAuditSiteRoutingModule,
+        SharedModule,
+        MaterialModule,
+        TranslateModule,
+        TemplatesModule
+    ]
 })
 export class TypeAuditSiteModule { }

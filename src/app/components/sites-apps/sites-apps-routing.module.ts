@@ -1,16 +1,24 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
+import {AuthGuardService} from "../../security/auth-guard.service";
+import {LoadGuardService} from "../../security/load-guard.service";
 
-const routes: Routes = [{
-  path: "sites",
-  loadChildren: () => import('./site/site.module').then(m => m.SiteModule)
-}, {
-  path: "audit",
-  loadChildren: () => import('./audit-site/audit-site.module').then(m => m.AuditSiteModule)
-}, {
-  path: "typeAudit",
-  loadChildren: () => import('./type-audit-site/type-audit-site.module').then(m => m.TypeAuditSiteModule)
-}];
+const routes: Routes = [
+  {
+    path: "sites",
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./site/site.module').then(m => m.SiteModule)
+  }, {
+    path: "audit",
+    canLoad: [LoadGuardService],
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./audit-site/audit-site.module').then(m => m.AuditSiteModule)
+  }, {
+    path: "typeAudit",
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('./type-audit-site/type-audit-site.module').then(m => m.TypeAuditSiteModule)
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
