@@ -1,8 +1,48 @@
 <mat-card class="top-bordred margin-20">
-  <app-site-search [pageSize]="pagesLength"
-                   (pushDataEvent)="datasource=$event"
-                   (noDataEvent)="emptyData=$event"
-                   [showBtn]="showBackBtn"></app-site-search>
+  <!--  <app-site-search [pageSize]="pagesLength"-->
+  <!--                   (pushDataEvent)="datasource=$event"-->
+  <!--                   (noDataEvent)="emptyData=$event"-->
+  <!--                   [showBtn]="showBackBtn"></app-site-search>-->
+
+  <mat-grid-list cols="8" rowHeight="60px" style="margin: 10px">
+    <mat-grid-tile [colspan]="3">
+      <mat-form-field>
+        <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
+        <input matInput [(ngModel)]="codeSite" name="codeSite">
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="3">
+      <ng-select
+        [items]="wilayaItems"
+        bindValue="id"
+        bindLabel="label"
+        [multiple]="true"
+        [(ngModel)]="wilayaFilterItems"
+        name="wilayaFilterItems"
+        placeholder="Wilaya"
+        appendTo="body"
+        style="width: 95%;margin-top: -3px"
+      >
+      </ng-select>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2">
+      <button type="button" class="btn btn-danger-outline"
+              matTooltip="Filter."
+              (click)="filter()"
+              style="margin-right: 10px">
+        <clr-icon shape="filter"></clr-icon>
+        Filter
+      </button>
+
+      <button type="button"
+              class="btn btn-info-outline"
+              (click)="reset()"
+              matTooltip="Rénitialiser le formulaire.">
+        <clr-icon shape="times"></clr-icon>
+        Cancel
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card>
 <mat-card style="margin: 20px;margin-top: -20px !important;" class="top-bordred">
 
@@ -43,10 +83,24 @@
           </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%"></mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%">
+            <button type="button"
+                    matTooltip="Audité ce site"
+                    (click)="goToNext(element.id)"
+                    class="btn btn-icon btn-danger-outline btn-sm">
+              <clr-icon shape="arrow" dir="right"></clr-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: columnsToDisplay;" [matRowKeyboardSelection]="selectedSite"
-                 [rowModel]="row" [selectOnFocus]="true" [toggleOnEnter]="false" [preventNewSelectionOnTab]="true"
-                 [ngClass]="{selected: selectedSite.isSelected(row)}"></mat-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+
+        <!--        <mat-row *matRowDef="let row; columns: columnsToDisplay;" [matRowKeyboardSelection]="selectedSite"-->
+        <!--                 [rowModel]="row" [selectOnFocus]="true" [toggleOnEnter]="false" [preventNewSelectionOnTab]="true"-->
+        <!--                 [ngClass]="{selected: selectedSite.isSelected(row)}"></mat-row>-->
       </mat-table>
       <app-empty-messages *ngIf="emptyData"></app-empty-messages>
       <mat-paginator
@@ -70,17 +124,17 @@
         <i class="material-icons" style="font-size: 18px">close</i>
         {{'COMMUN.BTN_CANCEL' | translate}}
       </button>
-      <button
-        mat-raised-button
-        type="button"
-        [disabled]="selectedSite.isEmpty()"
-        (click)="goToNext()"
-        class="add-btn">
-        <i class="material-icons" style="font-size: 18px">
-          arrow_forward_ios
-        </i>
-        {{'COMMUN.NEXT_BTN' | translate}}
-      </button>
+      <!--      <button-->
+      <!--        mat-raised-button-->
+      <!--        type="button"-->
+      <!--        [disabled]="selectedSite.isEmpty()"-->
+      <!--        (click)="goToNext()"-->
+      <!--        class="add-btn">-->
+      <!--        <i class="material-icons" style="font-size: 18px;margin-right: -20% !important;width: 50px;">-->
+      <!--          arrow_forward_ios-->
+      <!--        </i>-->
+      <!--        {{'COMMUN.NEXT_BTN' | translate}}-->
+      <!--      </button>-->
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

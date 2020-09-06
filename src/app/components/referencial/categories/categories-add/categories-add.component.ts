@@ -33,7 +33,7 @@ export class CategoriesAddComponent implements OnInit {
     this.title = "Nouvelle catégorie";
     this.object = "categories";
     this.addForm = this.initForm();
-    this.categoriesService.findAll().subscribe(data => {
+    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(data => {
       this.nextList = data.filter(x => !x.first);
       this.previousList = data.filter(x => !x.last);
       this.fields = this.loadFormModels();

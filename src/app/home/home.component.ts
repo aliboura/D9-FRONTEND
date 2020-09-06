@@ -1,10 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {NgxSpinnerService} from "ngx-spinner";
-import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
-import {SiteService} from "../business/services/sites/site.service";
-import {AuditSiteService} from "../business/services/sites/audit-site.service";
-import {StatusEnum} from "../business/models/referencial/status.enum";
+import {JwtTokenService} from "../business/services/apps/jwt-token.service";
 
 @Component({
   selector: 'app-home',

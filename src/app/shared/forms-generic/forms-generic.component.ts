@@ -13,6 +13,8 @@ import {MY_FORMATS} from "../../tools/date-format";
 import Notyf from "notyf/notyf";
 import {NOTYF} from "../../tools/notyf.token";
 import {TranslateService} from "@ngx-translate/core";
+import {registerLocaleData} from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 
 @Component({
   selector: "app-forms-generic",
@@ -38,6 +40,7 @@ export class FormsGenericComponent<T extends Parents> {
     private translate: TranslateService,
     @Inject(NOTYF) private notyf: Notyf) {
     this.adapter.setLocale('fr');
+    registerLocaleData(localeFr);
   }
 
   @Input() service: GenericService<T>;

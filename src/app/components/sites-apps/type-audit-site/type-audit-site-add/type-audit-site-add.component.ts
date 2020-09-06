@@ -11,7 +11,7 @@ import {Observable, of} from "rxjs";
 })
 export class TypeAuditSiteAddComponent implements OnInit {
 
-  constructor(private typeAuditSiteService: TypeAuditSiteService,
+  constructor(public typeAuditSiteService: TypeAuditSiteService,
               private formBuilder: FormBuilder) {
   }
 

@@ -10,6 +10,12 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     canLoad: [LoadGuardService],
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+  },
+  {
+    path: "affectations",
+    canActivate: [AuthGuardService],
+    canLoad: [LoadGuardService],
+    loadChildren: () => import('./affectation/affectation.module').then(m => m.AffectationModule)
   }
 ];
 

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuardService} from "../security/auth-guard.service";
+import {JwtTokenService} from "../business/services/apps/jwt-token.service";
 
 const routes: Routes = [
   {
@@ -23,12 +24,18 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     loadChildren: () => import('../components/sites-apps/sites-apps.module').then(m => m.SitesAppsModule)
   },
+  {
+    path: "reporting",
+    canActivate: [AuthGuardService],
+    loadChildren: () => import('../components/reporting/reporting.module').then(m => m.ReportingModule)
+  },
   {path: "", redirectTo: "home", pathMatch: "full"}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [JwtTokenService]
 })
 export class TemplateRoutingModule {
 }

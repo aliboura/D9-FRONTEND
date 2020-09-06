@@ -11,7 +11,7 @@
     </a>
   </li>
 
-  <li>
+  <li *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
        (click)="navigate('/apps/sites-apps/audit/search')"
@@ -20,7 +20,9 @@
       <clr-icon shape="form" size="25"></clr-icon>
     </a>
   </li>
-  <li>
+  <li *ngIf="jwtTokenService.isSiteEngineer()
+              || jwtTokenService.isOMEngineer()
+              || jwtTokenService.isResponsible()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
        (click)="navigate('/apps/sites-apps/audit')"
@@ -29,7 +31,7 @@
       <clr-icon shape="clipboard" size="25"></clr-icon>
     </a>
   </li>
-  <li>
+  <li *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
        (click)="navigate('/apps/sites-apps/sites')"
@@ -38,7 +40,8 @@
       <clr-icon shape="map-marker" size="25"></clr-icon>
     </a>
   </li>
-  <li>
+
+  <li *ngIf="jwtTokenService.isAdmin()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
        (click)="navigate('/apps/admin/users')"
@@ -48,9 +51,29 @@
     </a>
   </li>
 
+  <li *ngIf="jwtTokenService.isResponsible()">
+    <a class="ripplelink tabmenuitem-link cursor-pointer"
+       type="button"
+       (click)="navigate('/apps/admin/affectations')"
+       matTooltip="Planification des visites"
+       matTooltipPosition="right">
+      <clr-icon shape="calendar" size="25"></clr-icon>
+    </a>
+  </li>
+
+  <li *ngIf="jwtTokenService.isResponsible()">
+    <a class="ripplelink tabmenuitem-link cursor-pointer"
+       type="button"
+       (click)="navigate('/apps/reporting')"
+       matTooltip="Reporting"
+       matTooltipPosition="right">
+      <clr-icon shape="line-chart" size="25"></clr-icon>
+    </a>
+  </li>
+
   <img
     type="image/svg+xml"
-    src="./././assets/images/djezzy.svg"
+    src="./././assets/images/logo.png"
     class="logo-style"
   />
 </ul>

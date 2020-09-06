@@ -1,49 +1,48 @@
 <mat-card class="top-bordred margin-20">
   <mat-card-header>
-    <mat-card-title>Liste des sites :</mat-card-title>
+    <mat-card-title>Liste des sites :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
   </mat-card-header>
-  <mat-grid-list cols="4" rowHeight="60px" *ngIf="!showAdvanced">
+  <mat-grid-list cols="8" rowHeight="60px" style="margin: 10px">
     <mat-grid-tile [colspan]="3">
-
-      <mat-form-field style="width: 100%;">
-        <mat-icon matPrefix style="margin-right: 10px;color: #888;font-size: 20px">filter_list</mat-icon>
-        <mat-label>{{'COMMUN.PLACEHOLDER_SEARCH' | translate}}</mat-label>
-        <input
-          matInput
-          [(ngModel)]="search"
-          name="search"
-        />
-        <button mat-button matSuffix mat-icon-button
-                (click)="applyFilter()"
-                class="btn-search">
-          <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                  *ngIf="search"
-                  class="btn-search-reset"
-                  (click)="resetSearch()">
-            <mat-icon>close</mat-icon>
-          </button>
-          <mat-icon class="btn-search-icon">search</mat-icon>
-        </button>
+      <mat-form-field>
+        <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
+        <input matInput [(ngModel)]="codeSite" name="codeSite">
       </mat-form-field>
-      <div class="divider-horizontal"></div>
     </mat-grid-tile>
-    <mat-grid-tile [colspan]="1">
+    <mat-grid-tile [colspan]="3">
+      <ng-select
+        [items]="wilayaItems"
+        bindValue="id"
+        bindLabel="label"
+        [multiple]="true"
+        [(ngModel)]="wilayaFilterItems"
+        name="wilayaFilterItems"
+        placeholder="Wilaya"
+        appendTo="body"
+        style="width: 95%;margin-top: -3px"
+      >
+      </ng-select>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2">
+      <button type="button" class="btn btn-danger-outline"
+              matTooltip="Filter."
+              (click)="filter()"
+              style="margin-right: 10px">
+        <clr-icon shape="filter"></clr-icon>
+        Filter
+      </button>
 
       <button type="button"
-              class="btn btn-icon show-btn"
-              (click)="showAdvancedSearch()"
-              style="margin-left: 15px; position: absolute;margin-top: -5px"
-              matTooltip="Recherche avancée."
-              routerLinkActive="disabled">
-        <clr-icon shape="angle" style="transform: rotate(180deg);"></clr-icon>
+              class="btn btn-info-outline"
+              (click)="reset()"
+              matTooltip="Rénitialiser le formulaire.">
+        <clr-icon shape="times"></clr-icon>
+        Cancel
       </button>
     </mat-grid-tile>
   </mat-grid-list>
-  <app-site-search *ngIf="showAdvanced"
-                   [pageSize]="pagesLength"
-                   (pushDataEvent)="datasource=$event"
-                   (showEvent)="showAdvanced=$event"
-                   [showBtn]="showAdvanced"></app-site-search>
   <div class="mat-elevation-z8" matSort>
     <div class="example-table-container">
       <mat-table
@@ -100,6 +99,7 @@
 
             <button type="button"
                     class="btn btn-danger-outline btn-icon btn-sm"
+                    [disabled]="disabledUploadBtn(element)"
                     (click)="goToForms(element.id)">
               <clr-icon shape="pin"></clr-icon>
             </button>

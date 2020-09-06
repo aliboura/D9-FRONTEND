@@ -1,7 +1,9 @@
 <form [formGroup]="editForm" (ngSubmit)="update(editForm.value)">
   <mat-card class="top-bordred margin-20">
     <mat-card-header>
-      <mat-card-title>{{ 'users.title' |translate }} :</mat-card-title>
+      <mat-card-title>{{ 'users.title' |translate }} :
+        <mat-divider class="margin-top-15"></mat-divider>
+      </mat-card-title>
       <div class="card-back-right-btn">
         <button type="button"
                 class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
@@ -62,6 +64,7 @@
           required
           multiple="true"
           formControlName="wilayaSet"
+          [closeOnSelect]="false"
           [placeholder]="'users.wilayaId' | translate"
           appendTo="body"
           style="width: 95%"

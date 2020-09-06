@@ -13,8 +13,7 @@ export class RegionService extends GenericService<Region> {
   }
 
   getApi(): string {
-    return "../../../assets/data/regions.json";
+    return "./assets/data/regions.json";
   }
-
 
 }

@@ -78,6 +78,7 @@ export class AuditSiteAddComponent implements OnInit {
       this.site = data;
       this.codeSite = this.site.codeSite;
       this.typeSite = this.site.typeSiteId;
+      this.auditSite.siteId = this.site.id;
       this.auditSite.siteCode = this.site.codeSite;
       this.auditSite.wilayaId = this.site.wilayaId;
       this.auditSite.regionId = this.site.regionId;
@@ -117,6 +118,7 @@ export class AuditSiteAddComponent implements OnInit {
 
   public saveData() {
     if (this.site.powerSupplyConform) {
+      this.auditSite.audited = true;
       this.auditSiteService.createModel(this.auditSite).subscribe(
         (data: AuditSite) => {
           this.auditSite = data;

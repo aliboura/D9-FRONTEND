@@ -1,0 +1,186 @@
+<form class="login" [formGroup]="planningForm" (ngSubmit)="update(planningForm.value)">
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>Plannification Info:
+        <mat-divider class="margin-top-15"></mat-divider>
+      </mat-card-title>
+      <span style="font-size: 12px;color: #848484;"> Région : {{visit.regionId}} - Wilaya : {{visit.wilayaLabel}}</span>
+      <div class="card-back-right-btn">
+        <button type="button"
+                (click)="showList()"
+                class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+          <clr-icon shape="times"></clr-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <div class="clr-row" style="margin: 20px;">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
+        <h5 class="div-title">Site Information :</h5>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
+          <input matInput formControlName="codeSite" readonly>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
+          <input matInput formControlName="siteName" readonly>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.dateD1' | translate}}</mat-label>
+          <input matInput formControlName="dateD1" readonly>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.typeSiteLib' | translate}}</mat-label>
+          <input matInput formControlName="typeSiteLib" readonly>
+        </mat-form-field>
+
+      </div>
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
+        <h5 class="div-title">Première Visite : </h5>
+        <div class="example-full-width">
+          <ng-select
+            [items]="userEngineerItems"
+            bindValue="username"
+            bindLabel="lastName"
+            formControlName="engineerSiteV1"
+            [placeholder]="'affect_v1.engineer_site' | translate"
+            appendTo="body"
+            style="width: 95%"
+            [readonly]="visit.firstVisit"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+          </ng-select>
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.engineerSiteDateV1' | translate}}</mat-label>
+          <input matInput [matDatepicker]="siteDateV1"
+                 formControlName="engineerSiteDateV1"
+                 [disabled]="visit.firstVisit"
+                 [readonly]="visit.firstVisit">
+          <mat-datepicker-toggle matSuffix [for]="siteDateV1"></mat-datepicker-toggle>
+          <mat-datepicker #siteDateV1></mat-datepicker>
+        </mat-form-field>
+        <div class="example-full-width">
+          <ng-select
+            [items]="userOMItems"
+            bindValue="username"
+            bindLabel="lastName"
+            formControlName="engineerOMV1"
+            [placeholder]="'affect_v1.engineer_om' | translate"
+            appendTo="body"
+            style="width: 95%"
+            [readonly]="visit.firstVisit"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+          </ng-select>
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.engineerOMDateV1' | translate}}</mat-label>
+          <input matInput [matDatepicker]="OMDateV1"
+                 formControlName="engineerOMDateV1"
+                 [disabled]="visit.firstVisit"
+                 [readonly]="visit.firstVisit">
+          <mat-datepicker-toggle matSuffix [for]="OMDateV1"></mat-datepicker-toggle>
+          <mat-datepicker #OMDateV1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
+        <h5 class="div-title">Deuxième Visite :</h5>
+        <div class="example-full-width">
+          <ng-select
+            [items]="userEngineerItems"
+            bindValue="username"
+            bindLabel="lastName"
+            formControlName="engineerSiteV2"
+            [placeholder]="'SITE.engineerSiteV2' | translate"
+            appendTo="body"
+            style="width: 95%"
+            [readonly]="visit.secondVisit"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+          </ng-select>
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.engineerSiteDateV2' | translate}}</mat-label>
+          <input matInput [matDatepicker]="siteDateV2"
+                 formControlName="engineerSiteDateV2"
+                 [readonly]="visit.secondVisit"
+                 [disabled]="visit.secondVisit">
+          <mat-datepicker-toggle matSuffix [for]="siteDateV2"></mat-datepicker-toggle>
+          <mat-datepicker #siteDateV2></mat-datepicker>
+        </mat-form-field>
+        <div class="example-full-width">
+          <ng-select
+            [items]="userOMItems"
+            bindValue="username"
+            bindLabel="lastName"
+            formControlName="engineerOMV2"
+            [placeholder]="'SITE.engineerOMV2' | translate"
+            appendTo="body"
+            style="width: 95%"
+            [readonly]="visit.secondVisit"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+          </ng-select>
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{'SITE.engineerOMDateV2' | translate}}</mat-label>
+          <input matInput [matDatepicker]="OMDateV2"
+                 formControlName="engineerOMDateV2"
+                 [readonly]="visit.secondVisit"
+                 [disabled]="visit.secondVisit">
+          <mat-datepicker-toggle matSuffix [for]="OMDateV2"></mat-datepicker-toggle>
+          <mat-datepicker #OMDateV2></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+
+      <mat-toolbar-row>
+        <span class="example-spacer"></span>
+
+        <button
+          type="button"
+          mat-raised-button
+          (click)="showList()"
+          class="cancel-btn margin-right-15">
+          <i class="material-icons">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!planningForm.valid"
+          class="add-btn">
+          <i class="material-icons">
+            done
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</form>

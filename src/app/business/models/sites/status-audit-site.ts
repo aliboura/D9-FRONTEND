@@ -4,6 +4,7 @@ export class StatusAuditSite {
   description: string;
   current: boolean;
   last: boolean;
+  username: string;
   statusId: number;
   statusLabel: string;
   statusDescription: string;

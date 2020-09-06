@@ -1,8 +1,12 @@
-<form #addForm="ngForm">
+<div *ngIf="!isMySite">
+  <app-site-not-planified [siteCode]="auditSite.siteCode" message="No Planified"></app-site-not-planified>
+</div>
+<form #addForm="ngForm" *ngIf="isMySite">
   <mat-card class="top-bordred margin-20">
     <mat-card-header>
       <mat-card-title>
         11 - {{'FINISH.title' | translate}}
+        <mat-divider class="margin-top-15"></mat-divider>
       </mat-card-title>
       <div class="right-headeer-title">
         <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>

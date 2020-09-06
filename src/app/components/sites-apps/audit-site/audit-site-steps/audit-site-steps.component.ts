@@ -37,7 +37,6 @@ export class AuditSiteStepsComponent implements OnInit {
               private screenSpinnerService: ScreenSpinnerService,
               private translate: TranslateService,
               @Inject(NOTYF) private notyf: Notyf) {
-    this.showSpinner();
   }
 
   auditSite: AuditSite = new AuditSite();
@@ -45,13 +44,13 @@ export class AuditSiteStepsComponent implements OnInit {
   auditSiteLines: AuditSiteLine[] = [];
   decisionList: Decision[];
   currentCat: Categories = new Categories();
+  selectedCategory: Categories;
+  categiryItems: Categories[];
   title: string;
   editCat: boolean;
   categoriesEnum = CategoriesLabel;
 
   success = false;
-  message: string;
-  result: string;
 
   ngOnInit() {
     this.editCat = true;
@@ -63,14 +62,13 @@ export class AuditSiteStepsComponent implements OnInit {
     this.obAuditSite.subscribe(data => {
       this.auditSite = data;
       this.success = this.auditSite.lastStep;
-      if (!this.auditSite.lastStep) {
-        this.auditSite.firstCheckDate = new Date();
-        this.loadData(this.auditSite, 1);
-      } else {
-        this.message = "Le site N°:" + this.auditSite.siteCode + " est bien enregister.";
-        this.result = Check.Save.toString();
-      }
+      this.auditSite.firstCheckDate = new Date();
+      this.loadData(this.auditSite, 1);
       this.screenSpinnerService.hide(200);
+    });
+
+    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(cat => {
+      this.categiryItems = cat.filter(x => x.status);
     });
   }
 
@@ -116,6 +114,7 @@ export class AuditSiteStepsComponent implements OnInit {
     this.currentCat.listSubCategories.forEach(sub => {
       if (sub.status) {
         this.auditSiteLines.push(new AuditSiteLine(auditSite.id, sub.label, sub.id, sub.blocking, sub.valueType, currentCat.id, ""));
+        this.screenSpinnerService.hide(200);
       }
     });
   }
@@ -125,12 +124,13 @@ export class AuditSiteStepsComponent implements OnInit {
   }
 
   private setCategories(auditSite: AuditSite, categories: Categories) {
-    this.title = categories.id + " - " + categories.label;
+    this.title = categories.orderNum + " - " + categories.label;
     this.auditSiteLines = [];
     if (auditSite.auditSiteLineDtoList.length > 0) {
       const list = auditSite.auditSiteLineDtoList.filter(x => x.categoriesId === categories.id);
       if (list.length > 0) {
         this.auditSiteLines = list;
+        this.screenSpinnerService.hide(200);
       } else {
         this.loadLines(auditSite, categories);
       }
@@ -140,11 +140,20 @@ export class AuditSiteStepsComponent implements OnInit {
   }
 
   private saveLines() {
-    this.auditSiteLineService.goToNextSteps(new AuditSteps(this.auditSite, this.currentCat, this.auditSiteLines, this.editCat))
+    this.auditSiteLineService.goToNextSteps(new AuditSteps(this.auditSite, this.currentCat, this.auditSiteLines, this.currentCat.last ? false : this.editCat))
       .subscribe(ee => {
         this.auditSite = ee;
         this.loadData(this.auditSite, 2);
         this.editCat = true;
+        this.screenSpinnerService.hide(200);
+      });
+  }
+
+  private saveLastLines() {
+    this.auditSiteLineService.createAll(this.auditSiteLines)
+      .subscribe(ee => {
+        this.success = true;
+        this.auditSiteLines = ee;
         this.screenSpinnerService.hide(200);
       });
   }
@@ -157,16 +166,35 @@ export class AuditSiteStepsComponent implements OnInit {
   public goToNext() {
     if (this.auditSiteLines.length > 0) {
       this.showSpinner();
-      this.saveLines();
-      this.notyf.success(this.translate.instant("COMMUN.LOAD_STEP_MSG"));
+      if (this.currentCat.last) {
+        this.saveLastLines();
+        this.notyf.success('Audit N°: ' + this.auditSite.id + ' Enregistré.');
+      } else {
+        this.saveLines();
+        this.notyf.success(this.translate.instant("COMMUN.LOAD_STEP_MSG"));
+      }
     }
   }
 
   public goToPrevious() {
     this.showSpinner();
     this.editCat = false;
-    this.loadData(this.auditSite, 3);
+    if (this.success) {
+      this.success = false;
+      this.loadData(this.auditSite, 1);
+    } else {
+      this.loadData(this.auditSite, 3);
+    }
     this.screenSpinnerService.hide(200);
+  }
+
+  public onSelectCategoryStep(event) {
+    this.selectedCategory = event;
+    this.auditSite.currentCategoriesId = this.selectedCategory.id;
+    this.loadData(this.auditSite, 1);
+    if (this.success) {
+      this.success = false;
+    }
   }
 
   public goToFinish() {
@@ -174,10 +202,9 @@ export class AuditSiteStepsComponent implements OnInit {
     this.auditSiteService.goToFinish(new AuditSteps(this.auditSite, this.currentCat, this.auditSiteLines, false))
       .subscribe(data => {
         this.auditSite = data;
-        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+        this.notyf.success('Audit N°: ' + this.auditSite.id + ' Enregistré.');
         this.success = true;
-        this.message = "Le site N°:" + this.auditSite.siteCode + " est bien enregister.";
-        this.result = Check.Save.toString();
+        this.backToList();
       });
   }
 
@@ -196,11 +223,11 @@ export class AuditSiteStepsComponent implements OnInit {
   public saveAndCancel() {
     if (this.checkLines(this.auditSiteLines)) {
       this.editCat = false;
-      this.saveLines();
+      this.saveLastLines();
       this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(['.'], {relativeTo: this.route.parent});
+      this.backToList();
     } else {
-      this.router.navigate(['.'], {relativeTo: this.route.parent});
+      this.backToList();
     }
   }
 

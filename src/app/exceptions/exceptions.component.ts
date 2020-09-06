@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {switchMap} from "rxjs/operators";
+import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
 
 @Component({
   selector: 'app-exceptions',
@@ -9,7 +10,8 @@ import {switchMap} from "rxjs/operators";
 })
 export class ExceptionsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private screenSpinnerService: ScreenSpinnerService) {
   }
 
   type_error: string;
@@ -27,6 +29,7 @@ export class ExceptionsComponent implements OnInit {
       this.type_error = x;
       this.switchData(this.type_error);
     });
+    this.screenSpinnerService.hide(100);
   }
 
   private switchData(error: string) {

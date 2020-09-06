@@ -1,6 +1,8 @@
 <mat-card style="margin: 20px;" class="top-bordred">
   <mat-card-header>
-    <mat-card-title>Liste des audits :</mat-card-title>
+    <mat-card-title>Liste des audits :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
   </mat-card-header>
 
   <div class="mat-elevation-z8" matSort>
@@ -43,6 +45,16 @@
           <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="region">
+          <mat-header-cell *matHeaderCellDef> {{'users.regionId' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.regionId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="roles">
+          <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{getRoles(element.roleSet)}} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="enabled">
           <mat-header-cell *matHeaderCellDef> {{'users.enabled' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -67,9 +79,9 @@
 
             <button type="button"
                     class="btn btn-danger-outline btn-icon btn-sm"
-                    aria-label="home"
-                    [matTooltip]="'COMMUN.BTN_VALIDATE' | translate">
-              <clr-icon shape="check"></clr-icon>
+                    (click)="goToSite(element.username)"
+                    [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
+              <clr-icon shape="trash"></clr-icon>
             </button>
           </mat-cell>
         </ng-container>

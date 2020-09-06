@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {NgxSpinnerService} from "ngx-spinner";
 import {ScreenSpinnerService} from "./business/services/apps/screen-spinner.service";
 import {TranslateService} from "@ngx-translate/core";
+import {registerLocaleData} from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit {
     translate.setDefaultLang("fr");
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/fr|en/) ? browserLang : "fr");
+    registerLocaleData(localeFr);
   }
 
   ngOnInit(): void {

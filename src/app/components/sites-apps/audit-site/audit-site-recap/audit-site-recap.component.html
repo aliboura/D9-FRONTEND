@@ -1,0 +1,54 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="label">
+    <mat-header-cell *matHeaderCellDef style="flex: 0 0 50%"> {{'AUDIT_SITE.label' | translate}}</mat-header-cell>
+    <mat-cell *matCellDef="let element" style="flex: 0 0 50%">
+      {{element.label}}<span class="red-txt" *ngIf="element.blocking"> *</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="firstDecisionLabel">
+    <mat-header-cell *matHeaderCellDef
+                     style="flex: 0 0 15%;text-align: center">
+      {{'AUDIT_SITE.firstDecisionLabel' | translate}}
+      <br/>
+      {{recapAudit.firstDecisionDate | date : 'dd-MM-yyyy'}}
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" style="flex: 0 0 15%;">
+      <app-badge-status [label]="element.firstDecisionLabel"></app-badge-status>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="secondDecisionLabel">
+    <mat-header-cell *matHeaderCellDef
+                     style="flex: 0 0 15%;text-align: center">
+      {{'AUDIT_SITE.secondDecisionLabel' | translate}}
+      <br/>
+      {{recapAudit.secondDecisionDate | date : 'dd-MM-yyyy'}}
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
+      <app-badge-status [label]="element.secondDecisionLabel"></app-badge-status>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="observation">
+    <mat-header-cell *matHeaderCellDef
+                     style="flex: 0 0 20%"> {{'AUDIT_SITE.observation' | translate}}</mat-header-cell>
+    <mat-cell *matCellDef="let element" style="flex: 0 0 20%"> {{element.observation}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  <!-- Group header -->
+  <ng-container matColumnDef="groupHeader">
+    <mat-cell colspan="999" *matCellDef="let group" style="background: #f9f9f9">
+      <mat-icon *ngIf="group.expanded" style="cursor: pointer;margin-right: 10px">expand_less</mat-icon>
+      <mat-icon *ngIf="!group.expanded" style="cursor: pointer;margin-right: 10px">expand_more</mat-icon>
+      <span style="font-weight: 500;cursor: pointer">{{group[groupByColumns[group.level - 1]]}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+           (click)="groupHeaderClick(row)">
+  </mat-row>
+</mat-table>

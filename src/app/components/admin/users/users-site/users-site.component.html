@@ -1,0 +1,72 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>{{ 'users.title' |translate }} :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
+    <div class="card-back-right-btn">
+      <button type="button"
+              class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+        <clr-icon shape="times"></clr-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <button class="btn btn-danger" (click)="findSite()">
+    <clr-icon shape="search" size="22"></clr-icon>
+    Site
+  </button>
+
+  <clr-modal [(clrModalOpen)]="showDlg" [clrModalSize]="'lg'">
+    <h3 class="modal-title">{{'SITE.title' | translate}}</h3>
+    <div class="modal-body">
+      <mat-table
+        matSort
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="asc">
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container
+          [matColumnDef]="column"
+          *ngFor="let column of displayedColumns"
+        >
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'SITE.' + column | translate}}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div
+              *ngIf="column.toLowerCase().startsWith('date') || column.toLowerCase().endsWith('date'); else elseBlock">
+              {{ element[column] | date:'dd/MM/yyyy' }}
+            </div>
+            <ng-template #elseBlock>{{ element[column] }}</ng-template>
+
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSizeOptions]="[5]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="showDlg = false">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="showDlg = false">Ok</button>
+    </div>
+  </clr-modal>
+</mat-card>

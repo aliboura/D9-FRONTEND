@@ -1,0 +1,39 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>Reporting :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
+  </mat-card-header>
+  <form #addForm="ngForm">
+    <ng-select [items]="reports"
+               bindLabel="label"
+               placeholder="Nom du rapport"
+               autofocus
+               style="width: 95%"
+               [(ngModel)]="type"
+               name="type">
+    </ng-select>
+    <div *ngIf="type">
+      <app-reporting-by-status *ngIf="type.id === 1"
+                               [cityItems]="cityItems"
+                               [statusItems]="statusItems"
+                               [regionId]="regionId"></app-reporting-by-status>
+      <app-reporting-by-wilaya *ngIf="type.id === 2"
+                               [cityItems]="cityItems"
+                               [regionId]="regionId"></app-reporting-by-wilaya>
+
+      <app-reporting-by-status-wilaya *ngIf="type.id === 3"
+                                      [cityItems]="cityItems"
+                                      [statusItems]="statusItems"
+                                      [regionId]="regionId"></app-reporting-by-status-wilaya>
+
+      <app-reporting-by-visit *ngIf="type.id === 4"
+                              [cityItems]="cityItems"
+                              [regionId]="regionId"></app-reporting-by-visit>
+
+      <app-reporting-by-users *ngIf="type.id === 5"
+                              [cityItems]="cityItems"
+                              [regionId]="regionId"></app-reporting-by-users>
+    </div>
+  </form>
+</mat-card>

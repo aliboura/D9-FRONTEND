@@ -7,7 +7,7 @@ import {TypeAuditSiteService} from "../../../../business/services/sites/type-aud
 })
 export class TypeAuditSiteListComponent implements OnInit {
 
-  constructor(private typeAuditSiteService: TypeAuditSiteService) {
+  constructor(public typeAuditSiteService: TypeAuditSiteService) {
   }
 
   object = "typeAudit";

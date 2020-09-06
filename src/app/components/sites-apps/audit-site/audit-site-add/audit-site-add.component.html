@@ -1,7 +1,8 @@
 <mat-card class="top-bordred margin-20">
   <mat-card-header>
     <mat-card-title>
-      <span [matBadge]="typeSite" matBadgeOverlap="false">Site N°: {{codeSite}}</span>
+      Site N°: {{codeSite}} - <span class="badge badge-light" style="font-size: 11px;">{{typeSite}}</span>
+      <mat-divider class="margin-top-15"></mat-divider>
     </mat-card-title>
   </mat-card-header>
 
@@ -86,7 +87,7 @@
         (click)="cancel()"
         style="margin-right: 10px"
         class="cancel-btn">
-        <i class="material-icons" style="font-size: 18px">close</i>
+        <i class="material-icons" style="font-size: 18px;">close</i>
         {{'COMMUN.BTN_CANCEL' | translate}}
       </button>
       <button
@@ -95,7 +96,7 @@
         (click)="saveData()"
         [disabled]="!addForm.form.valid"
         class="add-btn">
-        <i class="material-icons" style="font-size: 18px">
+        <i class="material-icons" style="font-size: 18px;margin-right: -20% !important;width: 50px;">
           arrow_forward_ios
         </i>
         {{'COMMUN.START_BTN' | translate}}

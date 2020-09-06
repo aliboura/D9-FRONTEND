@@ -1,0 +1,102 @@
+<div class="chart-card" style="width: 95%">
+
+  <section class="example-section">
+
+    <mat-checkbox class="example-margin"
+                  [(ngModel)]="secondVisit"
+                  name="secondVisit">
+      Deuxième Visite
+    </mat-checkbox>
+  </section>
+
+  <div>
+    <ng-select
+      [items]="statusItems"
+      bindLabel="description"
+      required
+      [(ngModel)]="status"
+      placeholder="Status.."
+      appendTo="body"
+      style="width: 95%;padding: 5px"
+    >
+    </ng-select>
+  </div>
+
+  <mat-form-field style="margin: 5px;width: 47%">
+    <mat-label>Date du</mat-label>
+    <input matInput
+           [matDatepicker]="picker1"
+           [(ngModel)]="fromDate"
+           name="fromDate"
+           [max]="toDate">
+    <button mat-button *ngIf="fromDate" matSuffix mat-icon-button aria-label="Clear" (click)="fromDate=null">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+
+  </mat-form-field>
+
+  <mat-form-field style="margin: 5px;width: 47%">
+    <mat-label>Au</mat-label>
+    <input matInput
+           [matDatepicker]="picker2"
+           [(ngModel)]="toDate"
+           name="toDate"
+           [min]="fromDate">
+    <button mat-button *ngIf="toDate" matSuffix mat-icon-button aria-label="Clear" (click)="toDate=null">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+  <div class="clr-row" style="padding: 5px">
+    <div class="clr-col-6 clr-col-sm-6 clr-col-md-6 clr-col-lg-6">
+      <ng-select
+        [items]="groupItems"
+        bindLabel="label"
+        required
+        [(ngModel)]="groupeBy"
+        placeholder="Group By.."
+        appendTo="body"
+        style="width: 95%;"
+      >
+      </ng-select>
+    </div>
+    <div class="clr-col-6 clr-col-sm-6 clr-col-md-6 clr-col-lg-6">
+      <ng-select
+        [items]="sortItems"
+        required
+        [(ngModel)]="sort"
+        placeholder="Sort By.."
+        appendTo="body"
+        style="width: 91%;"
+      >
+      </ng-select>
+    </div>
+  </div>
+  <div style="margin-top: 10px">
+
+    <button
+      type="button"
+      (click)="exportToPDF()"
+      style="margin-right: 10px"
+      class="btn btn-danger-outline btn-icon no-shadow">
+      <clr-icon shape="printer"></clr-icon>
+      PDF
+    </button>
+    <ng2-pdfjs-viewer #externalPdfViewer
+                      [externalWindow]="true"
+                      pagemode="bookmarks"
+                      [download]="true">
+    </ng2-pdfjs-viewer>
+
+    <button class="btn btn-success-outline"
+            (click)="exportToExcel()"
+            style="margin-right: 10px">
+      <clr-icon shape="printer"></clr-icon>
+      EXCEL
+    </button>
+  </div>
+
+</div>

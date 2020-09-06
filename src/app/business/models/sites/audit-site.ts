@@ -7,7 +7,17 @@ export class AuditSite {
   id: number;
   auditDate: Date;
   userId: string;
+  siteId: number;
+  audited: boolean;
   siteCode: string;
+  siteName: string;
+  dateD1: Date;
+  typeSiteId: string;
+  wilayaLabel: string;
+  siteUserV1: string;
+  siteUserOMV1: string;
+  siteUserV2: string;
+  siteUserOMV2: string;
   typeAuditSiteId: number;
   typeAuditSiteLabel: string;
   wilayaId: number;

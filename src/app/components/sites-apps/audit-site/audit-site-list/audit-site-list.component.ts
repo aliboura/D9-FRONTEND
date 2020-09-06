@@ -14,6 +14,7 @@ import {CookieService} from "ngx-cookie-service";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {UserService} from "../../../../business/services/admin/user.service";
 import {User} from "../../../../business/models/admin/user";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-audit-site-list',
@@ -26,13 +27,13 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
               private audiSiteService: AuditSiteService,
               private userService: UserService,
               private cookieService: CookieService,
-              private jwtTokenService: JwtTokenService,
+              public jwtTokenService: JwtTokenService,
               private screenSpinnerService: ScreenSpinnerService) {
     this.emptyData = true;
   }
 
   datasource: MatTableDataSource<AuditSite>;
-  displayedColumns: string[] = ["id", "typeAuditSiteLabel", "auditDate", "userId", "siteCode", "description", "currentSatusLabel", "action"];
+  displayedColumns: string[] = ["id", "typeAuditSiteLabel", "auditDate", "siteUserV1", "siteUserV2", "siteCode", "description", "currentSatusLabel", "action"];
   emptyData: boolean;
 
   resultsLength = 0;
@@ -48,15 +49,12 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const token: string = this.cookieService.get(STATIC_DATA.TOKEN);
-    this.isEngineer = this.jwtTokenService.isSiteEngineer(token);
-
+    this.isEngineer = this.jwtTokenService.isSiteEngineer();
+    this.screenSpinnerService.hide(200);
   }
 
   ngAfterViewInit(): void {
-    this.userService.findByUserName('ryadh.boumendjas').subscribe(data => {
-      this.user = data;
-      this.loadAllData(this.user);
-    });
+    this.loadAllData(this.jwtTokenService.getUserName());
   }
 
   showAdd() {
@@ -69,23 +67,19 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
     this.screenSpinnerService.show();
   }
 
-  private loadAllData(user: User) {
+  private loadAllData(username: string) {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    let search = "regionId==" + this.user.regionId;
-    if (user.wilayaSet.length > 0) {
-      search = search + ";wilayaId=in=(" + user.wilayaSet.map(x => x.id).toString() + ")";
-    }
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith(null),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.audiSiteService.searchLazyData(
+          return this.audiSiteService.findByEngineerSite(
             this.paginator.pageIndex,
             this.paginator.pageSize,
             "desc",
             "id",
-            search
+            username
           );
         }),
         map(data => {
@@ -119,4 +113,23 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['finish', btoa("" + id)], {relativeTo: this.route});
   }
 
+  exportToPdf(auditSite: AuditSite) {
+    this.screenSpinnerService.show();
+    this.audiSiteService.exportToPdf(auditSite.id).subscribe(x => {
+      const blob = new Blob([x, 'application/pdf'], {type: 'application/pdf'});
+      const file = new File([blob], "Forms-D9-" + auditSite.siteCode + ".pdf", {type: 'application/pdf'});
+      saveAs(file);
+      this.screenSpinnerService.hide(100);
+    });
+  }
+
+  exportToExcel(auditSite: AuditSite) {
+    this.screenSpinnerService.show();
+    this.audiSiteService.exportToExcel(auditSite.id).subscribe(x => {
+      const blob = new Blob([x, 'application/vnd.ms-excel'], {type: 'application/vnd.ms-excel'});
+      const file = new File([blob], "Forms-D9-" + auditSite.siteCode + ".xls", {type: 'application/vnd.ms-excel'});
+      saveAs(file);
+      this.screenSpinnerService.hide(100);
+    });
+  }
 }

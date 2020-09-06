@@ -12,6 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {ClarityModule} from "@clr/angular";
 import { SiteFormsComponent } from './site-forms/site-forms.component';
 import {TemplatesModule} from "../../../templates/templates.module";
+import {AuditSiteModule} from "../audit-site/audit-site.module";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {TemplatesModule} from "../../../templates/templates.module";
         TranslateModule,
         ClarityModule,
         ReactiveFormsModule,
-        TemplatesModule
+        TemplatesModule,
+        AuditSiteModule
     ]
 })
 export class SiteModule {

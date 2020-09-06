@@ -10,6 +10,7 @@
     "BTN_DELETE": "Suprimer",
     "BTN_MODIFIER": "Modifier",
     "BTN_PROCEED": "Procéder",
+    "BTN_FILTER": "Filtrer",
     "TITLE_MODIFIER": " Modifier ",
     "TOOLTIP_SEARCH": "Recherche générique.",
     "TOOLTIP_SHOW": "Voir le détail.",
@@ -57,6 +58,7 @@
     "motif": " Motif ? "
   },
   "SITE": {
+    "title": " List des sites ",
     "EDIT_title": " Info Site N° ",
     "codeSite": " Code Site ",
     "dateD1": " Date D1 ",
@@ -65,7 +67,15 @@
     "typeSiteId": " Type de site ",
     "typeSiteLib": " Type de site ",
     "regionId": " Région ",
-    "wilayaLabel": " Wilaya "
+    "wilayaLabel": " Wilaya ",
+    "engineerSiteV1": "Ingénieur site",
+    "engineerSiteDateV1": " Date visite Ingénieur site",
+    "engineerOMV1": "Ingénieur O&M",
+    "engineerOMDateV1": " Date visite O&M site",
+    "engineerSiteV2": "Ingénieur site",
+    "engineerSiteDateV2": " Date visite Ingénieur site",
+    "engineerOMV2": "Ingénieur O&M",
+    "engineerOMDateV2": " Date visite O&M site"
   },
   "AUDIT_SITE": {
     "id": " N° ",
@@ -189,5 +199,18 @@
     "locked": " Verrouillé ? ",
     "regionId": "Région",
     "wilayaId": "Wilaya"
+  },
+  "affect_v1": {
+    "title": " Affectation site première visite ",
+    "engineer_site": "Ingénieur du site",
+    "engineer_om": "Ingénieur O&M",
+    "date": " Date",
+    "title_my_visit": "Mes visites"
+  },
+  "affect_v2": {
+    "title": " Affectation site deuxième visite ",
+    "engineer_site": "Ingénieur du site",
+    "engineer_om": "Ingénieur O&M",
+    "date": " Date"
   }
 }

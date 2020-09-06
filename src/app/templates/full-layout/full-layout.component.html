@@ -97,15 +97,15 @@
                   (click)="navigate('apps/sites-apps/audit')">
             {{ 'MENU.SITE_AUDIT' | translate }}
           </button>
-          <button mat-button class="btn-menu" type="button" (click)="navigate('apps/sites-apps/typeAudit')">
-            {{ 'MENU.TYPE_AUDIT' | translate }}
-          </button>
           <button mat-button class="btn-menu" type="button" (click)="navigate('apps/sites-apps/sites')"
                   routerLinkActive="active-link">
             {{ 'MENU.SITE' | translate }}
           </button>
+          <button mat-button class="btn-menu" type="button" (click)="navigate('apps/sites-apps/typeAudit')">
+            {{ 'MENU.TYPE_AUDIT' | translate }}
+          </button>
           <button mat-button class="btn-menu" [matMenuTriggerFor]="catMenu"
-                  *ngIf="admin">
+                  *ngIf="jwtTokenService.isAdmin()">
             {{ 'MENU.CATEGORIES' | translate }}
             <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>
           </button>
@@ -122,7 +122,7 @@
           <button
             mat-button
             class="btn-menu"
-            *ngIf="admin"
+            *ngIf="jwtTokenService.isAdmin()"
             [matMenuTriggerFor]="lvMenu">
             {{ 'MENU.DECISION' | translate }}
             <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>
@@ -138,10 +138,22 @@
 
           <button mat-button
                   class="btn-menu" type="button"
-                  *ngIf="admin"
+                  *ngIf="jwtTokenService.isAdmin()"
                   (click)="navigate('apps/referencial/status')">
             {{ 'MENU.STATUS' | translate }}
           </button>
+          <span class="example-spacer"></span>
+          <button mat-button
+                  style="margin-right: 80px"
+                  class="btn-menu" type="button"
+                  (click)="navigate('/apps/admin/affectations/my-programme')"
+                  *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
+            <span [matBadge]="myCount | async" matBadgeOverlap="false" matBadgeColor="warn">
+              <clr-icon shape="calendar" size="23"></clr-icon>
+            </span>
+          </button>
+
+
         </mat-toolbar-row>
       </mat-toolbar>
       <router-outlet></router-outlet>

@@ -19,6 +19,15 @@ export abstract class GenericService<T> {
     return this.http.get<Array<T>>(this.getApi());
   }
 
+  findAllSorted(sort: string,
+              field: string): Observable<Array<T>> {
+    return this.http.get<Array<T>>(this.getApi(), {
+      params: new HttpParams()
+        .set("sort", sort)
+        .set("field", field)
+    });
+  }
+
   findLazyData(
     page: number,
     size: number,
@@ -51,6 +60,21 @@ export abstract class GenericService<T> {
     });
   }
 
+  searchLazySortData(
+    page: number,
+    size: number,
+    sort: string,
+    field: string,
+    search: string
+  ): Observable<T[]> {
+    return this.http.get<T[]>(this.getApi(), {
+      params: new HttpParams()
+        .set("sort", sort)
+        .set("field", field)
+        .set("search", search)
+    });
+  }
+
   findPagination(page: number, size: number): Observable<Pages<T>> {
     return this.http.get<Pages<T>>(this.getApi(), {
       params: new HttpParams().set("page", "" + page).set("size", "" + size)
@@ -71,8 +95,8 @@ export abstract class GenericService<T> {
     return this.http.post<T>(this.getApi(), data);
   }
 
-  createAll(datas: Array<T>): Observable<T> {
-    return this.http.post<T>(this.getApi() + "/all", datas);
+  createAll(datas: Array<T>): Observable<T[]> {
+    return this.http.post<T[]>(this.getApi() + "/all", datas);
   }
 
   update(data: NgForm): Observable<T> {
@@ -81,6 +105,10 @@ export abstract class GenericService<T> {
 
   updateModel(data: T): Observable<T> {
     return this.http.put<T>(this.getApi(), data);
+  }
+
+  updateAll(datas: Array<T>): Observable<T[]> {
+    return this.http.put<T[]>(this.getApi() + "/all", datas);
   }
 
   delete(id: string) {

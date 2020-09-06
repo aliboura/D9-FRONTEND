@@ -12,10 +12,11 @@ import {SharedModule} from "../../../shared/shared.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ClarityModule} from "@clr/angular";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { UsersSiteComponent } from './users-site/users-site.component';
 
 
 @NgModule({
-  declarations: [UsersComponent, UsersListComponent, UsersEditComponent, UsersProfilComponent],
+  declarations: [UsersComponent, UsersListComponent, UsersEditComponent, UsersProfilComponent, UsersSiteComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

@@ -172,14 +172,14 @@ export class AuditSiteSecondVisitComponent implements OnInit {
   }
 
   public backToEdit() {
-    this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route});
+    this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route.parent});
   }
 
   public saveSecondVisit() {
     this.auditSiteService.saveSecondVisit(this.auditSite).subscribe(x => {
       this.auditSite = x;
       this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route});
+      this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route.parent});
     });
   }
 

@@ -1,20 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuditSite} from "../../../../business/models/sites/audit-site";
 import {Observable} from "rxjs";
 import {AuditSiteService} from "../../../../business/services/sites/audit-site.service";
 import {switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AuditSiteLine} from "../../../../business/models/sites/audit-site-line";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {Decision} from "../../../../business/models/referencial/decision";
 import {DecisionService} from "../../../../business/services/referencial/decision.service";
-import {MatTableDataSource} from "@angular/material";
-import {Group} from "../../../../business/models/referencial/group";
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 import {DatePipe} from "@angular/common";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
+import {saveAs} from "file-saver";
+import {ReportService} from "../../../../business/services/sites/report.service";
 
 @Component({
   selector: 'app-audit-site-edit',
@@ -24,40 +23,27 @@ export class AuditSiteEditComponent implements OnInit {
 
   constructor(private auditSiteService: AuditSiteService,
               private decisionService: DecisionService,
-              private jwtTokenService: JwtTokenService,
+              private reportService: ReportService,
+              public jwtTokenService: JwtTokenService,
               private cookieService: CookieService,
               private route: ActivatedRoute,
               private router: Router,
               private datePipe: DatePipe,
               private screenSpinnerService: ScreenSpinnerService) {
-    this.columns = [{
-      field: 'label',
-      flex: '0 0 50%'
-    }, {
-      field: 'firstDecisionLabel',
-      flex: '0 0 15%'
-    }, {
-      field: 'secondDecisionLabel',
-      flex: '0 0 15%'
-    }, {
-      field: 'observation',
-      flex: '0 0 20%'
-    }];
-    this.displayedColumns = this.columns.map(column => column.field);
-    this.groupByColumns = ['categoriesLabel'];
   }
 
-  public dataSource = new MatTableDataSource<AuditSiteLine | Group>([]);
-  columns: any[];
-  displayedColumns: string[];
-  groupByColumns: string[] = [];
   showNextVisitBtn = true;
 
   auditSite: AuditSite = new AuditSite();
   private obAuditSite: Observable<AuditSite>;
   decisionList: Decision[];
   statusEnum = StatusEnum;
-  isEngineer: boolean;
+  isEngineer = true;
+  isCreator = true;
+  tabIndex = 0;
+
+  // @ts-ignore
+  @ViewChild('externalPdfViewer') externalPdfViewer;
 
 
   ngOnInit() {
@@ -68,98 +54,15 @@ export class AuditSiteEditComponent implements OnInit {
     );
     this.obAuditSite.subscribe(data => {
       this.auditSite = data;
-      this.dataSource = new MatTableDataSource<AuditSiteLine | Group>(this.addGroups(data.auditSiteLineDtoList, this.groupByColumns));
-      this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
-      this.dataSource.filter = performance.now().toString();
       this.showNextVisitBtn = this.getShowSecondVisit();
+      this.isEngineer = this.isUserValidate(this.auditSite, this.jwtTokenService.getUserName());
+      this.isCreator = this.isUserCreate(this.auditSite, this.jwtTokenService.getUserName());
       this.screenSpinnerService.hide(200);
     }, (err: any) => console.log(err));
 
     this.decisionService.findAll().subscribe(data => {
       this.decisionList = data.filter(x => x.position === 1);
     });
-    const token = this.cookieService.get(STATIC_DATA.TOKEN);
-    this.isEngineer = this.jwtTokenService.isSiteEngineer(token) || this.jwtTokenService.isOMEngineer(token);
-  }
-
-  customFilterPredicate(data: any | Group, filter: string): boolean {
-    return (data instanceof Group) ? data.visible : this.getDataRowVisible(data);
-  }
-
-  groupHeaderClick(row) {
-    row.expanded = !row.expanded;
-    this.dataSource.filter = performance.now().toString();  // bug here need to fix
-  }
-
-  addGroups(data: AuditSiteLine[], groupByColumns: string[]): any[] {
-    const rootGroup = new Group();
-    rootGroup.expanded = true;
-    return this.getSublevel(data, 0, groupByColumns, rootGroup);
-  }
-
-  getSublevel(data: any[], level: number, groupByColumns: string[], parent: Group): any[] {
-    if (level >= groupByColumns.length) {
-      return data;
-    }
-    const groups = this.uniqueBy(
-      data.map(
-        row => {
-          const result = new Group();
-          result.level = level + 1;
-          result.parent = parent;
-          for (let i = 0; i <= level; i++) {
-            result[groupByColumns[i]] = row[groupByColumns[i]];
-          }
-          return result;
-        }
-      ),
-      JSON.stringify);
-
-    const currentColumn = groupByColumns[level];
-    let subGroups = [];
-    groups.forEach(group => {
-      const rowsInGroup = data.filter(row => group[currentColumn] === row[currentColumn]);
-      group.totalCounts = rowsInGroup.length;
-      const subGroup = this.getSublevel(rowsInGroup, level + 1, groupByColumns, group);
-      subGroup.unshift(group);
-      subGroups = subGroups.concat(subGroup);
-    });
-    return subGroups;
-  }
-
-  uniqueBy(a, key) {
-    const seen = {};
-    return a.filter((item) => {
-      const k = key(item);
-      return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-    });
-  }
-
-  isGroup(index, item): boolean {
-    return item.level;
-  }
-
-  getDataRowVisible(data: any): boolean {
-    const groupRows = this.dataSource.data.filter(
-      row => {
-        if (!(row instanceof Group)) {
-          return false;
-        }
-        let match = true;
-        this.groupByColumns.forEach(column => {
-          if (!row[column] || !data[column] || row[column] !== data[column]) {
-            match = false;
-          }
-        });
-        return match;
-      }
-    );
-
-    if (groupRows.length === 0) {
-      return true;
-    }
-    const parent = groupRows[0] as Group;
-    return parent.visible && parent.expanded;
   }
 
   public proceed() {
@@ -204,6 +107,59 @@ export class AuditSiteEditComponent implements OnInit {
     } else {
       return "";
     }
+  }
+
+  exportToPdf() {
+    this.screenSpinnerService.show();
+    this.auditSiteService.exportToPdf(this.auditSite.id).subscribe(x => {
+      const blob = new Blob([x, 'application/pdf'], {type: 'application/pdf'});
+      const file = new File([blob], "Forms-D9-" + this.auditSite.siteCode + ".pdf", {type: 'application/pdf'});
+      //saveAs(file);
+      this.externalPdfViewer.pdfSrc = file; // pdfSrc can be Blob or Uint8Array
+      this.externalPdfViewer.downloadFileName = "Forms-D9-" + this.auditSite.siteCode + ".pdf";
+      this.externalPdfViewer.refresh();
+      this.screenSpinnerService.hide(100);
+    });
+  }
+
+  exportToExcel() {
+    this.screenSpinnerService.show();
+    this.auditSiteService.exportToExcel(this.auditSite.id).subscribe(x => {
+      const blob = new Blob([x, 'application/vnd.ms-excel'], {type: 'application/vnd.ms-excel'});
+      const file = new File([blob], "Forms-D9-" + this.auditSite.siteCode + ".xls", {type: 'application/vnd.ms-excel'});
+      saveAs(file);
+      this.screenSpinnerService.hide(100);
+    });
+  }
+
+  tabChange(event) {
+    this.tabIndex = event.index;
+  }
+
+  isUserValidate(auditSite: AuditSite, username: string) {
+    if (auditSite.siteUserV1 === username) {
+      return true;
+    }
+    if (auditSite.siteUserOMV1 === username) {
+      return true;
+    }
+    if (auditSite.siteUserV2 === username) {
+      return true;
+    }
+    if (auditSite.siteUserOMV2 === username) {
+      return true;
+    }
+    return false;
+  }
+
+  isUserCreate(auditSite: AuditSite, username: string) {
+    if (auditSite.siteUserV1 === username) {
+      return false;
+    }
+    if (auditSite.siteUserV2 === username) {
+      return false;
+    }
+    return true;
   }
 
 }

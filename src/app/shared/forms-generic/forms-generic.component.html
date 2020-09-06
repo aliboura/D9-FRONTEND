@@ -1,7 +1,9 @@
 <form [formGroup]="modelForm" (ngSubmit)="save(modelForm.value)">
   <mat-card class="top-bordred margin-20">
     <mat-card-header>
-      <mat-card-title>{{ title }} :</mat-card-title>
+      <mat-card-title>{{ title }} :
+        <mat-divider class="margin-top-15"></mat-divider>
+      </mat-card-title>
       <div class="card-back-right-btn">
         <button type="button"
                 (click)="showList()"

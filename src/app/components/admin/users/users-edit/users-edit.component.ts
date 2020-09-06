@@ -23,7 +23,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class UsersEditComponent implements OnInit {
 
-  constructor(public userService: UserService,
+  constructor(private userService: UserService,
               private roleService: RoleService,
               private regionService: RegionService,
               private wilayaService: WilayaRegionService,
@@ -114,7 +114,7 @@ export class UsersEditComponent implements OnInit {
     this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
 
-  private update(modelForm: NgForm) {
+   update(modelForm: NgForm) {
     this.screenSpinnerService.show();
     this.userService
       .update(modelForm)

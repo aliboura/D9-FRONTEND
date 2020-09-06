@@ -4,6 +4,7 @@ import {UsersComponent} from "./users.component";
 import {UsersListComponent} from "./users-list/users-list.component";
 import {UsersEditComponent} from "./users-edit/users-edit.component";
 import {UsersProfilComponent} from "./users-profil/users-profil.component";
+import {UsersSiteComponent} from "./users-site/users-site.component";
 
 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: ":id",
         component: UsersEditComponent
+      },
+      {
+        path: "site/:username",
+        component: UsersSiteComponent
       },
       {
         path: "profile/:username",

@@ -7,6 +7,9 @@ import {catchError, retry} from "rxjs/operators";
 import {NOTYF} from "./tools/notyf.token";
 import Notyf from "notyf/notyf";
 import {Router} from "@angular/router";
+import {JwtTokenService} from "./business/services/apps/jwt-token.service";
+import {LoginService} from "./security/login.service";
+import {JwtToken} from "./business/models/admin/jwt-token";
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +18,19 @@ export class HttpClientInterceptor implements HttpInterceptor {
 
   constructor(
     private router: Router,
-    private cookieService: CookieService,
+    private loginService: LoginService,
+    private jwtTokenService: JwtTokenService,
     @Inject(NOTYF) private notyf: Notyf) {
 
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const jwtToken = this.cookieService.get(STATIC_DATA.TOKEN);
+    let jwtToken = this.loginService.getToken();
+    // if (this.jwtTokenService.getToken() && this.jwtTokenService.isTokenExpired(jwtToken)) {
+    //   this.loginService.onRefresh(new JwtToken(jwtToken, this.jwtTokenService.getFullName()));
+    //   jwtToken = this.loginService.getToken();
+    // }
     const cloned = req.clone({
       headers: req.headers.set('Authorization',
         jwtToken)

@@ -1,7 +1,9 @@
 <mat-card class="top-bordred margin-20">
 
   <mat-card-header>
-    <mat-card-title> {{'SITE.EDIT_title' | translate}}: {{id}}</mat-card-title>
+    <mat-card-title> {{'SITE.EDIT_title' | translate}}: {{id}}
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
     <div class="card-back-right-btn">
       <button type="button"
               (click)="showList()"
@@ -12,12 +14,18 @@
   </mat-card-header>
 
 
-  <div class="clr-row" style="margin: 20px;padding-top: 20px;border-top: 1px solid #e9e9e9">
-    <div class="clr-col-12 clr-col-sm-12 clr-col-md-12 clr-col-lg-12">
+  <div class="clr-row" style="margin: 20px;padding-top: 20px;">
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6">
       <mat-form-field class="example-full-width">
         <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
         <input matInput [(ngModel)]="site.codeSite"
                name="codeSite"
+               readonly>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
+        <input matInput [(ngModel)]="site.nomSite"
+               name="nomSite"
                readonly>
       </mat-form-field>
       <mat-form-field class="example-full-width">
@@ -51,15 +59,80 @@
                readonly>
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <mat-label>{{'SITE.prioriteRadio' | translate}}</mat-label>
-        <input matInput [(ngModel)]="site.prioriteRadio"
-               name="prioriteRadio"
-               readonly>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
         <mat-label>{{'SITE.serviceDemandeur' | translate}}</mat-label>
         <input matInput [(ngModel)]="site.serviceDemandeur"
                name="serviceDemandeur"
+               readonly>
+      </mat-form-field>
+    </div>
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 flex-center" *ngIf="!planning">
+      <img
+        type="image/svg+xml"
+        src="./././assets/images/planner.svg"
+        width="75px"
+        class="logo-style"
+      />
+      <br/>
+      <h1 style="color: #cac8c8">No Planified.</h1>
+
+    </div>
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6" *ngIf="planning">
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'affect_v1.engineer_site' | translate}}</mat-label>
+        <input matInput
+               [(ngModel)]="planning.engineerSiteV1"
+               name="engineerSiteV1"
+               readonly>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerSiteDateV1' | translate}}</mat-label>
+        <input matInput
+               [value]="getDateFormat(planning.engineerSiteDateV1)"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineer_om' | translate}}</mat-label>
+        <input matInput
+               [(ngModel)]="planning.engineerOMV1"
+               name="engineerOMV1"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerOMDateV1' | translate}}</mat-label>
+        <input matInput
+               [value]="getDateFormat(planning.engineerOMDateV1)"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerSiteV2' | translate}}</mat-label>
+        <input matInput
+               [(ngModel)]="planning.engineerSiteV2"
+               name="engineerSiteV2"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerSiteDateV2' | translate}}</mat-label>
+        <input matInput
+               [value]="getDateFormat(planning.engineerSiteDateV2)"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerOMV2' | translate}}</mat-label>
+        <input matInput
+               [(ngModel)]="planning.engineerOMV2"
+               name="engineerOMV2"
+               readonly>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>{{'SITE.engineerOMDateV2' | translate}}</mat-label>
+        <input matInput
+               [value]="getDateFormat(planning.engineerOMDateV2)"
                readonly>
       </mat-form-field>
     </div>

@@ -10,6 +10,7 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {AdUserService} from "../../../../business/services/admin/ad-user.service";
 import {AdUser} from "../../../../business/models/admin/ad-user";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AppRole} from "../../../../business/models/admin/app-role";
 
 @Component({
   selector: 'app-users-list',
@@ -19,14 +20,14 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public userService: AdUserService,
+              public userService: UserService,
               private screenSpinnerService: ScreenSpinnerService) {
   }
 
   object = "users";
 
-  datasource: MatTableDataSource<AdUser>;
-  displayedColumns: string[] = ["id", "username", "firstName", "lastName", "email", "enabled", "action"];
+  datasource: MatTableDataSource<User>;
+  displayedColumns: string[] = ["id", "username", "firstName", "lastName", "email", "region", "roles", "enabled", "action"];
   columnsFilter: string[] = ["username", "firstName", "lastName"];
 
   emptyData: boolean;
@@ -74,7 +75,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe(data => {
-        this.datasource = new MatTableDataSource<AdUser>(data);
+        this.datasource = new MatTableDataSource<User>(data);
         this.emptyData = data.length === 0;
         this.datasource.sort = this.sort;
         this.screenSpinnerService.hide(200);
@@ -83,5 +84,13 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   public goToEdit(username: string) {
     this.router.navigate([btoa(username)], {relativeTo: this.route});
+  }
+
+  public goToSite(username: string) {
+    this.router.navigate(['site', btoa(username)], {relativeTo: this.route});
+  }
+
+  public getRoles(roleSet: AppRole[]) {
+    return roleSet.map(x => x.label).toString();
   }
 }

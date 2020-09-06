@@ -48,6 +48,7 @@ export class AuditSiteFinishComponent implements OnInit {
   private token: string;
   isSiteEngineer: boolean;
   isOMEngineer: boolean;
+  isMySite = false;
 
   ngOnInit() {
     this.decisionService.findAll().subscribe(data => {
@@ -60,8 +61,9 @@ export class AuditSiteFinishComponent implements OnInit {
     );
     this.obAuditSite.subscribe(data => {
       this.token = this.cookieService.get(STATIC_DATA.TOKEN);
-      this.isSiteEngineer = this.jwtTokenService.isSiteEngineer(this.token);
-      this.isOMEngineer = this.jwtTokenService.isOMEngineer(this.token);
+      this.isSiteEngineer = this.jwtTokenService.isSiteEngineer();
+      this.isOMEngineer = this.jwtTokenService.isOMEngineer();
+      this.isMySite = this.isUserValidate(data, this.jwtTokenService.getUserName());
       if (!data.firstVisit) {
         this.auditSite = this.checkDecisionV1(data, this.isSiteEngineer, this.isOMEngineer);
       } else {
@@ -158,6 +160,22 @@ export class AuditSiteFinishComponent implements OnInit {
 
   getDateFormat(myDate: Date): string {
     return this.datePipe.transform(myDate, 'dd-MM-yyyy');
+  }
+
+  isUserValidate(auditSite: AuditSite, username: string) {
+    if (auditSite.siteUserV1 === username) {
+      return true;
+    }
+    if (auditSite.siteUserOMV1 === username) {
+      return true;
+    }
+    if (auditSite.siteUserV2 === username) {
+      return true;
+    }
+    if (auditSite.siteUserOMV2 === username) {
+      return true;
+    }
+    return false;
   }
 
 }

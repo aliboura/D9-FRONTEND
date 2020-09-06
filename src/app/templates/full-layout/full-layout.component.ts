@@ -4,10 +4,13 @@ import {TranslateService} from "@ngx-translate/core";
 import {STATIC_DATA} from "../../tools/static-data";
 import {LoginService} from "../../security/login.service";
 import {CookieService} from "ngx-cookie-service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router, RouterEvent} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {RoutingStateService} from "../../business/services/apps/routing-state.service";
 import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
+import {VisitPlanningService} from "../../business/services/sites/visit-planning.service";
+import {AppNotificationService} from "../../business/services/apps/app-notification.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-full-layout",
@@ -21,8 +24,9 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     public changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
     private cookieService: CookieService,
-    private jwtTokenService: JwtTokenService,
+    public jwtTokenService: JwtTokenService,
     private loginService: LoginService,
+    private appNotificationService: AppNotificationService,
     private routingStateService: RoutingStateService,
     private screenSpinnerService: ScreenSpinnerService
   ) {
@@ -33,19 +37,27 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/fe|en/) ? browserLang : "fr");
     this.routingStateService.loadLastRouting();
-    this.admin = this.jwtTokenService.isAdmin(this.cookieService.get(STATIC_DATA.TOKEN));
+    this.router.events.subscribe(
+      (event: RouterEvent) => {
+        if (event instanceof NavigationEnd) {
+          this.admin = this.jwtTokenService.isAdmin();
+        }
+      });
+
   }
 
   mobileQuery: MediaQueryList;
   defaultLang: string;
   userName = "";
   admin: boolean;
+  myCount: Observable<number>;
 
   private mobileQueryListener: () => void;
 
   ngOnInit() {
     this.defaultLang = this.translate.getBrowserLang();
     this.defaultLang = "Français";
+    this.myCount = this.appNotificationService.myCount;
   }
 
   ngOnDestroy(): void {

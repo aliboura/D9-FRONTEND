@@ -18,6 +18,9 @@ import {FilterPipe} from './filter.pipe';
 import {AuditSiteSecondVisitComponent} from './audit-site-second-visit/audit-site-second-visit.component';
 import {ClrDatagridModule, ClrIconModule, ClrInputModule, ClrSpinnerModule} from "@clr/angular";
 import {TemplatesModule} from "../../../templates/templates.module";
+import {PdfJsViewerModule} from "ng2-pdfjs-viewer";
+import {AuditSiteRecapComponent} from './audit-site-recap/audit-site-recap.component';
+import {SiteNotPlanifiedComponent} from './site-not-planified/site-not-planified.component';
 
 
 @NgModule({
@@ -29,22 +32,25 @@ import {TemplatesModule} from "../../../templates/templates.module";
     AuditSiteStepsComponent,
     AuditSiteFinishComponent,
     FilterPipe,
-    AuditSiteSecondVisitComponent],
-    imports: [
-        CommonModule,
-        AuditSiteRoutingModule,
-        SharedModule,
-        MaterialModule,
-        TranslateModule,
-        SiteModule,
-        FormsModule,
-        SitesAppsModule,
-        ClrDatagridModule,
-        ClrIconModule,
-        ClrSpinnerModule,
-        ClrInputModule,
-        TemplatesModule
-    ]
+    AuditSiteSecondVisitComponent,
+    AuditSiteRecapComponent,
+    SiteNotPlanifiedComponent],
+  exports: [SiteNotPlanifiedComponent],
+  imports: [
+    CommonModule,
+    AuditSiteRoutingModule,
+    SharedModule,
+    MaterialModule,
+    TranslateModule,
+    FormsModule,
+    SitesAppsModule,
+    ClrDatagridModule,
+    ClrIconModule,
+    ClrSpinnerModule,
+    ClrInputModule,
+    TemplatesModule,
+    PdfJsViewerModule
+  ]
 })
 export class AuditSiteModule {
 }

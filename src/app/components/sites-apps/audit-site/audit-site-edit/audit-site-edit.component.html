@@ -1,14 +1,16 @@
 <mat-card style="margin: 20px;" class="top-bordred">
   <mat-card-header>
-    <mat-card-title>Audite N°: {{auditSite.id}}</mat-card-title>
+    <mat-card-title>Audite N°: {{auditSite.id}}
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
     <div class="right-headeer-title">
       <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
     </div>
   </mat-card-header>
-  <mat-tab-group animationDuration="0ms">
+  <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChange($event)">
 
     <mat-tab label="Info">
-      <div class="flex-center padding-10-bordred" style="background: #fafafa">
+      <div class="flex-center padding-10-bordred view-div">
         <ul class="clr-timeline">
           <li class="clr-timeline-step disabled">
             <div class="clr-timeline-step-header">{{auditSite.auditDate | date:'dd-MM-yyyy h:mm a'}}</div>
@@ -46,7 +48,7 @@
             <div class="clr-timeline-step-body">
               <span class="clr-timeline-step-title">{{status.statusDescription}}</span>
               <span class="clr-timeline-step-description">
-             Utilisateur : Ryadh BOUMENDJAS.
+             Utilisateur : {{status.username.toUpperCase()}}.
             </span>
             </div>
           </li>
@@ -85,6 +87,12 @@
                    readonly>
           </mat-form-field>
           <mat-form-field class="example-full-width">
+            <mat-label>{{'AUDIT_SITE.nomSite' | translate}}</mat-label>
+            <input matInput [(ngModel)]="auditSite.siteName"
+                   name="siteName"
+                   readonly>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
             <mat-label>{{'AUDIT_SITE.regionId' | translate}}</mat-label>
             <input matInput [(ngModel)]="auditSite.regionId"
                    name="regionId"
@@ -111,62 +119,65 @@
         </div>
 
 
-        <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6">
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstCheckDate' | translate}}</mat-label>
-            <input matInput [value]="getDateFormat(auditSite.firstCheckDate)"
-                   name="firstCheckDate"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionDate' | translate}}</mat-label>
-            <input matInput [value]="getDateFormat(auditSite.firstDecisionDate)"
-                   name="firstDecisionDate"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionLabel' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.firstDecisionLabel"
-                   name="firstDecisionLabel"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionEngineerSite' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.firstDecisionEngineerSite"
-                   name="firstDecisionEngineerSite"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionEngineerOM' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
-                   name="firstDecisionEngineerOM"
-                   readonly>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.secondDecisionDate' | translate}}</mat-label>
-            <input matInput [value]="getDateFormat(auditSite.secondDecisionDate)"
-                   name="secondDecisionDate"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.secondDecisionLabel"
-                   name="secondDecisionLabel"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionEngineerSite' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.secondDecisionEngineerSite"
-                   name="secondDecisionEngineerSite"
-                   readonly>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.firstDecisionEngineerOM' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.secondDecisionEngineerOM"
-                   name="secondDecisionEngineerOM"
-                   readonly>
-          </mat-form-field>
+        <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 view-div">
+          <div style="margin-left: 20px">
+            <h5 class="div-title">Première Visite :</h5>
+            <!--          <mat-form-field class="example-full-width">-->
+            <!--            <mat-label>{{'AUDIT_SITE.firstCheckDate' | translate}}</mat-label>-->
+            <!--            <input matInput [value]="getDateFormat(auditSite.firstCheckDate)"-->
+            <!--                   name="firstCheckDate"-->
+            <!--                   readonly>-->
+            <!--          </mat-form-field>-->
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionDate' | translate}}</mat-label>
+              <input matInput [value]="getDateFormat(auditSite.firstDecisionDate)"
+                     name="firstDecisionDate"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionLabel' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.firstDecisionLabel"
+                     name="firstDecisionLabel"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionEngineerSite' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.firstDecisionEngineerSite"
+                     name="firstDecisionEngineerSite"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionEngineerOM' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
+                     name="firstDecisionEngineerOM"
+                     readonly>
+            </mat-form-field>
+            <h5 class="div-title">Deuxième Visite :</h5>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.secondDecisionDate' | translate}}</mat-label>
+              <input matInput [value]="getDateFormat(auditSite.secondDecisionDate)"
+                     name="secondDecisionDate"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.secondDecisionLabel"
+                     name="secondDecisionLabel"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionEngineerSite' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.secondDecisionEngineerSite"
+                     name="secondDecisionEngineerSite"
+                     readonly>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>{{'AUDIT_SITE.firstDecisionEngineerOM' | translate}}</mat-label>
+              <input matInput [(ngModel)]="auditSite.secondDecisionEngineerOM"
+                     name="secondDecisionEngineerOM"
+                     readonly>
+            </mat-form-field>
+          </div>
         </div>
 
       </div>
@@ -174,54 +185,9 @@
 
 
     <mat-tab label="Récapitulatif">
-
-      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="label">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 50%"> {{'AUDIT_SITE.label' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 50%">
-            {{element.label}}<span class="red-txt" *ngIf="element.blocking"> *</span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="firstDecisionLabel">
-          <mat-header-cell *matHeaderCellDef
-                           style="flex: 0 0 15%"> {{'AUDIT_SITE.firstDecisionLabel' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
-            <app-badge-status [label]="element.firstDecisionLabel"></app-badge-status>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="secondDecisionLabel">
-          <mat-header-cell *matHeaderCellDef
-                           style="flex: 0 0 15%"> {{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
-            <app-badge-status [label]="element.secondDecisionLabel"></app-badge-status>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="observation">
-          <mat-header-cell *matHeaderCellDef
-                           style="flex: 0 0 20%"> {{'AUDIT_SITE.observation' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 20%"> {{element.observation}} </mat-cell>
-        </ng-container>
-
-        <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-        <!-- Group header -->
-        <ng-container matColumnDef="groupHeader">
-          <mat-cell colspan="999" *matCellDef="let group" style="background: #f9f9f9">
-            <mat-icon *ngIf="group.expanded" style="cursor: pointer;margin-right: 10px">expand_less</mat-icon>
-            <mat-icon *ngIf="!group.expanded" style="cursor: pointer;margin-right: 10px">expand_more</mat-icon>
-            <span style="font-weight: 500;cursor: pointer">{{group[groupByColumns[group.level - 1]]}}</span>
-          </mat-cell>
-        </ng-container>
-
-        <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
-                 (click)="groupHeaderClick(row)">
-        </mat-row>
-      </mat-table>
-
+      <div *ngIf="tabIndex === 1">
+        <app-audit-site-recap [auditSite]="auditSite"></app-audit-site-recap>
+      </div>
     </mat-tab>
 
   </mat-tab-group>
@@ -241,12 +207,39 @@
         {{'COMMUN.BTN_CLOSE' | translate}}
       </button>
 
+      <!--      <button-->
+      <!--        type="button"-->
+      <!--        (click)="exportAuditToPdf()"-->
+      <!--        style="margin-right: 10px"-->
+      <!--        class="btn btn-danger-outline btn-icon no-shadow">-->
+      <!--        <clr-icon shape="printer"></clr-icon>-->
+      <!--        PDF En Cours-->
+      <!--      </button>-->
+
+
+      <button
+        type="button"
+        (click)="exportToPdf()"
+        style="margin-right: 10px"
+        class="btn btn-danger-outline btn-icon no-shadow">
+        <clr-icon shape="printer"></clr-icon>
+        PDF
+      </button>
+      <ng2-pdfjs-viewer #externalPdfViewer [externalWindow]="true" pagemode="bookmarks"></ng2-pdfjs-viewer>
+
+      <button class="btn btn-success-outline"
+              (click)="exportToExcel()"
+              style="margin-right: 10px">
+        <clr-icon shape="printer"></clr-icon>
+        EXCEL
+      </button>
 
       <span class="example-spacer"></span>
 
       <button
         type="button"
         *ngIf="showNextVisitBtn"
+        [disabled]="!jwtTokenService.isSiteEngineer()"
         (click)="secondVisit()"
         style="margin-right: 10px"
         class="btn btn-danger-outline btn-icon no-shadow">
@@ -271,6 +264,7 @@
         <button type="button"
                 class="btn btn-danger-outline"
                 (click)="proceed()"
+                [disabled]="isCreator"
                 style="margin-right: 10px">
           <clr-icon shape="form"></clr-icon>
           {{'COMMUN.BTN_PROCEED' | translate}}

@@ -1,8 +1,12 @@
-<form #addForm="ngForm">
+<div *ngIf="!isMySite">
+  <app-site-not-planified [siteCode]="site.codeSite" message="No Planified"></app-site-not-planified>
+</div>
+<form #addForm="ngForm" *ngIf="isMySite">
   <mat-card class="top-bordred margin-20">
     <mat-card-header>
       <mat-card-title> Power Supply Forms:
         <span class="badge badge-light" style="margin-left: 10px">Site N°: {{site.codeSite}}</span>
+        <mat-divider class="margin-top-15"></mat-divider>
       </mat-card-title>
       <div class="card-back-right-btn">
         <button type="button"
@@ -12,32 +16,44 @@
       </div>
     </mat-card-header>
     <div *ngIf="isEngineer">
-      <label for="_logo" class="btn btn-icon" *ngIf="!site.powerSupplyConform">
+      <label for="_logo" class="btn btn-icon">
         <clr-icon shape="download" style="margin-right: 10px"></clr-icon>
         Télécharger..
       </label>
       <input type="file" id="_logo" name="logo"
-             *ngIf="!site.powerSupplyConform"
              (change)="onFileChange($event)"
-             class="input-file" accept=".xlsx, .xls, .docx, .doc">
+             class="input-file" accept=".xlsx, .xls, .docx, .doc, .png, .jpeg">
+
+      <!--      *ngIf="!site.powerSupplyConform"-->
 
       <label style="color: #9e9e9e">{{fileName}}</label>
-      <hr *ngIf="fileName" style="border: 1px solid #e0e0e0"/>
+      <hr style="border: 1px solid #e0e0e0"/>
+      <br/>
+      <mat-radio-group aria-label="Select an option"
+                       [(ngModel)]="type"
+                       name="type">
+        <mat-radio-button value="1"
+                          [disabled]="site.powerSupplyConform">
+          Formulaire Power Supply
+        </mat-radio-button>
+        <mat-radio-button value="2" style="margin-left: 15px">Autre</mat-radio-button>
+      </mat-radio-group>
     </div>
-    <div *ngIf="fileName">
-      <label>Remarque : </label>
+    <div>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
         [(ngModel)]="decision"
         name="decision"
         (change)="onSelect($event)"
+        *ngIf="type == '1'"
         required="true">
         <mat-radio-button class="example-radio-button" *ngFor="let decision of decisionList"
                           [value]="decision">
           {{decision.label}}
         </mat-radio-button>
       </mat-radio-group>
+      <br/>
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Observation</mat-label>
         <textarea matInput
@@ -46,7 +62,7 @@
                   rows="4"></textarea>
       </mat-form-field>
     </div>
-    <hr/>
+
     <mat-table [dataSource]="siteFormsList" class="mat-elevation-z8">
       <!-- Position Column -->
       <ng-container matColumnDef="id">
@@ -56,8 +72,8 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="fileName">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 65%"> Name</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 65%"> {{element.fileName}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 50%"> Name</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 50%"> {{element.fileName}} </mat-cell>
       </ng-container>
 
       <!-- Weight Column -->
@@ -66,17 +82,16 @@
         <mat-cell *matCellDef="let element" style="flex: 0 0 20%"> {{element.decisionLabel}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="fileType">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%"> Type</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 15%"> {{element.fileType}} </mat-cell>
+      </ng-container>
+
       <!-- Symbol Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%"></mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%">
           <button type="button" class="btn btn-icon btn-success-outline btn-sm" aria-label="home"
-                  *ngIf="element.fileType === 'xlsx'"
-                  (click)="downloadFile(element)">
-            <clr-icon shape="download"></clr-icon>
-          </button>
-          <button type="button" class="btn btn-icon btn-info-outline btn-sm" aria-label="home"
-                  *ngIf="element.fileType === 'docx'"
                   (click)="downloadFile(element)">
             <clr-icon shape="download"></clr-icon>
           </button>

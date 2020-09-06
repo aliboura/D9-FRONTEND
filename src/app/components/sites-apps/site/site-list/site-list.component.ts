@@ -8,6 +8,10 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
+import {UserService} from "../../../../business/services/admin/user.service";
+import {User} from "../../../../business/models/admin/user";
+import {WilayaRegion} from "../../../../business/models/referencial/wilaya-region";
 
 @Component({
   selector: 'app-site-list',
@@ -17,7 +21,9 @@ export class SiteListComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private userService: UserService,
               private siteService: SiteService,
+              private jwtTokenService: JwtTokenService,
               private screenSpinnerService: ScreenSpinnerService) {
   }
 
@@ -29,8 +35,10 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   pagesLength = 10;
   isLoadingResults = true;
   isRateLimitReached = false;
-  showAdvanced = false;
-  search: string;
+  user: User;
+  wilayaItems: WilayaRegion[];
+  codeSite: string;
+  wilayaFilterItems: WilayaRegion[] = [];
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -41,6 +49,35 @@ export class SiteListComponent implements OnInit, AfterViewInit {
     this.columnsToDisplay.push("action");
   }
 
+  ngAfterViewInit(): void {
+    this.userService.findByUserName(this.jwtTokenService.getUserName()).subscribe(data => {
+      this.user = data;
+      this.wilayaItems = this.user.wilayaSet;
+      let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+      this.loadAllData(search);
+    });
+  }
+
+  filter() {
+    let search = 'regionId==' + this.user.regionId;
+    if (this.codeSite) {
+      search = search + ';codeSite==' + this.codeSite;
+    }
+    if (this.wilayaFilterItems.length > 0) {
+      search = search + ';wilaya.id=in=(' + this.wilayaFilterItems.toString() + ')';
+    } else {
+      search = search + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+    }
+    this.loadAllData(search);
+  }
+
+  reset() {
+    this.codeSite = "";
+    this.wilayaFilterItems = [];
+    let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+    this.loadAllData(search);
+  }
+
   showEdit(id: string) {
     this.router.navigate([btoa("" + id)], {relativeTo: this.route});
   }
@@ -49,42 +86,21 @@ export class SiteListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['forms', btoa("" + id)], {relativeTo: this.route});
   }
 
-  ngAfterViewInit(): void {
-    this.loadAllData();
-  }
 
-  applyFilter() {
+  private loadAllData(search: string) {
     this.screenSpinnerService.show();
-    if (this.search) {
-      const expression = "codeSite==*" + this.search.trim().toLowerCase() + "*,numSite==*" + this.search.trim().toLowerCase() +
-        "*,nomSite==*" + this.search.trim().toLowerCase() + "*,regionId==*" + this.search.trim().toLowerCase()
-        + "*,typeSite.id==*" + this.search.trim().toLowerCase() + "*";
-      this.filter(expression);
-    } else {
-      this.loadAllData();
-    }
-  }
-
-  resetSearch() {
-    this.search = "";
-  }
-
-  showAdvancedSearch() {
-    this.showAdvanced = true;
-  }
-
-  private loadAllData() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith(null),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.siteService.findLazyData(
+          return this.siteService.searchLazyData(
             this.paginator.pageIndex,
             this.paginator.pageSize,
-            this.sort.start,
-            "id"
+            "desc",
+            "dateD1",
+            search
           );
         }),
         map(data => {
@@ -107,18 +123,14 @@ export class SiteListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private filter(search: string) {
-    this.siteService.searchLazyData(0, this.pagesLength, "asc", "id", search)
-      .pipe(
-        map(dt => {
-          return dt.content;
-        })
-      )
-      .subscribe(data => {
-        this.datasource = new MatTableDataSource<Site>(data);
-        this.datasource.paginator = this.paginator;
-        this.screenSpinnerService.hide(200);
-      });
+  disabledUploadBtn(site: Site): boolean {
+    if (site.userV1 && site.userV1 === this.jwtTokenService.getUserName()) {
+      return false;
+    }
+    if (site.userV2 && site.userV2 === this.jwtTokenService.getUserName()) {
+      return false;
+    }
+    return true;
   }
 
 }

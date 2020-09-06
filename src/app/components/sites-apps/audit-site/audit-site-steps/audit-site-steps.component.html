@@ -1,10 +1,11 @@
 <form #addForm="ngForm">
-  <mat-card class="top-bordred margin-20" *ngIf="!success">
+  <mat-card class="top-bordred margin-20">
 
     <mat-card-header>
 
       <mat-card-title>
         {{title}}
+        <mat-divider class="margin-top-15"></mat-divider>
       </mat-card-title>
 
       <div class="right-headeer-title">
@@ -13,7 +14,8 @@
       </div>
     </mat-card-header>
 
-    <table style="width:100%">
+    <table style="width:100%" *ngIf="!success">
+<!--      <th></th>-->
       <tr *ngFor="let line of auditSiteLines">
         <td>{{auditSiteLines.indexOf(line) + 1}}</td>
         <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
@@ -50,16 +52,20 @@
       </tr>
       <tr *ngIf="currentCat.last">
         <td colspan="5">
-          <mat-form-field class="example-full-width">
-          <textarea matInput placeholder="Observation"
-                    [(ngModel)]="auditSite.observation"
-                    style="width: 100%"
-                    name="observation" rows="5"></textarea>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Observation</mat-label>
+            <textarea matInput
+                      [(ngModel)]="auditSite.observation"
+                      style="width: 100%"
+                      name="observation" rows="5"></textarea>
           </mat-form-field>
         </td>
       </tr>
 
     </table>
+
+    <app-audit-site-recap *ngIf="success" [auditSite]="auditSite"></app-audit-site-recap>
+
     <mat-toolbar class="card-mat-toolbar">
       <mat-toolbar-row>
         <button
@@ -73,15 +79,33 @@
           {{'COMMUN.BTN_CLOSE' | translate}}
         </button>
         <span class="example-spacer"></span>
+
+        <ng-select [items]="categiryItems"
+                   bindLabel="label"
+                   (change)="onSelectCategoryStep($event)"
+                   [(ngModel)]="selectedCategory"
+                   name="selectedCategory"
+                   style="margin-right: 40px;width: 220px;">
+
+          <ng-template ng-label-tmp let-item="item">
+            <span
+              style="font-size: 12px !important;color: #848484 !important">{{item.orderNum + ' - ' + item.label}}</span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <span style="font-size: 12px !important;color: #848484 !important">{{item.orderNum}} - {{item.label}}</span>
+          </ng-template>
+        </ng-select>
+
         <button
           type="button"
           mat-raised-button
           style="margin-right: 10px"
           (click)="goToPrevious()"
           *ngIf="!currentCat.first"
-          [matTooltip]="currentCat.previousCatId +' - '+ currentCat.previousCatLabel"
+          [matTooltip]="currentCat.previousCatOrder +' - '+ currentCat.previousCatLabel"
           class="cancel-btn">
-          <i class="material-icons" style="font-size: 18px">arrow_back_ios</i>
+          <i class="material-icons"
+             style="font-size: 18px;margin-right: -20% !important;width: 45px;">arrow_back_ios</i>
           {{'COMMUN.PREV_BTN' | translate}}
         </button>
         <button
@@ -89,10 +113,10 @@
           type="button"
           (click)="goToNext()"
           [disabled]="!addForm.form.valid"
-          *ngIf="!currentCat.last"
-          [matTooltip]="currentCat.nextCatId +' - '+  currentCat.nextCatLabel"
+          *ngIf="!success"
+          [matTooltip]="currentCat.nextCatId ? currentCat.nextCatOrder +' - '+  currentCat.nextCatLabel :  'Terminer'"
           class="add-btn">
-          <i class="material-icons" style="font-size: 18px">
+          <i class="material-icons" style="font-size: 18px;margin-right: -20% !important;width: 45px;">
             arrow_forward_ios
           </i>
           {{'COMMUN.NEXT_BTN' | translate}}
@@ -100,7 +124,7 @@
         <button
           mat-raised-button
           type="button"
-          *ngIf="currentCat.last"
+          *ngIf="success"
           (click)="goToFinish()"
           class="add-btn">
           <i class="material-icons" style="font-size: 18px">
@@ -111,5 +135,5 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-card>
-  <app-after-save [result]="result" [message]="message" *ngIf="success" [show]="success"></app-after-save>
+
 </form>

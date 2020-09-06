@@ -1,6 +1,8 @@
 <mat-card style="margin: 20px;" class="top-bordred">
   <mat-card-header>
-    <mat-card-title>Liste des audits :</mat-card-title>
+    <mat-card-title>Liste des audits :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
   </mat-card-header>
   <mat-grid-list cols="4" rowHeight="60px">
     <mat-grid-tile [colspan]="1">
@@ -8,6 +10,7 @@
         type="button"
         mat-raised-button
         class="add-btn"
+        *ngIf="jwtTokenService.isSiteEngineer()"
         (click)="showAdd()"
         routerLinkActive="disabled"
       >
@@ -41,7 +44,7 @@
         matSortDisableClear
         matSortDirection="matSortDirection">
 
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="id" sticky>
           <mat-header-cell
             *matHeaderCellDef
             mat-sort-header
@@ -54,32 +57,39 @@
         </ng-container>
 
         <ng-container matColumnDef="typeAuditSiteLabel">
-          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef
+                           mat-sort-header> {{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.typeAuditSiteLabel}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="auditDate">
-          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.auditDate | date:'dd/MM/yyyy'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="siteCode">
-          <mat-header-cell *matHeaderCellDef>  {{'AUDIT_SITE.siteCode' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.siteCode}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef>  Site </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteCode}} - {{element.wilayaLabel}}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="userId">
-          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.userId' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+        <ng-container matColumnDef="siteUserV1">
+          <mat-header-cell *matHeaderCellDef> Visite 1</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteUserV1}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteUserV2">
+          <mat-header-cell *matHeaderCellDef> Visite 2</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteUserV2}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.description' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Type de site</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.typeSiteId}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="currentSatusLabel">
-          <mat-header-cell *matHeaderCellDef> {{'AUDIT_SITE.currentSatusLabel' | translate}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef
+                           mat-sort-header> {{'AUDIT_SITE.currentSatusLabel' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span [class]="element.currentSatusStyleCSS">
               {{element.currentSatusDescription}}
@@ -87,7 +97,7 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="action">
+        <ng-container matColumnDef="action" stickyEnd>
           <mat-header-cell
             *matHeaderCellDef
             class="action-column"
@@ -95,7 +105,6 @@
           <mat-cell *matCellDef="let element" class="action-column">
             <button type="button"
                     class="btn btn-icon btn-sm"
-                    aria-label="home"
                     (click)="showEdit(element.id)"
                     style="margin-left: 7px"
                     [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate">
@@ -103,14 +112,31 @@
             </button>
 
             <button type="button"
-                    class="btn btn-danger-outline btn-icon btn-sm"
+                    class="btn btn-success-outline btn-icon btn-sm"
                     [disabled]="!disabledValidateBtn(element)"
-                    *ngIf="isEngineer"
+                    *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()"
                     (click)="goToValidate(element.id)"
                     aria-label="home"
                     [matTooltip]="'COMMUN.BTN_VALIDATE' | translate">
               <clr-icon shape="check"></clr-icon>
             </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu"
+                    matTooltip="Expoter PDF / XLS"
+                    aria-label="Example icon-button with a menu">
+              <mat-icon style="color: #b9b9b9">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item
+                      type="button"
+                      (click)="exportToPdf(element)">
+                <span style="margin-left: 5px">Exporter PDF</span>
+              </button>
+              <button mat-menu-item
+                      type="button"
+                      (click)="exportToExcel(element)">
+                <span style="margin-left: 5px">Exporter XLS</span>
+              </button>
+            </mat-menu>
           </mat-cell>
         </ng-container>
 

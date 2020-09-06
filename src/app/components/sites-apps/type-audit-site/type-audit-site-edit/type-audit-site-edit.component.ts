@@ -15,7 +15,7 @@ import {TypeInput} from "../../../../shared/enum/type-input.enum";
 })
 export class TypeAuditSiteEditComponent implements OnInit {
 
-  constructor(private typeAuditSiteService: TypeAuditSiteService,
+  constructor(public typeAuditSiteService: TypeAuditSiteService,
               private route: ActivatedRoute,
               private router: Router) {
   }

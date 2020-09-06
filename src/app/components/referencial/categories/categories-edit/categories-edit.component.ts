@@ -47,7 +47,7 @@ export class CategoriesEditComponent implements OnInit {
     });
     this.title = "Modifier la Catégorie N°: " + this.id;
     this.object = "categories";
-    this.categoriesService.findAll().subscribe(data => {
+    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(data => {
       this.nextList = data.filter(x => !x.first);
       this.previousList = data.filter(x => !x.last);
       this.fields = this.loadFormModels();
@@ -108,17 +108,7 @@ export class CategoriesEditComponent implements OnInit {
         false,
         false,
         this.typeAuditSiteList,
-        "Veuillez selectionner le type audit."
-      ),
-      new ModelGeneric(
-        "nextCatId",
-        TypeInput.Select,
-        false,
-        false,
-        false,
-        false,
-        this.nextList,
-        "Veuillez selectionner une catégories."
+        "Veuillez sélectionner le type audit."
       ),
 
       new ModelGeneric(

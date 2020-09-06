@@ -18,7 +18,7 @@ export class LoadGuardService implements CanLoad {
     const token = this.cookieService.get(STATIC_DATA.TOKEN);
     if (route.path === 'decisions' || route.path === 'categories' || route.path === 'sub-categories'
       || route.path === 'status' || route.path == 'decisionTypes') {
-      if (!this.jwtTokenService.isAdmin(token)) {
+      if (!this.jwtTokenService.isAdmin()) {
         this.router.navigate(['apps-exceptions', '2']);
         return false;
       }

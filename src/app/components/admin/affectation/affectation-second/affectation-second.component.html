@@ -1,0 +1,102 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>{{'affect_v1.title_my_visit' | translate}}
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
+  </mat-card-header>
+
+  <div class="mat-elevation-z8" matSort>
+    <div style="margin: 20px 0px 20px 0px;padding-top: 20px;">
+      <mat-table
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="asc">
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteCode">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{'SITE.codeSite' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteCode}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dateD1">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{'SITE.dateD1' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dateD1 | date:'dd-MM-yyyy'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="typeSiteId">
+          <mat-header-cell *matHeaderCellDef> {{'SITE.typeSiteLib' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.typeSiteId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="wilayaLabel">
+          <mat-header-cell *matHeaderCellDef> {{'SITE.wilayaLabel' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.wilayaLabel}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteV1">
+          <mat-header-cell *matHeaderCellDef>V1 Affecté à</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span *ngIf="element.engineerSiteV1">{{element.engineerSiteV1}}</span>
+            <span class="badge badge-lighty" *ngIf="!element.engineerSiteV1">Non Affecté</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteDateV1">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>V1 Affecté Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.engineerSiteDateV1 | date: 'dd-MM-yyyy'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteV2">
+          <mat-header-cell *matHeaderCellDef>V2 Affecté à</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span *ngIf="element.engineerSiteV2">{{element.engineerSiteV2}}</span>
+            <span class="badge badge-lighty" *ngIf="!element.engineerSiteV2">Non Affecté</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteDateV2">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>V2 Affecté Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.engineerSiteDateV2 | date: 'dd-MM-yyyy'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%"></mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%">
+            <button type="button"
+                    matTooltip="Audité ce site"
+                    [disabled]="element.audited"
+                    (click)="goToAdd(element.siteId)"
+                    class="btn btn-icon btn-danger-outline btn-sm">
+              <clr-icon shape="arrow" dir="right"></clr-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>

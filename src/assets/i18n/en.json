@@ -10,6 +10,7 @@
     "BTN_DELETE": " Delete ",
     "BTN_MODIFIER": " Update ",
     "BTN_PROCEED": "Proceed",
+    "BTN_FILTER": "Filter",
     "TITLE_MODIFIER": " Update ",
     "TOOLTIP_SEARCH": "Generic search.",
     "TOOLTIP_SHOW": "Show details.",
@@ -57,6 +58,7 @@
     "motif": " Motif ? "
   },
   "SITE": {
+    "title": " Sites list",
     "codeSite": " Site code ",
     "dateD1": " D1 Date  ",
     "nomSite": " Site Name ",
@@ -64,7 +66,15 @@
     "typeSiteId": " Site type ",
     "typeSiteLib": " Site type ",
     "regionId": " Region ",
-    "wilayaLabel": " City "
+    "wilayaLabel": " City ",
+    "engineerSiteV1": " Site Engineer ",
+    "engineerSiteDateV1": " Site Engineer visit date",
+    "engineerOMV1": " O&M Engineer ",
+    "engineerOMDateV1": " O&M Engineer visit date ",
+    "engineerSiteV2": " Site Engineer ",
+    "engineerSiteDateV2": " Site Engineer visit date ",
+    "engineerOMV2": " O&M Engineer ",
+    "engineerOMDateV2": " O&M Engineer visit date "
   },
   "AUDIT_SITE": {
     "id": " N° ",
@@ -187,5 +197,18 @@
     "locked": " Locked ? ",
     "regionId": "Region",
     "wilayaId": "City"
+  },
+  "affect_v1": {
+    "title": " Affectation first visit ",
+    "engineer_site": "Site Engineer ",
+    "engineer_om": " O&M Engineer ",
+    "date": " Date",
+    "title_my_visit": "My visits"
+  },
+  "affect_v2": {
+    "title": " Affectation second visit ",
+    "engineer_site": "Site Engineer ",
+    "engineer_om": " O&M Engineer ",
+    "date": " Date"
   }
 }

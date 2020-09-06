@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {RoutingStateService} from "../../business/services/apps/routing-state.service";
 import {Router} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
+import {CookieService} from "ngx-cookie-service";
+import {STATIC_DATA} from "../../tools/static-data";
 
 @Component({
   selector: 'app-left-menu',
@@ -10,11 +13,18 @@ import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.
 })
 export class LeftMenuComponent implements OnInit {
 
-  constructor(private routingStateService: RoutingStateService,
+  constructor(public jwtTokenService: JwtTokenService,
+              private cookieService: CookieService,
+              private routingStateService: RoutingStateService,
               private screenSpinnerService: ScreenSpinnerService,
               private router: Router) {
     this.routingStateService.loadLastRouting();
+    this.admin = this.jwtTokenService.isAdmin();
+    this.responsible = this.jwtTokenService.isResponsible();
   }
+
+  admin: boolean;
+  responsible: boolean;
 
   ngOnInit() {
   }

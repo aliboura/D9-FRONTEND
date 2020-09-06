@@ -33,7 +33,6 @@ export class AuthGuardService implements CanActivate {
         this.notyf.error("Token expired");
       }
     }
-
     this.loginService.onLogOut();
     return false;
   }

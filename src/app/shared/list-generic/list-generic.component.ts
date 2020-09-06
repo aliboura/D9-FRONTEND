@@ -13,6 +13,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {NOTYF} from "../../tools/notyf.token";
 import Notyf from "notyf/notyf";
 import {NgxCoolDialogsService} from "ngx-cool-dialogs";
+import {registerLocaleData} from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 
 @Component({
   selector: "app-list-generic",
@@ -29,6 +31,7 @@ export class ListGenericComponent<T extends Parents>
     private translate: TranslateService,
     @Inject(NOTYF) private notyf: Notyf) {
     this.emptyData = true;
+    registerLocaleData(localeFr);
   }
 
   datasource: MatTableDataSource<T>;
@@ -133,12 +136,16 @@ export class ListGenericComponent<T extends Parents>
     this.service.searchLazyData(0, this.paginator.pageSize, "asc", "id", search)
       .pipe(
         map(dt => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          this.resultsLength = dt.totalElements;
           return dt.content;
         })
       )
       .subscribe(data => {
         this.datasource = new MatTableDataSource<T>(data);
         this.datasource.paginator = this.paginator;
+        this.datasource.sort = this.sort;
         this.screenSpinnerService.hide(10);
       });
   }

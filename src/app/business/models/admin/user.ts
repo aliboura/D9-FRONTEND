@@ -14,6 +14,10 @@ export class User {
   expired: boolean;
   credentials: boolean;
   locked: boolean;
-  roleSet: WilayaRegion[];
-  wilayaSet: AppRole[];
+  roleSet: AppRole[];
+  wilayaSet: WilayaRegion[];
+
+  get fullName(): string {
+    return this.firstName + " " + this.lastName.toUpperCase();
+  }
 }

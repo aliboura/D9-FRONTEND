@@ -1,0 +1,244 @@
+<mat-card class="top-bordred margin-20">
+  <mat-card-header>
+    <mat-card-title>Site Affectation :
+      <mat-divider class="margin-top-15"></mat-divider>
+    </mat-card-title>
+
+  </mat-card-header>
+  <div class="clr-row" style="margin: 20px;">
+    <div class="clr-col-1 clr-col-sm-1 clr-col-md-1 clr-col-lg-1">
+      <button
+        type="button"
+        mat-raised-button
+        class="add-btn"
+        (click)="goToFirstVisit()"
+        routerLinkActive="disabled"
+        style="margin-left: -20px;margin-top: 10px">
+        <i class="material-icons" style="font-size: 22px;">
+          add_circle_outline
+        </i>
+        {{'COMMUN.BTN_NEW' | translate}}
+      </button>
+    </div>
+    <div class="clr-col-11 clr-col-sm-11 clr-col-md-11 clr-col-lg-11">
+      <mat-grid-list cols="8" rowHeight="60px" style="margin-left: 10px" *ngIf="!advSearch">
+        <mat-grid-tile [colspan]="3">
+          <mat-form-field>
+            <mat-label>{{'SITE.codeSite' | translate}} / {{'SITE.nomSite' | translate}}</mat-label>
+            <input matInput type="text" [(ngModel)]="codeSite" name="codeSite">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="3">
+          <ng-select
+            [items]="wilayaItems"
+            bindValue="id"
+            bindLabel="label"
+            required
+            [multiple]="true"
+            placeholder="Wilaya"
+            appendTo="body"
+            [(ngModel)]="wilayaSelected"
+            style="width: 100%"
+          >
+          </ng-select>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" style="margin-left: 10px">
+          <button type="button"
+                  class="btn btn-danger-outline btn-icon"
+                  (click)="filter()">
+            <clr-icon shape="filter"></clr-icon>
+            {{'COMMUN.BTN_FILTER' | translate}}
+          </button>
+          <button type="button"
+                  class="btn btn-outline btn-icon"
+                  (click)="showAdvSearch()">
+            <clr-icon shape="angle" dir="down"></clr-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-outline btn-icon"
+                  (click)="reset()">
+            <clr-icon shape="refresh"></clr-icon>
+          </button>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="8" rowHeight="60px" style="margin-left: 10px" *ngIf="advSearch">
+        <mat-grid-tile [colspan]="1">
+          <section class="example-section">
+            <mat-checkbox class="example-margin"
+                          [(ngModel)]="secondVisit"
+                          (change)="checkSecondVisit()"
+                          name="firstVisit">
+              Audité ?
+            </mat-checkbox>
+          </section>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+          <ng-select
+            [items]="userEngineerItems"
+            bindLabel="lastName"
+            [required]="advSearch"
+            [placeholder]="secondVisit ? 'Ingénieur Visite 2': 'Ingénieur Visite 1'"
+            [(ngModel)]="user"
+            (change)="onSelectUser($event)"
+            appendTo="body"
+            style="width: 95%"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              {{item.lastName + ' ' + item.firstName}}
+            </ng-template>
+          </ng-select>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="3">
+          <mat-form-field style="margin: 3px">
+            <mat-label>Date du</mat-label>
+            <input matInput [matDatepicker]="picker1"
+                   [(ngModel)]="fromDate"
+                   name="fromDate"
+                   [required]="advSearch"
+                   [max]="toDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field style="margin: 3px">
+            <mat-label>Au</mat-label>
+            <input matInput [matDatepicker]="picker2"
+                   [(ngModel)]="toDate"
+                   name="toDate"
+                   [required]="advSearch"
+                   [min]="fromDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" style="margin-left: 10px">
+          <button type="button"
+                  class="btn btn-danger-outline btn-icon"
+                  (click)="advFilter()">
+            <clr-icon shape="filter"></clr-icon>
+            {{'COMMUN.BTN_FILTER' | translate}}
+          </button>
+          <button type="button"
+                  class="btn btn-outline btn-icon"
+                  (click)="hideAdvSearch()">
+            <clr-icon shape="angle" dir="up"></clr-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-outline btn-icon"
+                  (click)="reset()">
+            <clr-icon shape="refresh"></clr-icon>
+          </button>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8" matSort>
+    <div style="margin: 20px 0px 20px 0px;padding-top: 20px;border-top: 1px solid #e0e0e0">
+      <mat-table
+        [dataSource]="datasource"
+        matSortActive="matSortActive"
+        matSortDisableClear
+        matSortDirection="asc">
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="id-column">
+            No.
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="id-column">
+            {{ element.id }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteCode">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{'SITE.codeSite' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.siteCode}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dateD1">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{'SITE.dateD1' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dateD1 | date:'dd-MM-yyyy'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="typeSiteId">
+          <mat-header-cell *matHeaderCellDef> {{'SITE.typeSiteLib' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.typeSiteId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="regionId">
+          <mat-header-cell *matHeaderCellDef> {{'SITE.regionId' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.regionId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="wilayaLabel">
+          <mat-header-cell *matHeaderCellDef> {{'SITE.wilayaLabel' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.wilayaLabel}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteV1">
+          <mat-header-cell *matHeaderCellDef>V1 Affecté à</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span *ngIf="element.engineerSiteV1">{{element.engineerSiteV1}}</span>
+            <span class="badge badge-lighty" *ngIf="!element.engineerSiteV1">Non Affecté</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteDateV1">
+          <mat-header-cell *matHeaderCellDef>V1 Affecté Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.engineerSiteDateV1 | date: 'dd-MM-yyyy'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteV2">
+          <mat-header-cell *matHeaderCellDef>V2 Affecté à</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span *ngIf="element.engineerSiteV2">{{element.engineerSiteV2}}</span>
+            <span class="badge badge-lighty" *ngIf="!element.engineerSiteV2">Non Affecté</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="engineerSiteDateV2">
+          <mat-header-cell *matHeaderCellDef>V2 Affecté Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.engineerSiteDateV2 | date: 'dd-MM-yyyy'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action" stickyEnd>
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button type="button"
+                    class="btn btn-icon btn-sm"
+                    aria-label="home"
+                    (click)="showEdit(element.id)"
+                    routerLinkActive="active"
+                    [matTooltip]="'COMMUN.TOOLTIP_SHOW' | translate">
+              <clr-icon shape="info-standard"></clr-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <app-empty-messages *ngIf="emptyData"></app-empty-messages>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</mat-card>

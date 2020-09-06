@@ -1,42 +1,52 @@
 import {Injectable} from '@angular/core';
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {Role} from "../../models/admin/role";
 import {ROLES_CODES} from "../../../tools/roles-codes";
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../tools/static-data";
 import * as jwt_decode from "jwt-decode";
+import {RoleService} from "../admin/role.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtTokenService {
 
-  constructor(private cookieService: CookieService) {
+   constructor(private roleService: RoleService,
+              private cookieService: CookieService) {
   }
 
-  public isAdmin(token: string): boolean {
-    const jwtHelper = new JwtHelperService();
-    const roles: Role[] = jwtHelper.decodeToken(token).roles;
+
+  public getToken() {
+    return this.cookieService.get(STATIC_DATA.TOKEN);
+  }
+
+  public isSiteEngineer(): boolean {
+    const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x.authority === ROLES_CODES.ADMIN_ROLE).length > 0;
+      return roles.filter(x => x === ROLES_CODES.ENGINEER_SITE).length > 0;
     }
     return false;
   }
 
-  public isSiteEngineer(token: string): boolean {
-    const jwtHelper = new JwtHelperService();
-    const roles: Role[] = jwtHelper.decodeToken(token).roles;
+  public isAdmin(): boolean {
+    const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x.authority === ROLES_CODES.ENGINEER_SITE).length > 0;
+      return roles.filter(x => x === ROLES_CODES.ADMIN_ROLE).length > 0;
     }
     return false;
   }
 
-  public isOMEngineer(token: string): boolean {
-    const jwtHelper = new JwtHelperService();
-    const roles: Role[] = jwtHelper.decodeToken(token).roles;
+  public isOMEngineer(): boolean {
+    const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x.authority === ROLES_CODES.ENGINEER_OM).length > 0;
+      return roles.filter(x => x === ROLES_CODES.ENGINEER_OM).length > 0;
+    }
+    return false;
+  }
+
+  public isResponsible(): boolean {
+    const roles = this.getUserRole();
+    if (roles) {
+      return roles.filter(x => x === ROLES_CODES.RESPONSABLE).length > 0;
     }
     return false;
   }
@@ -76,6 +86,13 @@ export class JwtTokenService {
 
   isTokenNotExpired(token: string): boolean {
     return !this.isTokenExpired(token);
+  }
+
+  getUserRole() {
+    if (this.cookieService.check(STATIC_DATA.ROLES)) {
+      return this.cookieService.get(STATIC_DATA.ROLES).split(',');
+    }
+    return [];
   }
 
 }

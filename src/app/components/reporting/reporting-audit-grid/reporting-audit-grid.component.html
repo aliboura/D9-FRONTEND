@@ -1,0 +1,67 @@
+<div class="mat-elevation-z8" matSort>
+  <div class="example-table-container">
+    <mat-table
+      [dataSource]="datasource"
+      matSortActive="matSortActive"
+      matSortDisableClear
+      matSortDirection="matSortDirection">
+
+      <ng-container matColumnDef="id" sticky>
+        <mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="id-column">
+          No.
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="id-column">
+          {{ element.id }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="typeAuditSiteLabel">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> {{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.typeAuditSiteLabel}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="auditDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.auditDate | date:'dd/MM/yyyy'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="siteCode">
+        <mat-header-cell *matHeaderCellDef>  {{'AUDIT_SITE.siteCode' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.siteCode}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="siteUserV1">
+        <mat-header-cell *matHeaderCellDef> Visite 1</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.siteUserV1}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="siteUserV2">
+        <mat-header-cell *matHeaderCellDef> Visite 2</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.siteUserV2}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Type de site</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.typeSiteId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="currentSatusLabel">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> {{'AUDIT_SITE.currentSatusLabel' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <span [class]="element.currentSatusStyleCSS">
+              {{element.currentSatusDescription}}
+            </span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
+</div>
+
