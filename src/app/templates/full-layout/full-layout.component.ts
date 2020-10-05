@@ -11,6 +11,9 @@ import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
 import {VisitPlanningService} from "../../business/services/sites/visit-planning.service";
 import {AppNotificationService} from "../../business/services/apps/app-notification.service";
 import {Observable} from "rxjs";
+import {saveAs} from "file-saver";
+import {ConvertService} from "../../business/services/admin/convert.service";
+import {AuditSiteLineService} from "../../business/services/sites/audit-site-line.service";
 
 @Component({
   selector: "app-full-layout",
@@ -20,6 +23,8 @@ import {Observable} from "rxjs";
 export class FullLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
+    private convertService: ConvertService,
+    private auditSiteLineService: AuditSiteLineService,
     public media: MediaMatcher,
     public changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
@@ -101,5 +106,16 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
 
   public onLogout() {
     this.loginService.onLogOut();
+  }
+
+  onDownloadTemplates() {
+    this.screenSpinnerService.show();
+    this.auditSiteLineService.downloadTemplates().subscribe(data => {
+      const type = "application/vnd.ms-excel";
+      const blob = new Blob([this.convertService.base64toBlob(data.file, type)], {type: type});
+      const file = new File([blob], 'Template-d9', {type: type});
+      saveAs(file);
+      this.screenSpinnerService.hide(100);
+    });
   }
 }

@@ -14,123 +14,123 @@ import {User} from "../../../../business/models/admin/user";
 import {WilayaRegion} from "../../../../business/models/referencial/wilaya-region";
 
 @Component({
-  selector: 'app-site-list',
-  templateUrl: './site-list.component.html'
+    selector: 'app-site-list',
+    templateUrl: './site-list.component.html'
 })
 export class SiteListComponent implements OnInit, AfterViewInit {
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private userService: UserService,
-              private siteService: SiteService,
-              private jwtTokenService: JwtTokenService,
-              private screenSpinnerService: ScreenSpinnerService) {
-  }
-
-  datasource: MatTableDataSource<Site>;
-  displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteLib", "regionId", "wilayaLabel"];
-  columnsToDisplay: string[];
-
-  resultsLength = 0;
-  pagesLength = 10;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  user: User;
-  wilayaItems: WilayaRegion[];
-  codeSite: string;
-  wilayaFilterItems: WilayaRegion[] = [];
-
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  ngOnInit() {
-    this.columnsToDisplay = this.displayedColumns.slice();
-    this.columnsToDisplay.unshift("id");
-    this.columnsToDisplay.push("action");
-  }
-
-  ngAfterViewInit(): void {
-    this.userService.findByUserName(this.jwtTokenService.getUserName()).subscribe(data => {
-      this.user = data;
-      this.wilayaItems = this.user.wilayaSet;
-      let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
-      this.loadAllData(search);
-    });
-  }
-
-  filter() {
-    let search = 'regionId==' + this.user.regionId;
-    if (this.codeSite) {
-      search = search + ';codeSite==' + this.codeSite;
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private userService: UserService,
+                private siteService: SiteService,
+                private jwtTokenService: JwtTokenService,
+                private screenSpinnerService: ScreenSpinnerService) {
     }
-    if (this.wilayaFilterItems.length > 0) {
-      search = search + ';wilaya.id=in=(' + this.wilayaFilterItems.toString() + ')';
-    } else {
-      search = search + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+
+    datasource: MatTableDataSource<Site>;
+    displayedColumns: string[] = ["codeSite", "dateD1", "nomSite", "numSite", "typeSiteLib", "regionId", "wilayaLabel"];
+    columnsToDisplay: string[];
+
+    resultsLength = 0;
+    pagesLength = 10;
+    isLoadingResults = true;
+    isRateLimitReached = false;
+    user: User;
+    wilayaItems: WilayaRegion[];
+    codeSite: string;
+    wilayaFilterItems: WilayaRegion[] = [];
+
+    @ViewChild(MatSort, {static: true}) sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+    ngOnInit() {
+        this.columnsToDisplay = this.displayedColumns.slice();
+        this.columnsToDisplay.unshift("id");
+        this.columnsToDisplay.push("action");
     }
-    this.loadAllData(search);
-  }
 
-  reset() {
-    this.codeSite = "";
-    this.wilayaFilterItems = [];
-    let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
-    this.loadAllData(search);
-  }
-
-  showEdit(id: string) {
-    this.router.navigate([btoa("" + id)], {relativeTo: this.route});
-  }
-
-  goToForms(id: string) {
-    this.router.navigate(['forms', btoa("" + id)], {relativeTo: this.route});
-  }
-
-
-  private loadAllData(search: string) {
-    this.screenSpinnerService.show();
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith(null),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.siteService.searchLazyData(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-            "desc",
-            "dateD1",
-            search
-          );
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.totalElements;
-          this.pagesLength = this.paginator.pageSize;
-          return data.content;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      )
-      .subscribe(data => {
-        this.datasource = new MatTableDataSource<Site>(data);
-        this.datasource.sort = this.sort;
-        this.screenSpinnerService.hide(200);
-      });
-  }
-
-  disabledUploadBtn(site: Site): boolean {
-    if (site.userV1 && site.userV1 === this.jwtTokenService.getUserName()) {
-      return false;
+    ngAfterViewInit(): void {
+        this.userService.findByUserName(this.jwtTokenService.getUserName()).subscribe(data => {
+            this.user = data;
+            this.wilayaItems = this.user.wilayaSet;
+            let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+            this.loadAllData(search);
+        });
     }
-    if (site.userV2 && site.userV2 === this.jwtTokenService.getUserName()) {
-      return false;
+
+    filter() {
+        let search = 'regionId==' + this.user.regionId;
+        if (this.codeSite) {
+            search = search + ';codeSite==' + this.codeSite;
+        }
+        if (this.wilayaFilterItems.length > 0) {
+            search = search + ';wilaya.id=in=(' + this.wilayaFilterItems.toString() + ')';
+        } else {
+            search = search + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+        }
+        this.loadAllData(search);
     }
-    return true;
-  }
+
+    reset() {
+        this.codeSite = "";
+        this.wilayaFilterItems = [];
+        let search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
+        this.loadAllData(search);
+    }
+
+    showEdit(id: string) {
+        this.router.navigate([btoa("" + id)], {relativeTo: this.route});
+    }
+
+    goToForms(id: string) {
+        this.router.navigate(['forms', btoa("" + id)], {relativeTo: this.route});
+    }
+
+
+    private loadAllData(search: string) {
+        this.screenSpinnerService.show();
+        this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+        merge(this.sort.sortChange, this.paginator.page)
+            .pipe(
+                startWith(null),
+                switchMap(() => {
+                    this.isLoadingResults = true;
+                    return this.siteService.searchLazyData(
+                        this.paginator.pageIndex,
+                        this.paginator.pageSize,
+                        "desc",
+                        "dateD1",
+                        search
+                    );
+                }),
+                map(data => {
+                    this.isLoadingResults = false;
+                    this.isRateLimitReached = false;
+                    this.resultsLength = data.totalElements;
+                    this.pagesLength = this.paginator.pageSize;
+                    return data.content;
+                }),
+                catchError(() => {
+                    this.isLoadingResults = false;
+                    this.isRateLimitReached = true;
+                    return observableOf([]);
+                })
+            )
+            .subscribe(data => {
+                this.datasource = new MatTableDataSource<Site>(data);
+                this.datasource.sort = this.sort;
+                this.screenSpinnerService.hide(200);
+            });
+    }
+
+    disabledUploadBtn(site: Site): boolean {
+        if (site.userV1 === this.jwtTokenService.getUserName()) {
+            return false;
+        }
+        if (site.userV2 === this.jwtTokenService.getUserName()) {
+            return false;
+        }
+        return true;
+    }
 
 }

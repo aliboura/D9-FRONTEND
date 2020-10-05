@@ -248,6 +248,18 @@
       </button>
 
       <div *ngIf="auditSite.lastStep; else steps">
+
+        <button
+          type="button"
+          style="margin-right: 10px"
+          (click)="proceed()"
+          [disabled]="!disabledValidateBtn()"
+          *ngIf="isEngineer"
+          class="btn btn-outline btn-icon no-shadow">
+          <clr-icon shape="edit"></clr-icon>
+          {{'COMMUN.BTN_MODIFIER' | translate}}
+        </button>
+
         <button
           type="button"
           style="margin-right: 10px"
@@ -258,6 +270,7 @@
           <clr-icon shape="check"></clr-icon>
           {{'COMMUN.BTN_VALIDATE' | translate}}
         </button>
+
       </div>
 
       <ng-template #steps>
@@ -266,8 +279,8 @@
                 (click)="proceed()"
                 [disabled]="isCreator"
                 style="margin-right: 10px">
-          <clr-icon shape="form"></clr-icon>
-          {{'COMMUN.BTN_PROCEED' | translate}}
+          <clr-icon shape="edit"></clr-icon>
+          {{'COMMUN.BTN_MODIFIER' | translate}}
         </button>
 
       </ng-template>

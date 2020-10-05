@@ -93,7 +93,19 @@
           <mat-datepicker #OMDateV1></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 flex-center" *ngIf="!visit.audited">
+        <img
+          type="image/svg+xml"
+          src="./././assets/images/planner.svg"
+          width="75px"
+          class="logo-style"
+        />
+        <br/>
+        <h1 style="color: #cac8c8">No Planified.</h1>
+
+      </div>
+
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited">
         <h5 class="div-title">Deuxième Visite :</h5>
         <div class="example-full-width">
           <ng-select

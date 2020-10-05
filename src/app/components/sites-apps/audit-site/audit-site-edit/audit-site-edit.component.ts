@@ -153,6 +153,7 @@ export class AuditSiteEditComponent implements OnInit {
   }
 
   isUserCreate(auditSite: AuditSite, username: string) {
+    console.log('user v1 :' + auditSite.siteUserV1, 'user v2 :' + auditSite.siteUserV2);
     if (auditSite.siteUserV1 === username) {
       return false;
     }

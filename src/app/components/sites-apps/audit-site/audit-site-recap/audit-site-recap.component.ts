@@ -44,6 +44,7 @@ export class AuditSiteRecapComponent implements OnInit {
 
   ngOnInit() {
     this.recapAudit = this.auditSite;
+    this.auditSite.auditSiteLineDtoList.forEach(x => console.log('eeeeeeeeeee : ' + x.secondDecisionLabel));
     this.dataSource = new MatTableDataSource<AuditSiteLine | Group>(this.addGroups(this.auditSite.auditSiteLineDtoList, this.groupByColumns));
     this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
     this.dataSource.filter = performance.now().toString();

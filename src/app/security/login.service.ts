@@ -13,6 +13,7 @@ import {Role} from "../business/models/admin/role";
 import {JwtToken} from "../business/models/admin/jwt-token";
 import {CookieService} from "ngx-cookie-service";
 import {UserService} from "../business/services/admin/user.service";
+import {first} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +46,6 @@ export class LoginService {
             this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
             this.router.navigateByUrl('apps/home');
           }
-        },
-        error => {
-          this.notyf.error(error.error.message);
         }
       );
   }

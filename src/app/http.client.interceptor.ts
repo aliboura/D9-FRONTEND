@@ -44,18 +44,21 @@ export class HttpClientInterceptor implements HttpInterceptor {
   }
 
   private handleError(error) {
-    if (error.error instanceof ErrorEvent) {
-      this.notyf.error(`Error: ${error.error.message}`);
-      return throwError(`Error: ${error.error.message}`);
+    if (error instanceof ErrorEvent) {
+      this.notyf.error(`Error: ${error.message}`);
+      return throwError(`Error: ${error.message}`);
     } else {
       let type = 1;
       if (error.status === 403) {
         type = 2;
+        console.log('403');
       } else if (error.status === 404) {
         type = 3;
+        console.log('404');
       }
+      console.log('500');
       this.router.navigate(['apps-exceptions', type]);
-      this.notyf.error(`Error Code: ${error.status}\nMessage: ${error.message}`);
+      this.notyf.error(`Error Code : ${error.status}\nMessage: ${error.message}`);
       return throwError(`Error Code: ${error.status}\nMessage: ${error.message}`);
     }
 

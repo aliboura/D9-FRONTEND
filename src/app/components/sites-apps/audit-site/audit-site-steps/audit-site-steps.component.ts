@@ -18,7 +18,8 @@ import {CategoriesLabel} from "../../../../business/models/referencial/categorie
 import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
-import {Check} from "../../../../business/models/referencial/check.enum";
+import {saveAs} from "file-saver";
+import {ConvertService} from "../../../../business/services/admin/convert.service";
 
 @Component({
   selector: 'app-audit-site-steps',
@@ -29,6 +30,7 @@ export class AuditSiteStepsComponent implements OnInit {
   constructor(private auditSiteService: AuditSiteService,
               private auditSiteLineService: AuditSiteLineService,
               private categoriesService: CategoriesService,
+              private convertService: ConvertService,
               private decisionService: DecisionService,
               private coolDialogs: NgxCoolDialogsService,
               private route: ActivatedRoute,
@@ -43,12 +45,15 @@ export class AuditSiteStepsComponent implements OnInit {
   private obAuditSite: Observable<AuditSite>;
   auditSiteLines: AuditSiteLine[] = [];
   decisionList: Decision[];
+  decisionId: number;
   currentCat: Categories = new Categories();
   selectedCategory: Categories;
   categiryItems: Categories[];
   title: string;
   editCat: boolean;
   categoriesEnum = CategoriesLabel;
+  opened = false;
+  fileName: string;
 
   success = false;
 
@@ -166,6 +171,7 @@ export class AuditSiteStepsComponent implements OnInit {
   public goToNext() {
     if (this.auditSiteLines.length > 0) {
       this.showSpinner();
+      this.decisionId = null;
       if (this.currentCat.last) {
         this.saveLastLines();
         this.notyf.success('Audit N°: ' + this.auditSite.id + ' Enregistré.');
@@ -179,6 +185,7 @@ export class AuditSiteStepsComponent implements OnInit {
   public goToPrevious() {
     this.showSpinner();
     this.editCat = false;
+    this.decisionId = null;
     if (this.success) {
       this.success = false;
       this.loadData(this.auditSite, 1);
@@ -191,6 +198,7 @@ export class AuditSiteStepsComponent implements OnInit {
   public onSelectCategoryStep(event) {
     this.selectedCategory = event;
     this.auditSite.currentCategoriesId = this.selectedCategory.id;
+    this.decisionId = null;
     this.loadData(this.auditSite, 1);
     if (this.success) {
       this.success = false;
@@ -234,5 +242,28 @@ export class AuditSiteStepsComponent implements OnInit {
   public backToList() {
     this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
+
+  public onAllSelectDecision() {
+    this.auditSiteLines.forEach(x => x.firstDecisionId = this.decisionId);
+  }
+
+  onFileChange(event) {
+    const file = event.target.files[0];
+    this.fileName = file.name;
+    this.auditSiteLineService.uploadFile(file).subscribe(data => {
+      this.notyf.success(data.message);
+    });
+  }
+
+  onSaveFile() {
+    this.screenSpinnerService.show();
+    this.auditSiteLineService.saveFiles(this.auditSite).subscribe(data => {
+      this.auditSite = data;
+      this.loadData(this.auditSite, 1);
+      this.opened = false;
+      this.screenSpinnerService.hide(200);
+    });
+  }
+
 
 }

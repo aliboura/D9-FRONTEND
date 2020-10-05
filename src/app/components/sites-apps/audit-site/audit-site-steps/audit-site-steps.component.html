@@ -1,38 +1,67 @@
 <form #addForm="ngForm">
   <mat-card class="top-bordred margin-20">
-
+    <!-- ******************* Audit Page Header ******************* -->
     <mat-card-header>
-
       <mat-card-title>
         {{title}}
         <mat-divider class="margin-top-15"></mat-divider>
       </mat-card-title>
-
+      <!-- ******************* Audit Excel File upload ******************* -->
+      <button class="btn btn-danger-outline btn-sm btn-icon"
+              (click)="opened = true"
+              [disabled]="auditSite.firstVisit"
+              style="position: absolute;right: 150px;top: 11px">
+        <clr-icon shape="download" style="margin-right: 5px;" size="12"></clr-icon>
+        Télécharger..
+      </button>
+      <input type="file" id="_logo" name="logo"
+             class="input-file" accept=".xlsx, .xls, .csv">
       <div class="right-headeer-title">
         <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
-
       </div>
     </mat-card-header>
 
+    <!-- ******************* Audit Table ******************* -->
+
     <table style="width:100%" *ngIf="!success">
-<!--      <th></th>-->
+      <!-- ******************* Audit Table Header Row ******************* -->
+      <tr style="background: #f9f9f9">
+        <th style="width: 5%" class="steps-table-header">N°</th>
+        <th style="width: 50%" class="steps-table-header">Description</th>
+        <th style="width: 25%">
+          <ng-select [(ngModel)]="decisionId"
+                     [items]="decisionList | filter:1"
+                     bindLabel="label"
+                     bindValue="id"
+                     name="decisionId"
+                     placeholder="Select All"
+                     class="ng-select-table"
+                     (change)="onAllSelectDecision()">
+          </ng-select>
+        </th>
+        <th style="width: 15%" class="steps-table-header">Observation</th>
+        <th style="width: 5%"></th>
+      </tr>
+      <!-- ******************* Audit Table Body Row ******************* -->
       <tr *ngFor="let line of auditSiteLines">
-        <td>{{auditSiteLines.indexOf(line) + 1}}</td>
-        <td style="width: 55%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
-        <td>
-          <mat-form-field>
-            <mat-label>Remarque</mat-label>
-            <mat-select [(ngModel)]="line.firstDecisionId"
-                        [name]="line.firstDecisionId +'.'+ (auditSiteLines.indexOf(line) + 1) * auditSiteLines.length"
-                        [required]="line.blocking"
-                        class="ng-select-table">
-              <mat-option *ngFor="let decision of decisionList | filter:line.valueType" [value]="decision.id">
-                {{decision.label}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <!-- ******************* Audit Table ID Column ******************* -->
+        <td style="width: 5%;text-align: center">{{auditSiteLines.indexOf(line) + 1}}</td>
+        <!-- ******************* Audit Table Label Column ******************* -->
+        <td style="width: 50%">{{line.label}}<span class="red-txt" *ngIf="line.blocking"> *</span></td>
+        <!-- ******************* Audit Table Remarque Column ******************* -->
+        <td style="width: 25%">
+          <ng-select [(ngModel)]="line.firstDecisionId"
+                     [name]="line.firstDecisionId +'.'+ (auditSiteLines.indexOf(line) + 1) * auditSiteLines.length"
+                     [required]="line.blocking"
+                     [items]="decisionList | filter:line.valueType"
+                     bindLabel="label"
+                     bindValue="id"
+                     class="ng-select-table"
+                     placeholder="Remarque">
+          </ng-select>
         </td>
-        <td>
+        <!-- ******************* Audit Table Observation Column ******************* -->
+        <td style="width:15%">
           <input type="text" size="30" pInputText [(ngModel)]="line.observation"
                  name="line.observation" class="table-input" placeholder="Observation"
                  [matTooltip]="line.observation"
@@ -50,6 +79,7 @@
         </span>
         </td>
       </tr>
+      <!-- ******************* Audit Table Observation Row ******************* -->
       <tr *ngIf="currentCat.last">
         <td colspan="5">
           <mat-form-field class="example-full-width" appearance="outline">
@@ -65,7 +95,7 @@
     </table>
 
     <app-audit-site-recap *ngIf="success" [auditSite]="auditSite"></app-audit-site-recap>
-
+    <!-- ******************* Audit Table Toolbar ******************* -->
     <mat-toolbar class="card-mat-toolbar">
       <mat-toolbar-row>
         <button
@@ -84,8 +114,9 @@
                    bindLabel="label"
                    (change)="onSelectCategoryStep($event)"
                    [(ngModel)]="selectedCategory"
+                   placeholder="Page"
                    name="selectedCategory"
-                   style="margin-right: 40px;width: 220px;">
+                   style="margin-right: 50px;width: 220px;margin-top: 15px">
 
           <ng-template ng-label-tmp let-item="item">
             <span
@@ -135,5 +166,33 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-card>
+
+  <!-- ******************* Audit Excel Upload File Dialog ******************* -->
+  <clr-modal [(clrModalOpen)]="opened">
+    <h5 class="modal-title">Télécharger votre fichier Excel/CSV
+    </h5>
+    <div class="modal-body" style="margin: 10px">
+      <label for="_files" class="btn btn-danger-outline btn-icon">
+        <clr-icon shape="download" style="margin-right: 10px"></clr-icon>
+        Télécharger..
+      </label>
+      <input type="file" id="_files" name="logo"
+             (change)="onFileChange($event)"
+             class="input-file" accept=".xlsx, .xls, .csv">
+      <label style="color: #747474">{{fileName}}</label>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger-outline"
+              [disabled]="!fileName"
+              (click)="onSaveFile()">
+        <clr-icon shape="check"></clr-icon>
+        Valider
+      </button>
+      <button type="button" class="btn btn-danger" (click)="opened=false">
+        <clr-icon shape="times"></clr-icon>
+        Fermer
+      </button>
+    </div>
+  </clr-modal>
 
 </form>

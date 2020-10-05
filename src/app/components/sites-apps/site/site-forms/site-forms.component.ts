@@ -18,6 +18,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
+import {ConvertService} from "../../../../business/services/admin/convert.service";
 
 @Component({
   selector: 'app-site-forms',
@@ -28,6 +29,7 @@ export class SiteFormsComponent implements OnInit {
   constructor(private sitesFormsService: SiteFormsService,
               private siteService: SiteService,
               private decisionService: DecisionService,
+              private convertService: ConvertService,
               private route: ActivatedRoute,
               private router: Router,
               private screenSpinnerService: ScreenSpinnerService,
@@ -135,31 +137,11 @@ export class SiteFormsComponent implements OnInit {
     } else {
       type = siteForms.fileType;
     }
-    const blob = new Blob([this.base64toBlob(siteForms.formsFile, type)], {type: type});
+    const blob = new Blob([this.convertService.base64toBlob(siteForms.formsFile, type)], {type: type});
     const file = new File([blob], siteForms.fileName + '.' + siteForms.fileType, {type: type});
     saveAs(file);
   }
 
-  private base64toBlob(base64Data, contentType) {
-    contentType = contentType || '';
-    const sliceSize = 1024;
-    const byteCharacters = atob(base64Data);
-    const bytesLength = byteCharacters.length;
-    const slicesCount = Math.ceil(bytesLength / sliceSize);
-    const byteArrays = new Array(slicesCount);
-
-    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-      const begin = sliceIndex * sliceSize;
-      const end = Math.min(begin + sliceSize, bytesLength);
-
-      const bytes = new Array(end - begin);
-      for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
-        bytes[i] = byteCharacters[offset].charCodeAt(0);
-      }
-      byteArrays[sliceIndex] = new Uint8Array(bytes);
-    }
-    return new Blob(byteArrays, {type: contentType});
-  }
 
   hidePanel(site: Site): boolean {
     if (site.userV1 && site.userV1 === this.jwtTokenService.getUserName()) {
