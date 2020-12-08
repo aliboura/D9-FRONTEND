@@ -1,0 +1,157 @@
+<mat-toolbar class="app-toolbar">
+  <button mat-icon-button
+          class="sidebar-logout-btn"
+          type="button"
+          routerLink="/home">
+       <span class="material-icons" style="color: #fafafa;font-size: 36px">
+          keyboard_arrow_left
+        </span>
+  </button>
+  <i class="material-icons" style="margin: 10px;color: #fafafa">
+    help_outline
+  </i>
+
+  <h1 class="example-app-name"> Help.</h1>
+
+</mat-toolbar>
+<mat-divider></mat-divider>
+<div class="clr-row" style="margin: 0px 5px 0px 5px">
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Plannifier la première visite - [ Responsable ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video1 +'.mp4'" [poster]="video1 +'.png'"
+                 title="Plannifier la première visite - [ Responsable ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin"
+                 [loop]="true" [quality]="true">
+      </mat-video>
+    </mat-card>
+  </div>
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>{{"Télécharger Power Supply Forms - [ Ingénieur Site ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video2 +'.mp4'" [poster]="video2 +'.png'"
+                 title="Télécharger Power Supply Forms - [ Ingénieur Site ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Démarer l'audit - [ Ingénieur Site ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video3 +'.mp4'" [poster]="video3 +'.png'"
+                 title="Démarer l'audit - [ Ingénieur Site ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Valider la première visite - [ Ingénieur Site ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video1 +'.mp4'" [poster]="video4 +'.png'"
+                 title="Valider la première visite - [ Ingénieur Site ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Valider la première visite - [ Ingénieur O&M ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video5 +'.mp4'" [poster]="video5 +'.png'"
+                 title="Valider la première visite - [ Ingénieur O&M ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Plannifier la deuxième visite - [ Responsable ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video6 +'.mp4'" [poster]="video6 +'.png'"
+                 title="Plannifier la deuxième visite - [ Responsable ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Démarer la deuxième visite - [ Ingénieur Site ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video7 +'.mp4'" [poster]="video7 +'.png'"
+                 title="Démarer la deuxième visite - [ Ingénieur Site ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Valider la deuxième visite - [ Ingénieur Site ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video8 +'.mp4'" [poster]="video8 +'.png'"
+                 title="Valider la deuxième visite - [ Ingénieur Site ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+  <div class="clr-col-sm-12	clr-col-md-12	clr-col-lg-6 clr-col-xl-6">
+    <mat-card style="margin: 10px !important;">
+      <mat-card-header>
+        <mat-card-title>
+          {{"Valider la deuxième visite - [ Ingénieur O&M ]."}}
+          <mat-divider class="margin-top-15"></mat-divider>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-video [src]="video9 +'.mp4'" [poster]="video9 +'.png'"
+                 title="Valider la deuxième visite - [ Ingénieur O&M ]."
+                 [preload]="true" [fullscreen]="true" [autoplay]="false"
+                 [download]="false" color="Warn" spinner="spin">
+      </mat-video>
+    </mat-card>
+  </div>
+</div>

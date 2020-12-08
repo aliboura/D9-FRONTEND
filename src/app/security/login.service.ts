@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {STATIC_DATA} from "../tools/static-data";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {API_URLs} from "../tools/api-url";
 import {NgForm} from "@angular/forms";
@@ -13,7 +13,7 @@ import {Role} from "../business/models/admin/role";
 import {JwtToken} from "../business/models/admin/jwt-token";
 import {CookieService} from "ngx-cookie-service";
 import {UserService} from "../business/services/admin/user.service";
-import {first} from "rxjs/operators";
+import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,23 +28,23 @@ export class LoginService {
     private userService: UserService,
     private translate: TranslateService,
     private cookieService: CookieService,
+    private screenSpinnerService: ScreenSpinnerService,
     @Inject(NOTYF) private notyf: Notyf
   ) {
   }
 
 
   public onLogin(user: NgForm) {
+    this.screenSpinnerService.show();
     return this.http
-      .post<JwtToken>(API_URLs.AUTH_URL + "/login", user, {
-        observe: "response"
-      })
+      .post<JwtToken>(API_URLs.AUTH_URL + "/login", user)
       .subscribe(
         data => {
-          this.jwtToken = data.body;
-          if (this.jwtToken !== null) {
-            this.saveToken(this.jwtToken);
-            this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-            this.router.navigateByUrl('apps/home');
+          if (data.success) {
+            this.saveToken(data);
+          } else {
+            this.notyf.error(data.message);
+            this.screenSpinnerService.hide(200);
           }
         }
       );
@@ -65,22 +65,34 @@ export class LoginService {
   }
 
   public saveToken(jwt: JwtToken) {
-    if (jwt) {
-      this.clearCookies();
-      const token = "Bearer-" + jwt.jwttoken;
-      const jwtHelper = new JwtHelperService();
-      const username = jwtHelper.decodeToken(token).sub;
-      this.cookieService.set(STATIC_DATA.TOKEN, token);
-      this.cookieService.set(STATIC_DATA.USER_NAME, username);
-      this.cookieService.set(STATIC_DATA.FULL_NAME, jwt.currentUser);
-      this.loadUserRoles(username);
-    }
-  }
 
-  private loadUserRoles(username: string) {
+    this.clearCookies();
+    const token = "Bearer-" + jwt.body;
+    const jwtHelper = new JwtHelperService();
+    const username = jwtHelper.decodeToken(token).sub;
+    const fullName = jwtHelper.decodeToken(token).name;
     this.userService.findByUserName(username).subscribe(user => {
-      const roles = user.roleSet.map(role => 'ROLE_' + role.label).toString();
-      this.cookieService.set(STATIC_DATA.ROLES, roles);
+      if (user) {
+        if (user.enabled) {
+          if (user.roleSet && user.roleSet.length > 0) {
+            this.cookieService.set(STATIC_DATA.TOKEN, token);
+            this.cookieService.set(STATIC_DATA.USER_NAME, username);
+            this.cookieService.set(STATIC_DATA.FULL_NAME, fullName);
+            this.cookieService.set(STATIC_DATA.ROLES, user.roleSet.map(role => 'ROLE_' + role.label).toString());
+            this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+            this.router.navigateByUrl('/home');
+          } else {
+            this.notyf.error(`Veuillez contactez l'adminstrateur pour vous affeter un role`);
+          }
+          this.screenSpinnerService.hide(200);
+        } else {
+          this.notyf.error(`l'utilisateur : ${user.lastName} ${user.firstName} est désactivé`);
+          this.screenSpinnerService.hide(200);
+        }
+      } else {
+        this.notyf.error(`cet utilisateur n'a pas un accés veuillez contacter l'admin`);
+        this.screenSpinnerService.hide(200);
+      }
     });
   }
 

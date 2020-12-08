@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {GenericService} from "../../../shared/service-generic/generic.service";
-import {TypeSite} from "../../models/referencial/type-site";
+import {SiteType} from "../../models/sites/SiteType";
 import {HttpClient} from "@angular/common/http";
 import {API_URLs} from "../../../tools/api-url";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TypeSiteService extends GenericService<TypeSite> {
+export class TypeSiteService extends GenericService<SiteType> {
 
   constructor(http: HttpClient) {
     super(http);

@@ -48,6 +48,7 @@ export class AuditSiteFinishComponent implements OnInit {
   private token: string;
   isSiteEngineer: boolean;
   isOMEngineer: boolean;
+  showSecond: boolean;
   isMySite = false;
 
   ngOnInit() {
@@ -69,6 +70,7 @@ export class AuditSiteFinishComponent implements OnInit {
       } else {
         this.auditSite = this.checkDecisionV2(data, this.isSiteEngineer, this.isOMEngineer);
       }
+      this.showSecond = this.auditSite.firstVisit;
       this.screenSpinnerService.hide(200);
     });
   }
@@ -121,10 +123,14 @@ export class AuditSiteFinishComponent implements OnInit {
         });
       }
     }
-    if (isSiteEngineer && auditSite.firstDecisionEngineerSite === undefined) {
+    if (isSiteEngineer
+      && auditSite.siteUserV1 === this.jwtTokenService.getUserName()
+      && auditSite.firstDecisionEngineerSite === undefined) {
       auditSite.firstDecisionEngineerSite = this.jwtTokenService.getFullName();
     }
-    if (isOMEngineer && auditSite.firstDecisionEngineerOM === undefined) {
+    if (isOMEngineer
+      && auditSite.siteUserOMV1 === this.jwtTokenService.getUserName()
+      && auditSite.firstDecisionEngineerOM === undefined) {
       auditSite.firstDecisionEngineerOM = this.jwtTokenService.getFullName();
     }
     return auditSite;
@@ -149,10 +155,14 @@ export class AuditSiteFinishComponent implements OnInit {
       }
     }
 
-    if (isSiteEngineer && auditSite.secondDecisionEngineerSite === undefined) {
+    if (isSiteEngineer
+      && auditSite.siteUserV2 === this.jwtTokenService.getUserName()
+      && auditSite.secondDecisionEngineerSite === undefined) {
       auditSite.secondDecisionEngineerSite = this.jwtTokenService.getFullName();
     }
-    if (isOMEngineer && auditSite.secondDecisionEngineerOM === undefined) {
+    if (isOMEngineer
+      && auditSite.siteUserOMV2 === this.jwtTokenService.getUserName()
+      && auditSite.secondDecisionEngineerOM === undefined) {
       auditSite.secondDecisionEngineerOM = this.jwtTokenService.getFullName();
     }
     return auditSite;

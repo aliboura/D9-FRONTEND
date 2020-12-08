@@ -86,8 +86,23 @@ export class AuditSiteEditComponent implements OnInit {
   }
 
   getShowSecondVisit(): boolean {
-    return (this.auditSite.currentSatusLabel === StatusEnum.Accepted || this.auditSite.currentSatusLabel === StatusEnum.NoConform)
+    console.log('currentSatusLabel: ', this.auditSite.currentSatusLabel);
+    console.log('firstVisit: ', this.auditSite.firstVisit);
+    console.log('secondVisit: ', this.auditSite.secondVisit);
+    return (this.auditSite.currentSatusLabel === StatusEnum.Accepted
+      || this.auditSite.currentSatusLabel === StatusEnum.NoConform
+      || this.auditSite.currentSatusLabel === StatusEnum.InProgressValidateV2)
       && this.auditSite.firstVisit && !this.auditSite.secondVisit;
+  }
+
+  disabledUpdateBtn(): boolean {
+    if (this.auditSite.firstVisit) {
+      return false;
+    }
+    return this.auditSite.lastStep &&
+      (this.auditSite.currentSatusLabel === StatusEnum.InProgressValidate
+        || this.auditSite.currentSatusLabel === StatusEnum.InProgressValidateV2
+        || this.auditSite.currentSatusLabel === StatusEnum.ValidateBySiteEngineer);
   }
 
   disabledValidateBtn(): boolean {
@@ -95,6 +110,12 @@ export class AuditSiteEditComponent implements OnInit {
       (this.auditSite.currentSatusLabel === StatusEnum.InProgressValidate
         || this.auditSite.currentSatusLabel === StatusEnum.InProgressValidateV2
         || this.auditSite.currentSatusLabel === StatusEnum.ValidateBySiteEngineer);
+  }
+
+  disabledSecondVisitBtn(): boolean {
+    return this.auditSite.firstVisit
+      && !this.auditSite.secondVisit
+      && this.auditSite.siteUserV2 === this.jwtTokenService.getUserName();
   }
 
   getDateFormat(myDate: Date): string {
@@ -153,7 +174,6 @@ export class AuditSiteEditComponent implements OnInit {
   }
 
   isUserCreate(auditSite: AuditSite, username: string) {
-    console.log('user v1 :' + auditSite.siteUserV1, 'user v2 :' + auditSite.siteUserV2);
     if (auditSite.siteUserV1 === username) {
       return false;
     }

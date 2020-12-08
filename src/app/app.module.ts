@@ -27,18 +27,22 @@ import {ExceptionsComponent} from "./exceptions/exceptions.component";
 import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {JwtTokenService} from "./business/services/apps/jwt-token.service";
 import {TemplatesModule} from "./templates/templates.module";
-import {FullLayoutComponent} from "./templates/full-layout/full-layout.component";
+import {HelpsComponent} from "./helps/helps.component";
+import {MatVideoModule} from "mat-video";
 
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ExceptionsComponent
+    ExceptionsComponent,
+    HelpsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatVideoModule,
     ClarityModule,
     MaterialModule,
     FormsModule,
@@ -50,6 +54,7 @@ import {FullLayoutComponent} from "./templates/full-layout/full-layout.component
     NgSelectModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
+      defaultLanguage: 'fr',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
@@ -67,11 +72,11 @@ import {FullLayoutComponent} from "./templates/full-layout/full-layout.component
     LoadGuardService,
     NgxCoolDialogsService,
     DatePipe,
-    {provide: NOTYF, useFactory: notyfFactory},
     CookieService,
+    {provide: LOCALE_ID, useValue: 'fr-FR'},
+    {provide: NOTYF, useFactory: notyfFactory},
     {provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true},
-    {provide : LocationStrategy , useClass: HashLocationStrategy},
-    {provide: LOCALE_ID, useValue: 'fr'}
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

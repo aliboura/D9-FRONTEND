@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./security/login/login.component";
 import {AuthGuardService} from "./security/auth-guard.service";
 import {ExceptionsComponent} from "./exceptions/exceptions.component";
+import {HelpsComponent} from "./helps/helps.component";
 
 
 const routes: Routes = [
@@ -11,15 +12,19 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: "helps",
+    component: HelpsComponent
+  },
+  {
     path: "apps-exceptions/:code",
     component: ExceptionsComponent
   },
   {
-    path: "apps",
+    path: "",
     canActivate: [AuthGuardService],
     loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
   },
-  {path: "", redirectTo: "apps", pathMatch: "full"},
+  {path: "", redirectTo: "", pathMatch: "full"},
   {path: '**', redirectTo: 'apps-exceptions/4', pathMatch: "full"}
 ];
 

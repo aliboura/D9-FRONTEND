@@ -13,10 +13,11 @@ import {ClarityModule} from "@clr/angular";
 import { SiteFormsComponent } from './site-forms/site-forms.component';
 import {TemplatesModule} from "../../../templates/templates.module";
 import {AuditSiteModule} from "../audit-site/audit-site.module";
+import { SiteAddComponent } from './site-add/site-add.component';
 
 
 @NgModule({
-  declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent, SiteFormsComponent],
+  declarations: [SiteComponent, SiteListComponent, SiteViewComponent, SiteSearchComponent, SiteFormsComponent, SiteAddComponent],
   exports: [
     SiteSearchComponent
   ],

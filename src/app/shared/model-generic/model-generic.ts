@@ -1,5 +1,6 @@
 import {Parents} from "./parents";
 import {TypeInput} from "../enum/type-input.enum";
+import {Observable} from "rxjs";
 
 // options: { [key: string]: T[] };
 
@@ -13,6 +14,7 @@ export class ModelGeneric<T> {
 
   options: T[];
   message: string;
+  optionsObs: Observable<T[]>;
 
   constructor(
     field?: string,
@@ -22,7 +24,8 @@ export class ModelGeneric<T> {
     rendred?: boolean,
     multiple?: boolean,
     options?: T[],
-    message?: string
+    message?: string,
+    optionsObs?: Observable<T[]>
   ) {
     this.field = field || "";
     this.type = type || TypeInput.Input;
@@ -32,5 +35,6 @@ export class ModelGeneric<T> {
     this.multiple = multiple || false;
     this.options = options || null;
     this.message = message || "";
+    this.optionsObs = optionsObs || null;
   }
 }

@@ -58,7 +58,7 @@ export class AffectationEditComponent implements OnInit {
 
   loadUserItems(regionId: string) {
     this.userService.findAll().subscribe(users => {
-      this.userEngineerItems = users.filter(x => x.regionId === regionId && this.checkRoles(x, ROLES_CODES.ENGINEER_SITE));
+      this.userEngineerItems = users.filter(x => x.regionId === regionId);
       this.userOMItems = users.filter(x => x.regionId === regionId && this.checkRoles(x, ROLES_CODES.ENGINEER_OM));
     });
   }
@@ -76,13 +76,13 @@ export class AffectationEditComponent implements OnInit {
       dateD1: new FormControl(this.getDateFormat(visit.dateD1), Validators.required),
       typeSiteLib: new FormControl(visit.typeSiteId),
       engineerSiteV1: new FormControl(visit.engineerSiteV1, Validators.required),
-      engineerSiteDateV1: new FormControl(new Date(visit.engineerSiteDateV1), Validators.required),
+      engineerSiteDateV1: new FormControl(visit.engineerSiteDateV1 ? new Date(visit.engineerSiteDateV1) : null, Validators.required),
       engineerOMV1: new FormControl(visit.engineerOMV1),
-      engineerOMDateV1: new FormControl(new Date(visit.engineerOMDateV1)),
+      engineerOMDateV1: new FormControl(visit.engineerOMDateV1 ? new Date(visit.engineerOMDateV1) : null),
       engineerSiteV2: new FormControl(visit.engineerSiteV2, visit.firstVisit ? Validators.required : null),
-      engineerSiteDateV2: new FormControl(new Date(visit.engineerSiteDateV2), visit.firstVisit ? Validators.required : null),
+      engineerSiteDateV2: new FormControl(visit.engineerSiteDateV2 ? new Date(visit.engineerSiteDateV2) :null, visit.firstVisit ? Validators.required : null),
       engineerOMV2: new FormControl(visit.engineerOMV2),
-      engineerOMDateV2: new FormControl(new Date(visit.engineerOMDateV2)),
+      engineerOMDateV2: new FormControl(visit.engineerOMDateV2 ? new Date(visit.engineerOMDateV2) : null),
     });
   }
 

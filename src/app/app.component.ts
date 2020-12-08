@@ -15,11 +15,12 @@ export class AppComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService,
               private translate: TranslateService,
               public screenSpinnerService: ScreenSpinnerService) {
-    translate.addLangs(["fr", "en"]);
-    translate.setDefaultLang("fr");
-    const browserLang: string = translate.getBrowserLang();
-    translate.use(browserLang.match(/fr|en/) ? browserLang : "fr");
-    registerLocaleData(localeFr);
+
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('fr');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|fr/) ? 'fr' : 'fr');
+    registerLocaleData(localeFr, 'fr');
   }
 
   ngOnInit(): void {

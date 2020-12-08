@@ -14,6 +14,29 @@
     </mat-card-header>
 
 
+    <h5>Site</h5>
+    <mat-divider></mat-divider>
+
+    <div style="margin-left: 5px">
+      <ng-select [items]="siteOb | async"
+                 bindLabel="codeSite"
+                 bindValue="id"
+                 [loading]="siteLoading"
+                 [typeahead]="siteInput$"
+                 [trackByFn]="trackByFn"
+                 placeholder="Code du site"
+                 [minTermLength]="4"
+                 typeToSearchText="Please enter 4 or more characters"
+                 [hideSelected]='true'
+                 formControlName="siteId"
+                 (change)="onSelectSite($event)"
+                 style="width: 95%">
+        <ng-template ng-option-tmp let-item="item">
+          {{item.codeSite}} - {{item.wilayaLabel}}
+        </ng-template>
+      </ng-select>
+    </div>
+
     <h5>{{'affect_v1.engineer_site' | translate}}</h5>
     <mat-divider></mat-divider>
 
@@ -40,34 +63,11 @@
       <mat-label>Choose a date</mat-label>
       <input matInput [matDatepicker]="picker" [min]="sysDate"
              formControlName="engineerSiteDateV1"
-             style="width: 97%">
+             style="width: 97%"
+             (focus)="picker.open()">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-
-
-    <h5>Site</h5>
-    <mat-divider></mat-divider>
-
-    <div style="margin-left: 5px">
-      <ng-select [items]="siteOb | async"
-                 bindLabel="codeSite"
-                 bindValue="id"
-                 [loading]="siteLoading"
-                 [typeahead]="siteInput$"
-                 [trackByFn]="trackByFn"
-                 placeholder="Code du site"
-                 [minTermLength]="4"
-                 typeToSearchText="Please enter 4 or more characters"
-                 [hideSelected]='true'
-                 formControlName="siteId"
-                 (change)="onSelectSite($event)"
-                 style="width: 95%">
-        <ng-template ng-option-tmp let-item="item">
-          {{item.codeSite}} - {{item.wilayaLabel}}
-        </ng-template>
-      </ng-select>
-    </div>
 
 
     <h5>{{'affect_v1.engineer_om' | translate}}</h5>
@@ -96,7 +96,8 @@
       <mat-label>Choose a date</mat-label>
       <input matInput [matDatepicker]="picker2" [min]="sysDate"
              formControlName="engineerOMDateV1"
-             style="width: 97%">
+             style="width: 97%"
+             (focus)="picker2.open()">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>

@@ -1,9 +1,11 @@
 export class JwtToken {
-  jwttoken: string;
-  currentUser: string;
+  body: string;
+  success: boolean;
+  message: string;
 
-  constructor(jwttoken?: string, currentUser?: string) {
-    this.jwttoken = jwttoken;
-    this.currentUser = currentUser;
+  constructor(body?: string, success?: boolean, message?: string) {
+    this.body = body;
+    this.success = success;
+    this.message = message;
   }
 }

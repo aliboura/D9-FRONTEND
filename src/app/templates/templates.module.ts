@@ -8,7 +8,6 @@ import {MaterialModule} from "../importes/material/material.module";
 import {TemplateRoutingModule} from "./template-routing.module";
 import {ClarityModule} from "@clr/angular";
 
-
 @NgModule({
   declarations: [FooterComponent, FullLayoutComponent, LeftMenuComponent],
   imports: [

@@ -66,7 +66,7 @@ export class AffectationFirstComponent implements OnInit {
     return this.formBuilder.group({
       siteId: new FormControl(null, Validators.required),
       engineerSiteV1: new FormControl(null, Validators.required),
-      engineerSiteDateV1: new FormControl(null, Validators.required),
+      engineerSiteDateV1: new FormControl(new Date(), Validators.required),
       engineerOMV1: new FormControl(null),
       engineerOMDateV1: new FormControl(null)
     });

@@ -67,7 +67,7 @@ export class AuditSiteSearchComponent implements OnInit, AfterViewInit {
   }
 
   goToNext(idSite: number) {
-       this.router.navigate(['add', btoa("" + idSite)], {relativeTo: this.route.parent});
+    this.router.navigate(['add', btoa("" + idSite)], {relativeTo: this.route.parent});
   }
 
   public backToList() {
@@ -79,6 +79,8 @@ export class AuditSiteSearchComponent implements OnInit, AfterViewInit {
       this.loadAllData(this.codeSite, this.wilayaItems, this.user.username, '3');
     } else if (this.codeSite && this.wilayaFilterItems.length === 0) {
       this.loadAllData(this.codeSite, null, this.user.username, '2');
+    } else if (this.wilayaFilterItems.length > 0) {
+      this.loadAllData(null, this.wilayaFilterItems, this.user.username, '4');
     }
   }
 
@@ -103,6 +105,8 @@ export class AuditSiteSearchComponent implements OnInit, AfterViewInit {
               return this.findSites(codeSite, username);
             case '3' :
               return this.findSitesWilayas(codeSite, wilayaSet, username);
+            case '4' :
+              return this.findByCitiesUserV1(wilayaSet, username);
           }
 
         }),
@@ -146,8 +150,7 @@ export class AuditSiteSearchComponent implements OnInit, AfterViewInit {
       "dateD1",
       codeSite,
       wilayaSet.map(x => x.id).toString(),
-      username)
-      ;
+      username);
   }
 
 
@@ -157,6 +160,17 @@ export class AuditSiteSearchComponent implements OnInit, AfterViewInit {
       this.paginator.pageSize,
       "desc",
       "dateD1",
+      username
+    );
+  }
+
+  findByCitiesUserV1(wilayaSet: WilayaRegion[], username: string) {
+    return this.siteService.findByCitiesUserV1(
+      this.paginator.pageIndex,
+      this.paginator.pageSize,
+      "desc",
+      "dateD1",
+      wilayaSet.map(x => x).toString(),
       username
     );
   }

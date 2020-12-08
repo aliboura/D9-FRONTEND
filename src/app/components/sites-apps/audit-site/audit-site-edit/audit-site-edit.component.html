@@ -4,7 +4,7 @@
       <mat-divider class="margin-top-15"></mat-divider>
     </mat-card-title>
     <div class="right-headeer-title">
-      <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
+      <span class="badge badge-light">Site N° : {{auditSite.siteCode}} - {{auditSite.currentSatusLabel}}</span>
     </div>
   </mat-card-header>
   <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChange($event)">
@@ -17,7 +17,7 @@
             <clr-icon shape="circle" aria-label="Not started"></clr-icon>
             <div class="clr-timeline-step-body">
               <span class="clr-timeline-step-title">Création</span>
-              <span class="clr-timeline-step-description">Créer par: Ryadh BOUMENDJAS.</span>
+              <span class="clr-timeline-step-description">Créer par: {{auditSite.siteUserV1.toUpperCase()}}.</span>
             </div>
           </li>
 
@@ -27,11 +27,11 @@
 
             <clr-spinner clrMedium aria-label="In progress"
                          *ngIf="!status.last && status.statusId === auditSite.currentSatusId
-                                && status.statusLabel !== statusEnum.NoConform">Fetching data
+                                && status.statusLabel !== statusEnum.NoConform && status.current">Fetching data
             </clr-spinner>
 
             <clr-icon shape="dot-circle" aria-current="true" aria-label="Current"
-                      *ngIf="!status.current && status.statusLabel !== statusEnum.NoConform"></clr-icon>
+                      *ngIf="!status.current && status.statusLabel !== statusEnum.NoConform && !status.current"></clr-icon>
 
             <clr-icon shape="error-standard" aria-label="Error"
                       *ngIf="!status.current
@@ -39,7 +39,7 @@
 
             <clr-icon shape="success-standard" aria-label="Completed"
                       *ngIf="status.last && status.statusId === auditSite.currentSatusId
-                            && status.statusLabel !== statusEnum.NoConform"></clr-icon>
+                            && status.statusLabel !== statusEnum.NoConform "></clr-icon>
 
             <clr-icon shape="error-standard" aria-label="Error"
                       *ngIf="!status.last && status.statusId === auditSite.currentSatusId
@@ -122,12 +122,6 @@
         <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 view-div">
           <div style="margin-left: 20px">
             <h5 class="div-title">Première Visite :</h5>
-            <!--          <mat-form-field class="example-full-width">-->
-            <!--            <mat-label>{{'AUDIT_SITE.firstCheckDate' | translate}}</mat-label>-->
-            <!--            <input matInput [value]="getDateFormat(auditSite.firstCheckDate)"-->
-            <!--                   name="firstCheckDate"-->
-            <!--                   readonly>-->
-            <!--          </mat-form-field>-->
             <mat-form-field class="example-full-width">
               <mat-label>{{'AUDIT_SITE.firstDecisionDate' | translate}}</mat-label>
               <input matInput [value]="getDateFormat(auditSite.firstDecisionDate)"
@@ -207,16 +201,6 @@
         {{'COMMUN.BTN_CLOSE' | translate}}
       </button>
 
-      <!--      <button-->
-      <!--        type="button"-->
-      <!--        (click)="exportAuditToPdf()"-->
-      <!--        style="margin-right: 10px"-->
-      <!--        class="btn btn-danger-outline btn-icon no-shadow">-->
-      <!--        <clr-icon shape="printer"></clr-icon>-->
-      <!--        PDF En Cours-->
-      <!--      </button>-->
-
-
       <button
         type="button"
         (click)="exportToPdf()"
@@ -225,7 +209,13 @@
         <clr-icon shape="printer"></clr-icon>
         PDF
       </button>
-      <ng2-pdfjs-viewer #externalPdfViewer [externalWindow]="true" pagemode="bookmarks"></ng2-pdfjs-viewer>
+      <ng2-pdfjs-viewer #externalPdfViewer
+                        [externalWindow]="true"
+                        pagemode="bookmarks"
+                        [openFile]="false"
+                        [viewBookmark]="false"
+                        [download]="false">
+      </ng2-pdfjs-viewer>
 
       <button class="btn btn-success-outline"
               (click)="exportToExcel()"
@@ -239,7 +229,7 @@
       <button
         type="button"
         *ngIf="showNextVisitBtn"
-        [disabled]="!jwtTokenService.isSiteEngineer()"
+        [disabled]="!disabledSecondVisitBtn()"
         (click)="secondVisit()"
         style="margin-right: 10px"
         class="btn btn-danger-outline btn-icon no-shadow">
@@ -253,7 +243,7 @@
           type="button"
           style="margin-right: 10px"
           (click)="proceed()"
-          [disabled]="!disabledValidateBtn()"
+          [disabled]="!disabledUpdateBtn()"
           *ngIf="isEngineer"
           class="btn btn-outline btn-icon no-shadow">
           <clr-icon shape="edit"></clr-icon>

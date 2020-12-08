@@ -29,4 +29,16 @@ export class CategoriesService extends GenericService<Categories> {
         .set("type", "" + type)
     });
   }
+
+  findAllActive(): Observable<Categories[]> {
+    return this.getHttp().get<Categories[]>(this.getApi() + "/active");
+  }
+
+  findAllOnlyFirst(): Observable<Categories[]> {
+    return this.getHttp().get<Categories[]>(this.getApi() + "/noFirst");
+  }
+
+  findAllOnlyLast(): Observable<Categories[]> {
+    return this.getHttp().get<Categories[]>(this.getApi() + "/noLast");
+  }
 }

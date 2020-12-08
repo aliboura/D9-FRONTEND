@@ -8,6 +8,7 @@ export class Site {
   regionId: string;
   serviceDemandeur: string;
   audited: boolean;
+  closed: boolean;
   userV1: string;
   userV1Date: Date;
   userV2: string;

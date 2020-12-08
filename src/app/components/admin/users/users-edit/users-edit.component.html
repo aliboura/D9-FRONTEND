@@ -45,7 +45,7 @@
       </mat-form-field>
       <div>
         <ng-select
-          [items]="regionItems"
+          [items]="regionItems | async"
           bindValue="id"
           bindLabel="label"
           required
@@ -59,7 +59,7 @@
       </div>
       <div>
         <ng-select
-          [items]="wilayaItems"
+          [items]="wilayaItems | async"
           bindLabel="label"
           required
           multiple="true"
@@ -73,10 +73,11 @@
       </div>
       <div>
         <ng-select
-          [items]="roleItems"
+          [items]="roleItems | async"
           bindLabel="label"
           required
           multiple="true"
+          [closeOnSelect]="false"
           [placeholder]="'users.role' | translate"
           formControlName="roleSet"
           appendTo="body"

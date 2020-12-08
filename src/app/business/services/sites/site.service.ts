@@ -68,4 +68,16 @@ export class SiteService extends GenericService<Site> {
         .set("user", userV1)
     });
   }
+
+  findByCitiesUserV1(page: number, size: number, sort: string, field: string, wilayas: string, userV1: string): Observable<Pages<Site>> {
+    return this.getHttp().get<Pages<Site>>(this.getApi(), {
+      params: new HttpParams()
+        .set("page", "" + page)
+        .set("size", "" + size)
+        .set("sort", sort)
+        .set("field", field)
+        .set("wilayas", wilayas)
+        .set("username", userV1)
+    });
+  }
 }

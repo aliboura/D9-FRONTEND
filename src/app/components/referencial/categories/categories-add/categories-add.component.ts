@@ -23,9 +23,9 @@ export class CategoriesAddComponent implements OnInit {
   title: string;
   object: string;
   fields: Observable<ModelGeneric<any>[]>;
-  typeAuditSiteList: TypeAuditSite[];
-  nextList: Categories[];
-  previousList: Categories[];
+  typeAuditSiteList: Observable<TypeAuditSite[]>;
+  nextList: Observable<Categories[]>;
+  previousList: Observable<Categories[]>;
   create: boolean;
 
   ngOnInit() {
@@ -33,14 +33,10 @@ export class CategoriesAddComponent implements OnInit {
     this.title = "Nouvelle catégorie";
     this.object = "categories";
     this.addForm = this.initForm();
-    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(data => {
-      this.nextList = data.filter(x => !x.first);
-      this.previousList = data.filter(x => !x.last);
-      this.fields = this.loadFormModels();
-    });
-    this.typeAuditSiteService.findAll().subscribe(data => {
-      this.typeAuditSiteList = data;
-    });
+    this.nextList = this.categoriesService.findAllOnlyFirst();
+    this.previousList = this.categoriesService.findAllOnlyLast();
+    this.typeAuditSiteList = this.typeAuditSiteService.findAll();
+    this.fields = this.loadFormModels();
   }
 
   private initForm(): FormGroup {
@@ -73,13 +69,14 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "typeAuditSiteId",
-        TypeInput.Select,
+        TypeInput.Observable,
         true,
         false,
         false,
         false,
-        this.typeAuditSiteList,
-        "Veuillez selectionner le type audit."
+        null,
+        "Veuillez selectionner le type audit.",
+        this.typeAuditSiteList
       ),
       new ModelGeneric(
         "position",
@@ -113,13 +110,14 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "nextCatId",
-        TypeInput.Select,
+        TypeInput.Observable,
         false,
         false,
         false,
         false,
-        this.nextList,
-        "Veuillez selectionner une catégories."
+        null,
+        "Veuillez selectionner une catégories.",
+        this.nextList
       ),
       new ModelGeneric(
         "last",
@@ -133,13 +131,14 @@ export class CategoriesAddComponent implements OnInit {
       ),
       new ModelGeneric(
         "previousCatId",
-        TypeInput.Select,
+        TypeInput.Observable,
         false,
         this.addForm.get('first').value,
         false,
         false,
-        this.previousList,
-        "Veuillez selectionner une catégories."
+        null,
+        "Veuillez selectionner une catégories.",
+        this.previousList
       )
     ]);
   }

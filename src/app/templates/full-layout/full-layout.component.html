@@ -16,27 +16,37 @@
     <div _ngcontent-jvx-c494="" class="flex-spacer"></div>
 
     <div style="position: absolute;right: 15px;">
-      <button
-        mat-icon-button
-        class="sidebar-profile-btn"
-        [matMenuTriggerFor]="langMenu"
-      >
-        <i class="material-icons" style="font-size: 20px">
-          language
-        </i>
-        {{ defaultLang }}
-        <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>
+
+      <button mat-icon-button
+              class="sidebar-logout-btn"
+              type="button"
+              routerLink="/helps">
+       <span class="material-icons">
+          help_outline
+        </span>
       </button>
 
-      <mat-menu #langMenu="matMenu">
-        <button mat-menu-item type="button" (click)="switchToFrensh()">
-          Français
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item type="button" (click)="switchToEnglish()">
-          English
-        </button>
-      </mat-menu>
+<!--      <button-->
+<!--        mat-icon-button-->
+<!--        class="sidebar-profile-btn"-->
+<!--        [matMenuTriggerFor]="langMenu"-->
+<!--      >-->
+<!--        <i class="material-icons" style="font-size: 20px">-->
+<!--          language-->
+<!--        </i>-->
+<!--        {{ defaultLang }}-->
+<!--        <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>-->
+<!--      </button>-->
+
+<!--      <mat-menu #langMenu="matMenu">-->
+<!--        <button mat-menu-item type="button" (click)="switchToFrensh()">-->
+<!--          Français-->
+<!--        </button>-->
+<!--        <mat-divider></mat-divider>-->
+<!--        <button mat-menu-item type="button" (click)="switchToEnglish()">-->
+<!--          English-->
+<!--        </button>-->
+<!--      </mat-menu>-->
 
       <button
         mat-icon-button
@@ -45,7 +55,7 @@
       >
         {{fullName}}
         <mat-icon class="material-icons">portrait</mat-icon>
-        <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>
+        <clr-icon shape="caret" style="transform: rotate(180deg);margin: 0px 10px 0px 15px"></clr-icon>
       </button>
 
       <mat-menu #menu="matMenu">
@@ -55,10 +65,11 @@
         <mat-divider></mat-divider>
         <button mat-menu-item
                 type="button"
-                (click)="goToProfile('/apps/admin/users/profile')">
+                (click)="goToProfile('/admin/users/profile')">
           Mon Profil
         </button>
       </mat-menu>
+
       <button mat-icon-button
               class="sidebar-logout-btn"
               type="button"
@@ -90,18 +101,23 @@
       <mat-toolbar>
         <mat-toolbar-row>
           <button mat-button class="btn-menu"
-                  type="button" (click)="navigate('apps/home')">Home
+                  type="button" (click)="navigate('home')">Home
           </button>
           <button mat-button class="btn-menu" type="button"
+                  *ngIf="jwtTokenService.isSiteEngineer()
+                        || jwtTokenService.isOMEngineer()
+                        || jwtTokenService.isResponsible()"
                   routerLinkActive="active"
-                  (click)="navigate('apps/sites-apps/audit')">
+                  (click)="navigate('sites-apps/audit')">
             {{ 'MENU.SITE_AUDIT' | translate }}
           </button>
-          <button mat-button class="btn-menu" type="button" (click)="navigate('apps/sites-apps/sites')"
+          <button mat-button class="btn-menu" type="button" (click)="navigate('sites-apps/sites')"
+                  *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()"
                   routerLinkActive="active-link">
             {{ 'MENU.SITE' | translate }}
           </button>
-          <button mat-button class="btn-menu" type="button" (click)="navigate('apps/sites-apps/typeAudit')">
+          <button mat-button class="btn-menu" type="button" (click)="navigate('sites-apps/typeAudit')"
+                  *ngIf="jwtTokenService.isAdmin()">
             {{ 'MENU.TYPE_AUDIT' | translate }}
           </button>
           <button mat-button class="btn-menu" [matMenuTriggerFor]="catMenu"
@@ -111,10 +127,10 @@
           </button>
           <mat-menu #catMenu="matMenu">
             <button mat-menu-item type="button"
-                    (click)="navigate('apps/referencial/categories')">
+                    (click)="navigate('referencial/categories')">
               {{ 'MENU.CATEGORIES' | translate }}
             </button>
-            <button mat-menu-item type="button" (click)="navigate('apps/referencial/sub-categories')">
+            <button mat-menu-item type="button" (click)="navigate('referencial/sub-categories')">
               {{ 'MENU.SUB_CATEGORIES' | translate }}
             </button>
           </mat-menu>
@@ -128,10 +144,10 @@
             <clr-icon shape="caret" style="transform: rotate(180deg);"></clr-icon>
           </button>
           <mat-menu #lvMenu="matMenu">
-            <button mat-menu-item type="button" (click)="navigate('apps/referencial/decisionTypes')">
+            <button mat-menu-item type="button" (click)="navigate('referencial/decisionTypes')">
               {{ 'MENU.DECISION_TYPE' | translate }}
             </button>
-            <button mat-menu-item type="button" (click)="navigate('apps/referencial/decisions')">
+            <button mat-menu-item type="button" (click)="navigate('referencial/decisions')">
               {{ 'MENU.DECISION' | translate }}
             </button>
           </mat-menu>
@@ -139,7 +155,7 @@
           <button mat-button
                   class="btn-menu" type="button"
                   *ngIf="jwtTokenService.isAdmin()"
-                  (click)="navigate('apps/referencial/status')">
+                  (click)="navigate('referencial/status')">
             {{ 'MENU.STATUS' | translate }}
           </button>
           <span class="example-spacer"></span>
@@ -156,18 +172,18 @@
           <button mat-button
                   style="margin-right: 80px"
                   class="btn-menu" type="button"
-                  (click)="navigate('/apps/admin/affectations/my-programme')"
-                  *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
-            <span [matBadge]="myCount | async" matBadgeOverlap="false" matBadgeColor="warn">
-              <clr-icon shape="calendar" size="23"></clr-icon>
-            </span>
+                  (click)="navigate('admin/affectations/my-programme')"
+                  [disabled]="!jwtTokenService.isSiteEngineer()">
+            <clr-icon shape="calendar" size="23"></clr-icon>
           </button>
-
-
         </mat-toolbar-row>
       </mat-toolbar>
-      <router-outlet></router-outlet>
+
+      <router-outlet>
+      </router-outlet>
+
       <app-footer></app-footer>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

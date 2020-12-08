@@ -95,7 +95,7 @@ export class AffectationSecondComponent implements OnInit, AfterViewInit {
 
   goToAdd(id: number) {
     this.screenSpinnerService.show();
-    this.router.navigate(['/apps/sites-apps/audit/add', btoa('' + id)]);
+    this.router.navigate(['/sites-apps/audit/add', btoa('' + id)]);
   }
 
 }

@@ -69,7 +69,6 @@
       </section>
 
       <div *ngSwitchCase="'select'">
-
         <div *ngIf="item.multiple; else singleSelect">
           <ng-select
             [items]="item.options"
@@ -105,16 +104,32 @@
           >
           </ng-select>
         </ng-template>
-
-
       </div>
 
-      <mat-error
-        *ngIf="!modelForm.controls[item.field].valid &&
-        modelForm.controls[item.field].dirty"
-        style="font-size: 13px;margin-bottom: 10px;margin-top: -10px;"
-      >{{ item.message }}.
-      </mat-error>
+      <div *ngSwitchCase="'observable'">
+        <ng-select
+          [items]="item.optionsObs | async"
+          bindValue="id"
+          bindLabel="label"
+          [disabled]="item.readOnly"
+          [required]="item.required"
+          [formControlName]="item.field"
+          [placeholder]="object + '.' + item.field | translate "
+          [id]="item.field"
+          [loading]="dataLoading"
+          [searchFn]="filterSelectFn"
+          [virtualScroll]="true"
+          appendTo="body"
+        >
+        </ng-select>
+      </div>
+
+      <!--      <mat-error-->
+      <!--        *ngIf="!modelForm.controls[item.field].valid &&-->
+      <!--        modelForm.controls[item.field].dirty"-->
+      <!--        style="font-size: 13px;margin-bottom: 10px;margin-top: -10px;"-->
+      <!--      >{{ item.message }}.-->
+      <!--      </mat-error>-->
 
     </div>
 

@@ -40,9 +40,9 @@ export class UsersEditComponent implements OnInit {
   fields: Observable<ModelGeneric<any>[]>;
   edit = true;
   object: string;
-  roleItems: AppRole[];
-  wilayaItems: WilayaRegion[];
-  regionItems: Region[];
+  roleItems: Observable<AppRole[]>;
+  wilayaItems: Observable<WilayaRegion[]>;
+  regionItems: Observable<Region[]>;
 
   ngOnInit() {
     this.editForm = this.initForm();
@@ -60,13 +60,9 @@ export class UsersEditComponent implements OnInit {
     });
     this.object = "users";
 
-    this.regionService.findAll().subscribe(data => {
-      this.regionItems = data;
-    });
+    this.regionItems = this.regionService.findAll();
 
-    this.roleService.findAll().subscribe(data => {
-      this.roleItems = data;
-    });
+    this.roleItems = this.roleService.findAll();
   }
 
   private initForm() {
@@ -83,14 +79,13 @@ export class UsersEditComponent implements OnInit {
   }
 
   private loadWilayaItems(id: string) {
-    this.wilayaService.findByRegion(id).subscribe(data => {
-      this.wilayaItems = data;
-    });
+    this.wilayaItems = this.wilayaService.findByRegion(id);
   }
 
   onSelectChange(event) {
     if (event) {
       this.loadWilayaItems(event.id);
+      this.editForm.get('wilayaSet').setValue([]);
     }
   }
 
@@ -114,7 +109,7 @@ export class UsersEditComponent implements OnInit {
     this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
 
-   update(modelForm: NgForm) {
+  update(modelForm: NgForm) {
     this.screenSpinnerService.show();
     this.userService
       .update(modelForm)

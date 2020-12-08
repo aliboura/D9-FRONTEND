@@ -4,6 +4,7 @@ import {SiteComponent} from "./site.component";
 import {SiteListComponent} from "./site-list/site-list.component";
 import {SiteViewComponent} from "./site-view/site-view.component";
 import {SiteFormsComponent} from "./site-forms/site-forms.component";
+import {SiteAddComponent} from "./site-add/site-add.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
       {
         path: "",
         component: SiteListComponent
+      },
+      {
+        path: "add",
+        component: SiteAddComponent
       },
       {
         path: ":id",

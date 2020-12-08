@@ -4,16 +4,17 @@ import {WilayaRegion} from "../referencial/wilaya-region";
 export class User {
   id: number;
   username: string;
+  matricule: string;
+  name: string;
   firstName: string;
   lastName: string;
   email: string;
+  title: string;
+  phone: string;
+  department: string;
+  address: string;
   regionId: string;
-  wilayaID: string;
-  imgProfile: string;
   enabled: boolean;
-  expired: boolean;
-  credentials: boolean;
-  locked: boolean;
   roleSet: AppRole[];
   wilayaSet: WilayaRegion[];
 

@@ -1,5 +1,3 @@
-import {id} from "@swimlane/ngx-charts";
-
 export enum StatusEnum {
   NA = "N/A",
   InProgress = "En Cours",

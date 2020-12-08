@@ -56,33 +56,27 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="typeAuditSiteLabel">
-          <mat-header-cell *matHeaderCellDef
-                           mat-sort-header> {{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.typeAuditSiteLabel}} </mat-cell>
-        </ng-container>
-
         <ng-container matColumnDef="auditDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AUDIT_SITE.auditDate' | translate}}</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.auditDate | date:'dd/MM/yyyy'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="siteCode">
-          <mat-header-cell *matHeaderCellDef>  Site </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Site</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.siteCode}} - {{element.wilayaLabel}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="siteUserV1">
-          <mat-header-cell *matHeaderCellDef> Visite 1</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.siteUserV1}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Ingénieur Site</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="text-transform: uppercase"> {{element.siteUserV1}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="siteUserV2">
-          <mat-header-cell *matHeaderCellDef> Visite 2</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.siteUserV2}} </mat-cell>
+        <ng-container matColumnDef="siteUserOMV1">
+          <mat-header-cell *matHeaderCellDef> Ingénieur O&M</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="text-transform: uppercase"> {{element.siteUserOMV1}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="description">
+        <ng-container matColumnDef="typeSiteId">
           <mat-header-cell *matHeaderCellDef> Type de site</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.typeSiteId}} </mat-cell>
         </ng-container>

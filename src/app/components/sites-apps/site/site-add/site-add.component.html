@@ -1,0 +1,130 @@
+<form [formGroup]="addForm" (ngSubmit)="save(addForm.value)">
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>{{ 'SITE.ADD_title' |translate }} :
+        <mat-divider class="margin-top-15"></mat-divider>
+      </mat-card-title>
+      <div class="card-back-right-btn">
+        <button type="button"
+                (click)="showList()"
+                class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+          <clr-icon shape="times"></clr-icon>
+        </button>
+      </div>
+    </mat-card-header>
+
+    <div class="crud-container">
+      <mat-form-field>
+        <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          required="true"
+          formControlName="codeSite"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Date du</mat-label>
+        <input matInput
+               required="true"
+               [matDatepicker]="picker1"
+               formControlName="dateD1"
+               name="dateD1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          required="true"
+          formControlName="nomSite"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{'SITE.numSite' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          required="true"
+          formControlName="numSite"
+        />
+      </mat-form-field>
+
+      <div>
+        <ng-select
+          [items]="siteTypeItems | async"
+          bindValue="id"
+          bindLabel="label"
+          required
+          [placeholder]="'SITE.typeSiteId' | translate"
+          formControlName="typeSiteId"
+          appendTo="body"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+
+      <div>
+        <ng-select
+          [items]="regionItems | async"
+          bindValue="id"
+          bindLabel="label"
+          required
+          [placeholder]="'SITE.regionId' | translate"
+          formControlName="regionId"
+          appendTo="body"
+          (change)="onSelectChange($event)"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+
+      <div>
+        <ng-select
+          [items]="wilayaItems | async"
+          bindValue="id"
+          bindLabel="label"
+          required
+          [placeholder]="'SITE.wilayaId' | translate"
+          formControlName="wilayaId"
+          appendTo="body"
+          style="width: 95%"
+        >
+        </ng-select>
+      </div>
+
+    </div>
+  </mat-card>
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+      <mat-toolbar-row>
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!addForm.valid"
+          class="add-btn margin-right-15">
+          <i class="material-icons">
+            done
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="showList()"
+          class="cancel-btn">
+          <i class="material-icons">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+
+        <span class="example-spacer"></span>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</form>

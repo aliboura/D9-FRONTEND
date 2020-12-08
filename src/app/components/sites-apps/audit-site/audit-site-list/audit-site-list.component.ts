@@ -5,7 +5,7 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {merge, of as observableOf} from "rxjs";
+import {BehaviorSubject, merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AuditSite} from "../../../../business/models/sites/audit-site";
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
@@ -33,7 +33,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   }
 
   datasource: MatTableDataSource<AuditSite>;
-  displayedColumns: string[] = ["id", "typeAuditSiteLabel", "auditDate", "siteUserV1", "siteUserV2", "siteCode", "description", "currentSatusLabel", "action"];
+  displayedColumns: string[] = ["id", "siteCode", "auditDate", "typeSiteId", "siteUserV1", "siteUserOMV1", "currentSatusLabel", "action"];
   emptyData: boolean;
 
   resultsLength = 0;
@@ -43,6 +43,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   isEngineer: boolean;
   user: User = new User();
 
+  private validateBtn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -103,10 +104,12 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  disabledValidateBtn(element: AuditSite): boolean {
+  disabledValidateBtn(element: AuditSite) {
     return element.lastStep &&
-      (element.currentSatusLabel === StatusEnum.InProgressValidate || element.currentSatusLabel === StatusEnum.InProgressValidateV2
-        || element.currentSatusLabel === StatusEnum.ValidateBySiteEngineer);
+      (element.currentSatusLabel === StatusEnum.InProgressValidate
+        || element.currentSatusLabel === StatusEnum.InProgressValidateV2
+        || element.currentSatusLabel === StatusEnum.ValidateBySiteEngineer
+        || element.currentSatusLabel === StatusEnum.ValidateByOMEngineer);
   }
 
   public goToValidate(id: number) {

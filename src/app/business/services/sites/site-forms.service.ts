@@ -25,4 +25,8 @@ export class SiteFormsService extends GenericService<SiteForms> {
     });
   }
 
+  createForms(data: SiteForms): Observable<SiteForms> {
+    return this.getHttp().post<SiteForms>(`${this.getApi()}/files`, data);
+  }
+
 }

@@ -9,6 +9,7 @@ export class VisitPlanning {
   wilayaLabel: string;
   typeSiteId: string;
   audited: boolean;
+  closed: boolean;
   firstVisit: boolean;
   secondVisit: boolean;
   engineerSiteV1: string;

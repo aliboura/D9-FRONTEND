@@ -59,12 +59,12 @@
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>{{'SITE.regionId' | translate}}</mat-label>
+        <mat-label>{{'SITE.userV1' | translate}}</mat-label>
         <input
           matInput
           readonly="true"
-          [(ngModel)]="site.regionId"
-          name="regionId"
+          [(ngModel)]="site.userV1"
+          name="userV1"
         />
       </mat-form-field>
       <mat-form-field>
@@ -73,6 +73,22 @@
                   [(ngModel)]="auditSite.description"
                   name="description"></textarea>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'SITE.typeSiteId' | translate}}</mat-label>
+        <input
+          matInput
+          readonly="true"
+          [(ngModel)]="site.typeSiteId"
+          name="typeSiteId"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'AUDIT_SITE.description' | translate}}</mat-label>
+        <textarea matInput matInput
+                  [(ngModel)]="auditSite.description"
+                  name="description"></textarea>
+      </mat-form-field>
+
 
     </div>
   </form>

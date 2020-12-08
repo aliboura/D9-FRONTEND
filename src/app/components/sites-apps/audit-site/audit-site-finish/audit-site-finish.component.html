@@ -15,7 +15,8 @@
     <div class="p-grid">
       <div class="p-col" style="border-right: 1px solid #e0e0e0;padding-right: 5px; margin-right: 20px">
 
-        <label>1- {{'FINISH.FIRST_VISIT' | translate}} :</label>
+        <label><span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span> -
+          &ensp; {{'FINISH.FIRST_VISIT' | translate}} :</label>
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
@@ -57,16 +58,18 @@
           <mat-label>{{'FINISH.SIGNING_OM_ENGINEER' | translate}}</mat-label>
           <input matInput [(ngModel)]="auditSite.firstDecisionEngineerOM"
                  name="firstDecisionEngineerOM"
+                 [placeholder]="auditSite.siteUserOMV1"
                  [required]="auditSite.currentSatusLabel === statusEnum.ValidateBySiteEngineer"
                  readonly>
         </mat-form-field>
+
       </div>
 
-      <div class="p-col" *ngIf="auditSite.firstVisit
+      <div class="p-col" *ngIf="showSecond
            && auditSite.firstDecisionLabel !== categoriesEnum.Conform">
-
         <div>
-          <label>2- {{'FINISH.SECOND_VISIT' | translate}} : </label>
+          <label><span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span> -
+            &ensp; {{'FINISH.SECOND_VISIT' | translate}} : </label>
           <mat-radio-group
             aria-labelledby="example-radio-group-label"
             class="example-radio-group"

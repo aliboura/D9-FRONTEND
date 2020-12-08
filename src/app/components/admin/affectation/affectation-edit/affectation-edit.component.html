@@ -35,7 +35,7 @@
 
       </div>
       <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
-        <h5 class="div-title">Première Visite : </h5>
+        <h5 class="div-title">Première Visite: </h5>
         <div class="example-full-width">
           <ng-select
             [items]="userEngineerItems"
@@ -60,7 +60,8 @@
           <input matInput [matDatepicker]="siteDateV1"
                  formControlName="engineerSiteDateV1"
                  [disabled]="visit.firstVisit"
-                 [readonly]="visit.firstVisit">
+                 [readonly]="visit.firstVisit"
+                 (focus)="siteDateV1.open()">
           <mat-datepicker-toggle matSuffix [for]="siteDateV1"></mat-datepicker-toggle>
           <mat-datepicker #siteDateV1></mat-datepicker>
         </mat-form-field>
@@ -88,7 +89,8 @@
           <input matInput [matDatepicker]="OMDateV1"
                  formControlName="engineerOMDateV1"
                  [disabled]="visit.firstVisit"
-                 [readonly]="visit.firstVisit">
+                 [readonly]="visit.firstVisit"
+                 (focus)="OMDateV1.open()">
           <mat-datepicker-toggle matSuffix [for]="OMDateV1"></mat-datepicker-toggle>
           <mat-datepicker #OMDateV1></mat-datepicker>
         </mat-form-field>
@@ -105,7 +107,7 @@
 
       </div>
 
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited && !visit.closed">
         <h5 class="div-title">Deuxième Visite :</h5>
         <div class="example-full-width">
           <ng-select
@@ -131,7 +133,8 @@
           <input matInput [matDatepicker]="siteDateV2"
                  formControlName="engineerSiteDateV2"
                  [readonly]="visit.secondVisit"
-                 [disabled]="visit.secondVisit">
+                 [disabled]="visit.secondVisit"
+                 (focus)="siteDateV2.open()">
           <mat-datepicker-toggle matSuffix [for]="siteDateV2"></mat-datepicker-toggle>
           <mat-datepicker #siteDateV2></mat-datepicker>
         </mat-form-field>
@@ -159,7 +162,8 @@
           <input matInput [matDatepicker]="OMDateV2"
                  formControlName="engineerOMDateV2"
                  [readonly]="visit.secondVisit"
-                 [disabled]="visit.secondVisit">
+                 [disabled]="visit.secondVisit"
+                 (focus)="OMDateV2.open()">
           <mat-datepicker-toggle matSuffix [for]="OMDateV2"></mat-datepicker-toggle>
           <mat-datepicker #OMDateV2></mat-datepicker>
         </mat-form-field>

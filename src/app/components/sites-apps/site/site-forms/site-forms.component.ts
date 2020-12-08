@@ -64,7 +64,8 @@ export class SiteFormsComponent implements OnInit {
     );
     this.obSite.subscribe(data => {
       this.site = data;
-      this.isMySite = this.site.userV1 === this.jwtTokenService.getUserName() || this.site.userV2 === this.jwtTokenService.getUserName();
+      this.isMySite = this.site.userV1 === this.jwtTokenService.getUserName()
+        || this.site.userV2 === this.jwtTokenService.getUserName();
       this.type = this.site.powerSupplyConform ? '2' : '1';
       this.id = this.site.codeSite;
       this.sitesForms.codeSite = this.site.codeSite;
@@ -110,7 +111,7 @@ export class SiteFormsComponent implements OnInit {
       this.sitesForms.decisionId = null;
       this.sitesForms.decisionLabel = null;
     }
-    this.sitesFormsService.createModel(this.sitesForms)
+    this.sitesFormsService.createForms(this.sitesForms)
       .pipe(
         catchError(err => {
           this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));

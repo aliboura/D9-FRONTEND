@@ -18,7 +18,6 @@ import {CategoriesLabel} from "../../../../business/models/referencial/categorie
 import {NgxCoolDialogsService} from "ngx-cool-dialogs";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
-import {saveAs} from "file-saver";
 import {ConvertService} from "../../../../business/services/admin/convert.service";
 
 @Component({
@@ -48,13 +47,12 @@ export class AuditSiteStepsComponent implements OnInit {
   decisionId: number;
   currentCat: Categories = new Categories();
   selectedCategory: Categories;
-  categiryItems: Categories[];
+  categoriesItems: Observable<Categories[]>;
   title: string;
   editCat: boolean;
   categoriesEnum = CategoriesLabel;
   opened = false;
   fileName: string;
-
   success = false;
 
   ngOnInit() {
@@ -72,8 +70,10 @@ export class AuditSiteStepsComponent implements OnInit {
       this.screenSpinnerService.hide(200);
     });
 
-    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(cat => {
-      this.categiryItems = cat.filter(x => x.status);
+    this.categoriesItems = this.categoriesService.findAllActive();
+
+    this.decisionService.findAll().subscribe(data => {
+      this.decisionList = data.filter(x => x.position === 1);
     });
   }
 
@@ -84,9 +84,6 @@ export class AuditSiteStepsComponent implements OnInit {
 
 
   private loadData(auditSite: AuditSite, type: number) {
-    this.decisionService.findAll().subscribe(data => {
-      this.decisionList = data.filter(x => x.position === 1);
-    });
     switch (type) {
       case 1 : {
         this.getCategories(this.auditSite.currentCategoriesId).subscribe(cat => {
@@ -156,9 +153,9 @@ export class AuditSiteStepsComponent implements OnInit {
 
   private saveLastLines() {
     this.auditSiteLineService.createAll(this.auditSiteLines)
-      .subscribe(ee => {
+      .subscribe(data => {
         this.success = true;
-        this.auditSiteLines = ee;
+        this.auditSiteLines = data;
         this.screenSpinnerService.hide(200);
       });
   }
@@ -265,5 +262,8 @@ export class AuditSiteStepsComponent implements OnInit {
     });
   }
 
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
 
 }

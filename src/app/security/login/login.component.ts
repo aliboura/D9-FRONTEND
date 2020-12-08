@@ -19,8 +19,10 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   hide = true;
+  startLogin: boolean;
 
   ngOnInit() {
+    this.startLogin = false;
     this.loginForm = this.initForm();
     this.screenSpinnerService.hide(300);
   }
@@ -39,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   public onLogin(user: NgForm) {
-    this.screenSpinnerService.show();
+    this.startLogin = true;
     this.loginService.onLogin(user);
   }
 

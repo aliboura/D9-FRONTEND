@@ -15,6 +15,7 @@ import {StatusService} from "../../../../business/services/referencial/status.se
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
 import {TranslateService} from "@ngx-translate/core";
+import {AuditSecondVisit} from "../../../../business/models/sites/audit-second-visit";
 
 @Component({
   selector: 'app-audit-site-second-visit',
@@ -30,6 +31,7 @@ export class AuditSiteSecondVisitComponent implements OnInit {
               private screenSpinnerService: ScreenSpinnerService,
               private translate: TranslateService,
               @Inject(NOTYF) private notyf: Notyf) {
+
     this.showSpinner();
     this.columns = [{
       field: 'label',
@@ -54,9 +56,11 @@ export class AuditSiteSecondVisitComponent implements OnInit {
   groupByColumns: string[] = [];
   success: false;
 
+  statusEnum = StatusEnum;
   auditSite: AuditSite = new AuditSite();
   private obAuditSite: Observable<AuditSite>;
   decisionList: Decision[];
+  secondAuditSiteLines: AuditSiteLine[];
 
   ngOnInit() {
     this.obAuditSite = this.route.paramMap.pipe(
@@ -66,7 +70,8 @@ export class AuditSiteSecondVisitComponent implements OnInit {
     );
     this.obAuditSite.subscribe(data => {
       this.auditSite = data;
-      const list = this.getSeconVisitItems(data.auditSiteLineDtoList);
+      this.secondAuditSiteLines = this.getSecondVisitItems(data.auditSiteLineDtoList);
+      const list = this.secondAuditSiteLines;
       this.dataSource = new MatTableDataSource<AuditSiteLine | Group>(this.addGroups(list, this.groupByColumns));
       this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
       this.dataSource.filter = performance.now().toString();
@@ -162,7 +167,7 @@ export class AuditSiteSecondVisitComponent implements OnInit {
     this.screenSpinnerService.show();
   }
 
-  private getSeconVisitItems(auditSiteLineDtoList: AuditSiteLine[]): AuditSiteLine[] {
+  private getSecondVisitItems(auditSiteLineDtoList: AuditSiteLine[]): AuditSiteLine[] {
     if (auditSiteLineDtoList) {
       return auditSiteLineDtoList.filter(x => x.firstDecisionLabel !== null &&
         (x.firstDecisionLabel === StatusEnum.NA || x.firstDecisionLabel === StatusEnum.NoConform));
@@ -175,12 +180,23 @@ export class AuditSiteSecondVisitComponent implements OnInit {
     this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route.parent});
   }
 
+  public checkNull(list: AuditSiteLine[]) {
+    const line = list.find(line => !line.secondDecisionId);
+    return line;
+  }
+
   public saveSecondVisit() {
-    this.auditSiteService.saveSecondVisit(this.auditSite).subscribe(x => {
-      this.auditSite = x;
-      this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-      this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route.parent});
-    });
+    this.secondAuditSiteLines = this.getSecondVisitItems(this.auditSite.auditSiteLineDtoList);
+    const lineCheck = this.checkNull(this.secondAuditSiteLines);
+    if (lineCheck) {
+      this.notyf.error('Voir la ligne: <span style="font-weight: 600;font-style: italic">' + lineCheck.label + '</span>');
+    } else {
+      this.auditSiteService.saveSecondVisit(new AuditSecondVisit(this.auditSite, this.secondAuditSiteLines)).subscribe(x => {
+        this.auditSite = x;
+        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+        this.router.navigate(['edit', btoa("" + this.auditSite.id)], {relativeTo: this.route.parent});
+      });
+    }
   }
 
 }

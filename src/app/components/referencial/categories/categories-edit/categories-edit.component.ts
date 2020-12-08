@@ -28,9 +28,9 @@ export class CategoriesEditComponent implements OnInit {
   title: string;
   object: string;
   edit = true;
-  typeAuditSiteList: TypeAuditSite[];
-  nextList: Categories[];
-  previousList: Categories[];
+  typeAuditSiteList: Observable<TypeAuditSite[]>;
+  nextList: Observable<Categories[]>;
+  previousList: Observable<Categories[]>;
 
 
   ngOnInit() {
@@ -47,14 +47,10 @@ export class CategoriesEditComponent implements OnInit {
     });
     this.title = "Modifier la Catégorie N°: " + this.id;
     this.object = "categories";
-    this.categoriesService.findAllSorted('asc', 'orderNum').subscribe(data => {
-      this.nextList = data.filter(x => !x.first);
-      this.previousList = data.filter(x => !x.last);
-      this.fields = this.loadFormModels();
-    });
-    this.typeAuditSiteService.findAll().subscribe(data => {
-      this.typeAuditSiteList = data;
-    });
+    this.nextList = this.categoriesService.findAllOnlyFirst();
+    this.previousList = this.categoriesService.findAllOnlyLast();
+    this.typeAuditSiteList = this.typeAuditSiteService.findAll();
+    this.fields = this.loadFormModels();
   }
 
   private initForm() {
@@ -102,13 +98,14 @@ export class CategoriesEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "typeAuditSiteId",
-        TypeInput.Select,
+        TypeInput.Observable,
         true,
         false,
         false,
         false,
-        this.typeAuditSiteList,
-        "Veuillez sélectionner le type audit."
+        null,
+        "Veuillez sélectionner le type audit.",
+        this.typeAuditSiteList
       ),
 
       new ModelGeneric(
@@ -133,13 +130,14 @@ export class CategoriesEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "nextCatId",
-        TypeInput.Select,
+        TypeInput.Observable,
         false,
         false,
         false,
         false,
-        this.nextList,
-        "Veuillez selectionner une catégories."
+        null,
+        "Veuillez selectionner une catégories.",
+        this.nextList
       ),
       new ModelGeneric(
         "last",
@@ -153,13 +151,14 @@ export class CategoriesEditComponent implements OnInit {
       ),
       new ModelGeneric(
         "previousCatId",
-        TypeInput.Select,
+        TypeInput.Observable,
         false,
         false,
         false,
         false,
-        this.previousList,
-        "Veuillez selectionner une catégories."
+        null,
+        "Veuillez selectionner une catégories.",
+        this.previousList
       )
     ]);
   }

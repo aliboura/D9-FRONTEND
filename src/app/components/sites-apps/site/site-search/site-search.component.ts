@@ -10,7 +10,7 @@ import {DatePipe} from "@angular/common";
 import {WilayaService} from "../../../../business/services/referencial/wilaya.service";
 import {Wilaya} from "../../../../business/models/referencial/wilaya";
 import {TypeSiteService} from "../../../../business/services/referencial/type-site.service";
-import {TypeSite} from "../../../../business/models/referencial/type-site";
+import {SiteType} from "../../../../business/models/sites/SiteType";
 import {RegionService} from "../../../../business/services/referencial/region.service";
 import {Region} from "../../../../business/models/referencial/region";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
@@ -32,7 +32,7 @@ export class SiteSearchComponent implements OnInit {
   dataSource: MatTableDataSource<Site>;
   regionOptions: string[] = [];
   wilayaOptions: WilayaRegion[];
-  typeSiteOptions: TypeSite[];
+  typeSiteOptions: SiteType[];
   user: User;
   region: string;
 

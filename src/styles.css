@@ -571,6 +571,10 @@ td, th {
   width: 200px !important;
 }
 
+.mat-select-arrow {
+  margin: 0 28px !important;
+}
+
 .card-mat-toolbar {
   background: #f9f9f9;
   color: rgba(0, 0, 0, .87);
@@ -1153,6 +1157,9 @@ mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-typ
   background: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
+  width: 99%;
+  overflow-y: scroll;
+  padding: 0px 10px 0px 50px;
 }
 
 .steps-table-header {
@@ -1160,10 +1167,41 @@ mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-typ
   color: #757575;
 }
 
-.ng-select.ng-select-single .ng-select-container .ng-arrow-wrapper{
+.ng-select.ng-select-single .ng-select-container .ng-arrow-wrapper {
   bottom: 8px;
 }
 
-.ng-placeholder{
+.ng-placeholder {
   bottom: 1px;
+}
+
+.custom-class {
+  position: fixed;
+  background-color: pink;
+  border-color: green;
+  height: 30px;
+  width: 30px;
+}
+
+.header, .header.header-1, header, header.header-1 {
+  background-color: #f10034 !important;
+}
+
+.header {
+  background-color: transparent !important;
+}
+
+.app-toolbar {
+  /*background-color: #E20613;*/
+  background: #f10034;
+  background: -moz-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  background: -webkit-linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  background: linear-gradient(-206deg, #f10034 5%, #ff4b4a 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f10034', endColorstr='#ff4b4a', GradientType=1);
+  height: 42px !important;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !important;
+}
+
+.green-row {
+  background-color: #e6fbd9 !important;
 }

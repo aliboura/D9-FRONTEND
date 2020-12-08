@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from "@angular/core";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {TranslateService} from "@ngx-translate/core";
 import {STATIC_DATA} from "../../tools/static-data";
@@ -8,7 +8,6 @@ import {NavigationEnd, Router, RouterEvent} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {RoutingStateService} from "../../business/services/apps/routing-state.service";
 import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
-import {VisitPlanningService} from "../../business/services/sites/visit-planning.service";
 import {AppNotificationService} from "../../business/services/apps/app-notification.service";
 import {Observable} from "rxjs";
 import {saveAs} from "file-saver";
@@ -53,7 +52,6 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   defaultLang: string;
-  userName = "";
   admin: boolean;
   myCount: Observable<number>;
 
@@ -118,4 +116,5 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
       this.screenSpinnerService.hide(100);
     });
   }
+
 }

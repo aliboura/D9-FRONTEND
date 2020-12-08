@@ -2,7 +2,7 @@
   <li>
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/home')"
+       (click)="navigate('/home')"
        matTooltipPosition="right"
        matTooltip="Home">
       <clr-icon shape="home" size="25"></clr-icon>
@@ -14,7 +14,7 @@
   <li *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/sites-apps/audit/search')"
+       (click)="navigate('/sites-apps/audit/search')"
        matTooltipPosition="right"
        matTooltip="Nouvel audit">
       <clr-icon shape="form" size="25"></clr-icon>
@@ -25,7 +25,7 @@
               || jwtTokenService.isResponsible()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/sites-apps/audit')"
+       (click)="navigate('/sites-apps/audit')"
        matTooltipPosition="right"
        matTooltip="List des audits">
       <clr-icon shape="clipboard" size="25"></clr-icon>
@@ -34,7 +34,7 @@
   <li *ngIf="jwtTokenService.isSiteEngineer() || jwtTokenService.isOMEngineer()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/sites-apps/sites')"
+       (click)="navigate('/sites-apps/sites')"
        matTooltip="Liste des sites"
        matTooltipPosition="right">
       <clr-icon shape="map-marker" size="25"></clr-icon>
@@ -44,7 +44,7 @@
   <li *ngIf="jwtTokenService.isAdmin()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/admin/users')"
+       (click)="navigate('/admin/users')"
        matTooltip="List des utilisateurs"
        matTooltipPosition="right">
       <clr-icon shape="assign-user" size="25"></clr-icon>
@@ -54,7 +54,7 @@
   <li *ngIf="jwtTokenService.isResponsible()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/admin/affectations')"
+       (click)="navigate('/admin/affectations')"
        matTooltip="Planification des visites"
        matTooltipPosition="right">
       <clr-icon shape="calendar" size="25"></clr-icon>
@@ -64,7 +64,7 @@
   <li *ngIf="jwtTokenService.isResponsible()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
-       (click)="navigate('/apps/reporting')"
+       (click)="navigate('/reporting')"
        matTooltip="Reporting"
        matTooltipPosition="right">
       <clr-icon shape="line-chart" size="25"></clr-icon>
@@ -73,6 +73,7 @@
 
   <img
     type="image/svg+xml"
+    (click)="navigate('/home')"
     src="./././assets/images/logo.png"
     class="logo-style"
   />

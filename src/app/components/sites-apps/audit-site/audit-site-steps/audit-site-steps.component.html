@@ -40,10 +40,10 @@
           </ng-select>
         </th>
         <th style="width: 15%" class="steps-table-header">Observation</th>
-        <th style="width: 5%"></th>
+        <!--        <th style="width: 5%"></th>-->
       </tr>
       <!-- ******************* Audit Table Body Row ******************* -->
-      <tr *ngFor="let line of auditSiteLines">
+      <tr *ngFor="let line of auditSiteLines;trackBy: trackByFn">
         <!-- ******************* Audit Table ID Column ******************* -->
         <td style="width: 5%;text-align: center">{{auditSiteLines.indexOf(line) + 1}}</td>
         <!-- ******************* Audit Table Label Column ******************* -->
@@ -66,17 +66,6 @@
                  name="line.observation" class="table-input" placeholder="Observation"
                  [matTooltip]="line.observation"
                  matTooltipPosition="left">
-        </td>
-        <td width="5%" style="text-align: center;border-left: 1px solid #e0e0e0">
-        <span class="material-icons" style="color: #28a745" *ngIf="line.firstDecisionId === 2">
-          check
-        </span>
-          <span class="material-icons" style="color: #dc3545" *ngIf="line.firstDecisionId === 3">
-          close
-        </span>
-          <span class="material-icons" style="color: #ffc107" *ngIf="line.firstDecisionId === 1">
-          remove
-        </span>
         </td>
       </tr>
       <!-- ******************* Audit Table Observation Row ******************* -->
@@ -110,7 +99,7 @@
         </button>
         <span class="example-spacer"></span>
 
-        <ng-select [items]="categiryItems"
+        <ng-select [items]="categoriesItems | async"
                    bindLabel="label"
                    (change)="onSelectCategoryStep($event)"
                    [(ngModel)]="selectedCategory"
@@ -131,7 +120,7 @@
           type="button"
           mat-raised-button
           style="margin-right: 10px"
-          (click)="goToPrevious()"
+          (click)="goToPrevious();"
           *ngIf="!currentCat.first"
           [matTooltip]="currentCat.previousCatOrder +' - '+ currentCat.previousCatLabel"
           class="cancel-btn">

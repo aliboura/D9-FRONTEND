@@ -27,8 +27,9 @@
       <mat-header-cell *matHeaderCellDef
                        style="flex: 0 0 15%"> {{'AUDIT_SITE.secondDecisionLabel' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let element" style="flex: 0 0 15%">
-        <div *ngIf="!auditSite.secondCheck; else note">
-          <mat-form-field>
+        <div
+          *ngIf="!auditSite.secondVisit; else note">
+        <mat-form-field>
             <mat-select [(ngModel)]="element.secondDecisionId"
                         name="element.secondDecisionId"
                         [required]="element.blocking"
@@ -97,7 +98,7 @@
         mat-raised-button
         type="button"
         (click)="saveSecondVisit()"
-        [disabled]="auditSite.secondCheck"
+        [disabled]="auditSite.secondVisit"
         class="add-btn margin-left-15">
         <i class="material-icons">
           check_box

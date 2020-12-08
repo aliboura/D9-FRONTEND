@@ -8,6 +8,7 @@ import {AuditSteps} from "../../models/sites/audit-steps";
 import {Observable} from "rxjs";
 import {Pages} from "../../../shared/model-generic/pages";
 import {Site} from "../../models/sites/site";
+import {AuditSecondVisit} from "../../models/sites/audit-second-visit";
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class AuditSiteService extends GenericService<AuditSite> {
     return API_URLs.APPS_URL + "/audit_sites";
   }
 
-  saveSecondVisit(auditSite: AuditSite) {
-    return this.getHttp().put<AuditSite>(this.getApi() + "/second-visit", auditSite);
+  saveSecondVisit(auditSecondVisit: AuditSecondVisit) {
+    return this.getHttp().put<AuditSite>(this.getApi() + "/second-visit", auditSecondVisit);
   }
 
   goToFinish(auditSteps: AuditSteps): Observable<AuditSite> {
