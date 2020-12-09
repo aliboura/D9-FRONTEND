@@ -21,6 +21,7 @@
         <input matInput [matDatepicker]="picker"
                [(ngModel)]="auditSite.auditDate"
                name="auditDate"
+               (focus)="picker.open()"
                required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -60,18 +61,15 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{'SITE.userV1' | translate}}</mat-label>
-        <input
-          matInput
-          readonly="true"
-          [(ngModel)]="site.userV1"
-          name="userV1"
-        />
+        <input matInput [value]="'Ing Site: &ensp;&ensp;' +site.userV1"
+               class="input-style"
+               readonly>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>{{'AUDIT_SITE.description' | translate}}</mat-label>
-        <textarea matInput matInput
-                  [(ngModel)]="auditSite.description"
-                  name="description"></textarea>
+        <mat-label>{{'SITE.engineerOMV1' | translate}}</mat-label>
+        <input matInput [value]="'Ing O&M: &ensp;&ensp;' +site.userOMV1"
+               class="input-style"
+               readonly>
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{'SITE.typeSiteId' | translate}}</mat-label>

@@ -83,6 +83,7 @@ export class AuditSiteAddComponent implements OnInit {
       this.auditSite.wilayaId = this.site.wilayaId;
       this.auditSite.typeSiteId = this.site.typeSiteId;
       this.auditSite.siteUserV1 = this.site.userV1;
+      this.auditSite.siteUserOMV1 = this.site.userOMV1;
       this.auditSite.userId = this.cookieService.get(STATIC_DATA.USER_NAME);
     });
 

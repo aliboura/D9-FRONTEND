@@ -108,6 +108,13 @@
               <span *ngIf="element[column] === '-'"
                     style="font-size: 11px;font-style: italic">No Affected</span>
             </div>
+            <div *ngSwitchCase="'userOMV1'">
+              <span class="badge badge-djezzy" style="text-transform: uppercase" *ngIf="element[column] !== '-'">
+                {{ element[column] }}
+              </span>
+              <span *ngIf="element[column] === '-'"
+                    style="font-size: 11px;font-style: italic">No Affected</span>
+            </div>
             <div *ngSwitchDefault>
               {{ element[column] }}
             </div>

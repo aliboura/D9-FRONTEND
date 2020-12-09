@@ -4,8 +4,8 @@ import {WilayaRegion} from "../referencial/wilaya-region";
 export class User {
   id: number;
   username: string;
+  fullName: string;
   matricule: string;
-  name: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -18,7 +18,4 @@ export class User {
   roleSet: AppRole[];
   wilayaSet: WilayaRegion[];
 
-  get fullName(): string {
-    return this.firstName + " " + this.lastName.toUpperCase();
-  }
 }

@@ -33,7 +33,7 @@ export class UsersProfilComponent implements OnInit {
       const decoded = jwt_decode(this.cookieService.get(STATIC_DATA.TOKEN));
       this.user = new User();
       this.user.matricule = decoded.matricule;
-      this.user.name = decoded.name;
+      this.user.fullName = decoded.name;
       this.user.title = decoded.title;
       this.user.email = decoded.mail;
       this.user.phone = decoded.mobile;
@@ -41,16 +41,6 @@ export class UsersProfilComponent implements OnInit {
       this.user.address = decoded.address;
       this.screenSpinnerService.hide(200);
     }
-    // this.selected = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     this.userService.findByUserName(atob(params.get("username")))
-    //   )
-    // );
-    // this.selected.subscribe(data => {
-    //   this.id = data.id;
-    //   this.user = data;
-    //   this.screenSpinnerService.hide(200);
-    // });
   }
 
 }

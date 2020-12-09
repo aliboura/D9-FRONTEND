@@ -271,7 +271,7 @@ splash-screen,
 
 
 .mat-row:hover {
-  background: #f3f6f8;
+  background: #f3f6f8 !important;
 }
 
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
@@ -1158,8 +1158,6 @@ mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-typ
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   width: 99%;
-  overflow-y: scroll;
-  padding: 0px 10px 0px 50px;
 }
 
 .steps-table-header {
@@ -1203,5 +1201,23 @@ mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-typ
 }
 
 .green-row {
-  background-color: #e6fbd9 !important;
+  background-color: #e6fbd9;
+}
+
+.input-style {
+  text-transform: uppercase;
+  background-color: #f1f1f1 !important;
+  padding: 10px !important;
+  border-radius: 6px !important;
+}
+
+.loading-style {
+  text-align: center;
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 15px;
+  width: 95%
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
 }

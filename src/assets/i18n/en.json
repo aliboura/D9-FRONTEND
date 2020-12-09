@@ -74,6 +74,7 @@
     "userV1": "Ingénieur site",
     "engineerSiteDateV1": " Date visite Ingénieur site",
     "engineerOMV1": "Ingénieur O&M",
+    "userOMV1": "Ingénieur O&M",
     "engineerOMDateV1": " Date visite O&M site",
     "engineerSiteV2": "Ingénieur site",
     "engineerSiteDateV2": " Date visite Ingénieur site",
@@ -201,7 +202,8 @@
     "credentials": "boolean",
     "locked": " Verrouillé ? ",
     "regionId": "Région",
-    "wilayaId": "Wilaya"
+    "wilayaId": "Wilaya",
+    "roles": "Role"
   },
   "affect_v1": {
     "title": " Affectation site première visite ",

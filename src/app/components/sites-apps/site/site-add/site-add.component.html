@@ -30,6 +30,7 @@
                required="true"
                [matDatepicker]="picker1"
                formControlName="dateD1"
+               (focus)="picker1.open()"
                name="dateD1">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>

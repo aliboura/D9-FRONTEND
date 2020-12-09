@@ -16,7 +16,7 @@ import {AppRole} from "../../../../business/models/admin/app-role";
   selector: 'app-users-list',
   templateUrl: './users-list.component.html'
 })
-export class UsersListComponent implements OnInit, AfterViewInit {
+export class UsersListComponent implements AfterViewInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -27,8 +27,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   object = "users";
 
   datasource: MatTableDataSource<User>;
-  displayedColumns: string[] = ["id", "username", "firstName", "lastName", "email", "region", "roles", "enabled", "action"];
-  columnsFilter: string[] = ["username", "firstName", "lastName"];
+  displayedColumns: string[] = ["id", "matricule", "fullName", "phone", "roles", "enabled", "action"];
+  columnsFilter: string[] = ["username", "matricule", "fullName"];
 
   emptyData: boolean;
   resultsLength = 0;
@@ -38,10 +38,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  ngOnInit() {
-
-  }
 
   ngAfterViewInit(): void {
     this.loadAllData();
@@ -93,4 +89,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   public getRoles(roleSet: AppRole[]) {
     return roleSet.map(x => x.label).toString();
   }
+
+  showAdd() {
+    this.router.navigate(['add'], {relativeTo: this.route});
+    this.screenSpinnerService.show();
+  }
+
 }

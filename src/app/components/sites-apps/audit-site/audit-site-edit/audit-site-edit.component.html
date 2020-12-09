@@ -4,13 +4,14 @@
       <mat-divider class="margin-top-15"></mat-divider>
     </mat-card-title>
     <div class="right-headeer-title">
-      <span class="badge badge-light">Site N° : {{auditSite.siteCode}} - {{auditSite.currentSatusLabel}}</span>
+      <span class="badge badge-light">Site N° : {{auditSite.siteCode}}</span>
     </div>
   </mat-card-header>
   <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChange($event)">
 
     <mat-tab label="Info">
-      <div class="flex-center padding-10-bordred view-div">
+      <div class="flex-center padding-10-bordred view-div"
+      style="overflow-x: auto;padding: 0px 10px 0px 50px;overflow-y: hidden">
         <ul class="clr-timeline">
           <li class="clr-timeline-step disabled">
             <div class="clr-timeline-step-header">{{auditSite.auditDate | date:'dd-MM-yyyy h:mm a'}}</div>
@@ -68,12 +69,7 @@
                    name="dateAudit"
                    readonly>
           </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.userId' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.userId"
-                   name="userId"
-                   readonly>
-          </mat-form-field>
+
           <mat-form-field class="example-full-width">
             <mat-label>{{'AUDIT_SITE.typeAuditSiteLabel' | translate}}</mat-label>
             <input matInput [(ngModel)]="auditSite.typeAuditSiteLabel"
@@ -87,29 +83,35 @@
                    readonly>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.nomSite' | translate}}</mat-label>
+            <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
             <input matInput [(ngModel)]="auditSite.siteName"
                    name="siteName"
                    readonly>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.regionId' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.regionId"
-                   name="regionId"
+            <mat-label>{{'SITE.userV1' | translate}}</mat-label>
+            <input matInput [value]="'Ing Site: &ensp;&ensp;' +auditSite.siteUserV1"
+                   class="input-style"
+                   readonly>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>{{'SITE.engineerOMV1' | translate}}</mat-label>
+            <input matInput [value]="'Ing O&M: &ensp;&ensp;'+auditSite.siteUserOMV1"
+                   class="input-style"
                    readonly>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>{{'AUDIT_SITE.wilayaId' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.wilayaId"
+            <input matInput [(ngModel)]="auditSite.wilayaLabel"
                    name="wilayaId"
                    readonly>
           </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'AUDIT_SITE.repOwner' | translate}}</mat-label>
-            <input matInput [(ngModel)]="auditSite.repOwner"
-                   name="repOwner"
-                   readonly>
-          </mat-form-field>
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <mat-label>{{'AUDIT_SITE.repOwner' | translate}}</mat-label>-->
+<!--            <input matInput [(ngModel)]="auditSite.repOwner"-->
+<!--                   name="repOwner"-->
+<!--                   readonly>-->
+<!--          </mat-form-field>-->
           <mat-form-field class="example-full-width">
             <mat-label>{{'AUDIT_SITE.description' | translate}}</mat-label>
             <textarea matInput [(ngModel)]="auditSite.description"

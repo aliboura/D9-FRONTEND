@@ -4,6 +4,21 @@
       <mat-divider class="margin-top-15"></mat-divider>
     </mat-card-title>
   </mat-card-header>
+  <mat-grid-list cols="8" rowHeight="60px" style="margin: 10px">
+    <mat-grid-tile [colspan]="1">
+      <button
+        type="button"
+        mat-raised-button
+        class="add-btn"
+        (click)="showAdd()"
+        routerLinkActive="disabled">
+        <i class="material-icons" style="font-size: 22px;">
+          add_circle_outline
+        </i>
+        {{'COMMUN.BTN_NEW' | translate}}
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
 
   <div class="mat-elevation-z8" matSort>
     <div class="example-table-container">
@@ -25,29 +40,19 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="username">
-          <mat-header-cell *matHeaderCellDef> {{'users.username' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+        <ng-container matColumnDef="matricule">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> Matricule</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.matricule}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="firstName">
-          <mat-header-cell *matHeaderCellDef> {{'users.firstName' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+        <ng-container matColumnDef="fullName">
+          <mat-header-cell *matHeaderCellDef> Nom & Prénom</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="lastName">
-          <mat-header-cell *matHeaderCellDef>  {{'users.lastName' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="email">
-          <mat-header-cell *matHeaderCellDef> {{'users.email' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="region">
-          <mat-header-cell *matHeaderCellDef> {{'users.regionId' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.regionId}} </mat-cell>
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef> Téléphone</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="roles">
@@ -56,8 +61,8 @@
         </ng-container>
 
         <ng-container matColumnDef="enabled">
-          <mat-header-cell *matHeaderCellDef> {{'users.enabled' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element">
+          <mat-header-cell *matHeaderCellDef  style="flex: 0 0 10%;"> {{'users.enabled' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"  style="flex: 0 0 10%;">
             <span class="badge badge-success" *ngIf="element.enabled">{{'COMMUN.enable' | translate}} </span>
             <span class="badge badge-secondary" *ngIf="!element.enabled">{{'COMMUN.disable' | translate}} </span>
           </mat-cell>

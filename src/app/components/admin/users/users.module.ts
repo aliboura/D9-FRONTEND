@@ -13,10 +13,11 @@ import {TranslateModule} from "@ngx-translate/core";
 import {ClarityModule} from "@clr/angular";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UsersSiteComponent } from './users-site/users-site.component';
+import { UsersAddComponent } from './users-add/users-add.component';
 
 
 @NgModule({
-  declarations: [UsersComponent, UsersListComponent, UsersEditComponent, UsersProfilComponent, UsersSiteComponent],
+  declarations: [UsersComponent, UsersListComponent, UsersEditComponent, UsersProfilComponent, UsersSiteComponent, UsersAddComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

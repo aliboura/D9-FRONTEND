@@ -16,6 +16,8 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
 import {TranslateService} from "@ngx-translate/core";
+import {LdapUser} from "../../../../business/models/admin/ldap-user";
+import {LdapUserService} from "../../../../business/services/admin/ldap-user.service";
 
 @Component({
   selector: 'app-users-edit',
@@ -26,6 +28,7 @@ export class UsersEditComponent implements OnInit {
   constructor(private userService: UserService,
               private roleService: RoleService,
               private regionService: RegionService,
+              private ldapUserService: LdapUserService,
               private wilayaService: WilayaRegionService,
               private screenSpinnerService: ScreenSpinnerService,
               private translate: TranslateService,
@@ -36,6 +39,7 @@ export class UsersEditComponent implements OnInit {
 
   id: number;
   selected: Observable<User>;
+  user: User;
   editForm: FormGroup;
   fields: Observable<ModelGeneric<any>[]>;
   edit = true;
@@ -53,9 +57,10 @@ export class UsersEditComponent implements OnInit {
     );
     this.selected.subscribe(data => {
       this.id = data.id;
-      this.loadFormData(data);
-      if (data.regionId) {
-        this.loadWilayaItems(data.regionId);
+      this.user = data;
+      this.loadFormData(this.user);
+      if (this.user.regionId) {
+        this.loadWilayaItems(this.user.regionId);
       }
     });
     this.object = "users";
@@ -69,8 +74,10 @@ export class UsersEditComponent implements OnInit {
     return new FormGroup({
       id: new FormControl(),
       username: new FormControl(),
-      firstName: new FormControl(),
-      lastName: new FormControl(),
+      matricule: new FormControl(),
+      fullName: new FormControl(),
+      email: new FormControl(),
+      phone: new FormControl(),
       roleSet: new FormControl(),
       regionId: new FormControl(),
       wilayaSet: new FormControl(),
@@ -96,13 +103,33 @@ export class UsersEditComponent implements OnInit {
         user.username,
         Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      firstName: new FormControl(user.firstName, Validators.required),
-      lastName: new FormControl(user.lastName.toUpperCase(), Validators.required),
+      matricule: new FormControl(user.matricule, Validators.required),
+      fullName: new FormControl(user.fullName, Validators.required),
+      email: new FormControl(user.email, Validators.required),
+      phone: new FormControl(user.phone, Validators.required),
       roleSet: new FormControl(user.roleSet, Validators.required),
       regionId: new FormControl(user.regionId, Validators.required),
       wilayaSet: new FormControl(user.wilayaSet, Validators.required),
       enabled: new FormControl(user.enabled)
     });
+  }
+
+  onClickUpdate() {
+    this.ldapUserService.findByLdapUser('username', this.user.username).subscribe(data => {
+      if (data) {
+        this.updateUser(data);
+      } else {
+        this.notyf.error('Aucun utilisateur trouvé.');
+      }
+    });
+  }
+
+  private updateUser(user: LdapUser) {
+    this.editForm.get('matricule').setValue(user.matricule);
+    this.editForm.get('username').setValue(user.accountName);
+    this.editForm.get('fullName').setValue(user.fullName);
+    this.editForm.get('email').setValue(user.mail);
+    this.editForm.get('phone').setValue(user.mobile);
   }
 
   public showList() {

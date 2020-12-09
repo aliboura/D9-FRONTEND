@@ -10,8 +10,10 @@ export class Site {
   audited: boolean;
   closed: boolean;
   userV1: string;
+  userOMV1: string;
   userV1Date: Date;
   userV2: string;
+  userOMV2: string;
   userV2Date: Date;
   powerSupplyConform: boolean;
   typeSiteId: string;

@@ -4,6 +4,7 @@ import {User} from "../../models/admin/user";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {API_URLs} from "../../../tools/api-url";
 import {Observable} from "rxjs";
+import {LdapUser} from "../../models/admin/ldap-user";
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +24,11 @@ export class UserService extends GenericService<User> {
       params: new HttpParams().set("username", username)
     });
   }
+
+  checkAppUser(param: string, value: string): Observable<LdapUser> {
+    return this.getHttp().get<LdapUser>(this.getApi(), {
+      params: new HttpParams().set(param, value)
+    });
+  }
+
 }
