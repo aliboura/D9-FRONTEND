@@ -116,10 +116,10 @@ export class UsersEditComponent implements OnInit {
 
   onClickUpdate() {
     this.ldapUserService.findByLdapUser('username', this.user.username).subscribe(data => {
-      if (data) {
-        this.updateUser(data);
+      if (data.success) {
+        this.updateUser(data.body);
       } else {
-        this.notyf.error('Aucun utilisateur trouvé.');
+        this.notyf.error(data.message);
       }
     });
   }

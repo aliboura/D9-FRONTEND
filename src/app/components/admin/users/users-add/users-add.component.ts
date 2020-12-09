@@ -123,10 +123,10 @@ export class UsersAddComponent implements OnInit {
     if (account) {
       if (!this.exist) {
         this.ldapUserService.findByLdapUser(this.findBy, account).subscribe(data => {
-          if (data) {
-            this.loadFormData(data);
+          if (data.success) {
+            this.loadFormData(data.body);
           } else {
-            this.notyf.error('Aucun utilisateur trouvé.');
+            this.notyf.error(data.message);
           }
           this.showLoading = false;
         });
