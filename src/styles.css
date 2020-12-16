@@ -568,11 +568,7 @@ td, th {
 
 .ng-select-table {
   padding: 0px !important;
-  width: 200px !important;
-}
-
-.mat-select-arrow {
-  margin: 0 28px !important;
+  width: 175px !important;
 }
 
 .card-mat-toolbar {

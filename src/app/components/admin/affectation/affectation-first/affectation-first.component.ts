@@ -66,9 +66,14 @@ export class AffectationFirstComponent implements OnInit {
     return this.formBuilder.group({
       siteId: new FormControl(null, Validators.required),
       engineerSiteV1: new FormControl(null, Validators.required),
+      engineerSiteV1FullName: new FormControl(null),
+      engineerSiteV1Mail: new FormControl(null),
       engineerSiteDateV1: new FormControl(new Date(), Validators.required),
       engineerOMV1: new FormControl(null),
-      engineerOMDateV1: new FormControl(null)
+      engineerOMV1FullName: new FormControl(null),
+      engineerOMV1Mail: new FormControl(null),
+      engineerOMDateV1: new FormControl(null),
+      siteCode: new FormControl(null)
     });
   }
 
@@ -106,11 +111,23 @@ export class AffectationFirstComponent implements OnInit {
   onSelectUser(event) {
     if (event) {
       this.user = event;
+      this.planningForm.get('engineerSiteV1Mail').setValue(this.user.email);
+      this.planningForm.get('engineerSiteV1FullName').setValue(this.user.fullName);
+      this.userCities = this.user.wilayaSet.map(x => x.label).toString();
+    }
+  }
+
+  onSelectUserOM(event) {
+    if (event) {
+      this.user = event;
+      this.planningForm.get('engineerOMV1Mail').setValue(this.user.email);
+      this.planningForm.get('engineerOMV1FullName').setValue(this.user.fullName);
       this.userCities = this.user.wilayaSet.map(x => x.label).toString();
     }
   }
 
   onSelectSite(event) {
+    this.planningForm.get('siteCode').setValue(event.codeSite);
     this.visitPlanningService.existSite(event.id).subscribe(exist => {
       if (exist === true) {
         this.notyf.error("Ce site est déja plannifier");

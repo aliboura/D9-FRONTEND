@@ -14,6 +14,7 @@ import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
 import {saveAs} from "file-saver";
 import {ReportService} from "../../../../business/services/sites/report.service";
+import {UtilsService} from "../../../../tools/utils.service";
 
 @Component({
   selector: 'app-audit-site-edit',
@@ -24,6 +25,7 @@ export class AuditSiteEditComponent implements OnInit {
   constructor(private auditSiteService: AuditSiteService,
               private decisionService: DecisionService,
               private reportService: ReportService,
+              private utilsService: UtilsService,
               public jwtTokenService: JwtTokenService,
               private cookieService: CookieService,
               private route: ActivatedRoute,
@@ -86,9 +88,6 @@ export class AuditSiteEditComponent implements OnInit {
   }
 
   getShowSecondVisit(): boolean {
-    console.log('currentSatusLabel: ', this.auditSite.currentSatusLabel);
-    console.log('firstVisit: ', this.auditSite.firstVisit);
-    console.log('secondVisit: ', this.auditSite.secondVisit);
     return (this.auditSite.currentSatusLabel === StatusEnum.Accepted
       || this.auditSite.currentSatusLabel === StatusEnum.NoConform
       || this.auditSite.currentSatusLabel === StatusEnum.InProgressValidateV2)
@@ -115,7 +114,7 @@ export class AuditSiteEditComponent implements OnInit {
   disabledSecondVisitBtn(): boolean {
     return this.auditSite.firstVisit
       && !this.auditSite.secondVisit
-      && this.auditSite.siteUserV2 === this.jwtTokenService.getUserName();
+      && this.utilsService.equalsWithIgnoreCase(this.auditSite.siteUserV2, this.jwtTokenService.getUserName());
   }
 
   getDateFormat(myDate: Date): string {
@@ -158,26 +157,17 @@ export class AuditSiteEditComponent implements OnInit {
   }
 
   isUserValidate(auditSite: AuditSite, username: string) {
-    if (auditSite.siteUserV1 === username) {
-      return true;
-    }
-    if (auditSite.siteUserOMV1 === username) {
-      return true;
-    }
-    if (auditSite.siteUserV2 === username) {
-      return true;
-    }
-    if (auditSite.siteUserOMV2 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV1, username)) {
       return true;
     }
     return false;
   }
 
   isUserCreate(auditSite: AuditSite, username: string) {
-    if (auditSite.siteUserV1 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV1, username)) {
       return false;
     }
-    if (auditSite.siteUserV2 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV2, username)) {
       return false;
     }
     return true;

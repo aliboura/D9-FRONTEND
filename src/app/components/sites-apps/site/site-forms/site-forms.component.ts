@@ -19,6 +19,7 @@ import {JwtTokenService} from "../../../../business/services/apps/jwt-token.serv
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
 import {ConvertService} from "../../../../business/services/admin/convert.service";
+import {UtilsService} from "../../../../tools/utils.service";
 
 @Component({
   selector: 'app-site-forms',
@@ -34,6 +35,7 @@ export class SiteFormsComponent implements OnInit {
               private router: Router,
               private screenSpinnerService: ScreenSpinnerService,
               private translate: TranslateService,
+              private utilsService: UtilsService,
               private sanitizer: DomSanitizer,
               private jwtTokenService: JwtTokenService,
               private cookieService: CookieService,
@@ -64,8 +66,8 @@ export class SiteFormsComponent implements OnInit {
     );
     this.obSite.subscribe(data => {
       this.site = data;
-      this.isMySite = this.site.userV1 === this.jwtTokenService.getUserName()
-        || this.site.userV2 === this.jwtTokenService.getUserName();
+      this.isMySite = this.utilsService.equalsWithIgnoreCase(this.site.userV1, this.jwtTokenService.getUserName())
+        || this.utilsService.equalsWithIgnoreCase(this.site.userV1, this.jwtTokenService.getUserName());
       this.type = this.site.powerSupplyConform ? '2' : '1';
       this.id = this.site.codeSite;
       this.sitesForms.codeSite = this.site.codeSite;
@@ -111,7 +113,9 @@ export class SiteFormsComponent implements OnInit {
       this.sitesForms.decisionId = null;
       this.sitesForms.decisionLabel = null;
     }
-    this.sitesFormsService.createForms(this.sitesForms)
+
+    const newForms = new SiteForms(this.sitesForms.codeSite, this.sitesForms.fileName, this.sitesForms.fileType, this.sitesForms.observation, this.sitesForms.formsFile, this.decision.id, this.decision.label);
+    this.sitesFormsService.createForms(newForms)
       .pipe(
         catchError(err => {
           this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));
@@ -145,10 +149,10 @@ export class SiteFormsComponent implements OnInit {
 
 
   hidePanel(site: Site): boolean {
-    if (site.userV1 && site.userV1 === this.jwtTokenService.getUserName()) {
+    if (this.utilsService.equalsWithIgnoreCase(site.userV1, this.jwtTokenService.getUserName())) {
       return false;
     }
-    if (site.userV2 && site.userV2 === this.jwtTokenService.getUserName()) {
+    if (this.utilsService.equalsWithIgnoreCase(site.userV2, this.jwtTokenService.getUserName())) {
       return false;
     }
     return true;

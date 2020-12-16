@@ -48,10 +48,10 @@
             [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+              {{item.fullName ? item.fullName :  item.lastName + ' ' + item.firstName}}
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              {{item.lastName + ' ' + item.firstName}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
           </ng-select>
         </div>
@@ -77,10 +77,10 @@
             [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              {{item.lastName + ' ' + item.firstName}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
           </ng-select>
         </div>
@@ -121,10 +121,10 @@
             [readonly]="visit.secondVisit"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              {{item.lastName + ' ' + item.firstName}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
           </ng-select>
         </div>
@@ -150,10 +150,10 @@
             [readonly]="visit.secondVisit"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{item.lastName ? item.lastName + ' ' + item.firstName : 'N/A'}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              {{item.lastName + ' ' + item.firstName}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
           </ng-select>
         </div>

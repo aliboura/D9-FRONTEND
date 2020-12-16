@@ -52,10 +52,10 @@
         style="width: 95%"
       >
         <ng-template ng-label-tmp let-item="item">
-          {{item.lastName + ' ' + item.firstName}}
+          {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
         </ng-template>
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-          {{item.lastName + ' ' + item.firstName}}
+          {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
         </ng-template>
       </ng-select>
     </div>
@@ -80,15 +80,15 @@
         bindLabel="lastName"
         formControlName="engineerOMV1"
         [placeholder]="'affect_v1.engineer_om' | translate"
-        (change)="onSelectUser($event)"
+        (change)="onSelectUserOM($event)"
         appendTo="body"
         style="width: 95%"
       >
         <ng-template ng-label-tmp let-item="item">
-          {{item.lastName + ' ' + item.firstName}}
+          {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
         </ng-template>
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-          {{item.lastName + ' ' + item.firstName}}
+          {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
         </ng-template>
       </ng-select>
     </div>

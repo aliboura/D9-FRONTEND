@@ -4,7 +4,8 @@
       <mat-divider class="margin-top-15"></mat-divider>
     </mat-card-title>
   </mat-card-header>
-  <mat-grid-list cols="8" rowHeight="60px" style="margin: 10px">
+  <mat-grid-list cols="4" rowHeight="60px">
+
     <mat-grid-tile [colspan]="1">
       <button
         type="button"
@@ -17,6 +18,35 @@
         </i>
         {{'COMMUN.BTN_NEW' | translate}}
       </button>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="3">
+      <div
+        style="border-left: 1px solid #e0e0e0;height: 40px;margin-right: 15px;"
+      ></div>
+      <mat-form-field style="width: 100%;">
+        <mat-icon matPrefix style="margin-right: 10px;color: #888;font-size: 20px">filter_list</mat-icon>
+        <mat-label>{{'COMMUN.PLACEHOLDER_SEARCH' | translate}}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="query"
+          name="query">
+
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                *ngIf="query"
+                type="button"
+                class="btn-search-reset"
+                (click)="resetFilter()"
+                style="margin: 5px;">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-button matSuffix mat-icon-button
+                type="button"
+                (click)="applyFilter()"
+                class="btn-search">
+          <mat-icon class="btn-search-icon">search</mat-icon>
+        </button>
+      </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
 
@@ -45,6 +75,11 @@
           <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.matricule}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> Nom d'utilisateur</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.username}} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="fullName">
           <mat-header-cell *matHeaderCellDef> Nom & Prénom</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
@@ -61,8 +96,8 @@
         </ng-container>
 
         <ng-container matColumnDef="enabled">
-          <mat-header-cell *matHeaderCellDef  style="flex: 0 0 10%;"> {{'users.enabled' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"  style="flex: 0 0 10%;">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{'users.enabled' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;">
             <span class="badge badge-success" *ngIf="element.enabled">{{'COMMUN.enable' | translate}} </span>
             <span class="badge badge-secondary" *ngIf="!element.enabled">{{'COMMUN.disable' | translate}} </span>
           </mat-cell>

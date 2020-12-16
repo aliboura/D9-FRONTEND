@@ -61,7 +61,9 @@
     </a>
   </li>
 
-  <li *ngIf="jwtTokenService.isResponsible()">
+  <li *ngIf="jwtTokenService.isSiteEngineer()
+              || jwtTokenService.isOMEngineer()
+              || jwtTokenService.isResponsible()">
     <a class="ripplelink tabmenuitem-link cursor-pointer"
        type="button"
        (click)="navigate('/reporting')"

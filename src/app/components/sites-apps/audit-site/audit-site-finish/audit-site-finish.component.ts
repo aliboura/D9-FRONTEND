@@ -19,6 +19,7 @@ import {AuditSteps} from "../../../../business/models/sites/audit-steps";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
+import {UtilsService} from "../../../../tools/utils.service";
 
 @Component({
   selector: 'app-audit-site-finish',
@@ -30,6 +31,7 @@ export class AuditSiteFinishComponent implements OnInit {
               private route: ActivatedRoute,
               private auditSiteService: AuditSiteService,
               private statusService: StatusService,
+              private utilsService: UtilsService,
               private decisionService: DecisionService,
               private screenSpinnerService: ScreenSpinnerService,
               private jwtTokenService: JwtTokenService,
@@ -124,12 +126,12 @@ export class AuditSiteFinishComponent implements OnInit {
       }
     }
     if (isSiteEngineer
-      && auditSite.siteUserV1 === this.jwtTokenService.getUserName()
+      && this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV1, this.jwtTokenService.getUserName())
       && auditSite.firstDecisionEngineerSite === undefined) {
       auditSite.firstDecisionEngineerSite = this.jwtTokenService.getFullName();
     }
     if (isOMEngineer
-      && auditSite.siteUserOMV1 === this.jwtTokenService.getUserName()
+      && this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV1, this.jwtTokenService.getUserName())
       && auditSite.firstDecisionEngineerOM === undefined) {
       auditSite.firstDecisionEngineerOM = this.jwtTokenService.getFullName();
     }
@@ -156,12 +158,12 @@ export class AuditSiteFinishComponent implements OnInit {
     }
 
     if (isSiteEngineer
-      && auditSite.siteUserV2 === this.jwtTokenService.getUserName()
+      && this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV2, this.jwtTokenService.getUserName())
       && auditSite.secondDecisionEngineerSite === undefined) {
       auditSite.secondDecisionEngineerSite = this.jwtTokenService.getFullName();
     }
     if (isOMEngineer
-      && auditSite.siteUserOMV2 === this.jwtTokenService.getUserName()
+      && this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV2, this.jwtTokenService.getUserName())
       && auditSite.secondDecisionEngineerOM === undefined) {
       auditSite.secondDecisionEngineerOM = this.jwtTokenService.getFullName();
     }
@@ -173,16 +175,16 @@ export class AuditSiteFinishComponent implements OnInit {
   }
 
   isUserValidate(auditSite: AuditSite, username: string) {
-    if (auditSite.siteUserV1 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV1, username)) {
       return true;
     }
-    if (auditSite.siteUserOMV1 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV1, username)) {
       return true;
     }
-    if (auditSite.siteUserV2 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV2, username)) {
       return true;
     }
-    if (auditSite.siteUserOMV2 === username) {
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV2, username)) {
       return true;
     }
     return false;

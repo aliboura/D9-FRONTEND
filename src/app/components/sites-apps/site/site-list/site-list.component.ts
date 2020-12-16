@@ -12,6 +12,7 @@ import {JwtTokenService} from "../../../../business/services/apps/jwt-token.serv
 import {UserService} from "../../../../business/services/admin/user.service";
 import {User} from "../../../../business/models/admin/user";
 import {WilayaRegion} from "../../../../business/models/referencial/wilaya-region";
+import {UtilsService} from "../../../../tools/utils.service";
 
 @Component({
   selector: 'app-site-list',
@@ -23,6 +24,7 @@ export class SiteListComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private userService: UserService,
               private siteService: SiteService,
+              private utilsService: UtilsService,
               private jwtTokenService: JwtTokenService,
               private screenSpinnerService: ScreenSpinnerService) {
   }
@@ -61,7 +63,11 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   showMySites(event) {
     let search = '';
     if (event.checked) {
-      search = 'visitPlanningList.engineerSiteV1==' + this.jwtTokenService.getUserName();
+      if (this.jwtTokenService.isSiteEngineer()) {
+        search = 'visitPlanningList.engineerSiteV1==' + this.jwtTokenService.getUserName();
+      } else if (this.jwtTokenService.isOMEngineer() && !this.jwtTokenService.isSiteEngineer()) {
+        search = 'visitPlanningList.engineerOMV1==' + this.jwtTokenService.getUserName();
+      }
     } else {
       search = 'regionId==' + this.user.regionId + ';wilaya.id=in=(' + this.wilayaItems.map(x => x.id).toString() + ')';
     }
@@ -134,10 +140,14 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   }
 
   disabledUploadBtn(site: Site): boolean {
-    if (site.userV1 === this.jwtTokenService.getUserName()) {
+    console.log('site.code: ' + site.codeSite);
+    console.log('site.userV1: ' + site.userV1);
+    console.log('getUserName: ' + this.jwtTokenService.getUserName());
+    if (this.utilsService.equalsWithIgnoreCase(site.userV1, this.jwtTokenService.getUserName())) {
       return false;
     }
-    if (site.userV2 === this.jwtTokenService.getUserName()) {
+
+    if (this.utilsService.equalsWithIgnoreCase(site.userV1, this.jwtTokenService.getUserName())) {
       return false;
     }
     return true;

@@ -115,12 +115,14 @@ export class UsersEditComponent implements OnInit {
   }
 
   onClickUpdate() {
+    this.screenSpinnerService.show();
     this.ldapUserService.findByLdapUser('username', this.user.username).subscribe(data => {
       if (data.success) {
         this.updateUser(data.body);
       } else {
         this.notyf.error(data.message);
       }
+      this.screenSpinnerService.hide(100);
     });
   }
 
