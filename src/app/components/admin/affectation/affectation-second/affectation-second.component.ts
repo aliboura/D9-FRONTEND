@@ -5,16 +5,12 @@ import {JwtTokenService} from "../../../../business/services/apps/jwt-token.serv
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
-import {SelectionModel} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
-import {User} from "../../../../business/models/admin/user";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {AuditSiteService} from "../../../../business/services/sites/audit-site.service";
 import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {Site} from "../../../../business/models/sites/site";
-import {SiteService} from "../../../../business/services/sites/site.service";
 import {VisitPlanning} from "../../../../business/models/sites/visit-planning";
 import {VisitPlanningService} from "../../../../business/services/sites/visit-planning.service";
 

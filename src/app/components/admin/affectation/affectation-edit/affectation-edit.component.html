@@ -18,7 +18,7 @@
         <h5 class="div-title">Site Information :</h5>
         <mat-form-field class="example-full-width">
           <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
-          <input matInput formControlName="codeSite" readonly>
+          <input matInput formControlName="siteCode" readonly>
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>{{'SITE.nomSite' | translate}}</mat-label>
@@ -45,10 +45,11 @@
             [placeholder]="'affect_v1.engineer_site' | translate"
             appendTo="body"
             style="width: 95%"
+            (change)="onSelectUserV1($event)"
             [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{item.fullName ? item.fullName :  item.lastName + ' ' + item.firstName}}
+              {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
@@ -73,6 +74,7 @@
             formControlName="engineerOMV1"
             [placeholder]="'affect_v1.engineer_om' | translate"
             appendTo="body"
+            (change)="onSelectUserOMV1($event)"
             style="width: 95%"
             [readonly]="visit.firstVisit"
           >
@@ -117,6 +119,7 @@
             formControlName="engineerSiteV2"
             [placeholder]="'SITE.engineerSiteV2' | translate"
             appendTo="body"
+            (change)="onSelectUserV2($event)"
             style="width: 95%"
             [readonly]="visit.secondVisit"
           >
@@ -145,6 +148,7 @@
             bindLabel="lastName"
             formControlName="engineerOMV2"
             [placeholder]="'SITE.engineerOMV2' | translate"
+            (change)="onSelectUserOMV2($event)"
             appendTo="body"
             style="width: 95%"
             [readonly]="visit.secondVisit"

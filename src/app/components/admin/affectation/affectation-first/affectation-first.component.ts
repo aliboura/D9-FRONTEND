@@ -113,6 +113,9 @@ export class AffectationFirstComponent implements OnInit {
       this.user = event;
       this.planningForm.get('engineerSiteV1Mail').setValue(this.user.email);
       this.planningForm.get('engineerSiteV1FullName').setValue(this.user.fullName);
+      if (!this.planningForm.get('engineerSiteDateV1').value) {
+        this.planningForm.get('engineerSiteDateV1').setValue(new Date());
+      }
       this.userCities = this.user.wilayaSet.map(x => x.label).toString();
     }
   }
@@ -122,6 +125,9 @@ export class AffectationFirstComponent implements OnInit {
       this.user = event;
       this.planningForm.get('engineerOMV1Mail').setValue(this.user.email);
       this.planningForm.get('engineerOMV1FullName').setValue(this.user.fullName);
+      if (!this.planningForm.get('engineerOMDateV1').value) {
+        this.planningForm.get('engineerOMDateV1').setValue(new Date());
+      }
       this.userCities = this.user.wilayaSet.map(x => x.label).toString();
     }
   }
