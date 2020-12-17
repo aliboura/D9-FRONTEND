@@ -25,7 +25,7 @@ export class UsersListComponent implements AfterViewInit {
   object = "users";
 
   datasource: MatTableDataSource<User>;
-  displayedColumns: string[] = ["id", "matricule","username", "fullName", "phone", "roles", "enabled", "action"];
+  displayedColumns: string[] = ["id", "matricule", "username", "fullName", "phone", "roles", "enabled", "action"];
 
   emptyData: boolean;
   resultsLength = 0;
@@ -48,21 +48,20 @@ export class UsersListComponent implements AfterViewInit {
         startWith(null),
         switchMap(() => {
           this.isLoadingResults = true;
-          if (search) {
-            return this.userService.searchLazyData(
+          return search ?
+            this.userService.searchLazyData(
               this.paginator.pageIndex,
               this.paginator.pageSize,
               "asc",
               "id",
               search
+            ) :
+            this.userService.findLazyData(
+              this.paginator.pageIndex,
+              this.paginator.pageSize,
+              "asc",
+              "id"
             );
-          }
-          return this.userService.findLazyData(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-            "asc",
-            "id"
-          );
         }),
         map(data => {
           this.isLoadingResults = false;

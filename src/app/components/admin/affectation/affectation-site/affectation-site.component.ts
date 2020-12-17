@@ -46,7 +46,9 @@ export class AffectationSiteComponent implements OnInit, AfterViewInit {
   userEngineerItems: User[];
   wilayaItems: WilayaRegion[];
   user: User;
-  wilayaSelected: number[];
+  wilayaSelected: number[] = [];
+  private cities: number[] = [];
+
   regionId: string;
   codeSite: string;
   advSearch: boolean;
@@ -121,7 +123,7 @@ export class AffectationSiteComponent implements OnInit, AfterViewInit {
 
   filter() {
     if (this.wilayaSelected.length === 0) {
-      this.wilayaSelected = this.wilayaItems.map(x => x.id);
+      this.cities = this.wilayaItems.map(x => x.id);
     }
     if (this.codeSite) {
       this.loadSiteData("1");
@@ -160,7 +162,7 @@ export class AffectationSiteComponent implements OnInit, AfterViewInit {
           switch (type) {
             case "1":
               return this.findByCode(
-                this.wilayaSelected,
+                this.wilayaSelected.length === 0 ? this.cities : this.wilayaSelected,
                 this.codeSite
               );
             case "2":

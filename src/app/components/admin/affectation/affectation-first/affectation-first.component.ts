@@ -65,6 +65,8 @@ export class AffectationFirstComponent implements OnInit {
   private initForm(): FormGroup {
     return this.formBuilder.group({
       siteId: new FormControl(null, Validators.required),
+      siteCode: new FormControl(null),
+      siteName: new FormControl(null),
       engineerSiteV1: new FormControl(null, Validators.required),
       engineerSiteV1FullName: new FormControl(null),
       engineerSiteV1Mail: new FormControl(null),
@@ -72,8 +74,7 @@ export class AffectationFirstComponent implements OnInit {
       engineerOMV1: new FormControl(null),
       engineerOMV1FullName: new FormControl(null),
       engineerOMV1Mail: new FormControl(null),
-      engineerOMDateV1: new FormControl(null),
-      siteCode: new FormControl(null)
+      engineerOMDateV1: new FormControl(null)
     });
   }
 
@@ -133,11 +134,14 @@ export class AffectationFirstComponent implements OnInit {
   }
 
   onSelectSite(event) {
-    this.planningForm.get('siteCode').setValue(event.codeSite);
+    console.log('event.siteName : ' + event.nomSite);
     this.visitPlanningService.existSite(event.id).subscribe(exist => {
       if (exist === true) {
         this.notyf.error("Ce site est déja plannifier");
         this.planningForm.get("siteId").setValue(null);
+      }else{
+        this.planningForm.get('siteCode').setValue(event.codeSite);
+        this.planningForm.get('siteName').setValue(event.nomSite);
       }
     });
   }

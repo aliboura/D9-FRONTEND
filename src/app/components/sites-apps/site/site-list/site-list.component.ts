@@ -140,9 +140,6 @@ export class SiteListComponent implements OnInit, AfterViewInit {
   }
 
   disabledUploadBtn(site: Site): boolean {
-    console.log('site.code: ' + site.codeSite);
-    console.log('site.userV1: ' + site.userV1);
-    console.log('getUserName: ' + this.jwtTokenService.getUserName());
     if (this.utilsService.equalsWithIgnoreCase(site.userV1, this.jwtTokenService.getUserName())) {
       return false;
     }
