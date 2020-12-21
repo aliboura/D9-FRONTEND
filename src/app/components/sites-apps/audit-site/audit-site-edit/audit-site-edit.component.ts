@@ -160,6 +160,15 @@ export class AuditSiteEditComponent implements OnInit {
     if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV1, username)) {
       return true;
     }
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV1, username)) {
+      return true;
+    }
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserV2, username)) {
+      return true;
+    }
+    if (this.utilsService.equalsWithIgnoreCase(auditSite.siteUserOMV2, username)) {
+      return true;
+    }
     return false;
   }
 

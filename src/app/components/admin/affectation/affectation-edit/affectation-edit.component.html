@@ -46,7 +46,6 @@
             appendTo="body"
             style="width: 95%"
             (change)="onSelectUserV1($event)"
-            [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
@@ -60,8 +59,6 @@
           <mat-label>{{'SITE.engineerSiteDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="siteDateV1"
                  formControlName="engineerSiteDateV1"
-                 [disabled]="visit.firstVisit"
-                 [readonly]="visit.firstVisit"
                  (focus)="siteDateV1.open()">
           <mat-datepicker-toggle matSuffix [for]="siteDateV1"></mat-datepicker-toggle>
           <mat-datepicker #siteDateV1></mat-datepicker>
@@ -76,7 +73,6 @@
             appendTo="body"
             (change)="onSelectUserOMV1($event)"
             style="width: 95%"
-            [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
@@ -90,8 +86,6 @@
           <mat-label>{{'SITE.engineerOMDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="OMDateV1"
                  formControlName="engineerOMDateV1"
-                 [disabled]="visit.firstVisit"
-                 [readonly]="visit.firstVisit"
                  (focus)="OMDateV1.open()">
           <mat-datepicker-toggle matSuffix [for]="OMDateV1"></mat-datepicker-toggle>
           <mat-datepicker #OMDateV1></mat-datepicker>
@@ -109,7 +103,7 @@
 
       </div>
 
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited && !visit.closed">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited">
         <h5 class="div-title">Deuxième Visite :</h5>
         <div class="example-full-width">
           <ng-select
@@ -119,10 +113,10 @@
             formControlName="engineerSiteV2"
             [placeholder]="'SITE.engineerSiteV2' | translate"
             appendTo="body"
-            (change)="onSelectUserV2($event)"
-            style="width: 95%"
+            [disabled]="visit.secondVisit"
             [readonly]="visit.secondVisit"
-          >
+            (change)="onSelectUserV2($event)"
+            style="width: 95%">
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
             </ng-template>
@@ -151,7 +145,7 @@
             (change)="onSelectUserOMV2($event)"
             appendTo="body"
             style="width: 95%"
-            [readonly]="visit.secondVisit"
+            [disabled]="visit.secondVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}

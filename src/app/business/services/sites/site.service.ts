@@ -80,4 +80,8 @@ export class SiteService extends GenericService<Site> {
         .set("username", userV1)
     });
   }
+
+  findByCodeSite(codeSite: String): Observable<Site> {
+    return this.getHttp().get<Site>(`${this.getApi()}?code=${codeSite}`);
+  }
 }

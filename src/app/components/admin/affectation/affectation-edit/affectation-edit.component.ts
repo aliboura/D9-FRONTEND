@@ -14,6 +14,7 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {TranslateService} from "@ngx-translate/core";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
+import {ApiResponse} from "../../../../business/models/admin/api-response";
 
 @Component({
   selector: 'app-affectation-edit',
@@ -39,6 +40,14 @@ export class AffectationEditComponent implements OnInit {
   visit: VisitPlanning;
   userEngineerItems: User[];
   userOMItems: User[];
+  engineerSiteV1Mail: string;
+  engineerOMV1Mail: string;
+  engineerSiteV1FullName: string;
+  engineerOMV1FullName: string;
+  engineerSiteV2Mail: string;
+  engineerOMV2Mail: string;
+  engineerSiteV2FullName: string;
+  engineerOMV2FullName: string;
 
 
   ngOnInit() {
@@ -50,8 +59,8 @@ export class AffectationEditComponent implements OnInit {
     );
     this.selected.subscribe(data => {
       this.visit = data;
-      this.loadFormsData(this.visit);
       this.loadUserItems(this.visit.regionId);
+      this.loadFormsData(this.visit);
     });
 
   }
@@ -73,6 +82,7 @@ export class AffectationEditComponent implements OnInit {
       siteId: new FormControl(visit.siteId, Validators.required),
       siteCode: new FormControl(visit.siteCode, Validators.required),
       siteName: new FormControl(visit.siteName, Validators.required),
+      audited: new FormControl(visit.audited),
       dateD1: new FormControl(this.getDateFormat(visit.dateD1), Validators.required),
       typeSiteLib: new FormControl(visit.typeSiteId),
       engineerSiteV1: new FormControl(visit.engineerSiteV1, Validators.required),
@@ -100,6 +110,7 @@ export class AffectationEditComponent implements OnInit {
       siteId: new FormControl(),
       siteCode: new FormControl(),
       siteName: new FormControl(),
+      audited: new FormControl(),
       dateD1: new FormControl(),
       typeSiteLib: new FormControl(),
       engineerSiteV1: new FormControl(),
@@ -124,16 +135,20 @@ export class AffectationEditComponent implements OnInit {
   update(modelForm: NgForm) {
     this.screenSpinnerService.show();
     this.visitPlanningService
-      .update(modelForm)
+      .updateVisitAndSendMail(modelForm)
       .pipe(
         catchError(err => {
           this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));
           return throwError(err);
         })
       )
-      .subscribe((data: VisitPlanning) => {
-        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-        this.showList();
+      .subscribe((data: ApiResponse<VisitPlanning>) => {
+        if (data.success) {
+          this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+          this.showList();
+        } else {
+          this.notyf.success(data.message);
+        }
       });
   }
 

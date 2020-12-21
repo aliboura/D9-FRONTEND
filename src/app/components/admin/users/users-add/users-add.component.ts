@@ -101,19 +101,7 @@ export class UsersAddComponent implements OnInit {
   onChangeFind(event) {
     if (event) {
       this.findBy = event.value;
-    }
-  }
-
-  existUsers() {
-    let account = this.addForm.controls['account'].value;
-    if (account) {
-      this.userService.checkAppUser(this.findBy, account).subscribe(data => {
-        if (data) {
-          this.exist = true;
-        } else {
-          this.exist = false;
-        }
-      });
+      this.addForm.reset();
     }
   }
 
@@ -121,20 +109,26 @@ export class UsersAddComponent implements OnInit {
     this.showLoading = true;
     let account = this.addForm.controls['account'].value;
     if (account) {
-      if (!this.exist) {
-        this.ldapUserService.findByLdapUser(this.findBy, account).subscribe(data => {
-          if (data.success) {
-            this.loadFormData(data.body);
-          } else {
-            this.notyf.error(data.message);
-          }
+      this.userService.checkAppUser(this.findBy, account).subscribe(data => {
+        if (data) {
           this.showLoading = false;
-        });
-      } else {
-        this.showLoading = false;
-        this.notyf.error('Cet Utilisateur exist déja.');
-      }
+          this.notyf.error('Cet Utilisateur exist déja.');
+        } else {
+          this.getUserFromLdap(account);
+        }
+      });
     }
+  }
+
+  private getUserFromLdap(account) {
+    this.ldapUserService.findByLdapUser(this.findBy, account).subscribe(data => {
+      if (data.success) {
+        this.loadFormData(data.body);
+      } else {
+        this.notyf.error(data.message);
+      }
+      this.showLoading = false;
+    });
   }
 
   private loadWilayaItems(id: string) {
@@ -160,6 +154,5 @@ export class UsersAddComponent implements OnInit {
   public showList() {
     this.router.navigate(['.'], {relativeTo: this.route.parent});
   }
-
 
 }

@@ -44,9 +44,11 @@ export class SiteAddComponent implements OnInit {
   regionItems: Observable<Region[]>;
   wilayaItems: Observable<WilayaRegion[]>;
   siteTypeItems: Observable<SiteType[]>;
+  codeValid: boolean;
 
   ngOnInit() {
     this.create = false;
+    this.codeValid = false;
     this.title = "Nouveaux site";
     this.object = "SITE";
     this.addForm = this.initForm();
@@ -76,24 +78,40 @@ export class SiteAddComponent implements OnInit {
     }
   }
 
+  onChangeCode() {
+    const code = this.addForm.get('codeSite').value;
+    if (code) {
+      this.siteService.findByCodeSite(code).subscribe(data => {
+        this.codeValid = !data;
+        if (!this.codeValid) {
+          this.notyf.error(`Le Code : ${code} existe déja.`);
+        }
+      });
+    }
+  }
+
   public showCreate() {
     this.addForm = this.initForm();
   }
 
   public save(value: NgForm) {
-    this.screenSpinnerService.show();
-    this.siteService.create(value)
-      .pipe(
-        catchError(err => {
-          this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));
-          return throwError(err);
-        })
-      )
-      .subscribe((data: Site) => {
-        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-        this.showList();
-        this.screenSpinnerService.hide(200);
-      });
+    if (this.codeValid) {
+      this.screenSpinnerService.show();
+      this.siteService.create(value)
+        .pipe(
+          catchError(err => {
+            this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));
+            return throwError(err);
+          })
+        )
+        .subscribe((data: Site) => {
+          this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+          this.showList();
+          this.screenSpinnerService.hide(200);
+        });
+    } else {
+      this.notyf.error(`Le Code ${this.addForm.get('codeSite').value} existe déja.`);
+    }
   }
 
   public showList() {

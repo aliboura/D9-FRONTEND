@@ -5,6 +5,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {API_URLs} from "../../../tools/api-url";
 import {Observable} from "rxjs";
 import {Pages} from "../../../shared/model-generic/pages";
+import {NgForm} from "@angular/forms";
+import {ApiResponse} from "../../models/admin/api-response";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,15 @@ export class VisitPlanningService extends GenericService<VisitPlanning> {
   getApi(): string {
     return API_URLs.APPS_URL + "/visits";
   }
+
+  createVisitAndSendMail(data: NgForm): Observable<ApiResponse<VisitPlanning>> {
+    return this.getHttp().post<ApiResponse<VisitPlanning>>(`${this.getApi()}/send`, data);
+  }
+
+  updateVisitAndSendMail(data: NgForm): Observable<ApiResponse<VisitPlanning>> {
+    return this.getHttp().put<ApiResponse<VisitPlanning>>(`${this.getApi()}/send`, data);
+  }
+
 
   findBySiteId(id: string): Observable<VisitPlanning> {
     return this.getHttp().get<VisitPlanning>(this.getApi(), {

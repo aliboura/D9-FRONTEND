@@ -49,7 +49,6 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
-    const token: string = this.cookieService.get(STATIC_DATA.TOKEN);
     this.isEngineer = this.jwtTokenService.isSiteEngineer();
     this.screenSpinnerService.hide(200);
   }

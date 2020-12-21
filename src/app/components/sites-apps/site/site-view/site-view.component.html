@@ -152,6 +152,14 @@
 
       <span class="example-spacer"></span>
 
+      <button type="button"
+              class="btn btn-danger-outline btn-icon"
+              [disabled]="disabledUploadBtn()"
+              (click)="goToForms()">
+        <clr-icon shape="pin"></clr-icon>
+        Joindre des documents
+      </button>
+
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

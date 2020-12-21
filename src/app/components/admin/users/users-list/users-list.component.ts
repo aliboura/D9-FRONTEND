@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, ViewChild} from '@angular/core';
 import {UserService} from "../../../../business/services/admin/user.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -9,6 +9,8 @@ import {User} from "../../../../business/models/admin/user";
 import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AppRole} from "../../../../business/models/admin/app-role";
+import {NOTYF} from "../../../../tools/notyf.token";
+import Notyf from "notyf/notyf";
 
 @Component({
   selector: 'app-users-list',
@@ -19,6 +21,7 @@ export class UsersListComponent implements AfterViewInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public userService: UserService,
+              @Inject(NOTYF) private notyf: Notyf,
               private screenSpinnerService: ScreenSpinnerService) {
   }
 
@@ -110,6 +113,20 @@ export class UsersListComponent implements AfterViewInit {
     this.screenSpinnerService.show();
     this.query = null;
     this.loadAllData();
+  }
+
+  disabledUser(user: User) {
+    user.enabled = false;
+    this.userService.updateModel(user).subscribe(data => {
+      this.notyf.success('Utilisateur ' + user.fullName + ' est désactivé.');
+    });
+  }
+
+  enabledUser(user: User) {
+    user.enabled = true;
+    this.userService.updateModel(user).subscribe(data => {
+      this.notyf.success('Utilisateur ' + user.fullName + ' est activé.');
+    });
   }
 
 }

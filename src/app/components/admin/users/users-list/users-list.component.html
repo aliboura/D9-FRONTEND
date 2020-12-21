@@ -118,10 +118,18 @@
             </button>
 
             <button type="button"
+                    *ngIf="element.enabled"
                     class="btn btn-danger-outline btn-icon btn-sm"
-                    (click)="goToSite(element.username)"
-                    [matTooltip]="'COMMUN.TOOLTIP_DELETE' | translate">
+                    (click)="disabledUser(element)"
+                    matTooltip="Désactiver">
               <clr-icon shape="trash"></clr-icon>
+            </button>
+            <button type="button"
+                    *ngIf="!element.enabled"
+                    class="btn btn-success-outline btn-icon btn-sm"
+                    (click)="enabledUser(element)"
+                    matTooltip="Activer">
+              <clr-icon shape="check"></clr-icon>
             </button>
           </mat-cell>
         </ng-container>

@@ -7,6 +7,8 @@ import {switchMap} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {VisitPlanningService} from "../../../../business/services/sites/visit-planning.service";
 import {VisitPlanning} from "../../../../business/models/sites/visit-planning";
+import {UtilsService} from "../../../../tools/utils.service";
+import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 
 @Component({
   selector: 'app-site-view',
@@ -18,6 +20,8 @@ export class SiteViewComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private datePipe: DatePipe,
+              private utilsService: UtilsService,
+              private jwtTokenService: JwtTokenService,
               private visitPlanningService: VisitPlanningService) {
   }
 
@@ -54,5 +58,19 @@ export class SiteViewComponent implements OnInit {
     return this.datePipe.transform(myDate, 'dd-MM-yyyy h:mm a');
   }
 
+  disabledUploadBtn(): boolean {
+    if (this.utilsService.equalsWithIgnoreCase(this.site.userV1, this.jwtTokenService.getUserName())) {
+      return false;
+    }
+
+    if (this.utilsService.equalsWithIgnoreCase(this.site.userV1, this.jwtTokenService.getUserName())) {
+      return false;
+    }
+    return true;
+  }
+
+  goToForms() {
+    this.router.navigate(['forms', btoa("" + this.site.id)], {relativeTo: this.route.parent});
+  }
 
 }

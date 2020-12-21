@@ -86,7 +86,7 @@ export class LoginService {
           }
           this.screenSpinnerService.hide(200);
         } else {
-          this.notyf.error(`l'utilisateur : ${user.lastName} ${user.firstName} est désactivé`);
+          this.notyf.error(`l'utilisateur : ${user.fullName} est désactivé`);
           this.screenSpinnerService.hide(200);
         }
       } else {

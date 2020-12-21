@@ -15,6 +15,7 @@ import {catchError, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operat
 import {VisitPlanningService} from "../../../../business/services/sites/visit-planning.service";
 import {TranslateService} from "@ngx-translate/core";
 import {VisitPlanning} from "../../../../business/models/sites/visit-planning";
+import {ApiResponse} from "../../../../business/models/admin/api-response";
 
 @Component({
   selector: 'app-affectation-first',
@@ -139,7 +140,7 @@ export class AffectationFirstComponent implements OnInit {
       if (exist === true) {
         this.notyf.error("Ce site est déja plannifier");
         this.planningForm.get("siteId").setValue(null);
-      }else{
+      } else {
         this.planningForm.get('siteCode').setValue(event.codeSite);
         this.planningForm.get('siteName').setValue(event.nomSite);
       }
@@ -148,17 +149,21 @@ export class AffectationFirstComponent implements OnInit {
 
   create(modelForm: NgForm) {
     this.screenSpinnerService.show();
-    this.visitPlanningService.create(modelForm)
+    this.visitPlanningService.createVisitAndSendMail(modelForm)
       .pipe(
         catchError(err => {
           this.notyf.error(this.translate.instant("COMMUN.ERROR_MSG"));
           return throwError(err);
         })
       )
-      .subscribe((data: VisitPlanning) => {
-        this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
-        this.showList();
-        this.screenSpinnerService.hide(200);
+      .subscribe((data: ApiResponse<VisitPlanning>) => {
+        if (data.success) {
+          this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
+          this.showList();
+          this.screenSpinnerService.hide(200);
+        } else {
+          this.notyf.error(data.message);
+        }
       });
   }
 
