@@ -40,14 +40,6 @@ export class AffectationEditComponent implements OnInit {
   visit: VisitPlanning;
   userEngineerItems: User[];
   userOMItems: User[];
-  engineerSiteV1Mail: string;
-  engineerOMV1Mail: string;
-  engineerSiteV1FullName: string;
-  engineerOMV1FullName: string;
-  engineerSiteV2Mail: string;
-  engineerOMV2Mail: string;
-  engineerSiteV2FullName: string;
-  engineerOMV2FullName: string;
 
 
   ngOnInit() {
@@ -83,6 +75,9 @@ export class AffectationEditComponent implements OnInit {
       siteCode: new FormControl(visit.siteCode, Validators.required),
       siteName: new FormControl(visit.siteName, Validators.required),
       audited: new FormControl(visit.audited),
+      closed: new FormControl(visit.closed),
+      firstVisit: new FormControl(visit.firstVisit),
+      secondVisit: new FormControl(visit.secondVisit),
       dateD1: new FormControl(this.getDateFormat(visit.dateD1), Validators.required),
       typeSiteLib: new FormControl(visit.typeSiteId),
       engineerSiteV1: new FormControl(visit.engineerSiteV1, Validators.required),
@@ -111,6 +106,9 @@ export class AffectationEditComponent implements OnInit {
       siteCode: new FormControl(),
       siteName: new FormControl(),
       audited: new FormControl(),
+      closed: new FormControl(),
+      firstVisit: new FormControl(),
+      secondVisit: new FormControl(),
       dateD1: new FormControl(),
       typeSiteLib: new FormControl(),
       engineerSiteV1: new FormControl(),

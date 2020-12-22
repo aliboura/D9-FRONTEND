@@ -71,11 +71,11 @@ export class LoginService {
     const jwtHelper = new JwtHelperService();
     const username = jwtHelper.decodeToken(token).sub;
     const fullName = jwtHelper.decodeToken(token).name;
+    this.cookieService.set(STATIC_DATA.TOKEN, token);
     this.userService.findByUserName(username).subscribe(user => {
       if (user) {
         if (user.enabled) {
           if (user.roleSet && user.roleSet.length > 0) {
-            this.cookieService.set(STATIC_DATA.TOKEN, token);
             this.cookieService.set(STATIC_DATA.USER_NAME, username);
             this.cookieService.set(STATIC_DATA.FULL_NAME, fullName);
             this.cookieService.set(STATIC_DATA.ROLES, user.roleSet.map(role => 'ROLE_' + role.label).toString());
@@ -83,14 +83,17 @@ export class LoginService {
             this.router.navigateByUrl('/home');
           } else {
             this.notyf.error(`Veuillez contactez l'adminstrateur pour vous affeter un role`);
+            this.cookieService.deleteAll();
           }
           this.screenSpinnerService.hide(200);
         } else {
           this.notyf.error(`l'utilisateur : ${user.fullName} est désactivé`);
+          this.cookieService.deleteAll();
           this.screenSpinnerService.hide(200);
         }
       } else {
         this.notyf.error(`cet utilisateur n'a pas un accés veuillez contacter l'admin`);
+        this.cookieService.deleteAll();
         this.screenSpinnerService.hide(200);
       }
     });

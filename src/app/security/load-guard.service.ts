@@ -15,14 +15,28 @@ export class LoadGuardService implements CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    const token = this.cookieService.get(STATIC_DATA.TOKEN);
-    if (route.path === 'decisions' || route.path === 'categories' || route.path === 'sub-categories'
-      || route.path === 'status' || route.path == 'decisionTypes') {
-      if (!this.jwtTokenService.isAdmin()) {
-        this.router.navigate(['apps-exceptions', '2']);
-        return false;
+    console.log('path: ', route.path);
+    let check = true;
+    if (route.path === 'referencial' || route.path === 'admin') {
+      if (this.jwtTokenService.isAdmin()) {
+        check = true;
+      } else {
+        check = false;
+      }
+    } else if (route.path === 'sites-apps' || route.path === 'reporting') {
+      if (this.jwtTokenService.isSiteEngineer()) {
+        check = true;
+      } else if (this.jwtTokenService.isOMEngineer()) {
+        check = true;
+      } else if (this.jwtTokenService.isResponsible()) {
+        check = true;
+      } else {
+        check = false;
       }
     }
-    return true;
+    if (!check) {
+      this.router.navigate(['apps-exceptions', '2']);
+    }
+    return check;
   }
 }

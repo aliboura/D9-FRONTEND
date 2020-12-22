@@ -1,3 +1,20 @@
+<mat-toolbar class="app-toolbar">
+  <button mat-icon-button
+          class="sidebar-logout-btn"
+          type="button"
+          routerLink="/home">
+       <span class="material-icons" style="color: #fafafa;font-size: 36px">
+          keyboard_arrow_left
+        </span>
+  </button>
+  <i class="material-icons" style="margin: 10px;color: #fafafa">
+    contacts
+  </i>
+
+  <h1 class="example-app-name"> User Profile.</h1>
+
+</mat-toolbar>
+<mat-divider></mat-divider>
 <mat-card class="top-bordred margin-20">
   <mat-card-header>
     <mat-card-title>{{ 'users.title' |translate }} :
@@ -5,14 +22,15 @@
     </mat-card-title>
     <div class="card-back-right-btn">
       <button type="button"
+              routerLink="/home"
               class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
         <clr-icon shape="times"></clr-icon>
       </button>
     </div>
   </mat-card-header>
   <div class="clr-row" style="margin: 20px;padding-top: 20px;">
-    <div class="clr-col-12 clr-col-sm-12 clr-col-md-9 clr-col-lg-9"
-         style="border-right: 1px solid #e0e0e0;padding-right: 10px">
+    <div class="clr-col-12 clr-col-sm-12 clr-col-md-12 clr-col-lg-12"
+         style="padding-right: 10px">
       <div class="crud-container">
         <mat-form-field>
           <mat-label>Matricule</mat-label>
@@ -87,8 +105,6 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="clr-col-12 clr-col-sm-12 clr-col-md-3 clr-col-lg-3">
-      <h1>TEST PHOTO</h1>
-    </div>
   </div>
 </mat-card>
+

@@ -29,6 +29,7 @@ import {JwtTokenService} from "./business/services/apps/jwt-token.service";
 import {TemplatesModule} from "./templates/templates.module";
 import {HelpsComponent} from "./helps/helps.component";
 import {MatVideoModule} from "mat-video";
+import {UsersProfilComponent} from "./users-profil/users-profil.component";
 
 // @ts-ignore
 @NgModule({
@@ -36,7 +37,8 @@ import {MatVideoModule} from "mat-video";
     AppComponent,
     LoginComponent,
     ExceptionsComponent,
-    HelpsComponent
+    HelpsComponent,
+    UsersProfilComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,8 @@
       <mat-card-title>Plannification Info:
         <mat-divider class="margin-top-15"></mat-divider>
       </mat-card-title>
-      <span style="font-size: 12px;color: #848484;"> Région : {{visit.regionId}} - Wilaya : {{visit.wilayaLabel}}</span>
+      <span style="font-size: 12px;color: #848484;" *ngIf="visit"> Région : {{visit.regionId}}
+        - Wilaya : {{visit.wilayaLabel}}</span>
       <div class="card-back-right-btn">
         <button type="button"
                 (click)="showList()"
@@ -34,7 +35,7 @@
         </mat-form-field>
 
       </div>
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 view-div no-right-border no-border-radius">
         <h5 class="div-title">Première Visite: </h5>
         <div class="example-full-width">
           <ng-select
@@ -91,19 +92,25 @@
           <mat-datepicker #OMDateV1></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 flex-center" *ngIf="!visit.audited">
-        <img
-          type="image/svg+xml"
-          src="./././assets/images/planner.svg"
-          width="75px"
-          class="logo-style"
-        />
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4  view-div no-border-radius"
+           *ngIf="visit && !visit.audited">
+        <h5 class="div-title">Deuxième Visite :</h5>
         <br/>
-        <h1 style="color: #cac8c8">No Planified.</h1>
-
+        <div class="example-full-width flex-center">
+          <img
+            type="image/svg+xml"
+            src="./././assets/images/planner.svg"
+            width="75px"
+            class="logo-style"
+            style="margin-top: 25px"
+          />
+          <br/>
+          <h1 style="color: #cac8c8">No Planified.</h1>
+        </div>
       </div>
 
-      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4" *ngIf="visit.audited">
+      <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 view-div no-border-radius"
+           *ngIf="visit && visit.audited">
         <h5 class="div-title">Deuxième Visite :</h5>
         <div class="example-full-width">
           <ng-select

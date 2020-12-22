@@ -7,31 +7,26 @@ const routes: Routes = [
   {
     path: "categories",
     canActivate: [AuthGuardService],
-    canLoad: [LoadGuardService],
     loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule)
   },
   {
     path: "decisions",
     canActivate: [AuthGuardService],
-    canLoad: [LoadGuardService],
     loadChildren: () => import('./decision/decision.module').then(m => m.DecisionModule)
   },
   {
     path: "decisionTypes",
     canActivate: [AuthGuardService],
-    canLoad: [LoadGuardService],
     loadChildren: () => import('./decision-type/decision-type.module').then(m => m.DecisionTypeModule)
   },
   {
     path: "status",
     canActivate: [AuthGuardService],
-    canLoad: [LoadGuardService],
     loadChildren: () => import('./status/status.module').then(m => m.StatusModule)
   },
   {
     path: "sub-categories",
     canActivate: [AuthGuardService],
-    canLoad: [LoadGuardService],
     loadChildren: () => import('./sub-categories/sub-categories.module').then(m => m.SubCategoriesModule)
   }
 ];

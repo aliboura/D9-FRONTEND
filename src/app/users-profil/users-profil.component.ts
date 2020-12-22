@@ -1,14 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {User} from "../../../../business/models/admin/user";
-import {UserService} from "../../../../business/services/admin/user.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {switchMap} from "rxjs/operators";
+import {User} from "../business/models/admin/user";
+import {UserService} from "../business/services/admin/user.service";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
-import {ScreenSpinnerService} from "../../../../business/services/apps/screen-spinner.service";
-import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
+import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
 import * as jwt_decode from "jwt-decode";
-import {STATIC_DATA} from "../../../../tools/static-data";
+import {STATIC_DATA} from "../tools/static-data";
 
 @Component({
   selector: 'app-users-profil',

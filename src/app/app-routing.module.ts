@@ -4,6 +4,7 @@ import {LoginComponent} from "./security/login/login.component";
 import {AuthGuardService} from "./security/auth-guard.service";
 import {ExceptionsComponent} from "./exceptions/exceptions.component";
 import {HelpsComponent} from "./helps/helps.component";
+import {UsersProfilComponent} from "./users-profil/users-profil.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: "helps",
     component: HelpsComponent
+  },
+  {
+    path: "profile/:username",
+    component: UsersProfilComponent
   },
   {
     path: "apps-exceptions/:code",
