@@ -144,7 +144,7 @@ export class AffectationSiteComponent implements OnInit, AfterViewInit {
   reset() {
     this.user = null;
     this.wilayaSelected = [];
-    this.codeSite = "";
+    this.codeSite = null;
     this.fromDate = null;
     this.toDate = null;
     this.loadSiteData("");

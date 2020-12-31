@@ -182,4 +182,8 @@ export class AuditSiteEditComponent implements OnInit {
     return true;
   }
 
+  public showList() {
+    this.router.navigate(['.'], {relativeTo: this.route.parent});
+  }
+
 }

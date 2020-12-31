@@ -4,13 +4,16 @@ import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../tools/static-data";
 import * as jwt_decode from "jwt-decode";
 import {RoleService} from "../admin/role.service";
+import {Base64} from 'js-base64';
+import {EncrDecrService} from "../../../security/encr-decr.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtTokenService {
 
-   constructor(private roleService: RoleService,
+  constructor(private roleService: RoleService,
+              private encrDecrService: EncrDecrService,
               private cookieService: CookieService) {
   }
 
@@ -22,7 +25,7 @@ export class JwtTokenService {
   public isSiteEngineer(): boolean {
     const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x === ROLES_CODES.ENGINEER_SITE).length > 0;
+      return roles.filter(x => Base64.decode(x) === ROLES_CODES.ENGINEER_SITE).length > 0;
     }
     return false;
   }
@@ -30,7 +33,7 @@ export class JwtTokenService {
   public isAdmin(): boolean {
     const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x === ROLES_CODES.ADMIN_ROLE).length > 0;
+      return roles.filter(x => Base64.decode(x) === ROLES_CODES.ADMIN_ROLE).length > 0;
     }
     return false;
   }
@@ -38,7 +41,7 @@ export class JwtTokenService {
   public isOMEngineer(): boolean {
     const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x === ROLES_CODES.ENGINEER_OM).length > 0;
+      return roles.filter(x => Base64.decode(x) === ROLES_CODES.ENGINEER_OM).length > 0;
     }
     return false;
   }
@@ -46,7 +49,7 @@ export class JwtTokenService {
   public isResponsible(): boolean {
     const roles = this.getUserRole();
     if (roles) {
-      return roles.filter(x => x === ROLES_CODES.RESPONSABLE).length > 0;
+      return roles.filter(x => Base64.decode(x) === ROLES_CODES.RESPONSABLE).length > 0;
     }
     return false;
   }

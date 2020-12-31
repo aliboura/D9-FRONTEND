@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {LoginService} from "../login.service";
 import {Router} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {NOTYF} from "../../tools/notyf.token";
+import Notyf from "notyf/notyf";
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private router: Router,
               private formBuilder: FormBuilder,
+              @Inject(NOTYF) private notyf: Notyf,
               private screenSpinnerService: ScreenSpinnerService) {
     this.showSpinner();
   }
@@ -42,7 +45,19 @@ export class LoginComponent implements OnInit {
 
   public onLogin(user: NgForm) {
     this.startLogin = true;
-    this.loginService.onLogin(user);
+    this.screenSpinnerService.show();
+    return this.loginService.postLogin(user)
+      .subscribe(
+        data => {
+          if (data.success) {
+            this.loginService.saveToken(data);
+            this.screenSpinnerService.hide(200);
+          } else {
+            this.notyf.error(data.message);
+            this.screenSpinnerService.hide(200);
+          }
+        }
+      );
   }
 
   private showSpinner() {

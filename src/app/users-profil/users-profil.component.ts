@@ -33,7 +33,7 @@ export class UsersProfilComponent implements OnInit {
       this.user.matricule = decoded.matricule;
       this.user.fullName = decoded.name;
       this.user.title = decoded.title;
-      this.user.email = decoded.mail;
+      this.user.email = `${decoded.sub}@DJEZZY.DZ`;
       this.user.phone = decoded.mobile;
       this.user.department = decoded.department;
       this.user.address = decoded.address;

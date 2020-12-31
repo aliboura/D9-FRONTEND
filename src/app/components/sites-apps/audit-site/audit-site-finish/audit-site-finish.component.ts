@@ -78,6 +78,7 @@ export class AuditSiteFinishComponent implements OnInit {
   }
 
   public validateAudit() {
+    this.screenSpinnerService.show();
     if (!this.auditSite.firstVisit) {
       this.auditSite.firstVisit = true;
     } else {
@@ -88,6 +89,7 @@ export class AuditSiteFinishComponent implements OnInit {
         this.auditSite = data;
         this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
         this.router.navigate(['.'], {relativeTo: this.route.parent});
+        this.screenSpinnerService.hide(200);
       });
   }
 

@@ -14,6 +14,9 @@ import {JwtToken} from "../business/models/admin/jwt-token";
 import {CookieService} from "ngx-cookie-service";
 import {UserService} from "../business/services/admin/user.service";
 import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
+import {Base64} from 'js-base64';
+import {EncrDecrService} from "./encr-decr.service";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -28,46 +31,34 @@ export class LoginService {
     private userService: UserService,
     private translate: TranslateService,
     private cookieService: CookieService,
+    private encrDecrService: EncrDecrService,
     private screenSpinnerService: ScreenSpinnerService,
     @Inject(NOTYF) private notyf: Notyf
   ) {
   }
 
-
-  public onLogin(user: NgForm) {
-    this.screenSpinnerService.show();
-    return this.http
-      .post<JwtToken>(API_URLs.AUTH_URL + "/login", user)
-      .subscribe(
-        data => {
-          if (data.success) {
-            this.saveToken(data);
-          } else {
-            this.notyf.error(data.message);
-            this.screenSpinnerService.hide(200);
-          }
-        }
-      );
+  postLogin(user: NgForm) {
+    return this.http.post<JwtToken>(API_URLs.AUTH_URL + "/login", user);
   }
 
-  public onRefresh(token: JwtToken) {
+  onRefresh() {
     return this.http
-      .post<JwtToken>(API_URLs.AUTH_URL + "/refresh", token)
-      .subscribe(
-        data => {
-          this.jwtToken = data;
-          if (this.jwtToken !== null) {
-            this.saveToken(this.jwtToken);
-            this.notyf.success('Token Refresh');
+      .post<JwtToken>(API_URLs.AUTH_URL + "/refresh", {}, {withCredentials: true})
+      .pipe(
+        map((jwtToken) => {
+            if (jwtToken.success) {
+              this.saveToken(this.jwtToken);
+              this.notyf.success('Token Refresh');
+              return jwtToken;
+            }
           }
-        }
-      );
+        ));
   }
+
 
   public saveToken(jwt: JwtToken) {
-
     this.clearCookies();
-    const token = "Bearer-" + jwt.body;
+    const token = jwt.body;
     const jwtHelper = new JwtHelperService();
     const username = jwtHelper.decodeToken(token).sub;
     const fullName = jwtHelper.decodeToken(token).name;
@@ -78,30 +69,25 @@ export class LoginService {
           if (user.roleSet && user.roleSet.length > 0) {
             this.cookieService.set(STATIC_DATA.USER_NAME, username);
             this.cookieService.set(STATIC_DATA.FULL_NAME, fullName);
-            this.cookieService.set(STATIC_DATA.ROLES, user.roleSet.map(role => 'ROLE_' + role.label).toString());
+            const roles = user.roleSet.map(role => Base64.encode('ROLE_' + role.label));
+            this.cookieService.set(STATIC_DATA.ROLES, roles.toString());
             this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
             this.router.navigateByUrl('/home');
           } else {
             this.notyf.error(`Veuillez contactez l'adminstrateur pour vous affeter un role`);
             this.cookieService.deleteAll();
           }
-          this.screenSpinnerService.hide(200);
         } else {
           this.notyf.error(`l'utilisateur : ${user.fullName} est désactivé`);
           this.cookieService.deleteAll();
-          this.screenSpinnerService.hide(200);
         }
       } else {
         this.notyf.error(`cet utilisateur n'a pas un accés veuillez contacter l'admin`);
         this.cookieService.deleteAll();
-        this.screenSpinnerService.hide(200);
       }
     });
   }
 
-  public getToken() {
-    return this.cookieService.get(STATIC_DATA.TOKEN);
-  }
 
   public getUserName() {
     return this.cookieService.get(STATIC_DATA.USER_NAME);
@@ -123,6 +109,24 @@ export class LoginService {
       this.jwtToken = null;
       this.clearCookies();
     });
+  }
+
+
+  private refreshTokenTimeout;
+
+  private startRefreshTokenTimer() {
+    // parse json object from base64 encoded jwt token
+    const jwtToken = this.cookieService.get(STATIC_DATA.TOKEN);
+
+    // set a timeout to refresh the token a minute before it expires
+    const jwtHelper = new JwtHelperService();
+    const expires = new Date(jwtHelper.decodeToken(jwtToken).exp * 1000);
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    this.refreshTokenTimeout = setTimeout(() => this.onRefresh().subscribe(), timeout);
+  }
+
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
   }
 
 }

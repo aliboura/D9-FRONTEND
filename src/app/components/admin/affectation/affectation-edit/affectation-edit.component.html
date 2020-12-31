@@ -47,6 +47,8 @@
             appendTo="body"
             style="width: 95%"
             (change)="onSelectUserV1($event)"
+            [disabled]="visit.firstVisit"
+            [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
@@ -60,7 +62,9 @@
           <mat-label>{{'SITE.engineerSiteDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="siteDateV1"
                  formControlName="engineerSiteDateV1"
-                 (focus)="siteDateV1.open()">
+                 (focus)="siteDateV1.open()"
+                 [disabled]="visit.firstVisit"
+                 [readonly]="visit.firstVisit">
           <mat-datepicker-toggle matSuffix [for]="siteDateV1"></mat-datepicker-toggle>
           <mat-datepicker #siteDateV1></mat-datepicker>
         </mat-form-field>
@@ -74,6 +78,7 @@
             appendTo="body"
             (change)="onSelectUserOMV1($event)"
             style="width: 95%"
+            [readonly]="visit.firstVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}
@@ -87,13 +92,15 @@
           <mat-label>{{'SITE.engineerOMDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="OMDateV1"
                  formControlName="engineerOMDateV1"
-                 (focus)="OMDateV1.open()">
+                 (focus)="OMDateV1.open()"
+                 [disabled]="visit.firstVisit"
+                 [readonly]="visit.firstVisit">
           <mat-datepicker-toggle matSuffix [for]="OMDateV1"></mat-datepicker-toggle>
           <mat-datepicker #OMDateV1></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4  view-div no-border-radius"
-           *ngIf="visit && !visit.audited">
+           *ngIf="(visit && !visit.audited) || (visit && visit.closed && visit.firstVisit && !visit.secondVisit)">
         <h5 class="div-title">Deuxième Visite :</h5>
         <br/>
         <div class="example-full-width flex-center">
@@ -110,7 +117,8 @@
       </div>
 
       <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 view-div no-border-radius"
-           *ngIf="visit && visit.audited">
+           *ngIf="(visit && visit.closed && visit.firstVisit && visit.secondVisit)
+           || (visit && !visit.closed && visit.firstVisit && !visit.secondVisit)">
         <h5 class="div-title">Deuxième Visite :</h5>
         <div class="example-full-width">
           <ng-select
@@ -153,6 +161,7 @@
             appendTo="body"
             style="width: 95%"
             [disabled]="visit.secondVisit"
+            [readonly]="visit.secondVisit"
           >
             <ng-template ng-label-tmp let-item="item">
               {{item.fullName ? item.fullName : item.lastName + ' ' + item.firstName}}

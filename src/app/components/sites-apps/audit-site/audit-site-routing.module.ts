@@ -8,7 +8,7 @@ import {AuditSiteSearchComponent} from "./audit-site-search/audit-site-search.co
 import {AuditSiteStepsComponent} from "./audit-site-steps/audit-site-steps.component";
 import {AuditSiteFinishComponent} from "./audit-site-finish/audit-site-finish.component";
 import {AuditSiteSecondVisitComponent} from "./audit-site-second-visit/audit-site-second-visit.component";
-import {LoadGuardService} from "../../../security/load-guard.service";
+import {AuthGuardService} from "../../../security/auth-guard.service";
 
 
 const routes: Routes = [
@@ -22,31 +22,30 @@ const routes: Routes = [
       },
       {
         path: "add/:id",
-        canLoad: [LoadGuardService],
+        canActivate: [AuthGuardService],
         component: AuditSiteAddComponent
       },
       {
         path: "steps/:id",
-        canLoad: [LoadGuardService],
+        canActivate: [AuthGuardService],
         component: AuditSiteStepsComponent
       }, {
         path: "second/:id",
-        canLoad: [LoadGuardService],
+        canActivate: [AuthGuardService],
         component: AuditSiteSecondVisitComponent
       },
       {
         path: "finish/:id",
-        canLoad: [LoadGuardService],
+        canActivate: [AuthGuardService],
         component: AuditSiteFinishComponent
       },
       {
         path: "search",
-        canLoad: [LoadGuardService],
         component: AuditSiteSearchComponent
       },
       {
         path: "edit/:id",
-        canLoad: [LoadGuardService],
+        canActivate: [AuthGuardService],
         component: AuditSiteEditComponent
       }
     ]

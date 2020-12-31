@@ -9,7 +9,6 @@ import {AuditSiteEditComponent} from './audit-site-edit/audit-site-edit.componen
 import {MaterialModule} from "../../../importes/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {AuditSiteSearchComponent} from './audit-site-search/audit-site-search.component';
-import {SiteModule} from "../site/site.module";
 import {FormsModule} from "@angular/forms";
 import {AuditSiteStepsComponent} from './audit-site-steps/audit-site-steps.component';
 import {AuditSiteFinishComponent} from './audit-site-finish/audit-site-finish.component';
@@ -36,22 +35,22 @@ import {SiteNotPlanifiedComponent} from './site-not-planified/site-not-planified
     AuditSiteRecapComponent,
     SiteNotPlanifiedComponent],
   exports: [SiteNotPlanifiedComponent],
-    imports: [
-        CommonModule,
-        AuditSiteRoutingModule,
-        SharedModule,
-        MaterialModule,
-        TranslateModule,
-        FormsModule,
-        SitesAppsModule,
-        ClrDatagridModule,
-        ClrIconModule,
-        ClrSpinnerModule,
-        ClrInputModule,
-        TemplatesModule,
-        PdfJsViewerModule,
-        ClarityModule
-    ]
+  imports: [
+    CommonModule,
+    AuditSiteRoutingModule,
+    SharedModule,
+    MaterialModule,
+    TranslateModule,
+    FormsModule,
+    SitesAppsModule,
+    ClrDatagridModule,
+    ClrIconModule,
+    ClrSpinnerModule,
+    ClrInputModule,
+    TemplatesModule,
+    PdfJsViewerModule,
+    ClarityModule
+  ]
 })
 export class AuditSiteModule {
 }

@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
 import {CanLoad, Route, Router, UrlSegment} from "@angular/router";
 import {Observable} from "rxjs";
-import {LoginService} from "./login.service";
 import {JwtTokenService} from "../business/services/apps/jwt-token.service";
 import {CookieService} from "ngx-cookie-service";
-import {STATIC_DATA} from "../tools/static-data";
 
 @Injectable()
 export class LoadGuardService implements CanLoad {
@@ -15,7 +13,6 @@ export class LoadGuardService implements CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('path: ', route.path);
     let check = true;
     if (route.path === 'referencial' || route.path === 'admin') {
       if (this.jwtTokenService.isAdmin()) {

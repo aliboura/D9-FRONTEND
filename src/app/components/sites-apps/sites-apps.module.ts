@@ -8,16 +8,16 @@ import {TemplatesModule} from "../../templates/templates.module";
 
 
 @NgModule({
-    declarations: [SitesAppsComponent, BadgeStatusComponent],
-    exports: [
-        BadgeStatusComponent
-    ],
-    imports: [
-        CommonModule,
-        SitesAppsRoutingModule,
-        SharedModule,
-        TemplatesModule
-    ]
+  declarations: [SitesAppsComponent, BadgeStatusComponent],
+  exports: [
+    BadgeStatusComponent
+  ],
+  imports: [
+    CommonModule,
+    SitesAppsRoutingModule,
+    SharedModule,
+    TemplatesModule
+  ]
 })
 export class SitesAppsModule {
 }

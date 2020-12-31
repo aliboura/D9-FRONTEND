@@ -1,5 +1,5 @@
 import {Inject, Injectable} from "@angular/core";
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from "rxjs/operators";
 import {NOTYF} from "./tools/notyf.token";
@@ -27,13 +27,9 @@ export class HttpClientInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     let jwtToken = this.cookieService.get(STATIC_DATA.TOKEN);
-    // if (this.jwtTokenService.getToken() && this.jwtTokenService.isTokenExpired(jwtToken)) {
-    //   this.loginService.onRefresh(new JwtToken(jwtToken, this.jwtTokenService.getFullName()));
-    //   jwtToken = this.loginService.getToken();
-    // }
+    let reqOptions = new HttpHeaders().set('Content-Type', 'application/json');
     const cloned = req.clone({
-      headers: req.headers.set('Authorization',
-        jwtToken)
+      headers: jwtToken ? reqOptions.set('Authorization', `DjezzyDevs-${jwtToken}`) : reqOptions
     });
     return next.handle(cloned).pipe(
       retry(1),
