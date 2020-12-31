@@ -3,11 +3,11 @@ import {ReportService} from "../../../business/services/sites/report.service";
 import {saveAs} from "file-saver";
 import {ScreenSpinnerService} from "../../../business/services/apps/screen-spinner.service";
 import {JwtTokenService} from "../../../business/services/apps/jwt-token.service";
-import {StatusService} from "../../../business/services/referencial/status.service";
 import {Status} from "../../../business/models/referencial/status";
 import {Reports} from "../../../business/models/sites/reports";
 import {DatePipe} from "@angular/common";
 import {WilayaRegion} from "../../../business/models/referencial/wilaya-region";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-reporting-by-status',
@@ -27,7 +27,7 @@ export class ReportingByStatusComponent implements OnInit {
   fromDate: Date;
   toDate: Date;
 
-  @Input() statusItems: Status[];
+  @Input() statusItems: Observable<Status[]>;
   @Input() cityItems: WilayaRegion[];
   @Input() regionId: string;
 

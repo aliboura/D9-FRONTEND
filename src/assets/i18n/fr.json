@@ -214,8 +214,16 @@
   },
   "affect_v2": {
     "title": " Affectation site deuxième visite ",
-    "engineer_site": "Ingénieur du site",
     "engineer_om": "Ingénieur O&M",
     "date": " Date"
+  },
+  "wilayas": {
+    "LIST_title": " Liste des wilayas ",
+    "EDIT_title": " Wilaya N°:",
+    "id": "N°",
+    "label": " Libellé ",
+    "regionId": " Région ",
+    "groupSites": "Network deployment Site Groupe",
+    "groupOMs": "Field Maintenance & Readiness (O&M) Groupe"
   }
 }

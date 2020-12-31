@@ -16,6 +16,10 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     canLoad: [LoadGuardService],
     loadChildren: () => import('./affectation/affectation.module').then(m => m.AffectationModule)
+  },
+  {
+    path: "groups",
+    loadChildren: () => import('./wilaya-group/wilaya-group.module').then(m => m.WilayaGroupModule)
   }
 ];
 

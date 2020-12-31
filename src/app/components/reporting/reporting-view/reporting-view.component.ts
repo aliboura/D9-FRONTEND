@@ -5,6 +5,7 @@ import {UserService} from "../../../business/services/admin/user.service";
 import {WilayaRegion} from "../../../business/models/referencial/wilaya-region";
 import {StatusService} from "../../../business/services/referencial/status.service";
 import {Status} from "../../../business/models/referencial/status";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-reporting-view',
@@ -19,7 +20,7 @@ export class ReportingViewComponent implements OnInit {
   }
 
   reports: ReportsName[];
-  statusItems: Status[];
+  statusItems: Observable<Status[]>;
   type: ReportsName;
   cityItems: WilayaRegion[];
   regionId: string;
@@ -29,9 +30,7 @@ export class ReportingViewComponent implements OnInit {
       this.regionId = data.regionId;
       this.cityItems = data.wilayaSet;
     });
-    this.statusService.findAll().subscribe(data => {
-      this.statusItems = data;
-    });
+    this.statusItems = this.statusService.findAll();
     this.reports = this.loadData();
   }
 

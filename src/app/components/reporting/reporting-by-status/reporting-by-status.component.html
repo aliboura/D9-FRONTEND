@@ -1,7 +1,7 @@
 <div class="chart-card" style="width: 95%">
   <div>
     <ng-select
-      [items]="statusItems"
+      [items]="statusItems | async"
       bindLabel="description"
       required
       multiple="true"

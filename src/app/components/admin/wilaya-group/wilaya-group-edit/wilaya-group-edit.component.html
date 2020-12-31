@@ -1,0 +1,95 @@
+<form [formGroup]="editForm" (ngSubmit)="update(editForm.value)">
+  <mat-card class="top-bordred margin-20">
+    <mat-card-header>
+      <mat-card-title>{{ 'wilayas.EDIT_title' | translate }} {{id}}
+        <mat-divider class="margin-top-15"></mat-divider>
+      </mat-card-title>
+      <div class="card-back-right-btn">
+        <button type="button"
+                (click)="showList()"
+                class="btn cancel-header-btn btn-icon btn-sm margin-left-15">
+          <clr-icon shape="times"></clr-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <div class="crud-container">
+      <mat-form-field>
+        <mat-label>{{'wilayas.label' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          readonly
+          required
+          formControlName="label"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{'wilayas.regionId' | translate}}</mat-label>
+        <input
+          matInput
+          type="input"
+          readonly
+          required
+          formControlName="regionId"
+        />
+      </mat-form-field>
+      <mat-form-field class="example-chip-list" *ngIf="wilaya">
+        <mat-label>{{'wilayas.groupSites' | translate}}</mat-label>
+        <mat-chip-list #chipSiteList aria-label="Fruit selection">
+          <mat-chip *ngFor="let groupSite of wilaya.groupSites"
+                    [removable]="true" (removed)="removeSite(groupSite)">
+            {{groupSite}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Nouveau Network deployment groupe ..."
+                 [matChipInputFor]="chipSiteList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true"
+                 (matChipInputTokenEnd)="addSite($event)">
+        </mat-chip-list>
+      </mat-form-field>
+      <mat-form-field class="example-chip-list" *ngIf="wilaya">
+        <mat-label>{{'wilayas.groupOMs' | translate}}</mat-label>
+        <mat-chip-list #chipOMList aria-label="Fruit selection">
+          <mat-chip *ngFor="let groupOM of wilaya.groupOMs"
+                    [removable]="true" (removed)="removeOM(groupOM)">
+            {{groupOM}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Nouveau OM groupe ..."
+                 [matChipInputFor]="chipOMList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true"
+                 (matChipInputTokenEnd)="addOM($event)">
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </mat-card>
+  <div class="padding-bottom-25">
+    <mat-toolbar class="action-tool-bar">
+      <mat-toolbar-row>
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="!editForm.valid"
+          class="add-btn margin-right-15">
+          <i class="material-icons">
+            done
+          </i>
+          {{'COMMUN.BTN_VALIDATE' | translate}}
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="showList()"
+          class="cancel-btn">
+          <i class="material-icons">close</i>
+          {{'COMMUN.BTN_CANCEL' | translate}}
+        </button>
+
+        <span class="example-spacer"></span>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</form>

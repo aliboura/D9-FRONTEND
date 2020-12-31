@@ -73,6 +73,16 @@
     </a>
   </li>
 
+  <li *ngIf="jwtTokenService.isAdmin()">
+    <a class="ripplelink tabmenuitem-link cursor-pointer"
+       type="button"
+       (click)="navigate('/admin/groups')"
+       matTooltip="Groupe Wilaya"
+       matTooltipPosition="right">
+      <clr-icon shape="users" size="25"></clr-icon>
+    </a>
+  </li>
+
   <img
     type="image/svg+xml"
     (click)="navigate('/home')"
