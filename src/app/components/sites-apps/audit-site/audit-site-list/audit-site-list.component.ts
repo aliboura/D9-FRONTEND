@@ -5,11 +5,10 @@ import {ScreenSpinnerService} from "../../../../business/services/apps/screen-sp
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {BehaviorSubject, merge, of as observableOf} from "rxjs";
+import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AuditSite} from "../../../../business/models/sites/audit-site";
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
-import {STATIC_DATA} from "../../../../tools/static-data";
 import {CookieService} from "ngx-cookie-service";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {UserService} from "../../../../business/services/admin/user.service";
@@ -32,7 +31,7 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
     this.emptyData = true;
   }
 
-  datasource: MatTableDataSource<AuditSite>;
+  dataSource: MatTableDataSource<AuditSite>;
   displayedColumns: string[] = ["id", "siteCode", "auditDate", "typeSiteId", "siteUserV1", "siteUserOMV1", "currentSatusLabel", "action"];
   emptyData: boolean;
 
@@ -42,8 +41,6 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
   isRateLimitReached = false;
   isEngineer: boolean;
   user: User = new User();
-
-  private validateBtn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -96,9 +93,9 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe(data => {
-        this.datasource = new MatTableDataSource<AuditSite>(data);
+        this.dataSource = new MatTableDataSource<AuditSite>(data);
         this.emptyData = data.length === 0;
-        this.datasource.sort = this.sort;
+        this.dataSource.sort = this.sort;
         this.screenSpinnerService.hide(200);
       });
   }

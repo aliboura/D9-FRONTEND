@@ -18,23 +18,37 @@
     <mat-divider></mat-divider>
 
     <div style="margin-left: 5px">
-      <ng-select [items]="siteOb | async"
-                 bindLabel="codeSite"
-                 bindValue="id"
-                 [loading]="siteLoading"
-                 [typeahead]="siteInput$"
-                 [trackByFn]="trackByFn"
-                 placeholder="Code du site"
-                 [minTermLength]="4"
-                 typeToSearchText="Please enter 4 or more characters"
-                 [hideSelected]='true'
-                 formControlName="siteId"
-                 (change)="onSelectSite($event)"
-                 style="width: 95%">
+      <ng-select
+        [items]="siteOb | async"
+        bindLabel="codeSite"
+        bindValue="id"
+        formControlName="siteId"
+        placeholder="Code du site"
+        (change)="onSelectSite($event)"
+        appendTo="body"
+        style="width: 95%"
+      >
         <ng-template ng-option-tmp let-item="item">
           {{item.codeSite}} - {{item.wilayaLabel}}
         </ng-template>
       </ng-select>
+      <!--      <ng-select [items]="siteOb | async"-->
+      <!--                 bindLabel="codeSite"-->
+      <!--                 bindValue="id"-->
+      <!--                 [loading]="siteLoading"-->
+      <!--                 [typeahead]="siteInput$"-->
+      <!--                 [trackByFn]="trackByFn"-->
+      <!--                 placeholder="Code du site"-->
+      <!--                 [minTermLength]="4"-->
+      <!--                 typeToSearchText="Please enter 4 or more characters"-->
+      <!--                 [hideSelected]='true'-->
+      <!--                 formControlName="siteId"-->
+      <!--                 (change)="onSelectSite($event)"-->
+      <!--                 style="width: 95%">-->
+      <!--        <ng-template ng-option-tmp let-item="item">-->
+      <!--          {{item.codeSite}} - {{item.wilayaLabel}}-->
+      <!--        </ng-template>-->
+      <!--      </ng-select>-->
     </div>
 
     <h5>{{'affect_v1.engineer_site' | translate}}</h5>

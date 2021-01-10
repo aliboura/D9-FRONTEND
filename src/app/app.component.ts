@@ -4,6 +4,8 @@ import {ScreenSpinnerService} from "./business/services/apps/screen-spinner.serv
 import {TranslateService} from "@ngx-translate/core";
 import {registerLocaleData} from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
+import {LogoutService} from "./security/logout/logout.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-root',
@@ -14,12 +16,13 @@ export class AppComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService,
               private translate: TranslateService,
+              public logoutService: LogoutService,
               public screenSpinnerService: ScreenSpinnerService) {
 
-    translate.addLangs(['en', 'fr']);
+    translate.addLangs(['fr']);
     translate.setDefaultLang('fr');
     const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|fr/) ? 'fr' : 'fr');
+    translate.use('fr');
     registerLocaleData(localeFr, 'fr');
   }
 

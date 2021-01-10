@@ -1,0 +1,16 @@
+<clr-modal [(clrModalOpen)]="showLogout" [clrModalSize]="'md'" [clrModalClosable]="false">
+  <div class="modal-body">
+    <h5 style="color: #343a40">
+      Votre token sera expiré dans
+      <countdown [config]="{ leftTime: showLogout ? 30:0 }" #cd></countdown>
+      sec.
+    </h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger-outline" (click)="hide()">Cancel</button>
+    <button type="button" class="btn btn-danger" *ngIf="showLogout" (click)="onRefresh()" [disabled]="cd.left === 0">
+      contenue
+      <countdown [config]="{ leftTime: showLogout ? 30:0 }" #cd *ngIf="cd.left > 0" action="start"></countdown>
+    </button>
+  </div>
+</clr-modal>

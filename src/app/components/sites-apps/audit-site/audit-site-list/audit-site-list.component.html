@@ -33,13 +33,14 @@
           matInput
           placeholder="Filter..."
         />
+        <mat-hint>Click sur Entrer pour filter - Échappe pour effacer.</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
   <div class="mat-elevation-z8" matSort>
     <div class="example-table-container">
       <mat-table
-        [dataSource]="datasource"
+        [dataSource]="dataSource"
         matSortActive="matSortActive"
         matSortDisableClear
         matSortDirection="matSortDirection">

@@ -16,6 +16,7 @@
 
   <div class="clr-row" style="margin: 20px;padding-top: 20px;">
     <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6">
+      <h5 class="div-title">Détail Site: </h5>
       <mat-form-field class="example-full-width">
         <mat-label>{{'SITE.codeSite' | translate}}</mat-label>
         <input matInput [(ngModel)]="site.codeSite"
@@ -66,6 +67,7 @@
       </mat-form-field>
     </div>
     <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 flex-center" *ngIf="!planning">
+
       <img
         type="image/svg+xml"
         src="./././assets/images/planner.svg"
@@ -77,6 +79,7 @@
 
     </div>
     <div class="clr-col-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6" *ngIf="planning">
+      <h5 class="div-title">Détail Visite: </h5>
       <mat-form-field class="example-full-width">
         <mat-label>{{'affect_v1.engineer_site' | translate}} Visite 1</mat-label>
         <input matInput

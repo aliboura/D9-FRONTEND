@@ -37,7 +37,7 @@
       </div>
       <div class="clr-col-12 clr-col-sm-12 clr-col-md-4 clr-col-lg-4 view-div no-right-border no-border-radius">
         <h5 class="div-title">Première Visite: </h5>
-        <div class="example-full-width">
+        <div class="example-full-width" *ngIf="visit">
           <ng-select
             [items]="userEngineerItems"
             bindValue="username"
@@ -58,7 +58,7 @@
             </ng-template>
           </ng-select>
         </div>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width" *ngIf="visit">
           <mat-label>{{'SITE.engineerSiteDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="siteDateV1"
                  formControlName="engineerSiteDateV1"
@@ -68,7 +68,7 @@
           <mat-datepicker-toggle matSuffix [for]="siteDateV1"></mat-datepicker-toggle>
           <mat-datepicker #siteDateV1></mat-datepicker>
         </mat-form-field>
-        <div class="example-full-width">
+        <div class="example-full-width" *ngIf="visit">
           <ng-select
             [items]="userOMItems"
             bindValue="username"
@@ -88,7 +88,7 @@
             </ng-template>
           </ng-select>
         </div>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width" *ngIf="visit">
           <mat-label>{{'SITE.engineerOMDateV1' | translate}}</mat-label>
           <input matInput [matDatepicker]="OMDateV1"
                  formControlName="engineerOMDateV1"

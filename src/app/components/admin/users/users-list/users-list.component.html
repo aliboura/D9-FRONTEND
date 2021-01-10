@@ -30,7 +30,10 @@
         <input
           matInput
           [(ngModel)]="query"
+          (keyup.enter)="keyUpFilter()"
+          (keyup.escape)="keyUpReset()"
           name="query">
+        <mat-hint>Click sur Entrer pour filter - Échappe pour effacer.</mat-hint>
 
         <button mat-button matSuffix mat-icon-button aria-label="Clear"
                 *ngIf="query"
@@ -40,12 +43,12 @@
                 style="margin: 5px;">
           <mat-icon>close</mat-icon>
         </button>
-        <button mat-button matSuffix mat-icon-button
-                type="button"
-                (click)="applyFilter()"
-                class="btn-search">
-          <mat-icon class="btn-search-icon">search</mat-icon>
-        </button>
+        <!--        <button mat-button matSuffix mat-icon-button-->
+        <!--                type="button"-->
+        <!--                (click)="applyFilter()"-->
+        <!--                class="btn-search">-->
+        <!--          <mat-icon class="btn-search-icon">search</mat-icon>-->
+        <!--        </button>-->
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
@@ -65,39 +68,46 @@
             class="id-column">
             No.
           </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="id-column">
+          <mat-cell *matCellDef="let element"
+                    [class]="!element.enabled ? 'id-column disabled-row': 'id-column'">
             {{ element.id }}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="matricule">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> Matricule</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.matricule}} </mat-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"
+                    [class]="!element.enabled ? 'disabled-row': ''"> {{element.matricule}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="username">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> Nom d'utilisateur</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.username}} </mat-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"
+                    [class]="!element.enabled ? 'disabled-row': ''"> {{element.username}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="fullName">
           <mat-header-cell *matHeaderCellDef> Nom & Prénom</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
+          <mat-cell *matCellDef="let element"
+                    [class]="!element.enabled ? 'disabled-row': ''"> {{element.fullName}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="phone">
           <mat-header-cell *matHeaderCellDef> Téléphone</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+          <mat-cell *matCellDef="let element"
+                    [class]="!element.enabled ? 'disabled-row': ''"> {{element.phone}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="roles">
           <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{getRoles(element.roleSet)}} </mat-cell>
+          <mat-cell *matCellDef="let element"
+                    [class]="!element.enabled ? 'disabled-row': ''"> {{getRoles(element.roleSet)}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="enabled">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{'users.enabled' | translate}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;">
+          <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"
+                    [class]="!element.enabled ? 'disabled-row': ''">
             <span class="badge badge-success" *ngIf="element.enabled">{{'COMMUN.enable' | translate}} </span>
             <span class="badge badge-secondary" *ngIf="!element.enabled">{{'COMMUN.disable' | translate}} </span>
           </mat-cell>

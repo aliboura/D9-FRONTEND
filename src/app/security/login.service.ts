@@ -16,7 +16,6 @@ import {UserService} from "../business/services/admin/user.service";
 import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
 import {Base64} from 'js-base64';
 import {EncrDecrService} from "./encr-decr.service";
-import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -42,19 +41,20 @@ export class LoginService {
   }
 
   onRefresh() {
-    return this.http
-      .post<JwtToken>(API_URLs.AUTH_URL + "/refresh", {}, {withCredentials: true})
-      .pipe(
-        map((jwtToken) => {
-            if (jwtToken.success) {
-              this.saveToken(this.jwtToken);
-              this.notyf.success('Token Refresh');
-              return jwtToken;
-            }
-          }
-        ));
+    return this.http.post<JwtToken>(API_URLs.AUTH_URL + "/refresh", {}, {withCredentials: true})
+      .subscribe(jwtToken => {
+        console.log(jwtToken);
+        if (jwtToken.success) {
+          this.saveRefreshToken(jwtToken.body);
+          this.notyf.success('Token Refresh');
+          return jwtToken;
+        }
+      });
   }
 
+  public saveRefreshToken(jwt: string) {
+    this.cookieService.set(STATIC_DATA.TOKEN, jwt);
+  }
 
   public saveToken(jwt: JwtToken) {
     this.clearCookies();
@@ -109,24 +109,6 @@ export class LoginService {
       this.jwtToken = null;
       this.clearCookies();
     });
-  }
-
-
-  private refreshTokenTimeout;
-
-  private startRefreshTokenTimer() {
-    // parse json object from base64 encoded jwt token
-    const jwtToken = this.cookieService.get(STATIC_DATA.TOKEN);
-
-    // set a timeout to refresh the token a minute before it expires
-    const jwtHelper = new JwtHelperService();
-    const expires = new Date(jwtHelper.decodeToken(jwtToken).exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    this.refreshTokenTimeout = setTimeout(() => this.onRefresh().subscribe(), timeout);
-  }
-
-  private stopRefreshTokenTimer() {
-    clearTimeout(this.refreshTokenTimeout);
   }
 
 }

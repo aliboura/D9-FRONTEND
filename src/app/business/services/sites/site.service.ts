@@ -84,4 +84,12 @@ export class SiteService extends GenericService<Site> {
   findByCodeSite(codeSite: String): Observable<Site> {
     return this.getHttp().get<Site>(`${this.getApi()}?code=${codeSite}`);
   }
+
+  findNonAuditedSite(regionId: string, wilayas: string): Observable<Site[]> {
+    return this.getHttp().get<Site[]>(this.getApi(), {
+      params: new HttpParams()
+        .set("regionId", "" + regionId)
+        .set("wilayas", wilayas)
+    });
+  }
 }

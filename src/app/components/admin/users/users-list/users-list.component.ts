@@ -115,6 +115,14 @@ export class UsersListComponent implements AfterViewInit {
     this.loadAllData();
   }
 
+  keyUpFilter() {
+    this.applyFilter();
+  }
+
+  keyUpReset() {
+    this.resetFilter();
+  }
+
   disabledUser(user: User) {
     user.enabled = false;
     this.userService.updateModel(user).subscribe(data => {

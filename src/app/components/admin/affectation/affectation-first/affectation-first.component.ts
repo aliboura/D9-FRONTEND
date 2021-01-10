@@ -59,7 +59,7 @@ export class AffectationFirstComponent implements OnInit {
       this.loadUserItems(data.regionId);
       this.userCities = data.wilayaSet.map(x => x.label).toString();
       this.userCitiesId = data.wilayaSet.map(x => x.id).toString();
-      this.loadSiteItems();
+      this.siteOb = this.siteService.findNonAuditedSite(data.regionId, this.userCitiesId);
     });
   }
 
@@ -84,19 +84,20 @@ export class AffectationFirstComponent implements OnInit {
     return item.id;
   }
 
-  private loadSiteItems() {
-    this.siteOb = concat(
-      of([]),
-      this.siteInput$.pipe(
-        distinctUntilChanged(),
-        tap(() => this.siteLoading = true),
-        switchMap(term => this.siteService.findByLikeCodeSite(0, 10, "desc", "id", term, this.userCitiesId).pipe(
-          map(x => x.content),
-          catchError(() => of([])),
-          tap(() => this.siteLoading = false)
-        ))
-      )
-    );
+  private loadSiteItems(regionId: string, cities: string) {
+    this.siteOb = this.siteService.findNonAuditedSite(regionId, cities);
+    // this.siteOb = concat(
+    //   of([]),
+    //   this.siteInput$.pipe(
+    //     distinctUntilChanged(),
+    //     tap(() => this.siteLoading = true),
+    //     switchMap(term => this.siteService.findByLikeCodeSite(0, 10, "desc", "id", term, this.userCitiesId).pipe(
+    //       map(x => x.content),
+    //       catchError(() => of([])),
+    //       tap(() => this.siteLoading = false)
+    //     ))
+    //   )
+    // );
   }
 
   loadUserItems(regionId: string) {
@@ -135,16 +136,10 @@ export class AffectationFirstComponent implements OnInit {
   }
 
   onSelectSite(event) {
-    console.log('event.siteName : ' + event.nomSite);
-    this.visitPlanningService.existSite(event.id).subscribe(exist => {
-      if (exist === true) {
-        this.notyf.error("Ce site est déja plannifier");
-        this.planningForm.get("siteId").setValue(null);
-      } else {
-        this.planningForm.get('siteCode').setValue(event.codeSite);
-        this.planningForm.get('siteName').setValue(event.nomSite);
-      }
-    });
+    if (event) {
+      this.planningForm.get('siteCode').setValue(event.codeSite);
+      this.planningForm.get('siteName').setValue(event.nomSite);
+    }
   }
 
   create(modelForm: NgForm) {

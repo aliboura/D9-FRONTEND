@@ -9,6 +9,7 @@ import {JwtTokenService} from "./business/services/apps/jwt-token.service";
 import {LoginService} from "./security/login.service";
 import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "./tools/static-data";
+import {LogoutService} from "./security/logout/logout.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private loginService: LoginService,
+    private logOutService: LogoutService,
     private jwtTokenService: JwtTokenService,
     private cookieService: CookieService,
     @Inject(NOTYF) private notyf: Notyf) {
@@ -27,6 +29,11 @@ export class HttpClientInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     let jwtToken = this.cookieService.get(STATIC_DATA.TOKEN);
+    if (jwtToken && this.logOutService.showLogout.value === false && this.jwtTokenService.isTokenExpired(jwtToken, 59)) {
+      console.log('interceptor: ' + this.jwtTokenService.isTokenExpired(jwtToken, 59));
+      this.logOutService.showLogout.next(true);
+      return;
+    }
     let reqOptions = new HttpHeaders().set('Content-Type', 'application/json');
     const cloned = req.clone({
       headers: jwtToken ? reqOptions.set('Authorization', `DjezzyDevs-${jwtToken}`) : reqOptions
@@ -46,7 +53,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
     } else {
       let type = 1;
       if (error.status === 403) {
-        type = 2;
+        this.loginService.onLogOut();
       } else if (error.status === 404) {
         type = 3;
       }

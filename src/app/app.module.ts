@@ -30,6 +30,14 @@ import {TemplatesModule} from "./templates/templates.module";
 import {HelpsComponent} from "./helps/helps.component";
 import {MatVideoModule} from "mat-video";
 import {UsersProfilComponent} from "./users-profil/users-profil.component";
+import {CountdownGlobalConfig, CountdownModule} from 'ngx-countdown';
+import {LogoutComponent} from './security/logout/logout.component';
+import {LogoutService} from "./security/logout/logout.service";
+
+function countdownConfigFactory(): CountdownGlobalConfig {
+  // @ts-ignore
+  return {format: `mm:ss`};
+}
 
 // @ts-ignore
 @NgModule({
@@ -38,7 +46,8 @@ import {UsersProfilComponent} from "./users-profil/users-profil.component";
     LoginComponent,
     ExceptionsComponent,
     HelpsComponent,
-    UsersProfilComponent
+    UsersProfilComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +62,7 @@ import {UsersProfilComponent} from "./users-profil/users-profil.component";
     SharedModule,
     NgxSpinnerModule,
     ReferencialModule,
+    CountdownModule,
     NgSelectModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
@@ -75,10 +85,12 @@ import {UsersProfilComponent} from "./users-profil/users-profil.component";
     NgxCoolDialogsService,
     DatePipe,
     CookieService,
+    LogoutService,
     {provide: LOCALE_ID, useValue: 'fr-FR'},
     {provide: NOTYF, useFactory: notyfFactory},
     {provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true},
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: CountdownGlobalConfig, useFactory: countdownConfigFactory}
   ],
   bootstrap: [AppComponent]
 })

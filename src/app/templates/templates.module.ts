@@ -7,6 +7,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {MaterialModule} from "../importes/material/material.module";
 import {TemplateRoutingModule} from "./template-routing.module";
 import {ClarityModule} from "@clr/angular";
+import {CountdownModule} from "ngx-countdown";
 
 @NgModule({
   declarations: [FooterComponent, FullLayoutComponent, LeftMenuComponent],
@@ -15,7 +16,8 @@ import {ClarityModule} from "@clr/angular";
     TranslateModule,
     MaterialModule,
     TemplateRoutingModule,
-    ClarityModule
+    ClarityModule,
+    CountdownModule
   ],
   exports: [FooterComponent, FullLayoutComponent, LeftMenuComponent]
 })

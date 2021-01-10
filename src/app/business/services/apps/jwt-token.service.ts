@@ -6,6 +6,7 @@ import * as jwt_decode from "jwt-decode";
 import {RoleService} from "../admin/role.service";
 import {Base64} from 'js-base64';
 import {EncrDecrService} from "../../../security/encr-decr.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
@@ -66,25 +67,12 @@ export class JwtTokenService {
     }
   }
 
-  getTokenExpirationDate(token: string): Date {
-    const decoded = jwt_decode(token);
-    if (decoded.exp === undefined) {
-      return null;
-    }
-    const date = new Date(0);
-    date.setUTCSeconds(decoded.exp);
-    return date;
-  }
-
-  isTokenExpired(token: string): boolean {
+  isTokenExpired(token: string, offsetSeconds?: number): boolean {
     if (!token) {
       return true;
     }
-    const date = this.getTokenExpirationDate(token);
-    if (date === undefined) {
-      return false;
-    }
-    return !(date.valueOf() > new Date().valueOf());
+    const jwtHelper = new JwtHelperService();
+    return jwtHelper.isTokenExpired(token, offsetSeconds);
   }
 
   isTokenNotExpired(token: string): boolean {

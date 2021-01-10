@@ -11,7 +11,6 @@ import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 import {DatePipe} from "@angular/common";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {CookieService} from "ngx-cookie-service";
-import {STATIC_DATA} from "../../../../tools/static-data";
 import {saveAs} from "file-saver";
 import {ReportService} from "../../../../business/services/sites/report.service";
 import {UtilsService} from "../../../../tools/utils.service";

@@ -7,12 +7,14 @@ import {JwtTokenService} from "../business/services/apps/jwt-token.service";
 import {LoginService} from "./login.service";
 import {NOTYF} from "../tools/notyf.token";
 import Notyf from "notyf/notyf";
+import {LogoutService} from "./logout/logout.service";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
   constructor(private router: Router,
               private jwtTokenService: JwtTokenService,
               private loginService: LoginService,
+              private logOutService: LogoutService,
               private  cookieService: CookieService,
               @Inject(NOTYF) private notyf: Notyf) {
   }
@@ -26,15 +28,11 @@ export class AuthGuardService implements CanActivate {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
 
-    if (this.cookieService.check(STATIC_DATA.TOKEN)) {
-      if (this.jwtTokenService.isTokenNotExpired(this.cookieService.get(STATIC_DATA.TOKEN))) {
-        return true;
-      } else {
-        this.notyf.error("Token expired");
-      }
+    if (!this.cookieService.check(STATIC_DATA.TOKEN)) {
+      this.loginService.onLogOut();
+      return false;
     }
-    this.loginService.onLogOut();
-    return false;
+    return true;
   }
 
 }
