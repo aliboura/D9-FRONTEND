@@ -9,7 +9,6 @@ import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AuditSite} from "../../../../business/models/sites/audit-site";
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
-import {CookieService} from "ngx-cookie-service";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
 import {UserService} from "../../../../business/services/admin/user.service";
 import {User} from "../../../../business/models/admin/user";
@@ -25,7 +24,6 @@ export class AuditSiteListComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private audiSiteService: AuditSiteService,
               private userService: UserService,
-              private cookieService: CookieService,
               public jwtTokenService: JwtTokenService,
               private screenSpinnerService: ScreenSpinnerService) {
     this.emptyData = true;

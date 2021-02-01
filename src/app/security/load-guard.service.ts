@@ -2,13 +2,11 @@ import {Injectable} from '@angular/core';
 import {CanLoad, Route, Router, UrlSegment} from "@angular/router";
 import {Observable} from "rxjs";
 import {JwtTokenService} from "../business/services/apps/jwt-token.service";
-import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class LoadGuardService implements CanLoad {
 
   constructor(private router: Router,
-              private cookieService: CookieService,
               private jwtTokenService: JwtTokenService) {
   }
 

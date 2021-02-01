@@ -11,11 +11,10 @@ import {ROLES_CODES} from "../tools/roles-codes";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {Role} from "../business/models/admin/role";
 import {JwtToken} from "../business/models/admin/jwt-token";
-import {CookieService} from "ngx-cookie-service";
 import {UserService} from "../business/services/admin/user.service";
-import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
 import {Base64} from 'js-base64';
-import {EncrDecrService} from "./encr-decr.service";
+import {CookieService} from 'ngx-cookie';
+import {appCookies} from "../tools/cookies-options";
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +27,8 @@ export class LoginService {
     private http: HttpClient,
     private router: Router,
     private userService: UserService,
-    private translate: TranslateService,
     private cookieService: CookieService,
-    private encrDecrService: EncrDecrService,
-    private screenSpinnerService: ScreenSpinnerService,
+    private translate: TranslateService,
     @Inject(NOTYF) private notyf: Notyf
   ) {
   }
@@ -41,19 +38,12 @@ export class LoginService {
   }
 
   onRefresh() {
-    return this.http.post<JwtToken>(API_URLs.AUTH_URL + "/refresh", {}, {withCredentials: true})
-      .subscribe(jwtToken => {
-        console.log(jwtToken);
-        if (jwtToken.success) {
-          this.saveRefreshToken(jwtToken.body);
-          this.notyf.success('Token Refresh');
-          return jwtToken;
-        }
-      });
+    return this.http.post<JwtToken>(API_URLs.AUTH_URL + "/refresh", this.cookieService.get(STATIC_DATA.USER_NAME), {withCredentials: true});
   }
 
   public saveRefreshToken(jwt: string) {
-    this.cookieService.set(STATIC_DATA.TOKEN, jwt);
+    // @ts-ignore
+    this.cookieService.put(STATIC_DATA.TOKEN, jwt, appCookies.Options);
   }
 
   public saveToken(jwt: JwtToken) {
@@ -62,28 +52,35 @@ export class LoginService {
     const jwtHelper = new JwtHelperService();
     const username = jwtHelper.decodeToken(token).sub;
     const fullName = jwtHelper.decodeToken(token).name;
-    this.cookieService.set(STATIC_DATA.TOKEN, token);
+    const options = appCookies.Options;
+    // @ts-ignore
+    this.cookieService.put(STATIC_DATA.TOKEN, token, options);
     this.userService.findByUserName(username).subscribe(user => {
       if (user) {
         if (user.enabled) {
           if (user.roleSet && user.roleSet.length > 0) {
-            this.cookieService.set(STATIC_DATA.USER_NAME, username);
-            this.cookieService.set(STATIC_DATA.FULL_NAME, fullName);
+            // @ts-ignore
+            this.cookieService.put(STATIC_DATA.USER_NAME, username, options);
+            // @ts-ignore
+            this.cookieService.put(STATIC_DATA.FULL_NAME, fullName, options);
             const roles = user.roleSet.map(role => Base64.encode('ROLE_' + role.label));
-            this.cookieService.set(STATIC_DATA.ROLES, roles.toString());
+            localStorage.setItem(STATIC_DATA.ROLES, roles.toString());
             this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
             this.router.navigateByUrl('/home');
           } else {
             this.notyf.error(`Veuillez contactez l'adminstrateur pour vous affeter un role`);
-            this.cookieService.deleteAll();
+            // @ts-ignore
+            this.cookieService.removeAll(options);
           }
         } else {
           this.notyf.error(`l'utilisateur : ${user.fullName} est désactivé`);
-          this.cookieService.deleteAll();
+          // @ts-ignore
+          this.cookieService.removeAll(options);
         }
       } else {
         this.notyf.error(`cet utilisateur n'a pas un accés veuillez contacter l'admin`);
-        this.cookieService.deleteAll();
+        // @ts-ignore
+        this.cookieService.removeAll(options);
       }
     });
   }
@@ -101,13 +98,13 @@ export class LoginService {
   }
 
   public clearCookies() {
-    this.cookieService.deleteAll();
+    this.cookieService.removeAll();
   }
 
   public onLogOut() {
     this.router.navigate(['login']).then(r => {
       this.jwtToken = null;
-      this.clearCookies();
+      this.cookieService.removeAll();
     });
   }
 

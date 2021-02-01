@@ -3,10 +3,10 @@ import {Observable} from "rxjs";
 import {User} from "../business/models/admin/user";
 import {UserService} from "../business/services/admin/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CookieService} from "ngx-cookie-service";
 import {ScreenSpinnerService} from "../business/services/apps/screen-spinner.service";
-import * as jwt_decode from "jwt-decode";
 import {STATIC_DATA} from "../tools/static-data";
+import {CookieService} from "ngx-cookie";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-users-profil',
@@ -27,8 +27,11 @@ export class UsersProfilComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.cookieService.check(STATIC_DATA.TOKEN)) {
-      const decoded = jwt_decode(this.cookieService.get(STATIC_DATA.TOKEN));
+    if (this.cookieService.hasKey(STATIC_DATA.TOKEN)) {
+      console.log('before');
+      const jwtHelper = new JwtHelperService();
+      const decoded = jwtHelper.decodeToken(this.cookieService.get(STATIC_DATA.TOKEN));
+      console.log('after ' + decoded);
       this.user = new User();
       this.user.matricule = decoded.matricule;
       this.user.fullName = decoded.name;

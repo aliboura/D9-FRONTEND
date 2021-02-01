@@ -10,7 +10,6 @@ import {DecisionService} from "../../../../business/services/referencial/decisio
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 import {DatePipe} from "@angular/common";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
-import {CookieService} from "ngx-cookie-service";
 import {saveAs} from "file-saver";
 import {ReportService} from "../../../../business/services/sites/report.service";
 import {UtilsService} from "../../../../tools/utils.service";
@@ -26,7 +25,6 @@ export class AuditSiteEditComponent implements OnInit {
               private reportService: ReportService,
               private utilsService: UtilsService,
               public jwtTokenService: JwtTokenService,
-              private cookieService: CookieService,
               private route: ActivatedRoute,
               private router: Router,
               private datePipe: DatePipe,

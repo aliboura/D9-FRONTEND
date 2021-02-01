@@ -20,7 +20,7 @@ import {ClarityModule} from '@clr/angular';
 import {DatePipe, HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {LoginComponent} from './security/login/login.component';
 import {AuthGuardService} from "./security/auth-guard.service";
-import {CookieService} from "ngx-cookie-service";
+import { CookieModule } from 'ngx-cookie';
 import {HttpClientInterceptor} from "./http.client.interceptor";
 import {LoadGuardService} from "./security/load-guard.service";
 import {ExceptionsComponent} from "./exceptions/exceptions.component";
@@ -30,16 +30,10 @@ import {TemplatesModule} from "./templates/templates.module";
 import {HelpsComponent} from "./helps/helps.component";
 import {MatVideoModule} from "mat-video";
 import {UsersProfilComponent} from "./users-profil/users-profil.component";
-import {CountdownGlobalConfig, CountdownModule} from 'ngx-countdown';
 import {LogoutComponent} from './security/logout/logout.component';
 import {LogoutService} from "./security/logout/logout.service";
 
-function countdownConfigFactory(): CountdownGlobalConfig {
-  // @ts-ignore
-  return {format: `mm:ss`};
-}
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,9 +56,9 @@ function countdownConfigFactory(): CountdownGlobalConfig {
     SharedModule,
     NgxSpinnerModule,
     ReferencialModule,
-    CountdownModule,
     NgSelectModule,
     BrowserAnimationsModule,
+    CookieModule.forRoot(),
     TranslateModule.forRoot({
       defaultLanguage: 'fr',
       loader: {
@@ -84,13 +78,11 @@ function countdownConfigFactory(): CountdownGlobalConfig {
     LoadGuardService,
     NgxCoolDialogsService,
     DatePipe,
-    CookieService,
     LogoutService,
     {provide: LOCALE_ID, useValue: 'fr-FR'},
     {provide: NOTYF, useFactory: notyfFactory},
     {provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true},
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: CountdownGlobalConfig, useFactory: countdownConfigFactory}
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

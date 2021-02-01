@@ -17,9 +17,9 @@ import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 import {VisitCheck} from "../../../../business/models/referencial/visit-check.enum";
 import {AuditSteps} from "../../../../business/models/sites/audit-steps";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
-import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
 import {UtilsService} from "../../../../tools/utils.service";
+import {CookieService} from "ngx-cookie";
 
 @Component({
   selector: 'app-audit-site-finish',

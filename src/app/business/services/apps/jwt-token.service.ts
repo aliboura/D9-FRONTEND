@@ -1,21 +1,16 @@
 import {Injectable} from '@angular/core';
 import {ROLES_CODES} from "../../../tools/roles-codes";
-import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../tools/static-data";
-import * as jwt_decode from "jwt-decode";
-import {RoleService} from "../admin/role.service";
 import {Base64} from 'js-base64';
-import {EncrDecrService} from "../../../security/encr-decr.service";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {CookieService} from "ngx-cookie";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtTokenService {
 
-  constructor(private roleService: RoleService,
-              private encrDecrService: EncrDecrService,
-              private cookieService: CookieService) {
+  constructor(private cookieService: CookieService) {
   }
 
 
@@ -56,13 +51,13 @@ export class JwtTokenService {
   }
 
   public getFullName(): string {
-    if (this.cookieService.check(STATIC_DATA.FULL_NAME)) {
+    if (this.cookieService.hasKey(STATIC_DATA.FULL_NAME)) {
       return this.cookieService.get(STATIC_DATA.FULL_NAME);
     }
   }
 
   public getUserName(): string {
-    if (this.cookieService.check(STATIC_DATA.USER_NAME)) {
+    if (this.cookieService.hasKey(STATIC_DATA.USER_NAME)) {
       return this.cookieService.get(STATIC_DATA.USER_NAME);
     }
   }
@@ -75,15 +70,33 @@ export class JwtTokenService {
     return jwtHelper.isTokenExpired(token, offsetSeconds);
   }
 
+  getExpired(token: string) {
+    if (token) {
+      const jwtHelper = new JwtHelperService();
+      const date = new Date(0);
+      date.setUTCSeconds(jwtHelper.decodeToken(token).exp);
+      return date;
+    }
+  }
+
   isTokenNotExpired(token: string): boolean {
     return !this.isTokenExpired(token);
   }
 
   getUserRole() {
-    if (this.cookieService.check(STATIC_DATA.ROLES)) {
-      return this.cookieService.get(STATIC_DATA.ROLES).split(',');
+    if (localStorage.getItem(STATIC_DATA.ROLES)) {
+      return localStorage.getItem(STATIC_DATA.ROLES).split(',');
     }
     return [];
+  }
+
+  sessionExpired(token): boolean {
+    const date = this.getExpired(token);
+    if (date) {
+      return date.valueOf() < new Date().valueOf();
+    } else {
+      return true;
+    }
   }
 
 }

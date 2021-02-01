@@ -14,6 +14,14 @@
         </mat-label>
         <app-badge-status [label]="status.Conform" *ngIf="site.powerSupplyConform"></app-badge-status>
         <app-badge-status [label]="status.NoConform" *ngIf="!site.powerSupplyConform"></app-badge-status>
+        <button type="button"
+                *ngIf="!site.powerSupplyConform"
+                style="margin-top: 0px;margin-left: 10px;"
+                (click)="goToForms(''+site.id)"
+                class="btn btn-danger-outline btn-icon btn-sm"
+                matTooltip="Télécharger le fichier">
+          <clr-icon shape="pin"></clr-icon>
+        </button>
       </div>
       <hr/>
       <mat-form-field>

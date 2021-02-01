@@ -21,7 +21,7 @@ export class UserService extends GenericService<User> {
 
   findByUserName(username: string): Observable<User> {
     return this.getHttp().get<User>(this.getApi(), {
-      params: new HttpParams().set("username", username)
+      params: new HttpParams().set("username", btoa(username))
     });
   }
 

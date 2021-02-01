@@ -6,18 +6,23 @@
   </mat-card-header>
   <mat-grid-list cols="8" rowHeight="60px" style="margin: 10px">
     <mat-grid-tile [colspan]="1">
-      <button
-        type="button"
-        mat-raised-button
-        class="add-btn"
-        (click)="showAdd()"
-        [disabled]="!isEngineer()"
-        routerLinkActive="disabled">
-        <i class="material-icons" style="font-size: 22px;">
-          add_circle_outline
-        </i>
+      <button mat-raised-button [matMenuTriggerFor]="menu"
+              class="add-btn">
         {{'COMMUN.BTN_NEW' | translate}}
+        <i class="material-icons" style="font-size: 22px;">
+          keyboard_arrow_down
+        </i>
       </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="showAdd()">
+          <span>
+            {{'COMMUN.BTN_NEW' | translate}}
+          </span>
+        </button>
+        <button mat-menu-item>
+          <span>Uploader</span>
+        </button>
+      </mat-menu>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="1">
       <div

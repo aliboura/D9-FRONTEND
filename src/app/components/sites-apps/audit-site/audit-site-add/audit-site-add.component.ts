@@ -17,12 +17,12 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {MY_FORMATS} from "../../../../tools/date-format";
 import {TypeAuditSiteService} from "../../../../business/services/sites/type-audit-site.service";
 import {TypeAuditSite} from "../../../../business/models/sites/type-audit-site";
-import {CookieService} from "ngx-cookie-service";
 import {STATIC_DATA} from "../../../../tools/static-data";
 import {StatusEnum} from "../../../../business/models/referencial/status.enum";
 import {NOTYF} from "../../../../tools/notyf.token";
 import Notyf from "notyf/notyf";
 import {TranslateService} from "@ngx-translate/core";
+import {CookieService} from "ngx-cookie";
 
 @Component({
   selector: 'app-audit-site-add',
@@ -135,6 +135,10 @@ export class AuditSiteAddComponent implements OnInit {
 
   public cancel() {
     this.router.navigate(['.'], {relativeTo: this.route.parent});
+  }
+
+  goToForms(id: string) {
+    this.router.navigate(['sites/forms', btoa("" + id)], {relativeTo: this.route.parent});
   }
 
 }

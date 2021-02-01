@@ -1,8 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {LogoutService} from "./logout.service";
-import {CountdownComponent} from "ngx-countdown";
 import {LoginService} from "../login.service";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
+import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
+import {Router} from "@angular/router";
+import {NOTYF} from "../../tools/notyf.token";
+import Notyf from "notyf/notyf";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-logout',
@@ -10,15 +14,18 @@ import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private logoutService: LogoutService,
-              private loginService: LoginService,
-              private screenSpinnerService: ScreenSpinnerService) {
+  constructor(
+    private route: Router,
+    private logoutService: LogoutService,
+    private loginService: LoginService,
+    private translate: TranslateService,
+    private jwtTokenService: JwtTokenService,
+    private screenSpinnerService: ScreenSpinnerService,
+    @Inject(NOTYF) private notyf: Notyf) {
   }
 
   @Input()
   showLogout: boolean;
-
-  @ViewChild('cd', {static: false}) private countdown: CountdownComponent;
 
   ngOnInit() {
   }
@@ -34,12 +41,23 @@ export class LogoutComponent implements OnInit {
 
   onRefresh() {
     this.screenSpinnerService.show();
-    this.loginService.onRefresh();
-    this.screenSpinnerService.hide(200);
-    setTimeout(() => {
-      this.logoutService.hide();
-    }, 300);
-
+    this.loginService.onRefresh().subscribe(jwtToken => {
+      if (jwtToken.success) {
+        this.loginService.saveRefreshToken(jwtToken.body);
+        this.notyf.success('Token Refresh');
+        this.logoutService.hide();
+        this.screenSpinnerService.hide(200);
+        //window.location.reload();
+      } else {
+        this.notyf.error(jwtToken.message);
+      }
+    });
   }
+
+  async reload(url: string): Promise<boolean> {
+    await this.route.navigateByUrl('.', {skipLocationChange: true});
+    return this.route.navigateByUrl(url);
+  }
+
 
 }

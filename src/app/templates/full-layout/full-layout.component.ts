@@ -1,9 +1,8 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from "@angular/core";
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from "@angular/core";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {TranslateService} from "@ngx-translate/core";
 import {STATIC_DATA} from "../../tools/static-data";
 import {LoginService} from "../../security/login.service";
-import {CookieService} from "ngx-cookie-service";
 import {NavigationEnd, Router, RouterEvent} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {RoutingStateService} from "../../business/services/apps/routing-state.service";
@@ -13,6 +12,7 @@ import {Observable} from "rxjs";
 import {saveAs} from "file-saver";
 import {ConvertService} from "../../business/services/admin/convert.service";
 import {AuditSiteLineService} from "../../business/services/sites/audit-site-line.service";
+import {CookieService} from "ngx-cookie";
 
 @Component({
   selector: "app-full-layout",
@@ -27,9 +27,9 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     public media: MediaMatcher,
     public changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
-    private cookieService: CookieService,
     public jwtTokenService: JwtTokenService,
     private loginService: LoginService,
+    private cookieService: CookieService,
     private appNotificationService: AppNotificationService,
     private routingStateService: RoutingStateService,
     private screenSpinnerService: ScreenSpinnerService

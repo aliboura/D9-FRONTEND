@@ -3,6 +3,7 @@ import {SiteService} from "../../business/services/sites/site.service";
 import {AuditSiteService} from "../../business/services/sites/audit-site.service";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {StatusEnum} from "../../business/models/referencial/status.enum";
+import {VAuditSiteService} from "../../business/services/sites/v-audit-site.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import {StatusEnum} from "../../business/models/referencial/status.enum";
 export class DashboardComponent implements OnInit {
 
   constructor(private siteService: SiteService,
-              private auditSiteService: AuditSiteService,
+              private vAuditSiteService: VAuditSiteService,
               private screenSpinnerService: ScreenSpinnerService) {
     this.screenSpinnerService.hide(200);
   }
@@ -29,23 +30,21 @@ export class DashboardComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.siteService.findAll().subscribe(data => {
+
+    this.vAuditSiteService.findAll().subscribe(data => {
       const noAuditeds = data.filter(x => !x.audited);
-      const regionAs = data.filter(x => x.regionId === "A");
-      const regionCs = data.filter(x => x.regionId === "C");
+      const regionAs = data.filter(x => x.region === "A");
+      const regionCs = data.filter(x => x.region === "C");
       this.dataSitePie = this.loadSitePie(data.length, noAuditeds.length);
       this.siteRegionBars = this.loadSiteByRegionID(data.length, regionAs.length, regionCs.length);
       this.dataSiteBar = this.loadAuditedSiteBar(data.length, noAuditeds.length);
       Object.assign(this, this.siteRegionBars);
       Object.assign(this, this.dataSitePie);
       Object.assign(this, this.dataSiteBar);
-    });
-
-    this.auditSiteService.findAll().subscribe(data => {
-      const conforms = data.filter(x => x.currentSatusLabel === StatusEnum.Conform);
-      const nonConforms = data.filter(x => x.currentSatusLabel === StatusEnum.NoConform);
-      const accepted = data.filter(x => x.currentSatusLabel === StatusEnum.Accepted);
-      const inProgress = data.filter(x => x.currentSatusLabel === StatusEnum.InProgress);
+      const conforms = data.filter(x => x.status === StatusEnum.Conform);
+      const nonConforms = data.filter(x => x.status === StatusEnum.NoConform);
+      const accepted = data.filter(x => x.status === StatusEnum.Accepted);
+      const inProgress = data.filter(x => x.status === StatusEnum.InProgress);
       const enCours = data.filter(x => !x.firstVisit);
       const firstVisits = data.filter(x => x.firstVisit && !x.secondVisit);
       const secondVisits = data.filter(x => x.secondVisit);
@@ -87,12 +86,12 @@ export class DashboardComponent implements OnInit {
         "value": conform
       },
       {
-        "name": "Non Conforme",
-        "value": nonConform
-      },
-      {
         "name": "Accepté avec Réserve",
         "value": accepted
+      },
+      {
+        "name": "Rejeté",
+        "value": nonConform
       }
     ];
   }

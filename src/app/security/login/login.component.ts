@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {NOTYF} from "../../tools/notyf.token";
 import Notyf from "notyf/notyf";
+import {CookieService} from "ngx-cookie";
+import {appCookies} from "../../tools/cookies-options";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +17,9 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private router: Router,
               private formBuilder: FormBuilder,
-              @Inject(NOTYF) private notyf: Notyf,
-              private screenSpinnerService: ScreenSpinnerService) {
+              private cookieService: CookieService,
+              private screenSpinnerService: ScreenSpinnerService,
+              @Inject(NOTYF) private notyf: Notyf) {
     this.showSpinner();
   }
 
@@ -27,6 +30,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.startLogin = false;
     this.loginForm = this.initForm();
+    // @ts-ignore
+    this.cookieService.removeAll(appCookies.Options);
     this.screenSpinnerService.hide(300);
   }
 
@@ -59,6 +64,12 @@ export class LoginComponent implements OnInit {
         }
       );
   }
+
+  // public onChangePassword() {
+  //   if (this.loginForm.get('password') && this.loginForm.get('password').value) {
+  //     this.loginForm.get('password').setValue(btoa(this.loginForm.get('password').value));
+  //   }
+  // }
 
   private showSpinner() {
     this.screenSpinnerService.show();

@@ -3,8 +3,6 @@ import {RoutingStateService} from "../../business/services/apps/routing-state.se
 import {Router} from "@angular/router";
 import {ScreenSpinnerService} from "../../business/services/apps/screen-spinner.service";
 import {JwtTokenService} from "../../business/services/apps/jwt-token.service";
-import {CookieService} from "ngx-cookie-service";
-import {STATIC_DATA} from "../../tools/static-data";
 
 @Component({
   selector: 'app-left-menu',
@@ -14,7 +12,6 @@ import {STATIC_DATA} from "../../tools/static-data";
 export class LeftMenuComponent implements OnInit {
 
   constructor(public jwtTokenService: JwtTokenService,
-              private cookieService: CookieService,
               private routingStateService: RoutingStateService,
               private screenSpinnerService: ScreenSpinnerService,
               private router: Router) {

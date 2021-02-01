@@ -16,8 +16,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {saveAs} from 'file-saver';
 import {MatTableDataSource} from "@angular/material/table";
 import {JwtTokenService} from "../../../../business/services/apps/jwt-token.service";
-import {CookieService} from "ngx-cookie-service";
-import {STATIC_DATA} from "../../../../tools/static-data";
 import {ConvertService} from "../../../../business/services/admin/convert.service";
 import {UtilsService} from "../../../../tools/utils.service";
 
@@ -38,7 +36,6 @@ export class SiteFormsComponent implements OnInit {
               private utilsService: UtilsService,
               private sanitizer: DomSanitizer,
               private jwtTokenService: JwtTokenService,
-              private cookieService: CookieService,
               @Inject(NOTYF) private notyf: Notyf) {
   }
 
@@ -73,7 +70,6 @@ export class SiteFormsComponent implements OnInit {
       this.sitesForms.codeSite = this.site.codeSite;
       this.loadAllFiles(this.site.codeSite);
     });
-    const token: string = this.cookieService.get(STATIC_DATA.TOKEN);
     this.isEngineer = this.jwtTokenService.isSiteEngineer();
   }
 
