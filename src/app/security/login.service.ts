@@ -64,7 +64,8 @@ export class LoginService {
             // @ts-ignore
             this.cookieService.put(STATIC_DATA.FULL_NAME, fullName, options);
             const roles = user.roleSet.map(role => Base64.encode('ROLE_' + role.label));
-            localStorage.setItem(STATIC_DATA.ROLES, roles.toString());
+            // @ts-ignore
+            this.cookieService.put(STATIC_DATA.ROLES, roles.toString(), options);
             this.notyf.success(this.translate.instant("COMMUN.PERFORMED_MSG"));
             this.router.navigateByUrl('/home');
           } else {

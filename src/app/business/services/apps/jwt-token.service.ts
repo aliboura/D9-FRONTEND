@@ -84,8 +84,8 @@ export class JwtTokenService {
   }
 
   getUserRole() {
-    if (localStorage.getItem(STATIC_DATA.ROLES)) {
-      return localStorage.getItem(STATIC_DATA.ROLES).split(',');
+    if (this.cookieService.hasKey(STATIC_DATA.ROLES)) {
+      return this.cookieService.get(STATIC_DATA.ROLES).split(',');
     }
     return [];
   }
