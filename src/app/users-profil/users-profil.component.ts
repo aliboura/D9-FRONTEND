@@ -31,16 +31,19 @@ export class UsersProfilComponent implements OnInit {
       console.log('before');
       const jwtHelper = new JwtHelperService();
       const decoded = jwtHelper.decodeToken(this.cookieService.get(STATIC_DATA.TOKEN));
-      console.log('after ' + decoded);
+      const username = decoded.sub;
       this.user = new User();
-      this.user.matricule = decoded.matricule;
-      this.user.fullName = decoded.name;
-      this.user.title = decoded.title;
-      this.user.email = `${decoded.sub}@DJEZZY.DZ`;
-      this.user.phone = decoded.mobile;
-      this.user.department = decoded.department;
-      this.user.address = decoded.address;
-      this.screenSpinnerService.hide(200);
+      this.userService.findByUserName(username).subscribe(usr => {
+        this.user.matricule = usr.matricule;
+        this.user.fullName = usr.fullName;
+        this.user.title = usr.title;
+        this.user.email = `${username}@DJEZZY.DZ`;
+        this.user.phone = usr.phone;
+        this.user.department = usr.department;
+        this.user.address = usr.address;
+        this.screenSpinnerService.hide(200);
+      });
+
     }
   }
 

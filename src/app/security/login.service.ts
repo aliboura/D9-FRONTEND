@@ -51,7 +51,6 @@ export class LoginService {
     const token = jwt.body;
     const jwtHelper = new JwtHelperService();
     const username = jwtHelper.decodeToken(token).sub;
-    const fullName = jwtHelper.decodeToken(token).name;
     const options = appCookies.Options;
     // @ts-ignore
     this.cookieService.put(STATIC_DATA.TOKEN, token, options);
@@ -62,7 +61,7 @@ export class LoginService {
             // @ts-ignore
             this.cookieService.put(STATIC_DATA.USER_NAME, username, options);
             // @ts-ignore
-            this.cookieService.put(STATIC_DATA.FULL_NAME, fullName, options);
+            this.cookieService.put(STATIC_DATA.FULL_NAME, user.fullName, options);
             const roles = user.roleSet.map(role => Base64.encode('ROLE_' + role.label));
             // @ts-ignore
             this.cookieService.put(STATIC_DATA.ROLES, roles.toString(), options);
