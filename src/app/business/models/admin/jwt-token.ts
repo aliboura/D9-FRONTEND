@@ -1,10 +1,10 @@
 export class JwtToken {
-  body: string;
+  token: string;
   success: boolean;
   message: string;
 
-  constructor(body?: string, success?: boolean, message?: string) {
-    this.body = body;
+  constructor(token?: string, success?: boolean, message?: string) {
+    this.token = token;
     this.success = success;
     this.message = message;
   }

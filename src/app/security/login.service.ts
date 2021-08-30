@@ -48,7 +48,7 @@ export class LoginService {
 
   public saveToken(jwt: JwtToken) {
     this.clearCookies();
-    const token = jwt.body;
+    const token = jwt.token;
     const jwtHelper = new JwtHelperService();
     const username = jwtHelper.decodeToken(token).sub;
     const options = appCookies.Options;
