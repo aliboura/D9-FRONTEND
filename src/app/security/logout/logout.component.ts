@@ -43,11 +43,10 @@ export class LogoutComponent implements OnInit {
     this.screenSpinnerService.show();
     this.loginService.onRefresh().subscribe(jwtToken => {
       if (jwtToken.success) {
-        this.loginService.saveRefreshToken(jwtToken.body);
+        this.loginService.saveRefreshToken(jwtToken.token);
         this.notyf.success('Token Refresh');
         this.logoutService.hide();
         this.screenSpinnerService.hide(200);
-        //window.location.reload();
       } else {
         this.notyf.error(jwtToken.message);
       }
